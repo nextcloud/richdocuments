@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,12 +12,13 @@ use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Server;
 
 trait DocumentTrait {
 	private AppConfig $appConfig;
 
 	private function documentTemplateResponse(Wopi $wopi, array $params): TemplateResponse {
-		$eventDispatcher = \OCP\Server::get(IEventDispatcher::class);
+		$eventDispatcher = Server::get(IEventDispatcher::class);
 		$eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		$this->initialState->provideDocument($wopi, $params);
 		$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
@@ -47,7 +49,7 @@ trait DocumentTrait {
 		$parsed_url = parse_url($url);
 		$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
 		$host = $parsed_url['host'] ?? '';
-		$port = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+		$port = isset($parsed_url['port']) ? ':' . (string)$parsed_url['port'] : '';
 		return "$scheme$host$port";
 	}
 }

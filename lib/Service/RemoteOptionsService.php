@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Service;
 
 use OCP\IAppConfig;
+use OCP\Server;
 
 class RemoteOptionsService {
 	public const REMOTE_TIMEOUT_DEFAULT = 5;
@@ -21,7 +22,7 @@ class RemoteOptionsService {
 			]
 		];
 
-		if (\OCP\Server::get(IAppConfig::class)->getValueString('richdocuments', 'disable_certificate_verification') === 'yes') {
+		if (Server::get(IAppConfig::class)->getValueString('richdocuments', 'disable_certificate_verification') === 'yes') {
 			$options['verify'] = false;
 		}
 

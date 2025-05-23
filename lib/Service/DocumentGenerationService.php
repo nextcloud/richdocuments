@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -87,12 +88,12 @@ EOF;
 			}
 		}
 		if ($task->getStatus() !== Task::STATUS_SUCCESSFUL) {
-			throw new RuntimeException('LLM backend Task with id ' . $task->getId() . ' failed or was cancelled');
+			throw new RuntimeException('LLM backend Task with id ' . (string)$task->getId() . ' failed or was cancelled');
 		}
 
 		$output = $task->getOutput();
 		if (!isset($output['output'])) {
-			throw new RuntimeException('LLM backend Task with id ' . $task->getId() . ' does not have output key');
+			throw new RuntimeException('LLM backend Task with id ' . (string)$task->getId() . ' does not have output key');
 		}
 
 		/** @var string $taskOutputString */

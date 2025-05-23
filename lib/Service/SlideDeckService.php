@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,6 +7,7 @@
 
 namespace OCA\Richdocuments\Service;
 
+use JsonException;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\TemplateManager;
 use OCP\IConfig;
@@ -47,7 +49,7 @@ EOF;
 
 		try {
 			$parsedStructure = $this->parseModelJSON($rawModelOutput);
-		} catch (\JsonException) {
+		} catch (JsonException) {
 			throw new RuntimeException('LLM generated faulty JSON data');
 		}
 
@@ -148,7 +150,7 @@ EOF;
 		}
 
 		if ($task->getStatus() !== Task::STATUS_SUCCESSFUL) {
-			throw new RuntimeException('LLM backend Task with id ' . $task->getId() . ' failed or was cancelled');
+			throw new RuntimeException('LLM backend Task with id ' . (string)$task->getId() . ' failed or was cancelled');
 		}
 
 		return $task->getOutput()['output'];

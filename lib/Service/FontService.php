@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,16 +11,19 @@ use Exception;
 use OCA\Richdocuments\AppInfo\Application;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use Throwable;
 
 class FontService {
 	private const INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS = 3600;
 	/**
-	 * @var \OCP\ICache
+	 * @var ICache
 	 */
 	private $cache;
 
@@ -34,7 +38,7 @@ class FontService {
 
 	/**
 	 * @return ISimpleFolder
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
 	private function getFontAppDataDir(): ISimpleFolder {
 		try {
@@ -46,7 +50,7 @@ class FontService {
 
 	/**
 	 * @return ISimpleFolder
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
 	private function getFontOverviewAppDataDir(): ISimpleFolder {
 		try {
@@ -60,7 +64,7 @@ class FontService {
 	 * Get the list of available font files
 	 *
 	 * @return array
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
 	public function getFontFiles(): array {
 		$fontDir = $this->getFontAppDataDir();
@@ -71,7 +75,7 @@ class FontService {
 	 * Get the list of available font file names
 	 *
 	 * @return array
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
 	public function getFontFileNames(): array {
 		$cacheKey = 'fontFileNames';
@@ -116,7 +120,7 @@ class FontService {
 	 * @param string $fileName
 	 * @param $newFileResource
 	 * @return array
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
 	public function uploadFontFile(string $fileName, $newFileResource): array {
 		$fontDir = $this->getFontAppDataDir();
@@ -132,7 +136,7 @@ class FontService {
 	 * @param string $fileName
 	 * @return ISimpleFile
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
 	public function getFontFile(string $fileName): ISimpleFile {
 		$fontDir = $this->getFontAppDataDir();
@@ -143,7 +147,7 @@ class FontService {
 	 * @param string $fileName
 	 * @return string
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
 	public function getFontFileOverview(string $fileName): string {
 		$fontDir = $this->getFontOverviewAppDataDir();
@@ -154,7 +158,7 @@ class FontService {
 	 * @param string $fileName
 	 * @return void
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
 	public function deleteFontFile(string $fileName): void {
 		$fontDir = $this->getFontAppDataDir();
@@ -202,7 +206,7 @@ class FontService {
 				imagepng($im, $imageFileResource);
 				imagedestroy($im);
 			}
-		} catch (\Exception|\Throwable) {
+		} catch (Exception|Throwable) {
 			// do nothing if there was any kind of error during overview generation
 			// the /apps/richdocuments/settings/fonts/FILE_NAME/overview request will fail with 404
 			// in the UI and display a fallback message

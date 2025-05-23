@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,6 +20,8 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\OCSController;
+use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Lock\ILock;
@@ -33,7 +36,7 @@ use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class DocumentAPIController extends \OCP\AppFramework\OCSController {
+class DocumentAPIController extends OCSController {
 	public function __construct(
 		IRequest $request,
 		private IRootFolder $rootFolder,
@@ -72,7 +75,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 					}
 				}
 
-				if (!($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE)) {
+				if (!($share->getPermissions() & Constants::PERMISSION_CREATE)) {
 					throw new Exception('No create permissions');
 				}
 			}
@@ -170,7 +173,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 			return new DataResponse([]);
 		} catch (NoLockProviderException|PreConditionNotMetException) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
-		} catch (\Exception) {
+		} catch (Exception) {
 			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 

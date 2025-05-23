@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,6 +14,9 @@ use OCA\Richdocuments\Service\UserScopeService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\StreamResponse;
@@ -42,12 +46,11 @@ class AssetsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * @param string $path
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function create($path) {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
@@ -81,13 +84,13 @@ class AssetsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 *
 	 * @param int $taskId
 	 * @param array<int> $fileIds
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function createFromTask(int $taskId, array $fileIds): JSONResponse {
 		$task = $this->taskProcessingManager->getTask($taskId);
 		$taskOutput = $task->getOutput();
@@ -133,14 +136,14 @@ class AssetsController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 *
 	 * @param string $token
 	 * @param boolean $fromTask
 	 * @return Http\Response
 	 */
 	#[RestrictToWopiServer]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function get($token, $fromTask = false) {
 		try {
 			$asset = $this->assetMapper->getAssetByToken($token);

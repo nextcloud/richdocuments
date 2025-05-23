@@ -20,6 +20,7 @@ use OCP\IURLGenerator;
 use OCP\Security\ITrustedDomainHelper;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use ReflectionClass;
 
 class FederationServiceTest extends TestCase {
 	public const NEXTCLOUD_ADDRESS = 'https://nextcloud.local';
@@ -74,7 +75,7 @@ class FederationServiceTest extends TestCase {
 		// Do some reflection property manipulation to set the TrustedServers object
 		// It would be nice if the TrustedServers were passed into FederationService
 		// instead of being set manually in the constructor to make testing easier
-		$reflection = new \ReflectionClass($this->federationService);
+		$reflection = new ReflectionClass($this->federationService);
 		$reflectionProperty = $reflection->getProperty('trustedServers');
 		$reflectionProperty->setAccessible(true);
 		$reflectionProperty->setValue($this->federationService, $trustedServers);

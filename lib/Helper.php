@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,6 +8,7 @@ namespace OCA\Richdocuments;
 
 use DateTime;
 use DateTimeZone;
+use Exception;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Folder;
 use OCP\Files\Node;
@@ -25,7 +27,7 @@ class Helper {
 	/**
 	 * @param string $fileId
 	 * @return array
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public static function parseFileId(string $fileId) {
 		$arr = explode('_', $fileId);
@@ -40,7 +42,7 @@ class Helper {
 		} elseif (count($arr) === 3) {
 			[$fileId, $instanceId, $version] = $arr;
 		} else {
-			throw new \Exception('$fileId has not the expected format');
+			throw new Exception('$fileId has not the expected format');
 		}
 
 		if (str_contains($fileId, '-')) {
@@ -74,7 +76,7 @@ class Helper {
 
 		while ($folder->nodeExists($filename)) {
 			$fileNum++;
-			$filename = preg_replace('/(\.| \(\d+\)\.)([^.]*)$/', ' (' . $fileNum . ').$2', $filename);
+			$filename = preg_replace('/(\.| \(\d+\)\.)([^.]*)$/', ' (' . (string)$fileNum . ').$2', $filename);
 		}
 
 		return $filename;

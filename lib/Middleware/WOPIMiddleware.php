@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Middleware;
 
+use Exception;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Controller\Attribute\RestrictToWopiServer;
 use OCA\Richdocuments\Controller\WopiController;
@@ -55,7 +57,7 @@ class WOPIMiddleware extends Middleware {
 			return;
 		}
 
-		if (strpos($this->request->getRequestUri(), 'wopi/settings/upload') !== false) {
+		if (str_contains($this->request->getRequestUri(), 'wopi/settings/upload')) {
 			return;
 		}
 
@@ -74,13 +76,13 @@ class WOPIMiddleware extends Middleware {
 				$this->logger->info('Invalid token for WOPI access', [ 'exception' => $e ]);
 			}
 			throw new NotPermittedException();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error('Failed to validate WOPI access', [ 'exception' => $e ]);
 			throw new NotPermittedException();
 		}
 	}
 
-	public function afterException($controller, $methodName, \Exception $exception): Response {
+	public function afterException($controller, $methodName, Exception $exception): Response {
 		if ($exception instanceof NotPermittedException && $controller instanceof WopiController) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}

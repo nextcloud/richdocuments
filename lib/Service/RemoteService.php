@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,11 +7,13 @@
 namespace OCA\Richdocuments\Service;
 
 use Exception;
+use JsonException;
 use OCA\Richdocuments\AppConfig;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 class RemoteService {
 	public function __construct(
@@ -37,7 +40,7 @@ class RemoteService {
 		$json = str_replace(['", }', "\r\n", "\t"], ['" }', '\r\n', '\t'], $json);
 		try {
 			$result = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-		} catch (\JsonException $e) {
+		} catch (JsonException $e) {
 			$this->logger->warning('Failed to parse extract-link-targets response', ['exception' => $e]);
 			return [];
 		}
@@ -91,7 +94,7 @@ class RemoteService {
 		try {
 			$response = $client->post($this->appConfig->getCollaboraUrlInternal() . '/cool/convert-to/' . $format, $options);
 			return $response->getBody();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error('Failed to convert preview: ' . $e->getMessage(), ['exception' => $e]);
 			throw $e;
 		}
@@ -134,7 +137,7 @@ class RemoteService {
 			);
 
 			return json_decode($response->getBody(), true)['DocStructure'] ?? [];
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage());
 			return [];
 		}
@@ -147,7 +150,7 @@ class RemoteService {
 	 */
 	public function transformDocumentStructure(string $filename, $stream, array $values, ?string $format = null) {
 		if (!$this->capabilitiesService->hasFormFilling()) {
-			throw new \RuntimeException('Form filling not supported by the Collabora server');
+			throw new RuntimeException('Form filling not supported by the Collabora server');
 		}
 
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
@@ -189,7 +192,7 @@ class RemoteService {
 			);
 
 			return $response->getBody();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage());
 			throw $e;
 		}

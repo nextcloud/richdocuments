@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,6 +7,7 @@
 
 namespace OCA\Richdocuments\Db;
 
+use Exception;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -59,7 +61,7 @@ class AssetMapper extends QBMapper {
 			}
 
 			return $asset;
-		} catch (\Exception) {
+		} catch (Exception) {
 		}
 
 		throw new DoesNotExistException('No asset for token found');

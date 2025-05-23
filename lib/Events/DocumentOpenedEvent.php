@@ -8,9 +8,10 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Events;
 
+use OCP\EventDispatcher\Event;
 use OCP\Files\Node;
 
-class DocumentOpenedEvent extends \OCP\EventDispatcher\Event {
+class DocumentOpenedEvent extends Event {
 	public function __construct(
 		private ?string $userId,
 		private Node $node,

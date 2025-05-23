@@ -1,10 +1,12 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Richdocuments\Controller;
 
+use Exception;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Db\WopiMapper;
@@ -19,7 +21,10 @@ use OCA\Richdocuments\UploadException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -34,6 +39,7 @@ use OCP\PreConditionNotMetException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\NullOutput;
+use Throwable;
 
 class SettingsController extends Controller {
 	// TODO adapt overview generation if we add more font mimetypes
@@ -72,7 +78,7 @@ class SettingsController extends Controller {
 			$output = new NullOutput();
 			$this->connectivityService->testDiscovery($output);
 			$this->connectivityService->testCapabilities($output);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new DataResponse([
 				'status' => $e->getCode(),
@@ -188,7 +194,7 @@ class SettingsController extends Controller {
 			$this->connectivityService->testDiscovery($output);
 			$this->connectivityService->testCapabilities($output);
 			$this->connectivityService->autoConfigurePublicUrl();
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			return new JSONResponse([
 				'status' => 'error',
 				'data' => ['message' => 'Failed to connect to the remote server: ' . $e->getMessage()]
@@ -254,12 +260,12 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 *
 	 * @param $key
 	 * @param $value
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function setPersonalSettings($templateFolder,
 		$zoteroAPIKeyInput,
 		$documentSigningCertInput,
@@ -288,7 +294,7 @@ class SettingsController extends Controller {
 		if ($documentSigningCertInput !== null) {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'documentSigningCert', $documentSigningCertInput);
-			} catch (PreConditionNotMetException $e) {
+			} catch (PreConditionNotMetException) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';
 			}
@@ -296,7 +302,7 @@ class SettingsController extends Controller {
 		if ($documentSigningKeyInput !== null) {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'documentSigningKey', $documentSigningKeyInput);
-			} catch (PreConditionNotMetException $e) {
+			} catch (PreConditionNotMetException) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';
 			}
@@ -304,7 +310,7 @@ class SettingsController extends Controller {
 		if ($documentSigningCaInput !== null) {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'documentSigningCa', $documentSigningCaInput);
-			} catch (PreConditionNotMetException $e) {
+			} catch (PreConditionNotMetException) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';
 			}
@@ -319,13 +325,13 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 *
 	 * @return JSONResponse|DataResponse
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getFontNames() {
 		$fileNames = $this->fontService->getFontFileNames();
 		$etag = md5(implode('/', $fileNames));
@@ -339,13 +345,13 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 *
 	 * @return JSONResponse|DataResponse
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getJsonFontList() {
 		$files = $this->fontService->getFontFiles();
 		$etags = array_map(
@@ -365,14 +371,13 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $name
 	 * @return DataDisplayResponse|DataResponse
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getFontFile(string $name) {
 		try {
 			$fontFile = $this->fontService->getFontFile($name);
@@ -393,14 +398,13 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $name
 	 * @return DataDisplayResponse
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getFontFileOverview(string $name): DataDisplayResponse {
 		try {
 			$fontFileOverviewContent = $this->fontService->getFontFileOverview($name);
@@ -415,16 +419,16 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 *
 	 * @param string $type - Type is 'admin' or 'user'
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function generateIframeToken(string $type): DataResponse {
 		try {
 			$response = $this->settingsService->generateIframeToken($type, $this->userId);
 			return new DataResponse($response);
-		} catch (\Exception $e) {
+		} catch (Exception) {
 			return new DataResponse([
 				'message' => 'Settings token not generated.'
 			], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -435,7 +439,7 @@ class SettingsController extends Controller {
 	 * @param string $name
 	 * @return DataResponse
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 */
 	public function deleteFontFile(string $name): DataResponse {
 		$this->fontService->deleteFontFile($name);
@@ -481,11 +485,10 @@ class SettingsController extends Controller {
 	 * @param string $name
 	 *
 	 * @return DataDisplayResponse
-	 *
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 **/
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getSettingsFile(string $type, string $token, string $category, string $name) {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($token);
@@ -510,9 +513,9 @@ class SettingsController extends Controller {
 					'Content-Type' => $systemFile->getMimeType() ?: 'application/octet-stream'
 				]
 			);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new DataDisplayResponse('File not found.', 404);
-		} catch (\Exception $e) {
+		} catch (Exception) {
 			return new DataDisplayResponse('Something went wrong', 500);
 		}
 	}
@@ -545,7 +548,7 @@ class SettingsController extends Controller {
 		return $file;
 	}
 
-	#[Http\Attribute\FrontpageRoute(verb: 'GET', url: '/autosetup')]
+	#[FrontpageRoute(verb: 'GET', url: '/autosetup')]
 	public function setupCode(IURLGenerator $urlGenerator, IAppManager $appManager, Capabilities $capabilities): DataResponse {
 		$statusCode = Http::STATUS_NOT_MODIFIED;
 		// If no collabora url is configured and richdocumentscode is enabled we will configure it
@@ -592,7 +595,7 @@ class SettingsController extends Controller {
 			try {
 				$this->capabilitiesService->fetch();
 				$this->discoveryService->fetch();
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				return new DataResponse([
 					'message' => 'Failed to get proxy.php endpoints: ' . $e->getMessage(),
 				], Http::STATUS_INTERNAL_SERVER_ERROR);

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use Exception;
 use OCA\Richdocuments\AppInfo\Application;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\NotFoundException;
@@ -64,7 +65,7 @@ abstract class CachedRequestService {
 	 * Cached value will be kept if the request fails
 	 *
 	 * @return string
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	final public function fetch(): string {
 		$cache = $this->cacheFactory->createDistributed('richdocuments');
@@ -73,7 +74,7 @@ abstract class CachedRequestService {
 		$startTime = microtime(true);
 		$response = $this->sendRequest($client);
 		$duration = round(((microtime(true) - $startTime)), 3);
-		$this->logger->info('Fetched remote endpoint from ' . $this->cacheKey . ' in ' . $duration . ' seconds');
+		$this->logger->info('Fetched remote endpoint from ' . $this->cacheKey . ' in ' . (string)$duration . ' seconds');
 
 		$this->getAppDataFolder()->newFile($this->cacheKey, $response);
 		$cache->set($this->cacheKey, $response);
@@ -147,7 +148,7 @@ abstract class CachedRequestService {
 						return true;
 					}
 				}
-			} catch (\Exception) {
+			} catch (Exception) {
 				// ignore
 			}
 		}

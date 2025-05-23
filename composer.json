@@ -43,7 +43,8 @@
 		"psalm:update-baseline": "psalm.phar --threads=1 --update-baseline --set-baseline=tests/psalm-baseline.xml",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"cs:fix": "php-cs-fixer fix",
-		"test:unit": "vendor/bin/phpunit -c tests/phpunit.xml"
+		"test:unit": "vendor/bin/phpunit -c tests/phpunit.xml",
+		"rector": "rector --config=rector.php && composer cs:fix"
 	},
 	"autoload" : {
 		"psr-4": {
@@ -54,5 +55,12 @@
 		"psr-4": {
 			"OCP\\": "vendor/nextcloud/ocp/OCP"
 		}
+	},
+	"extra": {
+		"bamarni-bin": {
+            "bin-links": true,
+            "target-directory": "vendor-bin",
+            "forward-command": true
+        }
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -62,7 +63,7 @@ class Notifier implements INotifier {
 
 				try {
 					$userFolder = $this->rootFolder->getUserFolder($targetUser);
-				} catch (NotPermittedException|NoUserException $e) {
+				} catch (NotPermittedException|NoUserException) {
 					throw new UnknownNotificationException();
 				}
 				$node = $userFolder->getFirstNodeById($fileId);
@@ -100,7 +101,7 @@ class Notifier implements INotifier {
 	protected function setParsedSubjectFromRichSubject(INotification $notification): void {
 		$placeholders = $replacements = [];
 		foreach ($notification->getRichSubjectParameters() as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
+			$placeholders[] = '{' . (string)$placeholder . '}';
 			if ($parameter['type'] === 'file') {
 				$replacements[] = $parameter['path'];
 			} else {

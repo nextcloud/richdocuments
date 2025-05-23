@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,6 +8,7 @@
 
 namespace OCA\Richdocuments\Command;
 
+use Exception;
 use OCA\Richdocuments\TemplateManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,7 +32,7 @@ class UpdateEmptyTemplates extends Command {
 			$this->templateManager->updateEmptyTemplates();
 			$output->writeln('<info>Empty template files were updated</info>');
 			return 0;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$output->writeln('<error>Failed to update templates</error>');
 			$output->writeln($e->getMessage());
 			$output->writeln($e->getTraceAsString());

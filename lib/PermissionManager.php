@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments;
 
+use OC_User;
 use OCP\Constants;
 use OCP\Files\Node;
 use OCP\IConfig;
@@ -34,14 +35,14 @@ class PermissionManager {
 			// Share links set the incognito mode so in order to still get the
 			// user information we need to temporarily switch it off to get the current user
 			$incognito = false;
-			if (\OC_User::isIncognitoMode()) {
-				\OC_User::setIncognitoMode(false);
+			if (OC_User::isIncognitoMode()) {
+				OC_User::setIncognitoMode(false);
 				$incognito = true;
 			}
 			$user = $this->userSession->getUser();
 			$userId = $user?->getUID();
 			if ($incognito) {
-				\OC_User::setIncognitoMode(true);
+				OC_User::setIncognitoMode(true);
 			}
 		}
 
@@ -73,8 +74,8 @@ class PermissionManager {
 	public function loggedInUser(): ?string {
 		$incognito = false;
 
-		if (\OC_User::isIncognitoMode()) {
-			\OC_User::setIncognitoMode(false);
+		if (OC_User::isIncognitoMode()) {
+			OC_User::setIncognitoMode(false);
 			$incognito = true;
 		}
 
@@ -82,7 +83,7 @@ class PermissionManager {
 		$userId = $user?->getUID();
 
 		if ($incognito) {
-			\OC_User::setIncognitoMode(true);
+			OC_User::setIncognitoMode(true);
 		}
 
 		return $userId;

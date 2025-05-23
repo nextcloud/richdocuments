@@ -7,6 +7,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use Exception;
 use OCA\Richdocuments\Service\TemplateFieldService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -33,7 +34,7 @@ class TemplateFieldController extends OCSController {
 			$fields = $this->templateFieldService->extractFields($fileId);
 
 			return new DataResponse($fields, Http::STATUS_OK);
-		} catch (\Exception) {
+		} catch (Exception) {
 			return new DataResponse(['Unable to extract fields from given file'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -54,7 +55,7 @@ class TemplateFieldController extends OCSController {
 			}
 
 			return new DataResponse([], Http::STATUS_OK);
-		} catch (\Exception) {
+		} catch (Exception) {
 			return new DataResponse(['Unable to fill fields into the given file'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}

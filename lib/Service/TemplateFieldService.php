@@ -7,6 +7,7 @@
 
 namespace OCA\Richdocuments\Service;
 
+use Exception;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCP\Files\File;
@@ -53,7 +54,7 @@ class TemplateFieldService {
 			}
 
 			$localCache = $this->cacheFactory->createLocal('richdocuments_templates/');
-			$cacheName = $file->getId() . '/' . $file->getEtag();
+			$cacheName = (string)$file->getId() . '/' . $file->getEtag();
 			$cachedResponse = $localCache->get($cacheName);
 
 			if ($cachedResponse !== null) {
@@ -111,7 +112,7 @@ class TemplateFieldService {
 			$localCache->set($cacheName, $fields, 3600);
 
 			return $fields;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage());
 			return [];
 		}
@@ -147,7 +148,7 @@ class TemplateFieldService {
 				$file->getName(),
 				$file->getStorage()->fopen($file->getInternalPath(), 'r'),
 				$fields,
-				$format === null ? $file->getExtension() : $format
+				$format ?? $file->getExtension()
 			);
 
 			if ($destination !== null) {
@@ -155,7 +156,7 @@ class TemplateFieldService {
 			}
 
 			return $content;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage());
 			throw $e;
 		}

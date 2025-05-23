@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,6 +7,7 @@
 
 namespace OCA\Richdocuments\Service;
 
+use Exception;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 
@@ -26,7 +28,7 @@ class DemoService {
 		try {
 			$response = $client->get($demoServerList);
 			$servers = json_decode($response->getBody(), true)['servers'] ?? [];
-		} catch (\Exception) {
+		} catch (Exception) {
 			$servers = [];
 		}
 		$this->cache->set('richdocuments-demo', json_encode($servers));

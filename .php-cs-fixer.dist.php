@@ -19,5 +19,6 @@ $config
 	->notPath('src')
 	->notPath('node_modules')
 	->notPath('vendor')
+	->notPath('tests/stubs/')
 	->in(__DIR__);
 return $config;

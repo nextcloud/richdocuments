@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,6 +10,8 @@ use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
@@ -34,10 +37,10 @@ class FederationController extends OCSController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @OCSRoute GET /api/v1/federation
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function index(): DataResponse {
 		$response = new DataResponse([
 			'wopi_url' => $this->config->getAppValue('richdocuments', 'wopi_url')
@@ -47,8 +50,6 @@ class FederationController extends OCSController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @OCSRoute POST /api/v1/federation
 	 *
 	 * Check the file info of a remote accessing a file
@@ -60,6 +61,8 @@ class FederationController extends OCSController {
 	 * @return DataResponse
 	 * @throws DoesNotExistException
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function remoteWopiToken($token): DataResponse {
 		try {
 			$initiatorWopi = $this->wopiMapper->getWopiForToken($token);
@@ -89,8 +92,6 @@ class FederationController extends OCSController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @OCSRoute POST /api/v1/federation/user
 	 *
 	 * Return user details for a initiator user that will be used by remote instances
@@ -101,6 +102,8 @@ class FederationController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSNotFoundException
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function initiatorUser($token): DataResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($token);

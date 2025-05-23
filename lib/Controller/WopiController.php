@@ -1,10 +1,16 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Richdocuments\Controller;
 
+use DateTime;
+use DateTimeZone;
+use Exception;
+use OC_User;
+use OCA\Encryption\Util;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\AppInfo\Application;
@@ -31,6 +37,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
@@ -58,6 +65,8 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
+use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
@@ -122,13 +131,13 @@ class WopiController extends Controller {
 		} catch (ExpiredTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
 		$isPublic = empty($wopi->getEditorUid());
-		$guestUserId = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
+		$guestUserId = 'Guest-' . Server::get(ISecureRandom::class)->generate(8);
 		$user = $this->userManager->get($wopi->getEditorUid());
 		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
 		$isVersion = $version !== '0';
@@ -226,14 +235,14 @@ class WopiController extends Controller {
 		$share = $this->getShareForWopiToken($wopi, $file);
 		if ($this->permissionManager->shouldWatermark($file, $wopi->getEditorUid(), $share)) {
 			$email = $user !== null && !$isPublic ? $user->getEMailAddress() : '';
-			$currentDateTime = new \DateTime(
+			$currentDateTime = new DateTime(
 				'now',
-				new \DateTimeZone($this->config->getSystemValueString('default_timezone', 'UTC'))
+				new DateTimeZone($this->config->getSystemValueString('default_timezone', 'UTC'))
 			);
 			$replacements = [
 				'userId' => $wopi->getEditorUid(),
 				'date' => $currentDateTime->format('Y-m-d H:i:s'),
-				'themingName' => \OCP\Server::get(Defaults::class)->getName(),
+				'themingName' => Server::get(Defaults::class)->getName(),
 				'userDisplayName' => $userDisplayName,
 				'email' => $email,
 			];
@@ -280,16 +289,16 @@ class WopiController extends Controller {
 
 
 	private function setFederationFileInfo(Wopi $wopi, $response) {
-		$response['UserId'] = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
+		$response['UserId'] = 'Guest-' . Server::get(ISecureRandom::class)->generate(8);
 
 		if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER) {
 			$remoteUserId = $wopi->getGuestDisplayname();
-			$cloudID = \OCP\Server::get(ICloudIdManager::class)->resolveCloudId($remoteUserId);
+			$cloudID = Server::get(ICloudIdManager::class)->resolveCloudId($remoteUserId);
 			$response['UserId'] = $cloudID->getDisplayId();
 			$response['UserFriendlyName'] = $cloudID->getDisplayId();
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => self::WOPI_AVATAR_SIZE]);
 			$cleanCloudId = str_replace(['http://', 'https://'], '', $cloudID->getId());
-			$addressBookEntries = \OCP\Server::get(IContactsManager::class)->search($cleanCloudId, ['CLOUD']);
+			$addressBookEntries = Server::get(IContactsManager::class)->search($cleanCloudId, ['CLOUD']);
 			foreach ($addressBookEntries as $entry) {
 				if (isset($entry['CLOUD'])) {
 					foreach ($entry['CLOUD'] as $cloudID) {
@@ -309,11 +318,11 @@ class WopiController extends Controller {
 
 		$response['UserFriendlyName'] = $this->tokenManager->prepareGuestName($initiator->getGuestDisplayname());
 		if ($initiator->hasTemplateId()) {
-			$templateUrl = $wopi->getRemoteServer() . '/index.php/apps/richdocuments/wopi/template/' . $initiator->getTemplateId() . '?access_token=' . $initiator->getToken();
+			$templateUrl = $wopi->getRemoteServer() . '/index.php/apps/richdocuments/wopi/template/' . (string)$initiator->getTemplateId() . '?access_token=' . $initiator->getToken();
 			$response['TemplateSource'] = $templateUrl;
 		}
 		if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER || ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_GUEST && $initiator->getEditorUid())) {
-			$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . $initiator->getEditorUid() . '/' . self::WOPI_AVATAR_SIZE;
+			$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . (string)$initiator->getEditorUid() . '/' . (string)self::WOPI_AVATAR_SIZE;
 		}
 
 		return $response;
@@ -326,7 +335,7 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/files/{fileId}/contents')]
-	public function getFile(string $fileId, string $access_token): JSONResponse|StreamResponse|Http\Response {
+	public function getFile(string $fileId, string $access_token): JSONResponse|StreamResponse|Response {
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 
 		try {
@@ -337,7 +346,7 @@ class WopiController extends Controller {
 		} catch (ExpiredTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -349,18 +358,18 @@ class WopiController extends Controller {
 		try {
 			/** @var File $file */
 			$file = $this->getFileForWopiToken($wopi);
-			\OC_User::setIncognitoMode(true);
+			OC_User::setIncognitoMode(true);
 			if ($version !== '0') {
-				$versionManager = \OCP\Server::get(IVersionManager::class);
+				$versionManager = Server::get(IVersionManager::class);
 				$info = $versionManager->getVersionFile($this->userManager->get($wopi->getUserForFileAccess()), $file, $version);
 				if ($info->getSize() === 0) {
-					$response = new Http\Response();
+					$response = new Response();
 				} else {
 					$response = new StreamResponse($info->fopen('rb'));
 				}
 			} else {
 				if ($file->getSize() === 0) {
-					$response = new Http\Response();
+					$response = new Response();
 				} else {
 
 					$filesize = $file->getSize();
@@ -368,14 +377,14 @@ class WopiController extends Controller {
 						preg_match('/bytes=(\d+)-(\d+)?/', $this->request->getHeader('Range'), $matches);
 
 						$offset = intval($matches[1] ?? 0);
-						$length = intval($matches[2] ?? 0) - $offset + 1;
+						$length = (int)((float)$filesize - (float)$offset);
 						if ($length <= 0) {
-							$length = $filesize - $offset;
+							$length = (int)((float)$filesize - (float)$offset);
 						}
 
 						$fp = $file->fopen('rb');
 						$rangeStream = fopen('php://temp', 'w+b');
-						stream_copy_to_stream($fp, $rangeStream, (int)$length, $offset);
+						stream_copy_to_stream($fp, $rangeStream, $length, $offset);
 						fclose($fp);
 
 						fseek($rangeStream, 0);
@@ -383,7 +392,7 @@ class WopiController extends Controller {
 						$response->addHeader('Accept-Ranges', 'bytes');
 						$response->addHeader('Content-Length', (string)$filesize);
 						$response->setStatus(Http::STATUS_PARTIAL_CONTENT);
-						$response->addHeader('Content-Range', 'bytes ' . $offset . '-' . ($offset + $length) . '/' . $filesize);
+						$response->addHeader('Content-Range', 'bytes ' . (string)$offset . '-' . (string)((int)($offset + $length)) . '/' . (string)$filesize);
 					} else {
 						$response = new StreamResponse($file->fopen('rb'));
 					}
@@ -392,7 +401,7 @@ class WopiController extends Controller {
 			$response->addHeader('Content-Disposition', 'attachment');
 			$response->addHeader('Content-Type', 'application/octet-stream');
 			return $response;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error('getFile failed: ' . $e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
@@ -417,7 +426,7 @@ class WopiController extends Controller {
 			}
 
 			$isPublic = empty($wopi->getEditorUid());
-			$guestUserId = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
+			$guestUserId = 'Guest-' . Server::get(ISecureRandom::class)->generate(8);
 			$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
 
 			$userConfig = $this->settingsService->generateSettingsConfig($type, $userId);
@@ -425,7 +434,7 @@ class WopiController extends Controller {
 		} catch (UnknownTokenException|ExpiredTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Unauthorized'], Http::STATUS_UNAUTHORIZED);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Internal Server Error'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -442,12 +451,12 @@ class WopiController extends Controller {
 			$userId = $wopi->getEditorUid();
 
 			if (empty($userId)) {
-				throw new \Exception('UserID is empty');
+				throw new Exception('UserID is empty');
 			}
 
 			$content = fopen('php://input', 'rb');
 			if (!$content) {
-				throw new \Exception('Failed to read input stream.');
+				throw new Exception('Failed to read input stream.');
 			}
 
 			$fileContent = stream_get_contents($content);
@@ -466,7 +475,7 @@ class WopiController extends Controller {
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Invalid token'], Http::STATUS_FORBIDDEN);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -499,11 +508,11 @@ class WopiController extends Controller {
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Invalid token'], Http::STATUS_FORBIDDEN);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new JSONResponse(['error' => 'File not found'], Http::STATUS_NOT_FOUND);
-		} catch (NotPermittedException $e) {
+		} catch (NotPermittedException) {
 			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Internal Server Error'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -530,7 +539,7 @@ class WopiController extends Controller {
 		} catch (ExpiredTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -546,7 +555,7 @@ class WopiController extends Controller {
 		} else {
 			// Per-user encryption is enabled so that collabora isn't able to store the file by using the
 			// user's private key. Because of that we have to use the incognito mode for writing the file.
-			\OC_User::setIncognitoMode(true);
+			OC_User::setIncognitoMode(true);
 		}
 
 		try {
@@ -605,7 +614,7 @@ class WopiController extends Controller {
 
 			try {
 				if ($freespace >= 0 && $contentLength > $freespace) {
-					throw new \Exception('Not enough storage');
+					throw new Exception('Not enough storage');
 				}
 				$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
 			} catch (LockedException $e) {
@@ -626,7 +635,7 @@ class WopiController extends Controller {
 		} catch (NotFoundException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -659,7 +668,7 @@ class WopiController extends Controller {
 		} catch (ExpiredTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -770,7 +779,7 @@ class WopiController extends Controller {
 		} catch (NotFoundException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -800,7 +809,7 @@ class WopiController extends Controller {
 			}
 
 			return new JSONResponse([], Http::STATUS_LOCKED);
-		} catch (\Exception) {
+		} catch (Exception) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -820,7 +829,7 @@ class WopiController extends Controller {
 				return new JSONResponse();
 			}
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
-		} catch (\Exception) {
+		} catch (Exception) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -837,7 +846,7 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		} catch (OwnerLockedException) {
 			return new JSONResponse([], Http::STATUS_LOCKED);
-		} catch (\Exception) {
+		} catch (Exception) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -968,7 +977,7 @@ class WopiController extends Controller {
 			$response->addHeader('Content-Disposition', 'attachment');
 			$response->addHeader('Content-Type', 'application/octet-stream');
 			return $response;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error('getTemplate failed: ' . $e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -979,7 +988,7 @@ class WopiController extends Controller {
 	 */
 	private function isMasterKeyEnabled(): bool {
 		try {
-			$util = \OCP\Server::get(\OCA\Encryption\Util::class);
+			$util = Server::get(Util::class);
 			return $util->isMasterKeyEnabled();
 		} catch (QueryException) {
 			// No encryption module enabled
@@ -989,12 +998,12 @@ class WopiController extends Controller {
 
 	private function getWopiUrlForFile(Wopi $wopi, File $file): string {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
-		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
+		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/files/' . (string)$file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
 	}
 
 	private function getWopiUrlForTemplate(Wopi $wopi): string {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
-		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
+		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/template/' . (string)$wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
 	}
 
 	private function generateSettingToken(string $userId): string {

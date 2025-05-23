@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,6 +7,7 @@
 
 namespace OCA\Richdocuments\Backgroundjobs;
 
+use Exception;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\DiscoveryService;
@@ -33,13 +35,13 @@ class ObtainCapabilities extends TimedJob {
 
 		try {
 			$this->capabilitiesService->fetch();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error('Failed to fetch capabilities: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
 		try {
 			$this->discoveryService->fetch();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error('Failed to fetch discovery: ' . $e->getMessage(), ['exception' => $e]);
 		}
 	}

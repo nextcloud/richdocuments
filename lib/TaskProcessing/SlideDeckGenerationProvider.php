@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,6 +13,7 @@ use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Service\SlideDeckService;
 use OCP\IL10N;
 use OCP\TaskProcessing\ISynchronousProvider;
+use RuntimeException;
 
 class SlideDeckGenerationProvider implements ISynchronousProvider {
 
@@ -73,11 +75,11 @@ class SlideDeckGenerationProvider implements ISynchronousProvider {
 	 */
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		if ($userId === null) {
-			throw new \RuntimeException('User ID is required to process the prompt.');
+			throw new RuntimeException('User ID is required to process the prompt.');
 		}
 
 		if (!isset($input['text']) || !is_string($input['text'])) {
-			throw new \RuntimeException('Invalid input, expected "text" key with string value');
+			throw new RuntimeException('Invalid input, expected "text" key with string value');
 		}
 
 		$response = $this->slideDeckService->generateSlideDeck(
