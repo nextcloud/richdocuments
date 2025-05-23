@@ -82,7 +82,7 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 })
 
 Cypress.Commands.add('ocsRequest', (user, options) => {
-	const auth = { user: user.userId, password: user.password }
+	const auth = user ? { user: user.userId, password: user.password } : null
 	return cy.request({
 		form: true,
 		auth,
@@ -106,6 +106,22 @@ Cypress.Commands.add('shareFileToUser', (user, path, targetUser, shareData = {})
 		},
 	}).then(response => {
 		cy.log(`${user.userId} shared ${path} with ${targetUser.userId}`, response.status)
+	})
+})
+
+Cypress.Commands.add('shareFileToTalkRoom', (user, path, roomId, shareData = {}) => {
+	cy.login(user)
+	cy.ocsRequest(user, {
+		method: 'POST',
+		url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json`,
+		body: {
+			path,
+			shareType: 10,
+			shareWith: roomId,
+			...shareData,
+		},
+	}).then(response => {
+		cy.log(`${user.userId} shared ${path} with talk room ${roomId}`, response.status)
 	})
 })
 
@@ -396,10 +412,45 @@ Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
 })
 
 Cypress.Commands.add('pickFile', (filename) => {
-  cy.get('.office-target-picker')
-    .find(`tr[data-filename="${filename}"]`)
-    .click()
-  cy.get('.office-target-picker')
-    .find('button[aria-label="Select file"]')
-    .click()
+	cy.get('.office-target-picker')
+		.find(`tr[data-filename="${filename}"]`)
+		.click()
+	cy.get('.office-target-picker')
+		.find('button[aria-label="Select file"]')
+		.click()
 })
+
+Cypress.Commands.add('createTalkRoom', (user, options = {}) => {
+	cy.login(user)
+	return cy.ocsRequest(user, {
+		method: 'POST',
+		url: `${url}/ocs/v2.php/apps/spreed/api/v4/room?format=json`,
+		body: {
+			roomType: options.roomType || 3, // Default to group conversation
+			roomName: options.roomName,
+			invite: options.invite || '',
+			source: options.source || '',
+			objectType: options.objectType || '',
+			objectId: options.objectId || '',
+			password: options.password || '',
+		}
+	}).then(response => {
+		cy.log(`Created talk room "${options.roomName}"`, response.status)
+		return cy.wrap(response.body.ocs.data)
+	})
+})
+
+Cypress.Commands.add('makeTalkRoomPublic', (user, token, password = '') => {
+	cy.login(user)
+	return cy.ocsRequest(user, {
+		method: 'POST',
+		url: `${url}/ocs/v2.php/apps/spreed/api/v4/room/${token}/public?format=json`,
+		body: {
+			password: password,
+		}
+	}).then(response => {
+		cy.log(`Made talk room public`, response.status)
+		return cy.wrap(response.body.ocs.data)
+	})
+})
+

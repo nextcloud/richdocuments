@@ -5,14 +5,12 @@
 
 <template>
 	<div class="settings-entry">
-		<input :id="id"
+		<NcCheckboxRadioSwitch v-model="inputVal"
 			type="checkbox"
-			class="checkbox"
-			:checked="inputVal"
-			:disabled="disabled"
-			@change="$emit('input', $event.target.checked)">
-		<label :for="id">{{ label }}</label><br>
-		<em v-if="hint !== ''">{{ hint }}</em>
+			:disabled="disabled">
+			{{ label }}
+		</NcCheckboxRadioSwitch>
+		<em v-if="hint !== ''" class="checkbox-hint">{{ hint }}</em>
 		<div>
 			<slot />
 		</div>
@@ -20,9 +18,13 @@
 </template>
 
 <script>
-let uuid = 0
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+
 export default {
 	name: 'SettingsCheckbox',
+	components: {
+		NcCheckboxRadioSwitch,
+	},
 	props: {
 		label: {
 			type: String,
@@ -46,25 +48,19 @@ export default {
 			inputVal: this.value,
 		}
 	},
-	computed: {
-		id() {
-			return 'settings-checkbox-' + this.uuid
-		},
-	},
 	watch: {
 		value(newVal) {
 			this.inputVal = this.value
 		},
-	},
-	beforeCreate() {
-		this.uuid = uuid.toString()
-		uuid += 1
+		inputVal(newVal) {
+			this.$emit('input', newVal)
+		},
 	},
 }
 </script>
 
 <style scoped>
-	.settings-entry {
-		padding-bottom: 15px;
-	}
+.checkbox-hint {
+	margin-right: calc(var(--default-grid-baseline) * 3);
+}
 </style>

@@ -8,6 +8,11 @@
       <code><![CDATA[array_key_exists($key, self::APP_SETTING_TYPES) && self::APP_SETTING_TYPES[$key] === 'array']]></code>
     </RedundantCondition>
   </file>
+  <file src="lib/AppInfo/Application.php">
+    <MissingDependency>
+      <code><![CDATA[SecureViewWrapper|IStorage]]></code>
+    </MissingDependency>
+  </file>
   <file src="lib/Command/ActivateConfig.php">
     <UndefinedClass>
       <code><![CDATA[Command]]></code>

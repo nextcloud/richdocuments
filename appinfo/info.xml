@@ -15,6 +15,7 @@ You can also edit your documents off-line with the Collabora Office app from the
 	<licence>agpl</licence>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<types>
+		<filesystem />
 		<prevent_group_restriction/>
 	</types>
 	<documentation>
