@@ -7,10 +7,11 @@ import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import Types from '../helpers/types.js'
 import { createEmptyFile } from '../services/api.js'
-import { generateUrl, generateFilePath, generateOcsUrl } from '@nextcloud/router'
-import { showError } from '@nextcloud/dialogs'
+import { generateOcsUrl } from '@nextcloud/router'
+import { showError, spawnDialog } from '@nextcloud/dialogs'
 import { getCapabilities } from '../services/capabilities.ts'
 import { File, addNewFileMenuEntry, isFilenameValid, getUniqueName } from '@nextcloud/files'
+import TemplatePicker from '../components/Modal/TemplatePicker.vue'
 
 const createFileTypeEntry = (type, displayName, iconClass, index) => ({
 	id: 'add-' + type.extension,
@@ -87,65 +88,18 @@ const openTemplatePicker = async (context, type, mimetype, filename, content = [
 			return
 		}
 
-		await showTemplatePickerDialog(context, type, mimetype, filename, templates, content)
+		await spawnDialog(TemplatePicker, {
+			templates,
+			suggestedFilename: filename,
+			content,
+			initialTemplateId: templates[0]?.id,
+		}, (templateId, filename) => {
+			if (templateId) {
+				createDocument(context, mimetype, filename, templateId, content)
+			}
+		})
 	} catch (error) {
 		console.error(error)
 		showError(t('core', 'Could not load templates'))
 	}
-}
-
-const showTemplatePickerDialog = async (context, type, mimetype, filename, templates, content) => {
-	const { data: tmpl } = await axios.get(generateFilePath('richdocuments', 'templates', 'templatePicker.html'))
-	const $tmpl = $(tmpl).eq(2)
-	const $dlg = $tmpl.octemplate({
-		dialog_name: 'template-picker',
-		dialog_title: t('richdocuments', 'Select template'),
-	})
-
-	templates.forEach((template) => {
-		appendTemplateFromData($dlg[0], template)
-	})
-
-	$('body').append($dlg)
-
-	const buttonlist = [
-		{
-			text: t('core', 'Cancel'),
-			classes: 'cancel',
-			click() {
-				$(this).ocdialog('close')
-			},
-		},
-		{
-			text: t('richdocuments', 'Create'),
-			classes: 'primary',
-			click() {
-				const templateId = this.dataset.templateId
-				createDocument(context, mimetype, filename, templateId, content)
-				$(this).ocdialog('close')
-			},
-		}
-	]
-
-	$('#template-picker').ocdialog({
-		closeOnEscape: true,
-		modal: true,
-		buttons: buttonlist,
-	})
-}
-
-const appendTemplateFromData = (dlg, data) => {
-	const template = dlg.querySelector('.template-model').cloneNode(true)
-	template.className = ''
-	template.querySelector('img').src = generateUrl('apps/richdocuments/template/preview/' + data.id)
-	template.querySelector('h2').textContent = data.name
-	template.onclick = function(e) {
-		e.preventDefault()
-		dlg.dataset.templateId = data.id
-	}
-	if (!dlg.dataset.templateId) {
-		dlg.dataset.templateId = data.id
-	}
-
-	dlg.querySelector('.template-container').appendChild(template)
 }
