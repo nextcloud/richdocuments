@@ -251,7 +251,7 @@ class TokenManager {
 			$updatable = $updatable && $shareUpdatable;
 		}
 
-		$updatable = $updatable && $this->permissionManager->userCanEdit($editoruid);
+		$updatable = $updatable && $this->permissionManager->userCanEdit($owneruid);
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 
