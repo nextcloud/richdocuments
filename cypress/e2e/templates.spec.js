@@ -93,10 +93,13 @@ describe('Global templates', function() {
 		cy.waitForCollabora()
 	})
 
-	// FIXME: Unskip once server API for new menu entries works on public shares
-	// https://github.com/nextcloud/richdocuments/issues/3170
-	it.skip('Create a file from a system template as guest', () => {
-		cy.uploadSystemTemplate()
+	it('Create a file from a system template as guest', () => {
+		cy.uploadSystemTemplate({
+			fixturePath: 'templates/presentation.otp',
+			fileName: 'myslides.otp',
+			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
+		})
+
 		cy.createFolder(randUser, '/my-share')
 
 		cy.shareLink(randUser, '/my-share', { permissions: 31 }).then((token) => {
@@ -110,24 +113,21 @@ describe('Global templates', function() {
 				.should('be.visible')
 				.click()
 
-			cy.get('.newFileMenu', { timeout: 10000 })
+			cy.get('button[role="menuitem"]')
+				.contains('New presentation')
 				.should('be.visible')
-				.contains('.menuitem', 'New presentation')
-				.as('menuitem')
+				.click()
+			cy.get('.input-field__input')
+				.type('FileFromTemplate')
+			cy.get('.template:contains("myslides")')
+				.scrollIntoView()
 				.should('be.visible')
 				.click()
 
-			cy.get('@menuitem').find('.filenameform input[type=text]').type('FileFromTemplate')
-			cy.get('@menuitem').find('.filenameform .icon-confirm').click()
-
-			cy.get('#template-picker')
-				.as('form')
-				.should('be.visible')
-				.contains('h2', 'systemtemplate')
+			cy.get('button:contains("Create")')
+				.scrollIntoView()
 				.should('be.visible')
 				.click()
-
-			cy.get('.oc-dialog').find('button.primary').click()
 
 			cy.waitForViewer()
 			cy.waitForCollabora()
