@@ -192,6 +192,23 @@ describe('User templates', function() {
 				{ index: 'ContentControls.ByIndex.4', type: 'checkbox', alias: '', checked: false },
 			]
 
+			// Intercept the initial templates request to ensure it does not get the fields yet
+			cy.intercept(
+				'GET',
+				'**/apps/files/api/v1/templates',
+				(req) => req.continue(),
+			).as('templatesRequest')
+
+			// Intercept the POST request to verify the correct fields are submitted
+			cy.intercept('POST', '**/templates/create', (req) => {
+				const templateFields = Object.values(req.body.templateFields)
+
+				expect(templateFields[0].content).to.equal(fields[0].content)
+				expect(templateFields[1].content).to.equal(fields[1].content)
+
+				req.continue()
+			}).as('reqFillFields')
+
 			cy.visit('/apps/files')
 
 			// Create a new document
@@ -205,20 +222,18 @@ describe('User templates', function() {
 			cy.get('input[data-cy-files-new-node-dialog-input=""]').type('FileFromTemplateWithFields')
 			cy.get('button[data-cy-files-new-node-dialog-submit=""]').click()
 
+			// Ensure the template fields array is of length 0, meaning no fields were fetched
+			cy.wait('@templatesRequest').then(({ response }) => {
+				const templates = response.body.ocs.data
+				const template = templates[1].templates[0]
+
+				expect(template.fields.length).to.equal(0)
+			})
+
 			// Choose the document template
 			cy.get('form.templates-picker__form').as('templatePicker')
 			cy.get('@templatePicker').contains('document').click()
 			cy.get('@templatePicker').find('input[type="submit"]').click()
-
-			// Intercept the POST request to verify the correct fields are submitted
-			cy.intercept('POST', '**/templates/create', (req) => {
-				const templateFields = Object.values(req.body.templateFields)
-
-				expect(templateFields[0].content).to.equal(fields[0].content)
-				expect(templateFields[1].content).to.equal(fields[1].content)
-
-				req.continue()
-			}).as('reqFillFields')
 
 			cy.submitTemplateFields(fields)
 
