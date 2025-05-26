@@ -204,6 +204,13 @@ class AppConfig {
 		return $this->config->getAppValue(Application::APPNAME, self::USE_SECURE_VIEW_ADDITIONAL_MIMES, 'no') === 'yes';
 	}
 
+	public function getMimeTypes(): array {
+		return array_merge(
+			Capabilities::MIMETYPES,
+			Capabilities::MIMETYPES_MSOFFICE,
+		);
+	}
+
 	public function getDomainList(): array {
 		$urls = array_merge(
 			[ $this->domainOnly($this->getCollaboraUrlPublic()) ],

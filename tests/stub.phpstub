@@ -130,3 +130,20 @@ class OC_Util {
 	public static function setupFS(?string $user);
 	public static function tearDownFS();
 }
+
+namespace OCA\Talk\Events {
+	use OCP\EventDispatcher\Event;
+	use OCP\Share\IShare;
+
+	class OverwritePublicSharePropertiesEvent extends Event {
+		public function __construct(
+			protected IShare $share,
+		) {
+			parent::__construct();
+		}
+
+		public function getShare(): IShare {
+			return $this->share;
+		}
+	}
+}
