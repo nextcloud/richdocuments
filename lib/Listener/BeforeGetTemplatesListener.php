@@ -24,10 +24,15 @@ class BeforeGetTemplatesListener implements IEventListener {
 			return;
 		}
 
+		/** @psalm-suppress RedundantCondition */
+		if (method_exists($event, 'shouldGetFields') && !$event->shouldGetFields()) {
+			return;
+		}
+
 		foreach ($event->getTemplates() as $template) {
-			$templateFileId = $template->jsonSerialize()['fileid'];
-			$fields = $this->templateFieldService->extractFields($templateFileId);
-			
+			$templateId = $template->jsonSerialize()['fileid'];
+			$fields = $this->templateFieldService->extractFields($templateId);
+
 			$template->setFields($fields);
 		}
 	}
