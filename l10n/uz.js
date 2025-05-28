@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remove" : "Remove",
     "Confirm" : "Confirm",
     "Cancel" : "Cancel",
+    "Create" : "Yaratish",
     "Description" : "Tavsif",
     "Select file" : "Faylni tanlang",
     "Close" : "Close",
@@ -29,7 +30,6 @@ OC.L10N.register(
     "Add to favorites" : "Sevimlilarga qo'shing",
     "Details" : "Details",
     "Download" : "Download",
-    "Create" : "Yaratish",
     "Error" : "Error",
     "Saving…" : "Saving…"
 },

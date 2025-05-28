@@ -10,6 +10,7 @@ OC.L10N.register(
     "Save" : "Cadw",
     "Confirm" : "Cadarnhau",
     "Cancel" : "Diddymu",
+    "Create" : "Creu",
     "Description" : "Disgrifiad",
     "No results" : "Dim canlyniadau",
     "Close" : "Cau",
@@ -19,7 +20,6 @@ OC.L10N.register(
     "Details" : "Manylion",
     "Download" : "Llwytho i lawr",
     "New file" : "Ffeil newydd",
-    "Create" : "Creu",
     "Error" : "Gwall",
     "An error occurred" : "Digwyddodd gwall",
     "Nickname" : "Llysenw"

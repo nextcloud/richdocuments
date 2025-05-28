@@ -11,10 +11,10 @@
     "Invalid file provided" : "Fichero proporcionau no valiu",
     "New" : "Nuevo",
     "Cancel" : "Cancelar",
+    "Create" : "Crear",
     "Close" : "Zarrar",
     "Details" : "Detalles",
     "Download" : "Escargar",
-    "Create" : "Crear",
     "Error" : "Error"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

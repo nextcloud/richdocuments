@@ -16,6 +16,7 @@
     "Save" : "Saxla",
     "Confirm" : "Təsdiq edin",
     "Cancel" : "Dayandır",
+    "Create" : "Yarat",
     "Description" : "Açıqlanma",
     "No results" : "Nəticə yoxdur",
     "Close" : "Bağla",
@@ -24,7 +25,6 @@
     "Add to favorites" : "Add to favorites",
     "Details" : "Detallar",
     "Download" : "Yüklə",
-    "Create" : "Yarat",
     "Could not create file" : "Faylı yaratmaq olmur",
     "Error" : "Səhv"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

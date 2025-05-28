@@ -14,6 +14,8 @@ OC.L10N.register(
     "Save" : "Sàbhail",
     "Remove" : "Thoir air falbh",
     "Cancel" : "Sguir dheth",
+    "Select template" : "Tagh teamplaid",
+    "Create" : "Cruthaich",
     "No results" : "Gun toradh",
     "Close" : "Dùin",
     "Edit" : "Deasaich",
@@ -21,8 +23,6 @@ OC.L10N.register(
     "Details" : "Mion-fhiosrachadh",
     "Download" : "Luchdaich a-nuas",
     "New file" : "Faidhle ùr",
-    "Create" : "Cruthaich",
-    "Select template" : "Tagh teamplaid",
     "Error" : "Mearachd"
 },
 "nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;");

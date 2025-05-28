@@ -18,6 +18,7 @@ OC.L10N.register(
     "Save" : "Saxla",
     "Confirm" : "Təsdiq edin",
     "Cancel" : "Dayandır",
+    "Create" : "Yarat",
     "Description" : "Açıqlanma",
     "No results" : "Nəticə yoxdur",
     "Close" : "Bağla",
@@ -26,7 +27,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Detallar",
     "Download" : "Yüklə",
-    "Create" : "Yarat",
     "Could not create file" : "Faylı yaratmaq olmur",
     "Error" : "Səhv"
 },
