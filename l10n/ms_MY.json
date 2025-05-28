@@ -6,6 +6,7 @@
     "New" : "Baru",
     "Save" : "Simpan",
     "Cancel" : "Batal",
+    "Create" : "Buat",
     "Description" : "Keterangan",
     "Select file" : "Pilih fail",
     "Close" : "Tutup",
@@ -13,7 +14,6 @@
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Download" : "Muat turun",
-    "Create" : "Buat",
     "Error" : "Ralat",
     "Nickname" : "Nama Samaran"
 },"pluralForm" :"nplurals=1; plural=0;"

@@ -8,6 +8,8 @@ OC.L10N.register(
     "Save" : "சேமிக்க ",
     "Remove" : "அகற்றுக",
     "Cancel" : "இரத்து செய்க",
+    "File name" : "கோப்பு பெயரைக்",
+    "Create" : "உருவாக்குக",
     "Description" : "விவரிப்பு",
     "Close" : "மூடுக",
     "Edit" : "தொகுக்க",
@@ -15,7 +17,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "விவரங்கள்",
     "Download" : "பதிவிறக்குக",
-    "Create" : "உருவாக்குக",
     "Error" : "வழு",
     "Nickname" : "பட்டப்பெயர்"
 },

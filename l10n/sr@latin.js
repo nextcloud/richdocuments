@@ -15,6 +15,8 @@ OC.L10N.register(
     "New" : "Nov",
     "Save" : "Save",
     "Cancel" : "Cancel",
+    "Select template" : "Odaberite šablon",
+    "Create" : "Napravi",
     "Description" : "Opis",
     "No results" : "Nema rezultata",
     "Close" : "Zatvori",
@@ -24,8 +26,6 @@ OC.L10N.register(
     "Details" : "Detalji",
     "Download" : "Preuzmi",
     "Guest" : "Gost",
-    "Create" : "Napravi",
-    "Select template" : "Odaberite šablon",
     "Error" : "Greška"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

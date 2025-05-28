@@ -45,6 +45,7 @@
     "Confirm" : "Confirmar",
     "Cancel" : "Encaboxar",
     "Save as" : "Guardar como",
+    "Create" : "Crear",
     "Submit" : "Unviar",
     "Zotero" : "Zotero",
     "Description" : "Descripción",
@@ -66,8 +67,6 @@
     "Guest" : "Convidáu",
     "Follow current editor" : "Siguir l'editor actual",
     "New file" : "Ficheru nuevu",
-    "Create" : "Crear",
-    "New drawing" : "Dibuxu nuevu",
     "Could not create file" : "Nun se pudo crear el ficheru",
     "Error" : "Error",
     "An error occurred" : "Prodúxose un error",
@@ -76,6 +75,7 @@
     "Saving…" : "Guardando…",
     "Global templates" : "Plantíes globales",
     "No templates defined." : "Nun se definió nenguna plantía.",
+    "New drawing" : "Dibuxu nuevu",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "El documentu yá esiste"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

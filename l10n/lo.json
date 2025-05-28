@@ -7,6 +7,8 @@
     "Remove" : "ຍ້າຍອອກ",
     "Confirm" : "ຢືນຢັນ",
     "Cancel" : "ຍົກເລີກ",
+    "Select template" : "ເລືອກຕົວຢ່າງ",
+    "Create" : "ສ້າງ",
     "No results" : "ບໍ່ມີຜົນ",
     "Close" : "ປິດ",
     "Edit" : "ແກ້ໄຂ",
@@ -15,8 +17,6 @@
     "Details" : "ລາຍລະອຽດ",
     "Download" : "ດາວໂຫລດ",
     "New file" : "ຟາຍໃໝ່",
-    "Create" : "ສ້າງ",
-    "Select template" : "ເລືອກຕົວຢ່າງ",
     "Error" : "ຜິດພາດ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -13,10 +13,10 @@ OC.L10N.register(
     "Invalid file provided" : "Fichero proporcionau no valiu",
     "New" : "Nuevo",
     "Cancel" : "Cancelar",
+    "Create" : "Crear",
     "Close" : "Zarrar",
     "Details" : "Detalles",
     "Download" : "Escargar",
-    "Create" : "Crear",
     "Error" : "Error"
 },
 "nplurals=2; plural=(n != 1);");
