@@ -6,6 +6,7 @@
 namespace Tests\Richdocuments;
 
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\PermissionManager;
 use OCP\Files\Node;
 use OCP\IConfig;
@@ -136,12 +137,15 @@ class PermissionManagerTest extends TestCase {
 
 	/** @dataProvider dataWatermarkTagIds */
 	public function testShouldWatermarkOptionLinkTags(array $objectTagIds, array $watermarkTagIds): void {
-		$node = $this->createMock(Node::class);
-		$share = $this->createMock(IShare::class);
+		$node = $this->createNodeMock();
+		$share = $this->createShareMock(IShare::TYPE_LINK);
 		$userId = 'testUserId';
 
+		$this->appConfig->expects($this->any())
+			->method('getMimeTypes')
+			->willReturn(Capabilities::MIMETYPES);
+
 		$this->config
-			->expects($this->exactly(5))
 			->method('getAppValue')
 			->willReturnMap([
 				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no', 'yes'],
@@ -149,10 +153,8 @@ class PermissionManagerTest extends TestCase {
 				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkRead', 'no', 'no'],
 				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkSecure', 'no', 'no'],
 				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkTags', 'no', 'yes'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareTalkPublic', 'no', 'no'],
 			]);
-
-		$node->expects($this->once())->method('getId')->willReturn('testFileId');
-		$node->expects($this->once())->method('isUpdateable')->willReturn(false);
 
 		$share->expects($this->once())->method('getHideDownload')->willReturn(true);
 		$share->expects($this->once())->method('getAttributes')->willReturn(null);
@@ -167,12 +169,14 @@ class PermissionManagerTest extends TestCase {
 
 	/** @dataProvider dataWatermarkTagIds */
 	public function testShouldWatermarkOptionAllTags(array $objectTagIds, array $watermarkTagIds): void {
-		$node = $this->createMock(Node::class);
-		$share = $this->createMock(IShare::class);
+		$node = $this->createNodeMock();
 		$userId = 'testUserId';
 
+		$this->appConfig->expects($this->any())
+			->method('getMimeTypes')
+			->willReturn(Capabilities::MIMETYPES);
+
 		$this->config
-			->expects($this->exactly(6))
 			->method('getAppValue')
 			->willReturnMap([
 				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no', 'yes'],
@@ -183,13 +187,55 @@ class PermissionManagerTest extends TestCase {
 				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allTags', 'no', 'yes'],
 			]);
 
-		$node->expects($this->once())->method('getId')->willReturn('testFileId');
-		$node->expects($this->once())->method('isUpdateable')->willReturn(false);
 		$this->systemTagMapper->expects($this->once())->method('getTagIdsForObjects')->willReturn(['testFileId' => $objectTagIds]);
 		$this->appConfig->expects($this->once())->method('getAppValueArray')->willReturn($watermarkTagIds);
 
 		$result = $this->permissionManager->shouldWatermark($node, $userId, null);
 
 		$this->assertTrue($result);
+	}
+
+	public function testShouldWatermarkOptionTalkPublic(): void {
+		$node = $this->createNodeMock();
+		$share = $this->createShareMock(IShare::TYPE_ROOM);
+		$userId = null;
+
+		$this->appConfig->expects($this->any())
+			->method('getMimeTypes')
+			->willReturn(Capabilities::MIMETYPES);
+
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no', 'yes'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkAll', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkRead', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkSecure', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkTags', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareTalkPublic', 'no', 'yes'],
+			]);
+		$result = $this->permissionManager->shouldWatermark($node, $userId, $share);
+
+		$this->assertTrue($result);
+	}
+
+	private function createNodeMock(): Node {
+		$node = $this->createMock(Node::class);
+		$node->expects($this->any())->method('getMimetype')->willReturn('application/vnd.oasis.opendocument.spreadsheet');
+		$node->expects($this->any())->method('getId')->willReturn('testFileId');
+		$node->expects($this->any())->method('isUpdateable')->willReturn(false);
+		return $node;
+	}
+
+	private function createShareMock(?int $shareType): ?IShare {
+		if ($shareType === null) {
+			return null;
+		}
+
+		$share = $this->createMock(IShare::class);
+		$share->expects($this->any())->method('getHideDownload')->willReturn(true);
+		$share->expects($this->any())->method('getAttributes')->willReturn(null);
+		$share->expects($this->any())->method('getShareType')->willReturn($shareType);
+		return $share;
 	}
 }

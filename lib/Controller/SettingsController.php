@@ -213,6 +213,7 @@ class SettingsController extends Controller {
 			'watermark_shareAll',
 			'watermark_shareRead',
 			'watermark_shareDisabledDownload',
+			'watermark_shareTalkPublic',
 			'watermark_linkSecure',
 			'watermark_linkRead',
 			'watermark_linkAll',

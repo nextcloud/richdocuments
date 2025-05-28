@@ -58,12 +58,24 @@ jobs:
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
+      - name: Register main git reference
+        run: |
+          main_app_ref="$(if [ "${{ matrix.server-versions }}" = "master" ]; then echo -n "main"; else echo -n "${{ matrix.server-versions }}"; fi)"
+          echo "main_app_ref=$main_app_ref" >> $GITHUB_ENV
+
       - name: Checkout viewer
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           repository: nextcloud/viewer
           ref: ${{ matrix.server-versions }}
           path: apps/viewer
+
+      - name: Checkout spreed
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          repository: nextcloud/spreed
+          ref: ${{ env.main_app_ref }}
+          path: apps/spreed
 
       - name: Checkout files_pdfviewer
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -106,6 +118,13 @@ jobs:
         run: |
           composer install
 
+      - name: Build talk
+        working-directory: apps/spreed
+        run: |
+          composer install --no-dev
+          npm ci
+          npm run dev
+
       - name: Set up Nextcloud
         env:
           DB_PORT: 4444
@@ -125,6 +144,7 @@ jobs:
           php occ app:enable --force viewer
           php occ app:enable --force files_pdfviewer
           php occ app:enable --force richdocuments
+          php occ app:enable --force spreed
           php occ app:list
           php occ config:system:set trusted_domains 1 --value="172.17.0.1"
 
