@@ -9,6 +9,8 @@ OC.L10N.register(
     "Remove" : "ຍ້າຍອອກ",
     "Confirm" : "ຢືນຢັນ",
     "Cancel" : "ຍົກເລີກ",
+    "Select template" : "ເລືອກຕົວຢ່າງ",
+    "Create" : "ສ້າງ",
     "No results" : "ບໍ່ມີຜົນ",
     "Close" : "ປິດ",
     "Edit" : "ແກ້ໄຂ",
@@ -17,8 +19,6 @@ OC.L10N.register(
     "Details" : "ລາຍລະອຽດ",
     "Download" : "ດາວໂຫລດ",
     "New file" : "ຟາຍໃໝ່",
-    "Create" : "ສ້າງ",
-    "Select template" : "ເລືອກຕົວຢ່າງ",
     "Error" : "ຜິດພາດ"
 },
 "nplurals=1; plural=0;");

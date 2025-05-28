@@ -8,6 +8,7 @@ OC.L10N.register(
     "New" : "Baru",
     "Save" : "Simpan",
     "Cancel" : "Batal",
+    "Create" : "Buat",
     "Description" : "Keterangan",
     "Select file" : "Pilih fail",
     "Close" : "Tutup",
@@ -15,7 +16,6 @@ OC.L10N.register(
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Download" : "Muat turun",
-    "Create" : "Buat",
     "Error" : "Ralat",
     "Nickname" : "Nama Samaran"
 },

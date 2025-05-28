@@ -10,6 +10,7 @@ OC.L10N.register(
     "Select groups" : "গ্রুপ নির্ধারণ",
     "Save" : "সংরক্ষণ",
     "Cancel" : "বাতির",
+    "Create" : "তৈরী কর",
     "Description" : "বিবরণ",
     "Close" : "বন্ধ",
     "Edit" : "সম্পাদনা",
@@ -17,7 +18,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "বিসতারিত",
     "Download" : "ডাউনলোড",
-    "Create" : "তৈরী কর",
     "Error" : "সমস্যা",
     "Nickname" : "ছদ্মনাম"
 },
