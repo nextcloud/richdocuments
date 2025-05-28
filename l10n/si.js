@@ -12,6 +12,8 @@ OC.L10N.register(
     "Remove" : "ඉවත් කරන්න",
     "Confirm" : "තහවුරු කරන්න",
     "Cancel" : "අවලංගු කරන්න",
+    "File name" : "ගොනුවේ නම",
+    "Create" : "සාදන්න",
     "Description" : "විස්තරය",
     "No results" : "ප්‍රතිථල නැත",
     "Close" : "වසන්න",
@@ -19,7 +21,6 @@ OC.L10N.register(
     "Details" : "විස්තර",
     "Download" : "බාගන්න",
     "New file" : "නව ගොනුව",
-    "Create" : "සාදන්න",
     "Error" : "දෝෂය",
     "Nickname" : "අන්වර්ථ නාමය"
 },

@@ -11,6 +11,7 @@ OC.L10N.register(
     "Remove" : "Kkes",
     "Confirm" : "Serggeg",
     "Cancel" : "Sefsex",
+    "Create" : "Snulfu-d",
     "No results" : "Ulac igmad",
     "Close" : "Mdel",
     "Edit" : "Ẓreg",
@@ -20,7 +21,6 @@ OC.L10N.register(
     "Download" : "Sider",
     "Guest" : "Inebgi",
     "New file" : "Rnu afaylu",
-    "Create" : "Snulfu-d",
     "Error" : "Erreur",
     "Set" : "Sbadu"
 },

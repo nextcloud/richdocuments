@@ -15,6 +15,7 @@ OC.L10N.register(
     "New" : "Նոր",
     "Save" : "Պահել",
     "Cancel" : "ընդհատել",
+    "Create" : "Ստեղծել",
     "Description" : "Նկարագրություն",
     "Close" : "Փակել",
     "Edit" : "մշակել",
@@ -22,7 +23,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Մանրամասներ",
     "Download" : "Ներբեռնել",
-    "Create" : "Ստեղծել",
     "Could not create file" : "Չկարողացա ստեղծել ֆայլը",
     "Error" : "Սխալ",
     "Nickname" : "Մականուն"
