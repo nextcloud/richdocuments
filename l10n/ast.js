@@ -47,6 +47,8 @@ OC.L10N.register(
     "Confirm" : "Confirmar",
     "Cancel" : "Encaboxar",
     "Save as" : "Guardar como",
+    "Invalid file name" : "El nome del ficheru ye inválidu",
+    "File name" : "Nome del ficheru",
     "Create" : "Crear",
     "Submit" : "Unviar",
     "Zotero" : "Zotero",

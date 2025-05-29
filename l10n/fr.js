@@ -161,6 +161,8 @@ OC.L10N.register(
     "The settings only apply to compatible office files that are opened in Nextcloud Office" : "Les paramètres s'appliquent uniquement aux fichiers bureautiques compatibles qui sont ouverts dans Nextcloud Office.",
     "The following options within Nextcloud Office will be disabled: Copy, Download, Export, Print" : "Les options suivantes dans Nextcloud Office seront désactivées : Copier, Télécharger, Exporter, Imprimer",
     "Files may still be downloadable via WOPI requests if WOPI settings are not correctly configured" : "Les fichiers peuvent encore être téléchargés via des requêtes WOPI si les paramètres WOPI ne sont pas correctement configurés.",
+    "Previews will be blocked" : "Les aperçus seront bloqués",
+    "Enable secure view" : "Activer la vue sécurisée",
     "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Balises possibles : {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Select tags to enforce watermarking" : "Sélectionner des étiquettes pour appliquer le filigrane",
     "Electronic Signature" : "Signature électronique",
