@@ -47,6 +47,8 @@ PHPPIDA=$!
 PHP_CLI_SERVER_WORKERS=10 php -S localhost:$PORT_SERVERB -t $OC_PATH &
 PHPPIDB=$!
 
+sleep 10
+
 curl -v http://localhost:$PORT_SERVERA/status.php
 
 curl -v http://localhost:$PORT_SERVERB/status.php
