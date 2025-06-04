@@ -136,6 +136,9 @@ jobs:
           php occ config:system:set memcache.local --value="\\OC\\Memcache\\APCu"
           php -f index.php
           PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:8081 &
+
+          curl -v http://localhost:8081/status.php
+
           export OC_PASS=1234561
           php occ user:add --password-from-env user1
           php occ user:add --password-from-env user2
@@ -153,7 +156,6 @@ jobs:
           php occ richdocuments:activate-config --wopi-url="http://localhost:9980" --callback-url="http://172.17.0.1:8081"
 
           curl http://admin:admin@localhost:8081/ocs/v1.php/cloud/capabilities\?format\=json -H 'OCS-APIRequest: true'
-          curl -v http://localhost:8081/status.php
 
           curl -v http://localhost:9980/ --output -
           curl -v http://localhost:9980/hosting/discovery --output -
