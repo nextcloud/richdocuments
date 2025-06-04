@@ -47,6 +47,11 @@ PHPPIDA=$!
 PHP_CLI_SERVER_WORKERS=10 php -S localhost:$PORT_SERVERB -t $OC_PATH &
 PHPPIDB=$!
 
+curl -v http://localhost:$PORT_SERVERA/status.php
+
+curl -v http://localhost:$PORT_SERVERB/status.php
+
+
 
 $OCC config:system:set allow_local_remote_servers --value true --type bool
 $OCC config:app:set richdocuments wopi_url --value="http://localhost:9980"

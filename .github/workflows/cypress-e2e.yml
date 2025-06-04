@@ -153,6 +153,7 @@ jobs:
           php occ richdocuments:activate-config --wopi-url="http://localhost:9980" --callback-url="http://172.17.0.1:8081"
 
           curl http://admin:admin@localhost:8081/ocs/v1.php/cloud/capabilities\?format\=json -H 'OCS-APIRequest: true'
+          curl -v http://localhost:8081/status.php
 
           curl -v http://localhost:9980/ --output -
           curl -v http://localhost:9980/hosting/discovery --output -
