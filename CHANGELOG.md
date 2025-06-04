@@ -4,6 +4,23 @@
 -->
 # Changelog
 
+## 8.7.0
+
+### Added
+
+- feat: Add option to set secure view for public talk shares [#4808](https://github.com/nextcloud/richdocuments/pull/4808)
+
+### Fixed
+
+- fix: Ensure edit permissions are checked before template file token generation [#4797](https://github.com/nextcloud/richdocuments/pull/4797)
+- fix(CoolFrame): Init and accept postMessage for setting iframe height [#4796](https://github.com/nextcloud/richdocuments/pull/4796)
+- fix: check if template fields should be extracted [#4810](https://github.com/nextcloud/richdocuments/pull/4810)
+
+### Other
+
+- Revert "test: use nightly collabora build for now" [#4790](https://github.com/nextcloud/richdocuments/pull/4790)
+- chore(test): add unit tests for RegisterTemplateFileCreatorListener [#4821](https://github.com/nextcloud/richdocuments/pull/4821)
+
 ## 8.6.5
 
 ### Fixed
