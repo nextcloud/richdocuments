@@ -75,6 +75,11 @@ class InitialStateService {
 		$this->provideOptions();
 	}
 
+	public function providePublicShare(?bool $userInEditGroups = true): void {
+		$this->initialState->provideInitialState('userInEditGroups', $userInEditGroups);
+		$this->provideCapabilities();
+	}
+
 	public function prepareParams(array $params): array {
 		$defaults = [
 			'instanceId' => $this->config->getSystemValue('instanceid'),
