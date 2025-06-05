@@ -47,12 +47,13 @@ const createDataThemeDiv = (elementType, theme) => {
 	document.body.appendChild(element)
 	return element
 }
-const generateCSSVarTokens = () => {
+
+const generateCSSVarTokens = (isSettingIframe = false) => {
 	/* NC versus COOL */
 	const cssVarMap = {
-		'--color-primary-element-text': '--co-primary-text',
-		'--color-primary-element': '--co-primary-element:--co-text-accent',
-		'--color-primary-element-light': '--co-primary-light:--co-primary-element-light',
+		'--color-primary-element-text': '--co-primary-text:--co-settings-btn-primary-text',
+		'--color-primary-element': '--co-primary-element:--co-text-accent:--co-settings-btn-primary',
+		'--color-primary-element-light': '--co-primary-light:--co-primary-element-light:--co-settings-btn-light',
 		'--color-error': '--co-color-error',
 		'--color-warning': '--co-color-warning',
 		'--color-success': '--co-color-success',
@@ -61,18 +62,31 @@ const generateCSSVarTokens = () => {
 		'--color-loading-light': '--co-loading-light',
 		'--color-loading-dark': '--co-loading-dark',
 		'--color-box-shadow': '--co-box-shadow',
-		'--color-border': '--co-border',
-		'--color-border-dark': '--co-border-dark',
+		'--color-border': '--co-border:--co-settings-border',
+		'--color-border-dark': '--co-border-dark:--co--settings-border-contrast',
 		'--border-radius-pill': '--co-border-radius-pill',
+		'--color-primary-element-light-text': '--co-settings-btn-light-text',
+		'--color-main-text': '--co-settings-text',
+		'--color-text-maxcontrast': '--co-settings-text-maxcontrast',
+		'--color-main-background': '--co-settings-background',
+		'--color-background-hover': '--co-settings-background-hover',
 	}
 	let str = ''
 	const lightElement = createDataThemeDiv('div', 'light')
+	const darkElement = createDataThemeDiv('div', 'dark')
+	let selectedElement = lightElement
+
+	// Note: To style the iframe properly, we send appropriate CSS variables based on the current theme.
+	// For example, if the current theme is dark, we send values corresponding to the dark theme.
+	if (isSettingIframe) {
+		selectedElement = getUITheme() === 'dark' ? darkElement : lightElement
+	}
 	try {
 		for (const cssVarKey in cssVarMap) {
-			let cStyle = window.getComputedStyle(lightElement).getPropertyValue(cssVarKey)
+			let cStyle = window.getComputedStyle(selectedElement).getPropertyValue(cssVarKey)
 			if (!cStyle) {
 				// try suffix -dark instead
-				cStyle = window.getComputedStyle(lightElement).getPropertyValue(cssVarKey + '-dark')
+				cStyle = window.getComputedStyle(selectedElement).getPropertyValue(cssVarKey + '-dark')
 			}
 			if (!cStyle) continue // skip if it is not set
 			const varNames = cssVarMap[cssVarKey].split(':')
@@ -84,8 +98,11 @@ const generateCSSVarTokens = () => {
 		// Skip extracting css vars if we cannot access parent
 	}
 
-	// New dark mode compatible way to hand over our Nextcloud variables in both light/dark to Collabora
-	const darkElement = createDataThemeDiv('div', 'dark')
+	if (isSettingIframe) {
+		lightElement.remove()
+		darkElement.remove()
+		return str.replace(/["']/g, '\\\'')
+	}
 
 	const handover = [
 		'--color-main-background',
