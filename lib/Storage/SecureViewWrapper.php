@@ -14,6 +14,7 @@ use OCA\Richdocuments\PermissionManager;
 use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IUserSession;
@@ -93,7 +94,12 @@ class SecureViewWrapper extends Wrapper {
 
 		$isSharedStorage = $storage->instanceOfStorage(ISharedStorage::class);
 		$mountNode = $this->rootFolder->get($storage->getMountPoint());
-		$node = $mountNode instanceof Folder ? $mountNode->get($path) : $mountNode;
+		try {
+			$node = $mountNode instanceof Folder ? $mountNode->get($path) : $mountNode;
+		} catch (NotFoundException $e) {
+			// If the file is just created we may need to check the parent as this is only just about figuring out if it is a share
+			$node = $mountNode->get(dirname($path));
+		}
 		$share = $isSharedStorage ? $node->getStorage()->getShare() : null;
 		$userId = $this->userSession->getUser()?->getUID();
 
