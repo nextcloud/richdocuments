@@ -65,7 +65,9 @@ class ConnectivityService {
 		$callbackUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
 
 		try {
-			$result = $client->post($url, ['body' => json_encode(['callbackUrl' => $callbackUrl . '/status.php']), 'headers' => ['Content-Type' => 'application/json']]);
+			$result = $client->post($url, array_merge(RemoteOptionsService::getDefaultOptions(), [
+				'body' => json_encode(['callbackUrl' => $callbackUrl . '/status.php']), 'headers' => ['Content-Type' => 'application/json']
+			]));
 		} catch (ClientException $e) {
 			$result = $e->getResponse();
 		}
