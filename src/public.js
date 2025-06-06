@@ -5,8 +5,8 @@ import {
 	isDocument,
 	isDownloadHidden,
 } from './helpers/index.js'
-import { getCurrentUser } from '@nextcloud/auth'
 import NewFileMenu from './view/NewFileMenu.js'
+import { loadState } from '@nextcloud/initial-state'
 
 const optionalMimetypes = getCapabilities().richdocuments.mimetypesNoDefaultOpen
 
@@ -15,10 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		return
 	}
 
-	const userGroups = getCurrentUser()?.groups || []
-	const editGroups = getCapabilities().richdocuments.config.edit_groups || []
-	const editGroupsArray = Array.isArray(editGroups) ? editGroups : [editGroups]
-	const userInEditGroups = editGroupsArray.some(group => userGroups.includes(group))
+	const userInEditGroups = loadState('richdocuments', 'userInEditGroups', true)
 
 	if (OCA.Files && OCA.Files.fileActions && userInEditGroups) {
 		OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
