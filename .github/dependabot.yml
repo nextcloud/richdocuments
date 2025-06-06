@@ -13,9 +13,6 @@ updates:
   labels:
     - "3. to review"
     - "dependencies"
-  reviewers:
-    - juliusknorr
-    - elzody
 
 - package-ecosystem: composer
   directory: "/"
@@ -29,9 +26,6 @@ updates:
   labels:
     - "3. to review"
     - "dependencies"
-  reviewers:
-    - juliusknorr
-    - elzody
 
 - package-ecosystem: composer
   directory: "/tests"
@@ -43,9 +37,6 @@ updates:
   labels:
     - "3. to review"
     - "dependencies"
-  reviewers:
-    - juliusknorr
-    - elzody
   open-pull-requests-limit: 10
 
 - package-ecosystem: npm
@@ -59,9 +50,6 @@ updates:
   labels:
     - "3. to review"
     - "dependencies"
-  reviewers:
-    - juliusknorr
-    - elzody
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
@@ -79,9 +67,6 @@ updates:
   labels:
     - "3. to review"
     - "dependencies"
-  reviewers:
-    - juliusknorr
-    - elzody
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
@@ -99,9 +84,6 @@ updates:
   labels:
     - "3. to review"
     - "dependencies"
-  reviewers:
-    - juliusknorr
-    - elzody
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
