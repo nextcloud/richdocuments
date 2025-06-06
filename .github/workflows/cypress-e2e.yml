@@ -137,7 +137,8 @@ jobs:
           php -f index.php
           PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:8081 &
 
-          curl -v http://localhost:8081/status.php
+          sleep 10
+          curl -v http://172.17.0.1:8081/status.php
 
           export OC_PASS=1234561
           php occ user:add --password-from-env user1
