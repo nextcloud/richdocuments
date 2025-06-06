@@ -42,8 +42,11 @@ class ShareLinkListener implements \OCP\EventDispatcher\IEventListener {
 		$loggedInUser = $this->permissionManager->loggedInUser();
 
 		if ($this->permissionManager->isEnabledForUser($owner)) {
+			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
+			$updatable = $updatable && $this->permissionManager->userCanEdit($owner);
+			
 			$this->initialStateService->prepareParams(['userId' => $loggedInUser]);
-			$this->initialStateService->provideCapabilities();
+			$this->initialStateService->providePublicShare($updatable);
 
 			Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
 			Util::addScript('richdocuments', 'richdocuments-public', 'viewer');
