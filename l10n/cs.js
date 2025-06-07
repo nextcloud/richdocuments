@@ -158,7 +158,7 @@ OC.L10N.register(
     "For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office, installing their proprietary fonts can be done following the documentation." : "Pro lepší kompatibilitu dokumentů doporučujeme nainstalovat nejběžněji používaná písma. Pokud uživatelé pracují s Microsoft Office, instalaci proprietárních písem z nich je možné provést pomocí dokumentace.",
     "Custom fonts documentation" : "Dokumentace k uživatelsky určeným písmům",
     "Secure View" : "Zabezpečené zobrazení",
-    "Secure view enables you to secure office documents by blocking downloads, previews and showing a watermark" : "Zabezpečené zobrazení vám umožňuje zabezpečit dokumenty office tak, že zablokuje stahování, plnohodnotné náhledy a přidáním vodoznaku.",
+    "Secure view enables you to secure office documents by blocking downloads, previews and showing a watermark" : "Zabezpečené zobrazení vám umožňuje zabezpečit kancelářské dokumenty tak, že zablokuje stahování, plnohodnotné náhledy a přidáním vodoznaku.",
     "The settings only apply to compatible office files that are opened in Nextcloud Office" : "Nastavení budou uplatňována pouze na kompatibilní soubory kancelářských aplikací, které jsou otevírány v Nextcloud Office",
     "Downloading the file through WebDAV will be blocked" : "Stahování souboru přes WebDAV bude zakázáno",
     "The following options within Nextcloud Office will be disabled: Copy, Download, Export, Print" : "Budou vypnuty následující možnosti v Nextcloud Office: Zkopírovat, Stáhnout, Exportovat, Tisk",
