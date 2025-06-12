@@ -72,7 +72,7 @@ class RemoteService {
 	 * @param resource $stream
 	 * @return resource|string
 	 */
-	public function convertTo(string $filename, $stream, string $format, bool $sendFilename = false) {
+	public function convertTo(string $filename, $stream, string $format, ?array $conversionOptions = []) {
 		$client = $this->clientService->newClient();
 		$options = RemoteOptionsService::getDefaultOptions();
 		// FIXME: can be removed once https://github.com/CollaboraOnline/online/issues/6983 is fixed upstream
@@ -82,11 +82,13 @@ class RemoteService {
 			$options['verify'] = false;
 		}
 
-		$options['multipart'] = [['name' => $filename, 'contents' => $stream]];
-		// collabora does not want to read the input if there is no filename (for csv content for example)
-		if ($sendFilename) {
-			$options['multipart'][0]['filename'] = $filename;
-		}
+		$options['multipart'] = [
+			array_merge([
+				'name' => $filename,
+				'filename' => $filename,
+				'contents' => $stream
+			], $conversionOptions),
+		];
 
 		try {
 			$response = $client->post($this->appConfig->getCollaboraUrlInternal() . '/cool/convert-to/' . $format, $options);

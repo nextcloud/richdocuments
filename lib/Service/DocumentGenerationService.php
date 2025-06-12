@@ -48,7 +48,7 @@ EOF;
 		$converter = new GithubFlavoredMarkdownConverter();
 		$htmlContent = $converter->convert($markdownContent)->getContent();
 		$htmlStream = $this->stringToStream($htmlContent);
-		$docxContent = $this->remoteService->convertTo('document.html', $htmlStream, $targetFormat, true);
+		$docxContent = $this->remoteService->convertTo('document.html', $htmlStream, $targetFormat);
 
 		return $docxContent;
 	}
@@ -58,7 +58,19 @@ EOF;
 		$taskInput = $prompt . "\n\n" . $description;
 		$csvContent = $this->runTextToTextTask($taskInput, $userId);
 		$csvStream = $this->stringToStream($csvContent);
-		$xlsxContent = $this->remoteService->convertTo('document.csv', $csvStream, $targetFormat, true);
+
+		// Passing these will ensure the CSV is correctly
+		// parsed into a spreadsheet
+		$conversionOptions = [
+			// Sets the input filter to use the following:
+			//      44 - , (comma) as the field separator
+			//      34 - " (double quote) as the text delimiter
+			//      76 - UTF-8 as the character set
+			//       1 - Start at line one of the input
+			'infilterOptions' => '44,34,76,1',
+		];
+
+		$xlsxContent = $this->remoteService->convertTo('document.csv', $csvStream, $targetFormat, $conversionOptions);
 
 		return $xlsxContent;
 	}
