@@ -7,7 +7,7 @@ import { loadState } from '@nextcloud/initial-state'
 
 const getUIDefaults = () => {
 	const defaults = loadState('richdocuments', 'uiDefaults', {})
-	const statusBar = 'false'
+	const statusBar = 'true'
 	const textRuler = 'false'
 	const sidebar = 'false'
 	const saveAsMode = 'group'
@@ -16,7 +16,7 @@ const getUIDefaults = () => {
 	let uiDefaults = 'TextRuler=' + textRuler + ';'
 	uiDefaults += 'TextSidebar=' + sidebar + ';TextStatusbar=' + statusBar + ';'
 	uiDefaults += 'PresentationSidebar=' + sidebar + ';PresentationStatusbar=' + statusBar + ';'
-	uiDefaults += 'SpreadsheetSidebar=' + sidebar + ';SpreadsheetStatusbar=true;'
+	uiDefaults += 'SpreadsheetSidebar=' + sidebar + ';SpreadsheetStatusbar=' + statusBar + ';'
 	uiDefaults += 'UIMode=' + uiMode + ';'
 	uiDefaults += 'UITheme=' + getUITheme() + ';'
 	uiDefaults += 'SaveAsMode=' + saveAsMode + ';'
