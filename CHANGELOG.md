@@ -4,6 +4,14 @@
 -->
 # Changelog
 
+## 8.7.1
+
+### Fixed
+
+- fix: Avoid failing on fopen for NonExistingFiles [#4830](https://github.com/nextcloud/richdocuments/pull/4830)
+- feat(setting): add dark/light iframe CSS vars [#4813](https://github.com/nextcloud/richdocuments/pull/4813)
+- fix: allow document creation only for users that can edit [#4847](https://github.com/nextcloud/richdocuments/pull/4847)
+
 ## 8.7.0
 
 ### Added
