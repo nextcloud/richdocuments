@@ -39,6 +39,7 @@ class AppConfig {
 		'watermark_allTagsList' => [],
 		'watermark_linkTagsList' => [],
 		'token_ttl' => 36000, // 10 hours
+		'doc_format' => 'ooxml',
 	];
 
 	public const WATERMARK_APP_NAMESPACE = 'files';

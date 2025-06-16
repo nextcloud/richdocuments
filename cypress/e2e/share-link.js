@@ -10,6 +10,7 @@ const otherUser = new User(randHash(), randHash())
 
 describe.skip('Public sharing of office documents', () => {
 	before(function() {
+		cy.nextcloudTestingAppConfigSet('richdocuments', 'doc_format', '')
 		cy.createUser(shareOwner)
 		cy.createUser(otherUser)
 
