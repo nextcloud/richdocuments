@@ -19,8 +19,7 @@
 			</h3>
 
 			<p>
-				{{ t('richdocuments', `Please enter the guest name you wish to use before proceeding to the document.
-                               If you don\'t provide one, the default will be used.`) }}
+				{{ t('richdocuments', 'Please enter the guest name you wish to use before proceeding to the document. If you don\'t provide one, the default will be used.') }}
 			</p>
 
 			<fieldset>
