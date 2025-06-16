@@ -118,6 +118,7 @@
     "Zotero API key" : "API ключ на Zotero",
     "Submit" : "Изпращане",
     "Select a personal template folder" : "Изберете лична папка с шаблони",
+    "Personal Settings for Nextcloud Office" : "Лични настройки за Nextcloud Office",
     "Select a template directory" : "Изберете директория за шаблоните",
     "Remove personal template folder" : "Премахване на личната папка с шаблони",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Шаблоните в тази директория ще бъдат добавени към селектора на шаблони на Nextcloud Office.",
