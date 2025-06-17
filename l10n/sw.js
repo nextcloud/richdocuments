@@ -11,6 +11,7 @@ OC.L10N.register(
     "Could not write file to disk" : "Haikuweza kuandika faili kwenye disk",
     "A PHP extension stopped the file upload" : "Uongezaji wa PHP umesimamisha upakiaji wa faili",
     "No file uploaded or file size exceeds maximum of %s" : "Hakuna faili lililopakiwa au faili lilizidi kiwango cha juu cha %s",
+    "New" : "Mpya",
     "Select groups" : "Chagua makundi",
     "Save" : "Hifadhi",
     "Confirm" : "Thibitisha",
@@ -22,6 +23,10 @@ OC.L10N.register(
     "Loading {filename} …" : "inapakia {filename}",
     "Close" : "Funga",
     "Edit" : "Hariri",
+    "Open file locally" : "Fungua faili kikawaida",
+    "Open locally" : "Fungua kikawaida",
+    "Remove from favorites" : "Ondoa kutoka katika pendwa",
+    "Add to favorites" : "Ongeza kwenye pendwa",
     "Details" : "Maelezo ya kina",
     "Download" : "Pakua",
     "An error occurred" : "Hitilafu imetokea"
