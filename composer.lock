@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ecd4184c5675ba7be1690966d8a4d3d0",
+    "content-hash": "73880de05a108622ebafd7585421ee8d",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -609,16 +609,16 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.5.1",
+            "version": "v3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6"
+                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6",
-                "reference": "74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/63afe740e99a13ba87ec199bb07bbdee937a5b62",
+                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62",
                 "shasum": ""
             },
             "require": {
@@ -631,7 +631,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.5-dev"
+                    "dev-main": "3.6-dev"
                 }
             },
             "autoload": {
@@ -656,7 +656,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.5.1"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.6.0"
             },
             "funding": [
                 {
@@ -672,7 +672,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-25T14:20:29+00:00"
+            "time": "2024-09-25T14:21:43+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -938,16 +938,16 @@
         },
         {
             "name": "kubawerlos/php-cs-fixer-custom-fixers",
-            "version": "v3.22.0",
+            "version": "v3.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers.git",
-                "reference": "8701394f0c7cd450ac4fa577d24589122c1d5d5e"
+                "reference": "d860473d16b906c7945206177edc7d112357a706"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kubawerlos/php-cs-fixer-custom-fixers/zipball/8701394f0c7cd450ac4fa577d24589122c1d5d5e",
-                "reference": "8701394f0c7cd450ac4fa577d24589122c1d5d5e",
+                "url": "https://api.github.com/repos/kubawerlos/php-cs-fixer-custom-fixers/zipball/d860473d16b906c7945206177edc7d112357a706",
+                "reference": "d860473d16b906c7945206177edc7d112357a706",
                 "shasum": ""
             },
             "require": {
@@ -957,7 +957,7 @@
                 "php": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.6.4 || ^10.5.29"
+                "phpunit/phpunit": "^9.6.22 || 10.5.45 || ^11.5.7"
             },
             "type": "library",
             "autoload": {
@@ -978,9 +978,15 @@
             "description": "A set of custom fixers for PHP CS Fixer",
             "support": {
                 "issues": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/issues",
-                "source": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/tree/v3.22.0"
+                "source": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/tree/v3.27.0"
             },
-            "time": "2024-08-16T20:44:35+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/kubawerlos",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-06-10T20:53:07+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1044,21 +1050,21 @@
         },
         {
             "name": "nextcloud/coding-standard",
-            "version": "v1.3.2",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud/coding-standard.git",
-                "reference": "9c719c4747fa26efc12f2e8b21c14a9a75c6ba6d"
+                "reference": "8e06808c1423e9208d63d1bd205b9a38bd400011"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud/coding-standard/zipball/9c719c4747fa26efc12f2e8b21c14a9a75c6ba6d",
-                "reference": "9c719c4747fa26efc12f2e8b21c14a9a75c6ba6d",
+                "url": "https://api.github.com/repos/nextcloud/coding-standard/zipball/8e06808c1423e9208d63d1bd205b9a38bd400011",
+                "reference": "8e06808c1423e9208d63d1bd205b9a38bd400011",
                 "shasum": ""
             },
             "require": {
                 "kubawerlos/php-cs-fixer-custom-fixers": "^3.22",
-                "php": "^7.3|^8.0",
+                "php": "^8.0",
                 "php-cs-fixer/shim": "^3.17"
             },
             "type": "library",
@@ -1078,11 +1084,14 @@
                 }
             ],
             "description": "Nextcloud coding standards for the php cs fixer",
+            "keywords": [
+                "dev"
+            ],
             "support": {
                 "issues": "https://github.com/nextcloud/coding-standard/issues",
-                "source": "https://github.com/nextcloud/coding-standard/tree/v1.3.2"
+                "source": "https://github.com/nextcloud/coding-standard/tree/v1.4.0"
             },
-            "time": "2024-10-14T16:49:05+00:00"
+            "time": "2025-06-19T12:27:27+00:00"
         },
         {
             "name": "nextcloud/ocp",
@@ -1311,16 +1320,16 @@
         },
         {
             "name": "php-cs-fixer/shim",
-            "version": "v3.64.0",
+            "version": "v3.75.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/shim.git",
-                "reference": "81ccfd24baf3a10810dab1152c403981a790b837"
+                "reference": "eea219a577085bd13ff0cb644a422c20798316c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/81ccfd24baf3a10810dab1152c403981a790b837",
-                "reference": "81ccfd24baf3a10810dab1152c403981a790b837",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/eea219a577085bd13ff0cb644a422c20798316c7",
+                "reference": "eea219a577085bd13ff0cb644a422c20798316c7",
                 "shasum": ""
             },
             "require": {
@@ -1357,9 +1366,9 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/shim/issues",
-                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.64.0"
+                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.75.0"
             },
-            "time": "2024-08-30T23:10:11+00:00"
+            "time": "2025-03-31T18:45:02+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -3810,8 +3819,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "nextcloud/ocp": 20,
-        "roave/security-advisories": 20
+        "roave/security-advisories": 20,
+        "nextcloud/ocp": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
@@ -3819,9 +3828,9 @@
         "ext-json": "*",
         "ext-simplexml": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
