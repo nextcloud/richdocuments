@@ -413,7 +413,7 @@ class TemplateManager {
 	 * @return array
 	 */
 	public function formatNodeReturn(File $template) {
-		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', '') === 'ooxml';
+		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', 'ooxml') === 'ooxml';
 		$documentType = $this->flipTypes()[$template->getMimeType()];
 		return [
 			'id' => $template->getId(),
@@ -442,7 +442,7 @@ class TemplateManager {
 	}
 
 	public function formatEmpty(File $template) {
-		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', '') === 'ooxml';
+		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', 'ooxml') === 'ooxml';
 		$documentType = $this->flipTypes()[$template->getMimeType()];
 		return [
 			'id' => $template->getId(),
