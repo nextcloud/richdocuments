@@ -52,6 +52,7 @@ OC.L10N.register(
     "Confirm" : "Confirmar",
     "Cancel" : "Cancelar",
     "Save As" : "Guardar como",
+    "Save as" : "Save as",
     "Select template" : "Selecionar modelo",
     "File name" : "Nome do ficheiro",
     "Create" : "Criar",
