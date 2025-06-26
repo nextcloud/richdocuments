@@ -38,6 +38,7 @@ class BeforeFetchPreviewListener implements IEventListener {
 		}
 		$shareToken = $this->request->getParam('token');
 
+		$share = null;
 		try {
 			$share = $shareToken ?
 				// Get different share for public previews as the share from the node is only set for mounted shares
