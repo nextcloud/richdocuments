@@ -302,6 +302,8 @@
     "Set" : "Nastavit",
     "Please enter the filename to store the document as." : "Zadejte název souboru ve kterém dokument uchovávat.",
     "New filename" : "Název souboru",
+    "Collabora Online is not setup yet. Please contact your administrator." : "Collabora Online zatím ještě není nastavena. Obraťte se na svého správce systému.",
+    "Opening the file is not supported, since the credentials for the external storage are not available without a session" : "Otevírání souborů není podporováno, protože přihlašovací údaje pro externí úložiště nejsou bez relace k dispozici",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nepodařilo se připojit k {productName}. Zkuste to prosím znovu později nebo se obraťte na správce serveru.",
     "Saving…" : "Ukládání…",
     "Insert from {name}" : "Vložit z {name}",
