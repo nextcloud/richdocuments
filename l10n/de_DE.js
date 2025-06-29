@@ -304,6 +304,8 @@ OC.L10N.register(
     "Set" : "Setzen",
     "Please enter the filename to store the document as." : "Bitte den Dateinamen, unter welchem dieses Dokument gespeichert werden soll, eingeben.",
     "New filename" : "Neuer Dateiname",
+    "Collabora Online is not setup yet. Please contact your administrator." : "Collabora Online ist noch nicht eingerichtet. Bitte die Administration kontaktieren.",
+    "Opening the file is not supported, since the credentials for the external storage are not available without a session" : "Das Öffnen der Datei wird nicht unterstützt, da die Anmeldeinformationen für den externen Speicher ohne eine Sitzung nicht verfügbar sind",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Fehler beim Verbinden mit {productName}. Bitte versuchen Sie es noch einmal oder kontaktieren Sie Ihre Administration.",
     "Saving…" : "Speichere…",
     "Insert from {name}" : "Einfügen von {name}",
