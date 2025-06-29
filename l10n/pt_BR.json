@@ -302,6 +302,8 @@
     "Set" : "Definir",
     "Please enter the filename to store the document as." : "Entre com o nome do arquivo a salvar.",
     "New filename" : "Novo nome de arquivo",
+    "Collabora Online is not setup yet. Please contact your administrator." : "O Collabora Online ainda não está configurado. Entre em contato com seu administrador.",
+    "Opening the file is not supported, since the credentials for the external storage are not available without a session" : "Não há suporte para a abertura do arquivo, pois as credenciais do armazenamento externo não estão disponíveis sem uma sessão",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Falha ao conectar-se a {productName}. Tente novamente mais tarde ou entre em contato com o administrador do servidor.",
     "Saving…" : "Salvando...",
     "Insert from {name}" : "Inserir de {name}",
