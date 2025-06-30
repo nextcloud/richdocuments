@@ -304,6 +304,8 @@ OC.L10N.register(
     "Set" : "設定",
     "Please enter the filename to store the document as." : "請輸入檔案名稱來儲存文件。",
     "New filename" : "新檔案名稱",
+    "Collabora Online is not setup yet. Please contact your administrator." : "Collabora Online 尚未設置。請聯絡管理員。",
+    "Opening the file is not supported, since the credentials for the external storage are not available without a session" : "無法打開該檔案，因為在沒有連接節的情況下無法獲取外部存儲的憑據。",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "連線到 {productName} 失敗。請稍後再試或聯絡您的伺服器管理員。",
     "Saving…" : "儲存中...",
     "Insert from {name}" : "從 {name} 插入",
