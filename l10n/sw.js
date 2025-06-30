@@ -32,6 +32,7 @@ OC.L10N.register(
     "Details" : "Maelezo ya kina",
     "Download" : "Pakua",
     "Error" : "Hitilafu",
-    "An error occurred" : "Hitilafu imetokea"
+    "An error occurred" : "Hitilafu imetokea",
+    "Set" : "Imetumwa"
 },
 "nplurals=2; plural=(n != 1);");
