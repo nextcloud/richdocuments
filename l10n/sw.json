@@ -14,6 +14,7 @@
     "New" : "Mpya",
     "Select groups" : "Chagua makundi",
     "Save" : "Hifadhi",
+    "Remove" : "Ondoa",
     "Confirm" : "Thibitisha",
     "Cancel" : "Cancel",
     "Create" : "Tengeneza",
@@ -29,7 +30,9 @@
     "Add to favorites" : "Ongeza kwenye pendwa",
     "Details" : "Maelezo ya kina",
     "Download" : "Pakua",
+    "Guest" : "Mgeni",
     "Error" : "Hitilafu",
-    "An error occurred" : "Hitilafu imetokea"
+    "An error occurred" : "Hitilafu imetokea",
+    "Set" : "Imetumwa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

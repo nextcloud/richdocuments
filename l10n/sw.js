@@ -16,6 +16,7 @@ OC.L10N.register(
     "New" : "Mpya",
     "Select groups" : "Chagua makundi",
     "Save" : "Hifadhi",
+    "Remove" : "Ondoa",
     "Confirm" : "Thibitisha",
     "Cancel" : "Cancel",
     "Create" : "Tengeneza",
@@ -31,7 +32,9 @@ OC.L10N.register(
     "Add to favorites" : "Ongeza kwenye pendwa",
     "Details" : "Maelezo ya kina",
     "Download" : "Pakua",
+    "Guest" : "Mgeni",
     "Error" : "Hitilafu",
-    "An error occurred" : "Hitilafu imetokea"
+    "An error occurred" : "Hitilafu imetokea",
+    "Set" : "Imetumwa"
 },
 "nplurals=2; plural=(n != 1);");
