@@ -302,6 +302,8 @@
     "Set" : "設定",
     "Please enter the filename to store the document as." : "請輸入檔案名稱來儲存文件。",
     "New filename" : "新檔案名稱",
+    "Collabora Online is not setup yet. Please contact your administrator." : "尚未設定好 Collabora Online。請聯絡您的管理員。",
+    "Opening the file is not supported, since the credentials for the external storage are not available without a session" : "不支援開啟檔案，因為在沒有工作階段的情況下無法取得外部儲存空間的憑證。",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "連線到 {productName} 失敗。請稍後再試或聯絡您的伺服器管理員。",
     "Saving…" : "儲存中...",
     "Insert from {name}" : "從 {name} 插入",
