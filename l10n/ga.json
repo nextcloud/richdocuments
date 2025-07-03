@@ -302,6 +302,8 @@
     "Set" : "Socraigh",
     "Please enter the filename to store the document as." : "Cuir isteach ainm an chomhaid chun an doiciméad a stóráil mar.",
     "New filename" : "Ainm comhaid nua",
+    "Collabora Online is not setup yet. Please contact your administrator." : "Níl Collabara Online socraithe fós. Téigh i dteagmháil le do riarthóir.",
+    "Opening the file is not supported, since the credentials for the external storage are not available without a session" : "Ní thacaítear leis an gcomhad a oscailt, ós rud é nach bhfuil na dintiúir don stóráil sheachtrach ar fáil gan seisiún",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Theip ar nascadh le {productName}. Bain triail eile as ar ball le do thoil nó déan teagmháil le riarthóir do fhreastalaí.",
     "Saving…" : "Shábháil…",
     "Insert from {name}" : "Ionsáigh ó {name}",
