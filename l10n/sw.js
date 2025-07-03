@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "File already exists" : "Faili lipo tayari",
+    "Saved" : "Imehifadhiwa",
     "The file was uploaded" : "Faili lilipakiwa",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Faili lililopakiwa linazidi kiwango cha juu cha ukubwa wa faili linalielekea katika php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Faili iliyopakiliwa imezidi kiwango cha ukubwa wa faili iliyoelekezwa maalum katika fomu ya HTML",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "No file uploaded or file size exceeds maximum of %s" : "Hakuna faili lililopakiwa au faili lilizidi kiwango cha juu cha %s",
     "File is too big" : "Faili ni kubwa mno",
     "Invalid file provided" : "Faili iliyotolewa si halali",
+    "Images" : "Picha",
     "New" : "Mpya",
     "Select groups" : "Chagua makundi",
     "Save" : "Hifadhi",
