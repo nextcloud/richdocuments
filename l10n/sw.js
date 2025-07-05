@@ -18,6 +18,7 @@ OC.L10N.register(
     "Images" : "Picha",
     "Instructions" : "Maelekezo",
     "New" : "Mpya",
+    "Failed to save settings" : "Failed to save settings",
     "Select groups" : "Chagua makundi",
     "Save" : "Hifadhi",
     "Remove" : "Ondoa",
