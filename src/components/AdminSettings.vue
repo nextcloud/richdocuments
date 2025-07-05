@@ -532,6 +532,7 @@ export default {
 				fonts: [],
 				hasSettingIframeSupport: false,
 				setting_iframe_url: '',
+				doc_format: null,
 			},
 			accessToken: '',
 			accessTokenTTL: '',

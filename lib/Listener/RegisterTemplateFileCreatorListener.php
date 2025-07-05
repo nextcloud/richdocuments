@@ -39,7 +39,7 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 		}
 
 		$templateManager = $event->getTemplateManager();
-		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', '') === 'ooxml';
+		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', 'ooxml') === 'ooxml';
 		$appPath = $this->appManager->getAppPath('richdocuments');
 
 		$templateManager->registerTemplateFileCreator(function () use ($ooxml, $appPath) {

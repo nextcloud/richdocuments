@@ -11,6 +11,7 @@ describe('Talk integraiton integration', function() {
 		cy.nextcloudTestingAppConfigSet('files', 'watermark_text', '{userId}')
 		cy.nextcloudTestingAppConfigSet('files', 'watermark_shareTalkPublic', 'no')
 		cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'notebookbar')
+		cy.nextcloudTestingAppConfigSet('richdocuments', 'doc_format', '')
 	}
 
 	before(function() {
