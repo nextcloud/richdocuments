@@ -38,6 +38,7 @@
     "Guest" : "Mgeni",
     "Error" : "Hitilafu",
     "An error occurred" : "Hitilafu imetokea",
-    "Set" : "Imetumwa"
+    "Set" : "Imetumwa",
+    "Saving…" : "Inahifadhi..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

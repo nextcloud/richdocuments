@@ -40,6 +40,7 @@ OC.L10N.register(
     "Guest" : "Mgeni",
     "Error" : "Hitilafu",
     "An error occurred" : "Hitilafu imetokea",
-    "Set" : "Imetumwa"
+    "Set" : "Imetumwa",
+    "Saving…" : "Inahifadhi..."
 },
 "nplurals=2; plural=(n != 1);");
