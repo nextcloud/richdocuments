@@ -92,7 +92,13 @@ class RemoteService {
 
 		try {
 			$response = $client->post($this->appConfig->getCollaboraUrlInternal() . '/cool/convert-to/' . $format, $options);
-			return $response->getBody();
+			$body = $response->getBody();
+
+			if (is_null($body)) {
+				throw new \Exception('Empty response from Collabora server');
+			}
+
+			return $body;
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to convert preview: ' . $e->getMessage(), ['exception' => $e]);
 			throw $e;
@@ -190,7 +196,13 @@ class RemoteService {
 				$options
 			);
 
-			return $response->getBody();
+			$body = $response->getBody();
+
+			if (is_null($body)) {
+				throw new \Exception('Empty response from Collabora server');
+			}
+
+			return $body;
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage());
 			throw $e;
