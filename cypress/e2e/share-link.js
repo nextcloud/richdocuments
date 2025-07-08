@@ -8,7 +8,7 @@ import { randHash } from '../utils/index.js'
 const shareOwner = new User(randHash(), randHash())
 const otherUser = new User(randHash(), randHash())
 
-describe.skip('Public sharing of office documents', () => {
+describe('Public sharing of office documents', () => {
 	before(function() {
 		cy.createUser(shareOwner)
 		cy.createUser(otherUser)
