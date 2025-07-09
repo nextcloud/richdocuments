@@ -19,6 +19,7 @@ OC.L10N.register(
     "Instructions" : "Maelekezo",
     "New" : "Mpya",
     "Failed to save settings" : "Failed to save settings",
+    "Advanced settings" : "Mipangilio ya kiwangi cha juu",
     "Select groups" : "Chagua makundi",
     "Save" : "Hifadhi",
     "Remove" : "Ondoa",
