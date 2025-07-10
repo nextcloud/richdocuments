@@ -302,6 +302,8 @@
     "Set" : "Постави",
     "Please enter the filename to store the document as." : "Унесите име фајла како желите да документ буде сачуван.",
     "New filename" : "Ново име фајла",
+    "Collabora Online is not setup yet. Please contact your administrator." : "Collabora Online још увек није подешена. Молимо вас да се обратите администратору.",
+    "Opening the file is not supported, since the credentials for the external storage are not available without a session" : "Пошто подаци за пријаву на спољно складиште нису доступни без сесије, отварање фајла се не подржава",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Не могу да се повежем на {productName}. Покушајте касније или контактирајте администратора.",
     "Saving…" : "Снимам…",
     "Insert from {name}" : "Убаци из {name}",
