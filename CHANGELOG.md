@@ -4,6 +4,19 @@
 -->
 # Changelog
 
+## 8.7.2
+
+### Fixed
+* Show statusbar by default for all doc types by @pedropintosilva in [#4850](https://github.com/nextcloud/richdocuments/pull/4850)
+* Missing translation of guest name dialog by @nickvergessen in [#4860](https://github.com/nextcloud/richdocuments/pull/4860)
+* Undefined share for preview by @elzody in [#4869](https://github.com/nextcloud/richdocuments/pull/4869)
+* Create new files on public pages for 31+ by @juliusknorr in [#4885](https://github.com/nextcloud/richdocuments/pull/4885)
+
+### Other
+* Bump `cypress-split` from 1.24.17 to 1.24.18 [#4854](https://github.com/nextcloud/richdocuments/pull/4854)
+* Update `nextcloud/ocp` dependency [#4864](https://github.com/nextcloud/richdocuments/pull/4864)
+* Update `nextcloud/ocp` dependency [#4880](https://github.com/nextcloud/richdocuments/pull/4880)
+
 ## 8.7.1
 
 ### Fixed
