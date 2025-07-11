@@ -41,7 +41,7 @@ EOF;
 	public function generateSlideDeck(?string $userId, string $presentationText) {
 		$rawModelOutput = $this->runLLMQuery($userId, $presentationText);
 
-		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', '') === 'ooxml';
+		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', 'ooxml') === 'ooxml';
 		$format = $ooxml ? 'pptx' : 'odp';
 		$emptyPresentation = $this->getBlankPresentation($format);
 

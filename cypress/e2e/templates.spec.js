@@ -9,6 +9,7 @@ describe('Global templates', function() {
 
 	let randUser
 	before(function() {
+		cy.nextcloudTestingAppConfigSet('richdocuments', 'doc_format', '')
 		cy.createRandomUser().then(user => {
 			randUser = user
 			cy.createFolder(randUser, 'Templates-user')
