@@ -24,7 +24,7 @@ class SlideDeckService {
 Draft a presentation slide deck with headlines and a maximum of 5 bullet points per headline. Use the following JSON structure for your whole output and output only the JSON array, no introductory text:
 
 ```
-[{"headline": "Headline 1", points: ["Bullet point 1", "Bullet point 2"]}, {"headline": "Headline 2", points: ["Bullet point 1", "Bullet point 2"]}]
+[{"headline": "Headline 1", "points": ["Bullet point 1", "Bullet point 2"]}, {"headline": "Headline 2", "points": ["Bullet point 1", "Bullet point 2"]}]
 ```
 
 Here is the presentation text:
