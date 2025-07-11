@@ -4,6 +4,23 @@
 -->
 # Changelog
 
+## 8.5.8
+
+### Fixed
+* Ensure edit permissions are checked before template file token generation by @printminion-co in [#4798](https://github.com/nextcloud/richdocuments/pull/4798)
+* Guest users inherit edit_group by @elzody in [#4831](https://github.com/nextcloud/richdocuments/pull/4831)
+* Allow document creation only for users that can edit by @tanyaka in [#4846](https://github.com/nextcloud/richdocuments/pull/4846)
+* Show statusbar by default for all doc types by @pedropintosilva in [#4849](https://github.com/nextcloud/richdocuments/pull/4849)
+* Missing translation of guest name dialog by @nickvergessen in [#4861](https://github.com/nextcloud/richdocuments/pull/4861)
+* Undefined share for preview by @elzody in [#4868](https://github.com/nextcloud/richdocuments/pull/4868)
+
+### Other
+
+* Dependency updates and NPM audits
+* Use nightly Collabora build for now by @elzody in [#4791](https://github.com/nextcloud/richdocuments/pull/4791)
+* Unit tests for RegisterTemplateFileCreatorListener by @printminion-co in [#4820](https://github.com/nextcloud/richdocuments/pull/4820)
+* Use `autoload.php` for unit tests by @elzody in [#4826](https://github.com/nextcloud/richdocuments/pull/4826)
+
 ## 8.5.7
 
 ### Fixed
