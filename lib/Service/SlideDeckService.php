@@ -130,27 +130,15 @@ EOF;
 			$userId
 		);
 
-		try {
-			$this->taskProcessingManager->scheduleTask($task);
-		} catch (PreConditionNotMetException|UnauthorizedException|ValidationException|Exception $e) {
-			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+		$task = $this->taskProcessingManager->runTask($task);
+		$taskOutput = $task->getOutput();
+		if ($taskOutput === null) {
+			throw new RuntimeException('Task with id ' . $task->getId() . ' does not have any output');
 		}
 
-		while (true) {
-			try {
-				$task = $this->taskProcessingManager->getTask($task->getId());
-			} catch (NotFoundException|Exception $e) {
-				throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
-			}
-			if (in_array($task->getStatus(), [Task::STATUS_SUCCESSFUL, Task::STATUS_FAILED, Task::STATUS_CANCELLED])) {
-				break;
-			}
-		}
+		/** @var string $taskOutputString */
+		$taskOutputString = $taskOutput['output'];
 
-		if ($task->getStatus() !== Task::STATUS_SUCCESSFUL) {
-			throw new RuntimeException('LLM backend Task with id ' . $task->getId() . ' failed or was cancelled');
-		}
-
-		return $task->getOutput()['output'];
+		return $taskOutputString;
 	}
 }
