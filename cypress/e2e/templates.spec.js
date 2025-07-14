@@ -5,13 +5,7 @@
 
 import { User } from "@nextcloud/cypress";
 
-describe('Testing', function() {
-	it('Passes', function() {
-		expect(2 + 2).to.equal(4)
-	})
-})
-
-describe.skip('Global templates', function() {
+describe('Global templates', function() {
 
 	let randUser
 	before(function() {
@@ -24,7 +18,7 @@ describe.skip('Global templates', function() {
 		})
 	})
 
-	it('Can be uploaded', function() {
+	it.skip('Can be uploaded', function() {
 		cy.intercept('POST', '**/richdocuments/template').as('templateUploadRequest')
 		cy.uploadSystemTemplate({
 			fixturePath: 'templates/presentation.otp',
@@ -39,7 +33,7 @@ describe.skip('Global templates', function() {
 		})
 	})
 
-	it('Can prevent uploading a duplicate', function() {
+	it.skip('Can prevent uploading a duplicate', function() {
 		cy.uploadSystemTemplate({
 			fixturePath: 'templates/presentation.otp',
 			fileName: 'systemtemplate.otp',
@@ -49,7 +43,7 @@ describe.skip('Global templates', function() {
 		cy.get('.toast-error').contains('Template "systemtemplate.otp" already exists').should('be.visible')
 	})
 
-	it('Can be deleted', function() {
+	it.skip('Can be deleted', function() {
 		cy.login(new User('admin', 'admin'))
 		cy.visit('/settings/admin/richdocuments')
 
@@ -65,7 +59,7 @@ describe.skip('Global templates', function() {
 		})
 	})
 
-	it('Can be created by a user', () => {
+	it.skip('Can be created by a user', () => {
 		cy.uploadSystemTemplate({
 			fixturePath: 'templates/presentation.otp',
 			fileName: 'systemtemplate.otp',
