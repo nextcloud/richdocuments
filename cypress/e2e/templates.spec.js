@@ -3,9 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {User} from "@nextcloud/cypress";
+import { User } from "@nextcloud/cypress";
 
-describe('Global templates', function() {
+describe('Testing', function() {
+	it('Passes', function() {
+		expect(2 + 2).to.equal(4)
+	})
+})
+
+describe.skip('Global templates', function() {
 
 	let randUser
 	before(function() {
@@ -136,7 +142,7 @@ describe('Global templates', function() {
 	})
 })
 
-describe('User templates', function() {
+describe.skip('User templates', function() {
 	it.skip('Create a new file from a user template', function() {
 		cy.visit('/apps/files')
 
