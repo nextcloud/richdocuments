@@ -209,6 +209,7 @@ class AppConfig {
 		return array_merge(
 			Capabilities::MIMETYPES,
 			Capabilities::MIMETYPES_MSOFFICE,
+			Capabilities::MIMETYPES_OPTIONAL,
 		);
 	}
 
