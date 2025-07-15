@@ -9,6 +9,10 @@ namespace OCA\Richdocuments\Service;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\TemplateManager;
 use OCP\IConfig;
+use OCP\TaskProcessing\Exception\Exception;
+use OCP\TaskProcessing\Exception\PreConditionNotMetException;
+use OCP\TaskProcessing\Exception\UnauthorizedException;
+use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\TextToText;
@@ -129,7 +133,11 @@ EOF;
 			$userId
 		);
 
-		$task = $this->taskProcessingManager->runTask($task);
+		try {
+			$task = $this->taskProcessingManager->runTask($task);
+		} catch (PreConditionNotMetException|UnauthorizedException|ValidationException|Exception $e) {
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+		}
 		$taskOutput = $task->getOutput();
 		if ($taskOutput === null) {
 			throw new RuntimeException('Task with id ' . $task->getId() . ' does not have any output');
