@@ -10,7 +10,6 @@ use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\TemplateManager;
 use OCP\IConfig;
 use OCP\TaskProcessing\Exception\Exception;
-use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
@@ -21,11 +20,14 @@ use RuntimeException;
 
 class SlideDeckService {
 	public const PROMPT = <<<EOF
-Draft a presentation slide deck with headlines and a maximum of 5 bullet points per headline. Use the following JSON structure for your whole output and output only the JSON array, no introductory text:
+Draft a presentation slide deck with headlines and a maximum of 5 bullet points per headline.
+Use the following JSON structure for your whole output and output only the JSON array:
 
 ```
 [{"headline": "Headline 1", "points": ["Bullet point 1", "Bullet point 2"]}, {"headline": "Headline 2", "points": ["Bullet point 1", "Bullet point 2"]}]
 ```
+
+Only output the JSON array. Do not wrap it with spaces, new lines or backticks (`).
 
 Here is the presentation text:
 EOF;
@@ -72,6 +74,7 @@ EOF;
 	 * @return array
 	 */
 	private function parseModelJSON(string $jsonString): array {
+		$jsonString = trim($jsonString, "` \n\r\t\v\0");
 		$modelJSON = json_decode(
 			$jsonString,
 			associative: true,
@@ -131,26 +134,18 @@ EOF;
 		);
 
 		try {
-			$this->taskProcessingManager->scheduleTask($task);
+			$task = $this->taskProcessingManager->runTask($task);
 		} catch (PreConditionNotMetException|UnauthorizedException|ValidationException|Exception $e) {
 			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
-
-		while (true) {
-			try {
-				$task = $this->taskProcessingManager->getTask($task->getId());
-			} catch (NotFoundException|Exception $e) {
-				throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
-			}
-			if (in_array($task->getStatus(), [Task::STATUS_SUCCESSFUL, Task::STATUS_FAILED, Task::STATUS_CANCELLED])) {
-				break;
-			}
+		$taskOutput = $task->getOutput();
+		if ($taskOutput === null) {
+			throw new RuntimeException('Task with id ' . $task->getId() . ' does not have any output');
 		}
 
-		if ($task->getStatus() !== Task::STATUS_SUCCESSFUL) {
-			throw new RuntimeException('LLM backend Task with id ' . $task->getId() . ' failed or was cancelled');
-		}
+		/** @var string $taskOutputString */
+		$taskOutputString = $taskOutput['output'];
 
-		return $task->getOutput()['output'];
+		return $taskOutputString;
 	}
 }

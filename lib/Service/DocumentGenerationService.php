@@ -11,7 +11,6 @@ use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\TaskProcessing\TextToDocumentProvider;
 use OCA\Richdocuments\TaskProcessing\TextToSpreadsheetProvider;
 use OCP\TaskProcessing\Exception\Exception;
-use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
@@ -83,32 +82,17 @@ EOF;
 			$userId,
 		);
 		try {
-			$this->taskProcessingManager->scheduleTask($task);
+			$task = $this->taskProcessingManager->runTask($task);
 		} catch (PreConditionNotMetException|UnauthorizedException|ValidationException|Exception $e) {
 			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
-		while (true) {
-			try {
-				$task = $this->taskProcessingManager->getTask($task->getId());
-				sleep(2);
-			} catch (NotFoundException|Exception $e) {
-				throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
-			}
-			if (in_array($task->getStatus(), [Task::STATUS_SUCCESSFUL, Task::STATUS_FAILED, Task::STATUS_CANCELLED])) {
-				break;
-			}
-		}
-		if ($task->getStatus() !== Task::STATUS_SUCCESSFUL) {
-			throw new RuntimeException('LLM backend Task with id ' . $task->getId() . ' failed or was cancelled');
-		}
-
-		$output = $task->getOutput();
-		if (!isset($output['output'])) {
-			throw new RuntimeException('LLM backend Task with id ' . $task->getId() . ' does not have output key');
+		$taskOutput = $task->getOutput();
+		if ($taskOutput === null) {
+			throw new RuntimeException('Task with id ' . $task->getId() . ' does not have any output');
 		}
 
 		/** @var string $taskOutputString */
-		$taskOutputString = $output['output'];
+		$taskOutputString = $taskOutput['output'];
 
 		return $taskOutputString;
 	}
