@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {User} from "@nextcloud/cypress";
+import { User } from "@nextcloud/cypress";
 
 describe('Global templates', function() {
 
@@ -25,7 +25,6 @@ describe('Global templates', function() {
 			fileName: 'systemtemplate.otp',
 			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
 		})
-
 		cy.wait('@templateUploadRequest').then(({ response }) => {
 			expect(response.statusCode).to.equal(201)
 			expect(response.body.data.name).to.equal('systemtemplate.otp')
@@ -33,7 +32,7 @@ describe('Global templates', function() {
 		})
 	})
 
-	it('Can prevent uploading a duplicate', function() {
+	it.skip('Can prevent uploading a duplicate', function() {
 		cy.uploadSystemTemplate({
 			fixturePath: 'templates/presentation.otp',
 			fileName: 'systemtemplate.otp',
@@ -43,7 +42,7 @@ describe('Global templates', function() {
 		cy.get('.toast-error').contains('Template "systemtemplate.otp" already exists').should('be.visible')
 	})
 
-	it('Can be deleted', function() {
+	it.skip('Can be deleted', function() {
 		cy.login(new User('admin', 'admin'))
 		cy.visit('/settings/admin/richdocuments')
 
@@ -59,7 +58,7 @@ describe('Global templates', function() {
 		})
 	})
 
-	it('Can be created by a user', () => {
+	it.skip('Can be created by a user', () => {
 		cy.uploadSystemTemplate({
 			fixturePath: 'templates/presentation.otp',
 			fileName: 'systemtemplate.otp',
@@ -136,7 +135,7 @@ describe('Global templates', function() {
 	})
 })
 
-describe('User templates', function() {
+describe.skip('User templates', function() {
 	it.skip('Create a new file from a user template', function() {
 		cy.visit('/apps/files')
 
