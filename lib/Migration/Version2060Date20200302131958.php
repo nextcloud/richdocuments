@@ -66,7 +66,7 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('guest_displayname', 'string', [
 				'notnull' => false,
-				'length' => 64,
+				'length' => 255,
 			]);
 			$table->addColumn('fileid', 'bigint', [
 				'notnull' => true,
