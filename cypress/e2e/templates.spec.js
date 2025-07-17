@@ -20,13 +20,12 @@ describe('Global templates', function() {
 
 	it('Can be uploaded', function() {
 		cy.intercept('POST', '**/richdocuments/template').as('templateUploadRequest')
-		/*
 		cy.uploadSystemTemplate({
 			fixturePath: 'templates/presentation.otp',
 			fileName: 'systemtemplate.otp',
 			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
 		})
-
+		/*
 		cy.wait('@templateUploadRequest').then(({ response }) => {
 			expect(response.statusCode).to.equal(201)
 			expect(response.body.data.name).to.equal('systemtemplate.otp')
