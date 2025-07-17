@@ -25,13 +25,11 @@ describe('Global templates', function() {
 			fileName: 'systemtemplate.otp',
 			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
 		})
-		/*
 		cy.wait('@templateUploadRequest').then(({ response }) => {
 			expect(response.statusCode).to.equal(201)
 			expect(response.body.data.name).to.equal('systemtemplate.otp')
 			expect(response.body.data.type).to.equal('presentation')
 		})
-		*/
 	})
 
 	it.skip('Can prevent uploading a duplicate', function() {
