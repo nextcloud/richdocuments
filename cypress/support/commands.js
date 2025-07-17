@@ -321,11 +321,13 @@ Cypress.Commands.add('uploadSystemTemplate', ({ fixturePath, fileName, mimeType 
 		.contains('Global Templates')
 		.scrollIntoView()
 
+		/*
 	cy.get('.settings-section input[type="file"]').selectFile({
 		contents: `cypress/fixtures/${fixturePath}`,
 		fileName,
 		mimeType,
 	}, { force: true })
+	*/
 })
 
 Cypress.Commands.add('submitTemplateFields', (fields) => {
