@@ -12,9 +12,9 @@ describe('Global templates', function() {
 		cy.nextcloudTestingAppConfigSet('richdocuments', 'doc_format', '')
 		cy.createRandomUser().then(user => {
 			randUser = user
-			//cy.createFolder(randUser, 'Templates-user')
-			//cy.uploadFile(randUser, 'templates/presentation.otp', 'application/vnd.oasis.opendocument.presentation', '/Templates-user/presentation.otp')
-			//cy.setPersonalTemplateFolder(randUser, '/Templates-user')
+			cy.createFolder(randUser, 'Templates-user')
+			cy.uploadFile(randUser, 'templates/presentation.otp', 'application/vnd.oasis.opendocument.presentation', '/Templates-user/presentation.otp')
+			cy.setPersonalTemplateFolder(randUser, '/Templates-user')
 		})
 	})
 
