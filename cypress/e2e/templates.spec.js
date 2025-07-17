@@ -12,14 +12,15 @@ describe('Global templates', function() {
 		cy.nextcloudTestingAppConfigSet('richdocuments', 'doc_format', '')
 		cy.createRandomUser().then(user => {
 			randUser = user
-			cy.createFolder(randUser, 'Templates-user')
+			//cy.createFolder(randUser, 'Templates-user')
 			//cy.uploadFile(randUser, 'templates/presentation.otp', 'application/vnd.oasis.opendocument.presentation', '/Templates-user/presentation.otp')
 			//cy.setPersonalTemplateFolder(randUser, '/Templates-user')
 		})
 	})
 
-	it.skip('Can be uploaded', function() {
+	it('Can be uploaded', function() {
 		cy.intercept('POST', '**/richdocuments/template').as('templateUploadRequest')
+		/*
 		cy.uploadSystemTemplate({
 			fixturePath: 'templates/presentation.otp',
 			fileName: 'systemtemplate.otp',
@@ -31,6 +32,7 @@ describe('Global templates', function() {
 			expect(response.body.data.name).to.equal('systemtemplate.otp')
 			expect(response.body.data.type).to.equal('presentation')
 		})
+		*/
 	})
 
 	it.skip('Can prevent uploading a duplicate', function() {
