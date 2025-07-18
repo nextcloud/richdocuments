@@ -23,6 +23,7 @@ OC.L10N.register(
     "Select groups" : "Chagua makundi",
     "Save" : "Hifadhi",
     "Remove" : "Ondoa",
+    "Submit name" : "Submit name",
     "Confirm" : "Thibitisha",
     "Cancel" : "Cancel",
     "Create" : "Tengeneza",
