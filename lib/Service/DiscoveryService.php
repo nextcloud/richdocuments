@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use OCA\Richdocuments\WOPI\ProofKey;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -35,6 +36,7 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
+use SimpleXMLElement;
 
 class DiscoveryService extends CachedRequestService {
 	public function __construct(
@@ -63,6 +65,64 @@ class DiscoveryService extends CachedRequestService {
 	private function getDiscoveryEndpoint(): string {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
 		return rtrim($remoteHost, '/') . '/hosting/discovery';
+	}
 
+	public function hasProofKey(): bool {
+		try {
+			$parsed = $this->getParsed();
+		} catch (\Exception $e) {
+			return false;
+		}
+
+		if (!$parsed->xpath('//proof-key')) {
+			return false;
+		}
+
+		return (bool)$parsed->xpath('//proof-key');
+	}
+
+	public function getProofKey(): ?ProofKey {
+		try {
+			$parsed = $this->getParsed();
+		} catch (\Exception $e) {
+			return null;
+		}
+
+		$publicKey = (string)$parsed->xpath('//proof-key/@value')[0];
+		$modulus = (string)$parsed->xpath('//proof-key/@modulus')[0];
+		$exponent = (string)$parsed->xpath('//proof-key/@exponent')[0];
+
+		return new ProofKey(
+			$exponent,
+			$modulus,
+			$publicKey
+		);
+	}
+
+	public function getProofKeyOld(): ?ProofKey {
+		try {
+			$parsed = $this->getParsed();
+		} catch (\Exception $e) {
+			return null;
+		}
+
+		$publicKey = (string)$parsed->xpath('//proof-key/@oldvalue')[0];
+		$modulus = (string)$parsed->xpath('//proof-key/@oldmodulus')[0];
+		$exponent = (string)$parsed->xpath('//proof-key/@oldexponent')[0];
+
+		return new ProofKey(
+			$exponent,
+			$modulus,
+			$publicKey
+		);
+	}
+
+	private function getParsed(): SimpleXMLElement {
+		try {
+			return new SimpleXMLElement($this->get());
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage());
+			throw new \Exception('Could not parse discovery XML');
+		}
 	}
 }
