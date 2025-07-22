@@ -9,6 +9,7 @@ declare(strict_types = 1);
 
 namespace Tests\Richdocuments;
 
+use DateTimeImmutable;
 use OCA\Richdocuments\Service\ProofKeyService;
 use PHPUnit\Framework\TestCase;
 
@@ -29,5 +30,17 @@ class ProofKeyServiceTest extends TestCase {
 		$unixTimestamp = $this->proofKeyService->windowsToUnixTimestamp($windowsTimestamp);
 
 		$this->assertEquals($expectedUnixTimestamp, $unixTimestamp);
+	}
+
+	public function testIsOldTimestamp(): void {
+		$now = new DateTimeImmutable();
+
+		$validAge = $now->modify('-10 minutes');
+		$isOld = $this->proofKeyService->isOldTimestamp($validAge->getTimestamp());
+		$this->assertFalse($isOld);
+
+		$invalidAge = $now->modify('-30 minutes');
+		$isOld = $this->proofKeyService->isOldTimestamp($invalidAge->getTimestamp());
+		$this->assertTrue($isOld);
 	}
 }

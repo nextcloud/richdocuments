@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use DateTime;
+use DateTimeImmutable;
+
 class ProofKeyService {
 	// The Windows epoch is used for WOPI timestamps (as it is a MS protocol)
 	//     Notes: According to the MS documentation it begins on 01-01-0001
@@ -42,5 +45,20 @@ class ProofKeyService {
 		$convertedWindowsTimestamp = (int)($windowsTimestampSeconds - $epochOffset);
 
 		return (string)$convertedWindowsTimestamp;
+	}
+
+	public function isOldTimestamp(int $timestamp): bool {
+		$timestampDateTime = new DateTime();
+		$timestampDateTime->setTimestamp($timestamp);
+
+		$now = new DateTimeImmutable();
+		$controlDateTime = $now->modify('-20 minutes');
+
+		// The timestamp is old if it is from over 20 minutes ago
+		if ($timestampDateTime < $controlDateTime) {
+			return true;
+		}
+
+		return false;
 	}
 }
