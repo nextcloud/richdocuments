@@ -26,6 +26,7 @@ OC.L10N.register(
     "Submit name" : "Submit name",
     "Confirm" : "Thibitisha",
     "Cancel" : "Cancel",
+    "Save as" : "Hifadhi kama",
     "File name" : "Jina la faili",
     "Create" : "Tengeneza",
     "Submit" : "Wasilisha",
