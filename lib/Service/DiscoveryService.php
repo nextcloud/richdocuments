@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use OCA\Richdocuments\WOPI\ProofKey;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -35,6 +36,7 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
+use SimpleXMLElement;
 
 class DiscoveryService extends CachedRequestService {
 	public function __construct(
@@ -64,5 +66,39 @@ class DiscoveryService extends CachedRequestService {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
 		return rtrim($remoteHost, '/') . '/hosting/discovery';
 
+	}
+
+	public function getProofKey(): ?array {
+		try {
+			$parsed = new SimpleXMLElement($this->get());
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage());
+			throw new \Exception('Could not parse discovery XML');
+		}
+
+		// TODO: Maybe throw an exception instead of just null
+		$proofKey = $parsed->{'proof-key'};
+		if (!$proofKey) {
+			return null;
+		}
+
+		// TODO: Maybe check if there even is an old proof key
+
+		$currentProofKey = new ProofKey(
+			(string)$proofKey['exponent'],
+			(string)$proofKey['modulus'],
+			(string)$proofKey['value'],
+		);
+
+		$oldProofKey = new ProofKey(
+			(string)$proofKey['oldexponent'],
+			(string)$proofKey['oldmodulus'],
+			(string)$proofKey['oldvalue'],
+		);
+
+		return [
+			'current' => $currentProofKey,
+			'old' => $oldProofKey,
+		];
 	}
 }

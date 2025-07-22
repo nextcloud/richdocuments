@@ -15,6 +15,8 @@ use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Helper;
+use OCA\Richdocuments\Service\DiscoveryService;
+use OCA\Richdocuments\Service\ProofKeyService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -33,6 +35,8 @@ class WOPIMiddleware extends Middleware {
 		private IRequest $request,
 		private WopiMapper $wopiMapper,
 		private LoggerInterface $logger,
+		private DiscoveryService $discoveryService,
+		private ProofKeyService $proofKeyService,
 		private bool $isWOPIRequest = false,
 	) {
 	}
@@ -61,6 +65,11 @@ class WOPIMiddleware extends Middleware {
 		}
 
 		try {
+			$wopiTimestamp = $this->request->getHeader('X-WOPI-TimeStamp');
+			if (!$wopiTimestamp || $this->proofKeyService->isOldTimestamp((int)$wopiTimestamp)) {
+				throw new NotPermittedException();
+			}
+
 			$fileId = $this->request->getParam('fileId');
 			$accessToken = $this->request->getParam('access_token');
 			[$fileId, ,] = Helper::parseFileId($fileId);
