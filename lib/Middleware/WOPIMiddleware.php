@@ -66,7 +66,8 @@ class WOPIMiddleware extends Middleware {
 
 		try {
 			$wopiTimestamp = $this->request->getHeader('X-WOPI-TimeStamp');
-			if (!$wopiTimestamp || $this->proofKeyService->isOldTimestamp((int)$wopiTimestamp)) {
+			$wopiTimestampIsOld = $this->proofKeyService->isOldTimestamp((int)$wopiTimestamp);
+			if (!$wopiTimestamp || $wopiTimestampIsOld) {
 				throw new NotPermittedException();
 			}
 
