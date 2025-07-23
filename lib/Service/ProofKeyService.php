@@ -21,11 +21,31 @@ class ProofKeyService {
 	public function __construct() {
 	}
 
-	public function verifyProof(
+	public function validateProof(
 		string $accessToken,
 		string $url,
 		string $wopiTimeStamp,
 	): bool {
+		// Four bytes representing the length, in bytes, of the access token
+		$bytes = pack('N', strlen($accessToken));
+
+		// The access token in UTF-8 encoding
+		$bytes .= mb_convert_encoding($accessToken, 'UTF-8', 'auto');
+
+		// Four bytes representing the length, in bytes, of the URL
+		$bytes .= pack('N', strlen($url));
+
+		// The UTF-8 encoded URL converted to uppercase
+		$bytes .= mb_strtoupper(mb_convert_encoding($url, 'UTF-8', 'auto'), 'UTF-8');
+
+		// Four bytes representing the size, in bytes, of the WOPI timestamp
+		//     Note: The WOPI timestamp should be converted to a long, so this
+		//           is architecture dependant (here we use PHP_INT_SIZE)
+		$bytes .= pack('N', PHP_INT_SIZE);
+
+		// The WOPI timestamp converted to a long (in PHP we use int)
+		$bytes .= (int)$wopiTimeStamp;
+
 		return false;
 	}
 
@@ -39,7 +59,7 @@ class ProofKeyService {
 
 		// Convert the Windows timestamp from 100-nanoseconds intervals to seconds
 		$windowsTimestampSeconds = ((float)$windowsTimestamp) / 1e7;
-		
+
 		// Finally, subtract the number of seconds between the Windows and Unix epochs
 		// from the number of seconds in the given Windows timestamp
 		$convertedWindowsTimestamp = (int)($windowsTimestampSeconds - $epochOffset);
