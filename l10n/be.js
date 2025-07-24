@@ -13,6 +13,8 @@ OC.L10N.register(
     "Create" : "Стварыць",
     "No results" : "Няма вынікаў",
     "Close" : "Закрыць",
+    "Open file locally" : "Адкрыць файл лакальна",
+    "Open locally" : "Адкрыць лакальна",
     "Remove from favorites" : "Выдаліць з абранага",
     "Add to favorites" : "У абранае",
     "Download" : "Спампаваць",
