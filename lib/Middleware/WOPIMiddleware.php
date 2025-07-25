@@ -15,6 +15,7 @@ use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Helper;
+use OCA\Richdocuments\Service\ProofKeyService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -33,6 +34,7 @@ class WOPIMiddleware extends Middleware {
 		private IRequest $request,
 		private WopiMapper $wopiMapper,
 		private LoggerInterface $logger,
+		private ProofKeyService $proofKeyService,
 		private bool $isWOPIRequest = false,
 	) {
 	}
@@ -61,8 +63,40 @@ class WOPIMiddleware extends Middleware {
 		}
 
 		try {
-			$fileId = $this->request->getParam('fileId');
+
+			// TODO: Check if Collabora supports WOPI proof
+
 			$accessToken = $this->request->getParam('access_token');
+			$wopiTimestamp = $this->request->getHeader('X-WOPI-TimeStamp');
+
+			// Check if there is an X-WOPI-TimeStamp header
+			// If there's not, it could be a /wopi/settings request
+			// TODO: File a bug with Collabora, maybe a proof and timestamp should be
+			//       on these requests as well?
+			if ($wopiTimestamp) {
+				$wopiTimestampIsOld = $this->proofKeyService->isOldTimestamp((int)$wopiTimestamp);
+				if ($wopiTimestampIsOld) {
+					throw new NotPermittedException();
+				}
+
+				$wopiProof = $this->request->getHeader('X-WOPI-Proof');
+				$wopiProofOld = $this->request->getHeader('X-WOPI-ProofOld');
+
+				$isProofValid = $this->proofKeyService->isProofValid(
+					$accessToken,
+					// TODO: Get full URL
+					'https://nextcloud.local' . $this->request->getRequestUri(),
+					$wopiTimestamp,
+					$wopiProof,
+					$wopiProofOld
+				);
+
+				if (!$isProofValid) {
+					throw new NotPermittedException();
+				}
+			}
+
+			$fileId = $this->request->getParam('fileId');
 			[$fileId, ,] = Helper::parseFileId($fileId);
 			$wopi = $this->wopiMapper->getWopiForToken($accessToken);
 			if ((int)$fileId !== $wopi->getFileid() && (int)$fileId !== $wopi->getTemplateId()) {
