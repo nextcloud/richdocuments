@@ -68,37 +68,52 @@ class DiscoveryService extends CachedRequestService {
 
 	}
 
-	public function getProofKey(): ?array {
+	public function getProofKey(): ?ProofKey {
+		// TODO: Maybe rename to just Proof or something
+
 		try {
-			$parsed = new SimpleXMLElement($this->get());
+			$parsed = $this->getParsed();
+		} catch (\Exception $e) {
+			return null;
+		}
+
+		$publicKey = (string)$parsed->xpath('//proof-key/@value')[0];
+		$modulus = (string)$parsed->xpath('//proof-key/@modulus')[0];
+		$exponent = (string)$parsed->xpath('//proof-key/@exponent')[0];
+
+		return new ProofKey(
+			$exponent,
+			$modulus,
+			$publicKey
+		);
+	}
+
+	public function getProofKeyOld(): ?ProofKey {
+		// TODO: Maybe rename to just Proof or something
+
+		try {
+			$parsed = $this->getParsed();
+		} catch (\Exception $e) {
+			return null;
+		}
+
+		$publicKey = (string)$parsed->xpath('//proof-key/@oldvalue')[0];
+		$modulus = (string)$parsed->xpath('//proof-key/@oldmodulus')[0];
+		$exponent = (string)$parsed->xpath('//proof-key/@oldexponent')[0];
+
+		return new ProofKey(
+			$exponent,
+			$modulus,
+			$publicKey
+		);
+	}
+
+	private function getParsed(): SimpleXMLElement {
+		try {
+			return new SimpleXMLElement($this->get());
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage());
 			throw new \Exception('Could not parse discovery XML');
 		}
-
-		// TODO: Maybe throw an exception instead of just null
-		$proofKey = $parsed->{'proof-key'};
-		if (!$proofKey) {
-			return null;
-		}
-
-		// TODO: Maybe check if there even is an old proof key
-
-		$currentProofKey = new ProofKey(
-			(string)$proofKey['exponent'],
-			(string)$proofKey['modulus'],
-			(string)$proofKey['value'],
-		);
-
-		$oldProofKey = new ProofKey(
-			(string)$proofKey['oldexponent'],
-			(string)$proofKey['oldmodulus'],
-			(string)$proofKey['oldvalue'],
-		);
-
-		return [
-			'current' => $currentProofKey,
-			'old' => $oldProofKey,
-		];
 	}
 }

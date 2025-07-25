@@ -10,6 +10,10 @@ namespace OCA\Richdocuments\Service;
 
 use DateTime;
 use DateTimeImmutable;
+use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Math\BigInteger;
+use Throwable;
 
 class ProofKeyService {
 	// The Windows epoch is used for WOPI timestamps (as it is a MS protocol)
@@ -18,35 +22,29 @@ class ProofKeyService {
 	private const WINDOWS_EPOCH = '01-01-1601 00:00:00';
 	private const UNIX_EPOCH = '01-01-1970 00:00:00';
 
-	public function __construct() {
+	public function __construct(
+		private DiscoveryService $discoveryService,
+	) {
 	}
 
-	public function validateProof(
-		string $accessToken,
-		string $url,
-		string $wopiTimeStamp,
-	): bool {
-		// Four bytes representing the length, in bytes, of the access token
-		$bytes = pack('N', strlen($accessToken));
+	public function isProofValid(string $accessToken, string $url, string $wopiTimestamp, string $proof, string $proofOld): bool {
+		$expected = $this->constructProof(
+			$accessToken,
+			$url,
+			$wopiTimestamp
+		);
 
-		// The access token in UTF-8 encoding
-		$bytes .= mb_convert_encoding($accessToken, 'UTF-8', 'auto');
+		$proofKey = $this->discoveryService->getProofKey();
+		$proofKeyOld = $this->discoveryService->getProofKeyOld();
 
-		// Four bytes representing the length, in bytes, of the URL
-		$bytes .= pack('N', strlen($url));
+		$key = $this->calculateRSAKey($proofKey->getModulus(), $proofKey->getExponent());
+		$keyOld = $this->calculateRSAKey($proofKeyOld->getModulus(), $proofKey->getExponent());
 
-		// The UTF-8 encoded URL converted to uppercase
-		$bytes .= mb_strtoupper(mb_convert_encoding($url, 'UTF-8', 'auto'), 'UTF-8');
+		$isValid = ($this->verifyKey($expected, $proof, $key) ||
+					$this->verifyKey($expected, $proof, $keyOld) ||
+					$this->verifyKey($expected, $proofOld, $key));
 
-		// Four bytes representing the size, in bytes, of the WOPI timestamp
-		//     Note: The WOPI timestamp should be converted to a long, so this
-		//           is architecture dependant (here we use PHP_INT_SIZE)
-		$bytes .= pack('N', PHP_INT_SIZE);
-
-		// The WOPI timestamp converted to a long (in PHP we use int)
-		$bytes .= (int)$wopiTimeStamp;
-
-		return false;
+		return $isValid;
 	}
 
 	public function windowsToUnixTimestamp(string $windowsTimestamp): string {
@@ -80,5 +78,70 @@ class ProofKeyService {
 		}
 
 		return false;
+	}
+
+	private function calculateRSAKey(string $modulus, string $exponent): string {
+		$rsa = PublicKeyLoader::load([
+			'e' => new BigInteger(base64_decode($exponent, true), 256),
+			'n' => new BigInteger(base64_decode($modulus, true), 256),
+		]);
+
+		return (string)$rsa->__toString();
+	}
+
+	private function constructProof(
+		string $accessToken,
+		string $url,
+		string $wopiTimeStamp,
+	): string {
+		// Four bytes representing the length, in bytes, of the access token
+		$accessTokenLength = pack('N', strlen($accessToken));
+
+		$accessToken = utf8_encode($accessToken);
+
+		// The access token in UTF-8 encoding
+		//$accessToken = mb_convert_encoding($accessToken, 'UTF-8', 'auto');
+
+		// Four bytes representing the length, in bytes, of the URL
+		$urlLength = pack('N', strlen($url));
+
+		// The UTF-8 encoded URL converted to uppercase
+		//$uppercaseURL= mb_strtoupper(mb_convert_encoding($url, 'UTF-8', 'auto'), 'UTF-8');
+		$uppercaseURL = utf8_encode(strtoupper($url));
+
+		// Four bytes representing the size, in bytes, of the WOPI timestamp
+		//     Note: The WOPI timestamp should be converted to a long, so this
+		//           is architecture dependant (here we use PHP_INT_SIZE)
+		$wopiTimestampSize = pack('N', 8);
+
+		// The WOPI timestamp converted to a long (in PHP we use int)
+		//$wopiTimestamp = (int)$wopiTimeStamp;
+		$wopiTimestamp = pack('J', $wopiTimeStamp);
+
+		return sprintf(
+			'%s%s%s%s%s%s',
+			$accessTokenLength,
+			$accessToken,
+			$urlLength,
+			$uppercaseURL,
+			$wopiTimestampSize,
+			$wopiTimestamp
+		);
+	}
+
+	private function verifyKey(string $expected, string $proof, string $proofKey): bool {
+		try {
+			/** @var RSA\PublicKey */
+			$key = PublicKeyLoader::loadPublicKey($proofKey);
+		} catch (Throwable $e) {
+			return false;
+		}
+
+		$proof = (string)base64_decode($proof, true);
+
+		$key = $key->withHash('sha256');
+		$key = $key->withPadding(RSA::SIGNATURE_PKCS1);
+
+		return $key->verify($expected, $proof);
 	}
 }
