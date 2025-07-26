@@ -31,6 +31,7 @@ OC.L10N.register(
     "Create" : "Tengeneza",
     "Submit" : "Wasilisha",
     "Description" : "Maelezo",
+    "Select file" : "Select file",
     "Select file or folder to link to" : "Chagua faili au kisanduku cha kuunga kwa",
     "Loading {filename} …" : "inapakia {filename}",
     "Close" : "Funga",
