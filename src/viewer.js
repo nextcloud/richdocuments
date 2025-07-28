@@ -21,6 +21,8 @@ if (OCA.Viewer) {
 		theme: 'default',
 		canCompare: true,
 	})
+} else {
+	console.error("Unable to register richdocuments viewer. Please check error if it got loaded corrrectly.")
 }
 
 autoSetupBuiltInCodeServerIfNeeded()
