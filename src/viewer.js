@@ -22,7 +22,7 @@ if (OCA.Viewer) {
 		canCompare: true,
 	})
 } else {
-	console.error("Unable to register viewer handler")
+	console.error('Unable to register viewer handler')
 }
 
 autoSetupBuiltInCodeServerIfNeeded()
