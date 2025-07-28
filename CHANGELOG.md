@@ -4,6 +4,16 @@
 -->
 # Changelog
 
+## 8.7.3
+
+### Fixed
+- Correctly watermark PDFs by @elzody in [#4894](https://github.com/nextcloud/richdocuments/pull/4894)
+- Allow guest display names with a length of up to 255 characters by @blizzz in [#4895](https://github.com/nextcloud/richdocuments/pull/4895)
+
+### Other
+- Updated `nextcloud/ocp` dependency [#4907](https://github.com/nextcloud/richdocuments/pull/4907)
+
+
 ## 8.7.2
 
 ### Fixed
