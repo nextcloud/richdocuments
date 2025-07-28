@@ -4,6 +4,15 @@
 -->
 # Changelog
 
+## 8.5.9
+
+### Fixed
+- Allow guest display name with a length of up to 255 characters by @blizzz in [#4896](https://github.com/nextcloud/richdocuments/pull/4896)
+
+### Other
+- NPM audits
+
+
 ## 8.5.8
 
 ### Fixed
