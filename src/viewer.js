@@ -22,7 +22,7 @@ if (OCA.Viewer) {
 		canCompare: true,
 	})
 } else {
-	console.error("Unable to register richdocuments viewer. Please check error if it got loaded corrrectly.")
+	console.error("Unable to register viewer handler")
 }
 
 autoSetupBuiltInCodeServerIfNeeded()
