@@ -17,7 +17,7 @@
 			<NcButton id="templateSelectButton"
 				type="secondary"
 				@click="onTemplateSelectButtonClick">
-				<span class="icon-folder"
+				<FolderIcon :size="20"
 					:title="t('richdocuments', 'Select a personal template folder')"
 					data-toggle="tooltip" />
 			</NcButton>
@@ -128,6 +128,7 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import DocSigningField from './DocSigningField.vue'
 import DeleteIcon from 'vue-material-design-icons/DeleteOutline.vue'
+import FolderIcon from 'vue-material-design-icons/FolderOutline.vue'
 import axios from '@nextcloud/axios'
 import {
 	getCurrentUser,
@@ -144,6 +145,7 @@ export default {
 		NcTextField,
 		NcButton,
 		DocSigningField,
+		FolderIcon,
 		DeleteIcon,
 		CoolFrame,
 	},
@@ -313,9 +315,5 @@ export default {
 	display: inline-block;
 	margin-bottom: 1rem;
 	color: var(--color-warning);
-}
-
-.icon-folder::before {
-	content: "\1F4C1";
 }
 </style>
