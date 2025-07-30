@@ -38,7 +38,7 @@ class ProofKeyService {
 		$proofKeyOld = $this->discoveryService->getProofKeyOld();
 
 		$key = $this->calculateRSAKey($proofKey->getModulus(), $proofKey->getExponent());
-		$keyOld = $this->calculateRSAKey($proofKeyOld->getModulus(), $proofKey->getExponent());
+		$keyOld = $this->calculateRSAKey($proofKeyOld->getModulus(), $proofKeyOld->getExponent());
 
 		$isValid = ($this->verifyKey($expected, $proof, $key) ||
 					$this->verifyKey($expected, $proof, $keyOld) ||
@@ -97,25 +97,21 @@ class ProofKeyService {
 		// Four bytes representing the length, in bytes, of the access token
 		$accessTokenLength = pack('N', strlen($accessToken));
 
-		$accessToken = utf8_encode($accessToken);
-
 		// The access token in UTF-8 encoding
-		//$accessToken = mb_convert_encoding($accessToken, 'UTF-8', 'auto');
+		$accessToken = mb_convert_encoding($accessToken, 'UTF-8', 'auto');
 
 		// Four bytes representing the length, in bytes, of the URL
 		$urlLength = pack('N', strlen($url));
 
 		// The UTF-8 encoded URL converted to uppercase
-		//$uppercaseURL= mb_strtoupper(mb_convert_encoding($url, 'UTF-8', 'auto'), 'UTF-8');
-		$uppercaseURL = utf8_encode(strtoupper($url));
+		$uppercaseURL = mb_strtoupper(mb_convert_encoding($url, 'UTF-8', 'auto'), 'UTF-8');
 
 		// Four bytes representing the size, in bytes, of the WOPI timestamp
 		//     Note: The WOPI timestamp should be converted to a long, so this
 		//           is architecture dependant (here we use PHP_INT_SIZE)
-		$wopiTimestampSize = pack('N', 8);
+		$wopiTimestampSize = pack('N', PHP_INT_SIZE);
 
 		// The WOPI timestamp converted to a long (in PHP we use int)
-		//$wopiTimestamp = (int)$wopiTimeStamp;
 		$wopiTimestamp = pack('J', $wopiTimeStamp);
 
 		return sprintf(
