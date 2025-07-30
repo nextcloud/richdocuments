@@ -127,7 +127,7 @@ import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import DocSigningField from './DocSigningField.vue'
-import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import DeleteIcon from 'vue-material-design-icons/DeleteOutline.vue'
 import axios from '@nextcloud/axios'
 import {
 	getCurrentUser,
