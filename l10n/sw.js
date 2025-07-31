@@ -15,6 +15,8 @@ OC.L10N.register(
     "File is too big" : "Faili ni kubwa mno",
     "Invalid file provided" : "Faili iliyotolewa si halali",
     "New document" : "Waraka mpya",
+    "New spreadsheet" : "New spreadsheet",
+    "New presentation" : "New presentation",
     "Images" : "Picha",
     "Instructions" : "Maelekezo",
     "New" : "Mpya",
