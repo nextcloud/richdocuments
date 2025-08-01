@@ -25,7 +25,7 @@
 <script>
 import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import DeleteIcon from 'vue-material-design-icons/DeleteOutline.vue'
 
 export default {
 	name: 'DocSigningField',
