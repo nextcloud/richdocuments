@@ -17,7 +17,8 @@
 		"ext-json": "*",
 		"ext-simplexml": "*",
 		"mikehaertl/php-pdftk": "^0.13.1",
-		"league/commonmark": "^2.7"
+		"league/commonmark": "^2.7",
+		"phpseclib/phpseclib": "^3.0"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master",
