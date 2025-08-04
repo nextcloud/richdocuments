@@ -165,8 +165,11 @@ class TokenManager {
 		bool $isGuest,
 		bool $direct = false,
 		?int $sharePermissions = null,
+		?string $editoruid = null,
 	): Wopi {
-		$editoruid = $isGuest ? null : $owneruid;
+		if (empty($editoruid)) {
+			$editoruid = $isGuest ? null : $owneruid;
+		}
 
 		$rootFolder = $this->rootFolder->getUserFolder($owneruid);
 		$targetFile = $rootFolder->getFirstNodeById($targetFileId);
