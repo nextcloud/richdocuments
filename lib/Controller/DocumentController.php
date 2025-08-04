@@ -491,7 +491,8 @@ class DocumentController extends Controller {
 				$owneruid,
 				$isGuest,
 				false,
-				$share?->getPermissions()
+				$share?->getPermissions(),
+				$this->userId,
 			);
 			$this->tokenManager->setShareToken($wopiToken, $share?->getToken());
 			return $wopiToken;
