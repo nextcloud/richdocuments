@@ -31,6 +31,7 @@ OC.L10N.register(
     "New" : "Jauns",
     "Failed to save settings" : "Neizdevās saglabāt iestatījumus",
     "Setting up a new server" : "Jauna servera iestatīšana",
+    "Your browser has been unable to connect to the Collabora server:" : "Pārlūks nevarēja savienoties ar Collabora serveri:",
     "Click here for more info" : "Klikšķināt šeit, lai iegūtu vairāk informācijas",
     "Advanced settings" : "Paplašināti iestatījumi",
     "Select groups" : "Izvēlieties grupas",
