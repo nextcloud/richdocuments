@@ -20,11 +20,33 @@ use RuntimeException;
 
 class SlideDeckService {
 	public const PROMPT = <<<EOF
-Draft a presentation slide deck with headlines and a maximum of 5 bullet points per headline.
-Use the following JSON structure for your whole output and output only the JSON array:
+Draft a presentation with slides based on the following JSON.
+Replace the text as necessary.
+It is not required to use every slide object from the JSON strucutre, and you may repeat some.
+Use the following JSON structure for your entire output.
+Output only the JSON array:
 
 ```
-[{"headline": "Headline 1", "points": ["Bullet point 1", "Bullet point 2"]}, {"headline": "Headline 2", "points": ["Bullet point 1", "Bullet point 2"]}]
+[
+    {
+        "layout": 0,
+        "title": "Presentation title",
+        "subtitle": "Presentation subtitle"
+    },
+    {
+        "layout": 1,
+        "title": "Slide title",
+        "content": "Slide content"
+    },
+    {
+        "layout": 2,
+        "title: "Slide title",
+        "columns": [
+            "Text for column one",
+            "Text for column two"
+        ]
+    }
+]
 ```
 
 Only output the JSON array. Do not wrap it with spaces, new lines or backticks (`).
@@ -80,6 +102,8 @@ EOF;
 			associative: true,
 			flags: JSON_THROW_ON_ERROR
 		);
+
+		xdebug_break();
 
 		$slideCommands = [];
 		foreach ($modelJSON as $index => $slide) {
