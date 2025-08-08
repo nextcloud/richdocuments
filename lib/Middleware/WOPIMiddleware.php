@@ -14,7 +14,10 @@ use OCA\Richdocuments\Controller\WopiController;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
+use OCA\Richdocuments\Exceptions\WopiException;
 use OCA\Richdocuments\Helper;
+use OCA\Richdocuments\Service\DiscoveryService;
+use OCA\Richdocuments\Service\ProofKeyService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -22,6 +25,7 @@ use OCP\AppFramework\Middleware;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionMethod;
@@ -30,9 +34,12 @@ use Symfony\Component\HttpFoundation\IpUtils;
 class WOPIMiddleware extends Middleware {
 	public function __construct(
 		private IConfig $config,
+		private IURLGenerator $urlGenerator,
 		private IRequest $request,
+		private DiscoveryService $discoveryService,
 		private WopiMapper $wopiMapper,
 		private LoggerInterface $logger,
+		private ProofKeyService $proofKeyService,
 		private bool $isWOPIRequest = false,
 	) {
 	}
@@ -56,13 +63,52 @@ class WOPIMiddleware extends Middleware {
 			return;
 		}
 
-		if (strpos($this->request->getRequestUri(), 'wopi/settings/upload') !== false) {
+		if (str_contains($this->request->getRequestUri(), '/wopi/settings/upload')) {
 			return;
 		}
 
 		try {
-			$fileId = $this->request->getParam('fileId');
 			$accessToken = $this->request->getParam('access_token');
+			$isWopiSettingsUrl = str_contains($this->request->getRequestUri(), '/wopi/settings');
+
+			if (!$isWopiSettingsUrl) {
+				$wopiProof = $this->request->getHeader('X-WOPI-Proof');
+				$wopiProofOld = $this->request->getHeader('X-WOPI-ProofOld');
+				$hasProofKey = $this->discoveryService->hasProofKey();
+
+				// This could mean the discovery cache needs to be updated
+				//     e.g. if Collabora sends a WOPI proof but the cached discovery
+				//          says there is not one, then we should re-fetch it
+				if ($hasProofKey !== (bool)$wopiProof) {
+					$this->discoveryService->fetch();
+					$hasProofKey = $this->discoveryService->hasProofKey();
+				}
+
+				if ($hasProofKey) {
+					$wopiTimestamp = $this->request->getHeader('X-WOPI-TimeStamp');
+					$wopiTimestampIsOld = $this->proofKeyService->isOldTimestamp((int)$wopiTimestamp);
+
+					if ($wopiTimestampIsOld) {
+						throw new WopiException('X-WOPI-TimeStamp header is older than 20 minutes');
+					}
+
+					$url = $this->urlGenerator->getBaseUrl() . $this->request->getRequestUri();
+
+					$isProofValid = $this->proofKeyService->isProofValid(
+						$accessToken,
+						$url,
+						$wopiTimestamp,
+						$wopiProof,
+						$wopiProofOld
+					);
+
+					if (!$isProofValid) {
+						throw new WopiException('Invalid WOPI proof');
+					}
+				}
+			}
+
+			$fileId = $this->request->getParam('fileId');
 			[$fileId, ,] = Helper::parseFileId($fileId);
 			$wopi = $this->wopiMapper->getWopiForToken($accessToken);
 			if ((int)$fileId !== $wopi->getFileid() && (int)$fileId !== $wopi->getTemplateId()) {
@@ -75,6 +121,11 @@ class WOPIMiddleware extends Middleware {
 				$this->logger->info('Invalid token for WOPI access', [ 'exception' => $e ]);
 			}
 			throw new NotPermittedException();
+		} catch (WopiException $e) {
+			$this->logger->error('WOPI error: ' . $e->getMessage(), [
+				'exception' => $e,
+			]);
+			throw new WopiException();
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to validate WOPI access', [ 'exception' => $e ]);
 			throw new NotPermittedException();
@@ -84,6 +135,10 @@ class WOPIMiddleware extends Middleware {
 	}
 
 	public function afterException($controller, $methodName, \Exception $exception): Response {
+		if ($exception instanceof WopiException && $controller instanceof WopiController) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
 		if ($exception instanceof NotPermittedException && $controller instanceof WopiController) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
