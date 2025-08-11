@@ -231,7 +231,7 @@ class FontService {
 	 * @throws Exception
 	 */
 	public function installDefaultFonts(): void {
-		$dirPath = __DIR__ . '/../../assets/fonts';
+		$dirPath = __DIR__ . '/../../fonts';
 
 		if (!is_dir($dirPath)) {
 			throw new Exception("Directory \"$dirPath\" does not exist!");
