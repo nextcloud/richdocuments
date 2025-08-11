@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Download font files and put them into the assets/fonts folder for the release
+# Download font files and put them into the fonts folder for the release
 # SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 FONTLIST=(
@@ -22,20 +22,20 @@ FONTLIST=(
     "https://github.com/google/fonts/raw/main/ofl/spectral/Spectral-Regular.ttf"
 )
 
-rm assets/fonts/*
+rm fonts/*
 
 function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
 
 for font in "${FONTLIST[@]}"; do
     echo "$font"
-    wget -q -P assets/fonts/ $font
+    wget -q -P fonts/ $font
 
     FILENAME=$(urldecode "$(basename "$font")")
 
     if [[ $FILENAME == *"wght"* ]]; then
         NEWFILENAME=$(echo $FILENAME | sed 's/\[wght\]/-wght/g')
         NEWFILENAME=$(echo $NEWFILENAME | sed 's/\[wdth,wght\]/-wdtg-wght/g')
-        mv assets/fonts/$FILENAME assets/fonts/$NEWFILENAME
+        mv fonts/$FILENAME fonts/$NEWFILENAME
     else
         NEWFILENAME=$(echo $FILENAME)
     fi
@@ -44,5 +44,5 @@ for font in "${FONTLIST[@]}"; do
     FONTNAME=$(echo $NEWFILENAME | sed 's/.ttf//g')
 
     echo "$(dirname $font)/OFL.txt"
-    wget -q -O "assets/fonts/$FONTNAME.LICENSE.txt" "$(dirname $font)/OFL.txt"
+    wget -q -O "fonts/$FONTNAME.LICENSE.txt" "$(dirname $font)/OFL.txt"
 done
