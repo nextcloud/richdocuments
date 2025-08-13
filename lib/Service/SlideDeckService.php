@@ -7,6 +7,10 @@
 namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\TaskProcessing\Presentation\ISlide;
+use OCA\Richdocuments\TaskProcessing\Presentation\LayoutType;
+use OCA\Richdocuments\TaskProcessing\Presentation\Slides\TitleContentSlide;
+use OCA\Richdocuments\TaskProcessing\Presentation\Slides\TitleSlide;
 use OCA\Richdocuments\TemplateManager;
 use OCP\IConfig;
 use OCP\TaskProcessing\Exception\Exception;
@@ -21,8 +25,9 @@ use RuntimeException;
 class SlideDeckService {
 	public const PROMPT = <<<EOF
 Draft a presentation with slides based on the following JSON.
-Replace the text as necessary.
-It is not required to use every slide object from the JSON strucutre, and you may repeat some.
+Replace the title, subtitle, and content with your own.
+Use at least one of each JSON object for the slides, and some may be repeated as necessary.
+If the content is an array of bullet point strings, replace them as necessary and always use all four of them. Do not place any dot (.) or hyphen (-) before the bullet points.
 Use the following JSON structure for your entire output.
 Output only the JSON array:
 
@@ -33,23 +38,26 @@ Output only the JSON array:
         "title": "Presentation title",
         "subtitle": "Presentation subtitle"
     },
-    {
-        "layout": 1,
-        "title": "Slide title",
-        "content": "Slide content"
-    },
-    {
-        "layout": 2,
-        "title: "Slide title",
-        "columns": [
-            "Text for column one",
-            "Text for column two"
-        ]
-    }
+	{
+		"layout": 1,
+		"title": "Slide title",
+		"content": "Paragraph or other longer text"
+	},
+	{
+		"layout": 1,
+		"title": "Slide title",
+		"content": [
+			"Bullet point one",
+			"Bullet point two",
+			"Bullet point three",
+			"Bullet point four"
+		]
+	}
 ]
 ```
 
 Only output the JSON array. Do not wrap it with spaces, new lines or backticks (`).
+Ensure that there are at least a few different slides of varying types.
 
 Here is the presentation text:
 EOF;
@@ -103,27 +111,48 @@ EOF;
 			flags: JSON_THROW_ON_ERROR
 		);
 
-		xdebug_break();
+		$layoutTypes = array_column(LayoutType::cases(), 'value');
 
-		$slideCommands = [];
-		foreach ($modelJSON as $index => $slide) {
-			if (count($slideCommands) > 0) {
-				$slideCommands[] = [ 'JumpToSlide' => 'last' ];
-				$slideCommands[] = [ 'InsertMasterSlide' => 0 ];
-			} else {
-				$slideCommands[] = [ 'JumpToSlide' => $index];
+		$slides = [];
+		foreach ($modelJSON as $index => $slideJSON) {
+			$validLayout = array_key_exists($slideJSON['layout'], $layoutTypes);
+
+			if (!$validLayout) {
+				continue;
 			}
 
-			$slideCommands[] = [ 'ChangeLayoutByName' => 'AUTOLAYOUT_TITLE_CONTENT' ];
-			$slideCommands[] = [ 'SetText.0' => $slide['headline'] ];
+			$slideLayout = LayoutType::from($layoutTypes[$slideJSON['layout']]);
 
-			$editTextObjectCommands = [
-				[ 'SelectParagraph' => 0 ],
-				[ 'InsertText' => implode(PHP_EOL, $slide['points']) ],
-			];
+			switch ($slideLayout) {
+				case LayoutType::Title:
+					$slides[] = new TitleSlide(
+						$index,
+						$slideJSON['title'],
+						$slideJSON['subtitle']
+					);
 
-			$slideCommands[] = [ 'EditTextObject.1' => $editTextObjectCommands ];
+					break;
+				case LayoutType::TitleContent:
+					$slides[] = new TitleContentSlide(
+						$index,
+						$slideJSON['title'],
+						$slideJSON['content']
+					);
+
+					break;
+				default:
+					break;
+			}
 		}
+
+		$slideCommands = array_map(
+			function (ISlide $slide) {
+				return $slide->getSlideCommands();
+			},
+			$slides,
+		);
+
+		$slideCommands = array_merge([], ...$slideCommands);
 
 		return [ 'SlideCommands' => $slideCommands ];
 	}

@@ -6,9 +6,8 @@
 
 namespace OCA\Richdocuments\TaskProcessing\Presentation;
 
-enum SlideLayout {
-	case Blank;
-	case Title;
-	case TitleContent;
-	case Title2Content;
+enum LayoutType: string {
+	case Title = 'AUTOLAYOUT_TITLE';
+	case TitleContent = 'AUTOLAYOUT_TITLE_CONTENT';
+	case Title2Content = 'AUTOLAYOUT_TITLE_2CONTENT';
 }
