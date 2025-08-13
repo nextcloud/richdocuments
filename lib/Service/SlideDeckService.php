@@ -7,8 +7,8 @@
 namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppInfo\Application;
-use OCA\Richdocuments\TaskProcessing\Presentation\ISlide;
 use OCA\Richdocuments\TaskProcessing\Presentation\LayoutType;
+use OCA\Richdocuments\TaskProcessing\Presentation\Presentation;
 use OCA\Richdocuments\TaskProcessing\Presentation\Slides\TitleContentSlide;
 use OCA\Richdocuments\TaskProcessing\Presentation\Slides\TitleSlide;
 use OCA\Richdocuments\TemplateManager;
@@ -26,9 +26,9 @@ class SlideDeckService {
 	public const PROMPT = <<<EOF
 Draft a presentation with slides based on the following JSON.
 Replace the title, subtitle, and content with your own.
-Use at least one of each JSON object for the slides, and some may be repeated as necessary.
-If the content is an array of bullet point strings, replace them as necessary and always use all four of them. Do not place any dot (.) or hyphen (-) before the bullet points.
+If the content is an array of bullet point strings, replace them as necessary and always use at least four of them. Do not place any dot (.) or hyphen (-) before the bullet points.
 Use the following JSON structure for your entire output.
+Output 5 or more of the JSON objects, and use each of them at least once.
 Output only the JSON array:
 
 ```
@@ -57,7 +57,6 @@ Output only the JSON array:
 ```
 
 Only output the JSON array. Do not wrap it with spaces, new lines or backticks (`).
-Ensure that there are at least a few different slides of varying types.
 
 Here is the presentation text:
 EOF;
@@ -112,8 +111,8 @@ EOF;
 		);
 
 		$layoutTypes = array_column(LayoutType::cases(), 'value');
+		$presentation = new Presentation();
 
-		$slides = [];
 		foreach ($modelJSON as $index => $slideJSON) {
 			$validLayout = array_key_exists($slideJSON['layout'], $layoutTypes);
 
@@ -123,38 +122,22 @@ EOF;
 
 			$slideLayout = LayoutType::from($layoutTypes[$slideJSON['layout']]);
 
-			switch ($slideLayout) {
-				case LayoutType::Title:
-					$slides[] = new TitleSlide(
-						$index,
-						$slideJSON['title'],
-						$slideJSON['subtitle']
-					);
+			$slide = match ($slideLayout) {
+				LayoutType::Title => new TitleSlide($index, $slideJSON['title'], $slideJSON['subtitle']),
 
-					break;
-				case LayoutType::TitleContent:
-					$slides[] = new TitleContentSlide(
-						$index,
-						$slideJSON['title'],
-						$slideJSON['content']
-					);
+				LayoutType::TitleContent => new TitleContentSlide($index, $slideJSON['title'], $slideJSON['content']),
 
-					break;
-				default:
-					break;
+				default => null,
+			};
+
+			if (is_null($slide)) {
+				continue;
 			}
+
+			$presentation->addSlide($slide);
 		}
 
-		$slideCommands = array_map(
-			function (ISlide $slide) {
-				return $slide->getSlideCommands();
-			},
-			$slides,
-		);
-
-		$slideCommands = array_merge([], ...$slideCommands);
-
-		return [ 'SlideCommands' => $slideCommands ];
+		return $presentation->getSlideCommands();
 	}
 
 	/**
