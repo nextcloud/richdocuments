@@ -8,8 +8,11 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Middleware;
 
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Service\DiscoveryService;
+use OCA\Richdocuments\Service\ProofKeyService;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
 class WOPIMiddlewareTest extends \PHPUnit\Framework\TestCase {
@@ -29,6 +32,9 @@ class WOPIMiddlewareTest extends \PHPUnit\Framework\TestCase {
 	 * @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface|(LoggerInterface&\PHPUnit\Framework\MockObject\MockObject)
 	 */
 	private $logger;
+	private $discoveryService;
+	private $urlGenerator;
+	private $proofKeyService;
 	private WOPIMiddleware $middleware;
 
 	public function setUp(): void {
@@ -37,11 +43,18 @@ class WOPIMiddlewareTest extends \PHPUnit\Framework\TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->wopiMapper = $this->createMock(WopiMapper::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->discoveryService = $this->createMock(DiscoveryService::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->proofKeyService = $this->createMock(ProofKeyService::class);
+		
 		$this->middleware = new WOPIMiddleware(
 			$this->config,
+			$this->urlGenerator,
 			$this->request,
+			$this->discoveryService,
 			$this->wopiMapper,
 			$this->logger,
+			$this->proofKeyService,
 		);
 	}
 
