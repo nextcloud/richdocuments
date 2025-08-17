@@ -47,6 +47,7 @@ OC.L10N.register(
     "Details" : "Maelezo ya kina",
     "Download" : "Pakua",
     "Guest" : "Mgeni",
+    "New file" : "Faili mpya",
     "Error" : "Hitilafu",
     "An error occurred" : "Hitilafu imetokea",
     "Set" : "Imetumwa",
