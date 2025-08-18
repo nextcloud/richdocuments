@@ -4,6 +4,11 @@
 -->
 # Changelog
 
+## 9.0.0-beta.1
+
+### Added
+- WOPI proof validation by @elzody in [#4902](https://github.com/nextcloud/richdocuments/pull/4902)
+
 ## 8.6.0-beta.1
 
 ### Added
