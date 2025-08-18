@@ -4,6 +4,18 @@
 -->
 # Changelog
 
+## 8.7.4
+
+### Fixed
+- Log inability to load viewer by @JAicewizard in [#4917](https://github.com/nextcloud/richdocuments/pull/4917)
+- Editor uses folder owner's UID instead of current user's by @luka-nextcloud in [#4931](https://github.com/nextcloud/richdocuments/pull/4931)
+- Assets directory conflicts with assets API on nginx by @timar in [#4939](https://github.com/nextcloud/richdocuments/pull/4939)
+- Accept settings URL from discovery endpoint by @codewithvk in [#4941](https://github.com/nextcloud/richdocuments/pull/4941)
+
+### Other
+- NPM audits
+- Dependency updates
+
 ## 8.7.3
 
 ### Fixed
