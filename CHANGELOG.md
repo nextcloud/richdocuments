@@ -4,6 +4,16 @@
 -->
 # Changelog
 
+## 8.5.10
+
+### Fixed
+- Editor uses folder owner's UID instead of current user's by @luka-nextcloud in [#4930](https://github.com/nextcloud/richdocuments/pull/4930)
+- Assets directory conflicts with assets API on nginx by @timar in [#4933](https://github.com/nextcloud/richdocuments/pull/4933)
+- Log inability to load viewer by @JAicewizard in [#4916](https://github.com/nextcloud/richdocuments/pull/4916)
+
+### Other
+- NPM audits
+
 ## 8.5.9
 
 ### Fixed
