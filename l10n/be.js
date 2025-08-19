@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "File already exists" : "Файл ужо існуе",
     "Saved" : "Захавана",
     "Missing a temporary folder" : "Адсутнічае часовая папка",
     "Could not write file to disk" : "Не ўдалося запісаць файл на дыск",
