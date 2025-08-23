@@ -12,12 +12,14 @@ OC.L10N.register(
     "Images" : "Відарысы",
     "New" : "Новы",
     "Advanced settings" : "Пашыраныя налады",
+    "Select groups" : "Выберыце групы",
     "Save" : "Захаваць",
     "Remove" : "Выдаліць",
     "Confirm" : "Пацвердзіць",
     "Cancel" : "Скасаваць",
     "Save as" : "Захаваць як",
     "Create" : "Стварыць",
+    "Submit" : "Адправіць",
     "Description" : "Апісанне",
     "No results" : "Няма вынікаў",
     "Close" : "Закрыць",
@@ -30,6 +32,7 @@ OC.L10N.register(
     "Guest" : "Госць",
     "Error" : "Памылка",
     "An error occurred" : "Узнікла памылка",
+    "Nickname" : "Псеўданім",
     "Last saved version" : "Апошняя захаваная версія"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
