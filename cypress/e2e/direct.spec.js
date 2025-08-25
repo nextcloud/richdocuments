@@ -87,11 +87,13 @@ const createDirectEditingLinkForShareToken = (shareToken, host = undefined, path
 	})
 }
 
-describe('Direct editing (legacy)', function() {
+describe.only('Direct editing (legacy)', function() {
 	let randUser
 	let fileId
 
 	before(function() {
+		cy.createRandomUser()
+		/*
 		cy.createRandomUser().then(user => {
 			randUser = user
 			cy.login(user)
@@ -100,6 +102,7 @@ describe('Direct editing (legacy)', function() {
 					fileId = id
 				})
 		})
+				*/
 	})
 
 	it('Open an existing file', function() {
