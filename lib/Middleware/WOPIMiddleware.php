@@ -92,7 +92,7 @@ class WOPIMiddleware extends Middleware {
 						throw new WopiException('X-WOPI-TimeStamp header is older than 20 minutes');
 					}
 
-					$url = $this->urlGenerator->getBaseUrl() . $this->request->getRequestUri();
+					$url = $this->urlGenerator->getAbsoluteURL($this->request->getRequestUri());
 
 					$isProofValid = $this->proofKeyService->isProofValid(
 						$accessToken,
