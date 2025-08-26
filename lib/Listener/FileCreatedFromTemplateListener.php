@@ -35,7 +35,7 @@ class FileCreatedFromTemplateListener implements IEventListener {
 		}
 
 		$targetFile = $event->getTarget();
-		if (!in_array($targetFile->getMimetype(), Capabilities::MIMETYPES) && $targetFile->getMimeType() !== 'application/pdf') {
+		if (!in_array($targetFile->getMimetype(), array_merge(Capabilities::MIMETYPES, Capabilities::MIMETYPES_MSOFFICE)) && $targetFile->getMimeType() !== 'application/pdf') {
 			return;
 		}
 
