@@ -63,7 +63,7 @@ class WOPIMiddleware extends Middleware {
 			return;
 		}
 
-		if (str_contains($this->request->getRequestUri(), '/wopi/settings/upload')) {
+		if (str_contains($this->request->getRequestUri(), '/wopi/settings')) {
 			return;
 		}
 
