@@ -55,6 +55,7 @@
 			<input name="theme" :value="formData.theme" type="hidden">
 			<input name="buy_product" value="https://nextcloud.com/pricing" type="hidden">
 			<input name="host_session_id" :value="formData.hostSessionID" type="hidden">
+			<input name="wopi_setting_base_url" :value="formData.wopiSettingBaseUrl" type="hidden">
 		</form>
 		<iframe :id="iframeId"
 			ref="documentFrame"
@@ -93,6 +94,7 @@ import { getRandomId } from '../helpers/index.js'
 import {
 	getNextcloudUrl,
 	getWopiUrl,
+	getConfigFileUrl,
 } from '../helpers/url.js'
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration.js'
@@ -198,6 +200,7 @@ export default {
 				cssVariables: generateCSSVarTokens(),
 				theme: getCollaboraTheme(),
 				hostSessionID: 'nextcloud ' + OC.config.version + ' - richdocuments ' + getCapabilities().version,
+				wopiSettingBaseUrl: getConfigFileUrl(),
 			},
 		}
 	},
