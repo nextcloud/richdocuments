@@ -135,7 +135,7 @@ jobs:
           php occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php occ config:system:set memcache.local --value="\\OC\\Memcache\\APCu"
           php -f index.php
-          PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:8081 &
+
           export OC_PASS=1234561
           php occ user:add --password-from-env user1
           php occ user:add --password-from-env user2
@@ -153,13 +153,6 @@ jobs:
           php occ config:system:set allow_local_remote_servers --value true --type bool
           php occ richdocuments:activate-config
 
-          curl http://admin:admin@localhost:8081/ocs/v1.php/cloud/capabilities\?format\=json -H 'OCS-APIRequest: true'
-
-          curl -v http://localhost:9980/ --output -
-          curl -v http://localhost:9980/hosting/discovery --output -
-          curl -v http://localhost:9980/hosting/capabilities --output -
-
-          cat data/nextcloud.log
 
       - name: Cache node modules
         uses: actions/cache@v4
