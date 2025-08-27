@@ -29,7 +29,7 @@ jobs:
         code-image: [ 'release' ]
         node-version: [16.x]
         containers: [1]
-        php-versions: [ '8.1' ]
+        php-versions: [ '8.2' ]
         databases: [ 'sqlite' ]
         server-versions: [ 'master' ]
 
