@@ -139,8 +139,6 @@ jobs:
           php occ config:system:set allow_local_remote_servers --value true --type bool
           php occ richdocuments:activate-config
 
-          echo "" > phpserver.log
-          PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:8081 &> phpserver.log &
 
       - name: Cache node modules
         uses: actions/cache@v4
