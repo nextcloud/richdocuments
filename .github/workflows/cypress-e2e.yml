@@ -161,6 +161,8 @@ jobs:
 
           cat data/nextcloud.log
 
+          sleep 900
+
       - name: Cache node modules
         uses: actions/cache@v4
         env:
