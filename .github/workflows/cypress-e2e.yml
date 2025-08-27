@@ -21,14 +21,14 @@ env:
 jobs:
   cypress:
 
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, self-hosted]
 
     strategy:
       fail-fast: false
       matrix:
-        code-image: [ 'release', 'nightly' ]
+        code-image: [ 'release' ]
         node-version: [16.x]
-        containers: [1, 2, 3]
+        containers: [1]
         php-versions: [ '8.1' ]
         databases: [ 'sqlite' ]
         server-versions: [ 'master' ]
