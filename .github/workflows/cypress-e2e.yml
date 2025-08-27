@@ -166,11 +166,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: npm install, build richdocuments in testing mode
-        working-directory: apps/richdocuments
-        run: |
-          npm ci
-          npm run dev
 
       - name: Register index for cypress-split
         env:
