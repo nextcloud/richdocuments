@@ -161,8 +161,6 @@ jobs:
 
           cat data/nextcloud.log
 
-          sleep 900
-
       - name: Cache node modules
         uses: actions/cache@v4
         env:
@@ -195,7 +193,7 @@ jobs:
           parallel: false
           wait-on: '${{ env.CYPRESS_baseUrl }}'
           working-directory: 'apps/${{ env.APP_NAME }}'
-          config: defaultCommandTimeout=10000,video=false
+          config: defaultCommandTimeout=10000,video=false,requestTimeout=15000
           tag: ${{ false && github.event_name }}
         env:
           # https://github.com/cypress-io/github-action/issues/524
@@ -207,6 +205,10 @@ jobs:
           SPLIT: 3
           SPLIT_INDEX: ${{ env.container_index }}
           CODE_RELEASE: ${{ matrix.code-image }}
+
+      - name: Debug
+        if: always()
+        run: sleep 900
 
       - name: Upload test failure screenshots
         uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
