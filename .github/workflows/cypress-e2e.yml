@@ -70,13 +70,6 @@ jobs:
           ref: ${{ matrix.server-versions }}
           path: apps/viewer
 
-      - name: Checkout spreed
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-        with:
-          repository: nextcloud/spreed
-          ref: ${{ env.main_app_ref }}
-          path: apps/spreed
-
       - name: Checkout files_pdfviewer
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
@@ -117,13 +110,6 @@ jobs:
         working-directory: apps/richdocuments
         run: |
           composer install --no-dev
-
-      - name: Build talk
-        working-directory: apps/spreed
-        run: |
-          composer install --no-dev
-          npm ci
-          npm run dev
 
       - name: Set up Nextcloud
         env:
