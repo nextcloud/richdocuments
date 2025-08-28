@@ -116,7 +116,7 @@ jobs:
       - name: Install composer dependencies
         working-directory: apps/richdocuments
         run: |
-          composer install
+          composer install --no-dev
 
       - name: Build talk
         working-directory: apps/spreed
