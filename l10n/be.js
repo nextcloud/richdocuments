@@ -28,6 +28,7 @@ OC.L10N.register(
     "Images" : "Відарысы",
     "Sheets" : "Аркушы",
     "Slides" : "Слайды",
+    "Office" : "Офіс",
     "OpenXML (docx)" : "OpenXML (docx)",
     "OpenDocument (odt)" : "OpenDocument (odt)",
     "Instructions" : "Інструкцыі",
