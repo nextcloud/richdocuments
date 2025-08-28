@@ -49,7 +49,7 @@ class MentionController extends Controller {
 		if (count($matchedUsers) < 1) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
-		
+
 		$user = array_pop($matchedUsers);
 		$userFolder = $this->rootFolder->getUserFolder($user['value']['shareWith']);
 		$file = $userFolder->getFirstNodeById($fileId);

@@ -40,9 +40,9 @@ class BeforeFetchPreviewListener implements IEventListener {
 
 		$share = null;
 		try {
-			$share = $shareToken ?
+			$share = $shareToken
 				// Get different share for public previews as the share from the node is only set for mounted shares
-				$this->shareManager->getShareByToken($shareToken)
+				? $this->shareManager->getShareByToken($shareToken)
 				// Get share for internal shares
 				: $this->helper->getShareFromNode($event->getNode());
 		} catch (ShareNotFound) {

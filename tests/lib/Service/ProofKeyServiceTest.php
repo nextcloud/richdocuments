@@ -60,7 +60,7 @@ class ProofKeyServiceTest extends TestCase {
 		// Timestamps representing 15 February, 2024 00:00:00
 		$windowsTimestamp = '133524468000000000';
 		$expectedUnixTimestamp = '1707973200';
-		
+
 		$unixTimestamp = $this->proofKeyService->windowsToUnixTimestamp($windowsTimestamp);
 
 		$this->assertEquals($expectedUnixTimestamp, $unixTimestamp);
