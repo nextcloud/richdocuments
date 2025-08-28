@@ -40,3 +40,5 @@ folders among each other.
 ### Replacing empty templates
 
 Empty template files can be replaced the existing files in `appdata_[instanceid]/richdocuments/empty_templates/`. The files can be reverted to the templates shipped with the release by running the  `occ richdocuments:update-empty-templates` command.
+
+As of Nextcloud 32, empty templates default to document templates based closely on MS Word desktop's current default. In order to regenerate them, you need to run the `occ` command above, which will wipe any custom empty templates you have so be sure to back them up.
