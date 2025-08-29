@@ -52,7 +52,7 @@ import { loadState } from '@nextcloud/initial-state'
 import '@nextcloud/dialogs/style.css'
 import axios from '@nextcloud/axios'
 import NewTemplateIcon from 'vue-material-design-icons/FileDocumentPlusOutline.vue'
-import DeleteIcon from 'vue-material-design-icons/DeleteOutline.vue'
+import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 
 export default {
 	name: 'GlobalTemplates',
