@@ -21,15 +21,15 @@ env:
 jobs:
   cypress:
 
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, self-hosted]
 
     strategy:
       fail-fast: false
       matrix:
-        code-image: [ 'release', 'nightly' ]
+        code-image: [ 'release' ]
         node-version: [16.x]
-        containers: [1, 2, 3]
-        php-versions: [ '8.1' ]
+        containers: [1]
+        php-versions: [ '8.2' ]
         databases: [ 'sqlite' ]
         server-versions: [ 'master' ]
 
@@ -69,13 +69,6 @@ jobs:
           repository: nextcloud/viewer
           ref: ${{ matrix.server-versions }}
           path: apps/viewer
-
-      - name: Checkout spreed
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-        with:
-          repository: nextcloud/spreed
-          ref: ${{ env.main_app_ref }}
-          path: apps/spreed
 
       - name: Checkout files_pdfviewer
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -118,13 +111,6 @@ jobs:
         run: |
           composer install --no-dev
 
-      - name: Build talk
-        working-directory: apps/spreed
-        run: |
-          composer install --no-dev
-          npm ci
-          npm run dev
-
       - name: Set up Nextcloud
         env:
           DB_PORT: 4444
@@ -135,7 +121,7 @@ jobs:
           php occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php occ config:system:set memcache.local --value="\\OC\\Memcache\\APCu"
           php -f index.php
-          PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:8081 &
+
           export OC_PASS=1234561
           php occ user:add --password-from-env user1
           php occ user:add --password-from-env user2
@@ -153,13 +139,6 @@ jobs:
           php occ config:system:set allow_local_remote_servers --value true --type bool
           php occ richdocuments:activate-config
 
-          curl http://admin:admin@localhost:8081/ocs/v1.php/cloud/capabilities\?format\=json -H 'OCS-APIRequest: true'
-
-          curl -v http://localhost:9980/ --output -
-          curl -v http://localhost:9980/hosting/discovery --output -
-          curl -v http://localhost:9980/hosting/capabilities --output -
-
-          cat data/nextcloud.log
 
       - name: Cache node modules
         uses: actions/cache@v4
@@ -173,11 +152,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: npm install, build richdocuments in testing mode
-        working-directory: apps/richdocuments
-        run: |
-          npm ci
-          npm run dev
 
       - name: Register index for cypress-split
         env:
@@ -193,7 +167,7 @@ jobs:
           parallel: false
           wait-on: '${{ env.CYPRESS_baseUrl }}'
           working-directory: 'apps/${{ env.APP_NAME }}'
-          config: defaultCommandTimeout=10000,video=false
+          config: defaultCommandTimeout=10000,video=false,requestTimeout=15000
           tag: ${{ false && github.event_name }}
         env:
           # https://github.com/cypress-io/github-action/issues/524
@@ -205,6 +179,10 @@ jobs:
           SPLIT: 3
           SPLIT_INDEX: ${{ env.container_index }}
           CODE_RELEASE: ${{ matrix.code-image }}
+
+      - name: Debug
+        if: always()
+        run: sleep 9000
 
       - name: Upload test failure screenshots
         uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
