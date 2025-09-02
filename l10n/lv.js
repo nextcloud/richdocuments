@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No files found for this task." : "Šajā uzdevumā nav atrasta neviena datne.",
     "New Document.odt" : "Jauns Dokuments.odt",
     "New Spreadsheet.ods" : "Juans Spreadsheet.ods",
     "New Presentation.odp" : "Jauns Presentation.odp",
