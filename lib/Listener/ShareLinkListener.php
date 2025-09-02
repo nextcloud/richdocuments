@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Listener;
 
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
+use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCP\EventDispatcher\Event;
@@ -48,8 +49,9 @@ class ShareLinkListener implements \OCP\EventDispatcher\IEventListener {
 			$this->initialStateService->prepareParams(['userId' => $loggedInUser]);
 			$this->initialStateService->providePublicShare($updatable);
 
-			Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
-			Util::addScript('richdocuments', 'richdocuments-public', 'viewer');
+			Util::addInitScript(Application::APPNAME, Application::APPNAME . '-init-viewer');
+			Util::addScript(Application::APPNAME, Application::APPNAME . '-viewer', 'viewer');
+			Util::addScript(Application::APPNAME, Application::APPNAME . '-public', 'viewer');
 		}
 	}
 }

@@ -6,23 +6,6 @@
 import './init-shared.js'
 import '../css/filetypes.scss'
 
-import { getCapabilities } from './services/capabilities.ts'
 import { autoSetupBuiltInCodeServerIfNeeded } from './services/builtInCode.ts'
-
-const supportedMimes = getCapabilities().mimetypes
-const AsyncViewerComponent = () => import('./view/Viewer.vue')
-
-if (OCA.Viewer) {
-	OCA.Viewer.registerHandler({
-		id: 'richdocuments',
-		group: null,
-		mimes: supportedMimes,
-		component: AsyncViewerComponent,
-		theme: 'default',
-		canCompare: true,
-	})
-} else {
-	console.error('Unable to register viewer handler')
-}
 
 autoSetupBuiltInCodeServerIfNeeded()
