@@ -41,7 +41,7 @@ class TitleContentSlide implements ISlide {
 			$slideCommands[] = [ 'DuplicateSlide' => 1 ];
 		}
 
-		$slideCommands[] = [ 'JumpToSlide' => 'last' ];
+		$slideCommands[] = [ 'JumpToSlide' => $this->getPosition() ];
 
 		$slideCommands[] = [
 			'EditTextObject.0' => [

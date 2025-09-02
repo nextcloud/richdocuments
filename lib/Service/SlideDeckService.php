@@ -27,6 +27,7 @@ class SlideDeckService {
 Draft a presentation with slides based on the following JSON.
 Replace the title, subtitle, and content with your own.
 If the content is an array of bullet point strings, replace them as necessary and always use at least four of them. Do not place any dot (.) or hyphen (-) before the bullet points.
+Choose one of the following two presentation styles and replace the "presentationStyle" field with your choice: security, pitch
 Use the following JSON structure for your entire output.
 Output 5 or more of the JSON objects, and use each of them at least once.
 Output only the JSON array:
@@ -52,7 +53,8 @@ Output only the JSON array:
 			"Bullet point three",
 			"Bullet point four"
 		]
-	}
+	},
+	{ "presentationStyle": "" },
 ]
 ```
 
@@ -74,13 +76,14 @@ EOF;
 
 		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', 'ooxml') === 'ooxml';
 		$format = $ooxml ? 'pptx' : 'odp';
-		$emptyPresentation = $this->getPresentationTemplate('security');
 
 		try {
-			$parsedStructure = $this->parseModelJSON($rawModelOutput);
+			[$presentationStyle, $parsedStructure] = $this->parseModelJSON($rawModelOutput);
 		} catch (\JsonException) {
 			throw new RuntimeException('LLM generated faulty JSON data');
 		}
+
+		$emptyPresentation = $this->getPresentationTemplate($presentationStyle);
 
 		try {
 			$transformedPresentation = $this->remoteService->transformDocumentStructure(
@@ -114,6 +117,11 @@ EOF;
 		$presentation = new Presentation();
 
 		foreach ($modelJSON as $index => $slideJSON) {
+			if ($slideJSON['presentationStyle']) {
+				$presentation->setStyle($slideJSON['presentationStyle']);
+				continue;
+			}
+
 			$validLayout = array_key_exists($slideJSON['layout'], $layoutTypes);
 
 			if (!$validLayout) {
@@ -137,7 +145,7 @@ EOF;
 			$presentation->addSlide($slide);
 		}
 
-		return $presentation->getSlideCommands();
+		return [$presentation->getStyle(), $presentation->getSlideCommands()];
 	}
 
 	/**

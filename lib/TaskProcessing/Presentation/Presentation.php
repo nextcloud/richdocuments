@@ -10,6 +10,9 @@ class Presentation {
 	/** @var ISlide[] $slides */
 	private $slides = [];
 
+	/** @var string $style */
+	private $style = 'security';
+
 	public function __construct() {
 	}
 
@@ -25,6 +28,14 @@ class Presentation {
 	 */
 	public function getSlides(): array {
 		return $this->slides;
+	}
+
+	public function setStyle(string $style): void {
+		$this->style = $style;
+	}
+
+	public function getStyle(): string {
+		return $this->style;
 	}
 
 	/**
