@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Listener;
 
+use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Viewer\Event\LoadViewer;
@@ -36,7 +37,8 @@ class LoadViewerListener implements IEventListener {
 		}
 		if ($this->permissionManager->isEnabledForUser() && $this->userId !== null) {
 			$this->initialStateService->provideCapabilities();
-			Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
+			Util::addInitScript(Application::APPNAME, Application::APPNAME . '-init-viewer');
+			Util::addScript(Application::APPNAME, Application::APPNAME . '-viewer', 'viewer');
 			$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		}
 	}
