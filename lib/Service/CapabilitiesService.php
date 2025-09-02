@@ -135,6 +135,9 @@ class CapabilitiesService extends CachedRequestService {
 
 	private function getParsedCapabilities() {
 		$response = $this->get();
+		if (!$response) {
+			return [];
+		}
 		return json_decode($response, true);
 	}
 }
