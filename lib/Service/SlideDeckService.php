@@ -74,7 +74,7 @@ EOF;
 
 		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', 'ooxml') === 'ooxml';
 		$format = $ooxml ? 'pptx' : 'odp';
-		$emptyPresentation = $this->getBlankPresentation($format);
+		$emptyPresentation = $this->getPresentationTemplate('security');
 
 		try {
 			$parsedStructure = $this->parseModelJSON($rawModelOutput);
@@ -141,13 +141,13 @@ EOF;
 	}
 
 	/**
-	 * Creates a blank presentation file in memory
+	 * Creates a presentation file in memory
 	 *
-	 * @param string $format
+	 * @param string $name
 	 * @return resource
 	 */
-	private function getBlankPresentation(string $format) {
-		$emptyPresentationContent = $this->templateManager->getEmptyFileContent($format);
+	private function getPresentationTemplate(string $name = '') {
+		$emptyPresentationContent = $this->templateManager->getAITemplate($name);
 		$memoryStream = fopen('php://memory', 'r+');
 
 		if (!$memoryStream) {

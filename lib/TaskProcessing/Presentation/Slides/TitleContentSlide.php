@@ -7,7 +7,6 @@
 namespace OCA\Richdocuments\TaskProcessing\Presentation\Slides;
 
 use OCA\Richdocuments\TaskProcessing\Presentation\ISlide;
-use OCA\Richdocuments\TaskProcessing\Presentation\LayoutType;
 
 class TitleContentSlide implements ISlide {
 	private int $position;
@@ -38,23 +37,33 @@ class TitleContentSlide implements ISlide {
 	public function getSlideCommands(): array {
 		$slideCommands = [];
 
-		if ($this->getPosition() > 0) {
-			$slideCommands[] = [ 'JumpToSlide' => 'last' ];
-			$slideCommands[] = [ 'InsertMasterSlide' => 0 ];
+		if ($this->getPosition() > 1) {
+			$slideCommands[] = [ 'DuplicateSlide' => 1 ];
 		}
 
-		$slideCommands[] = [ 'ChangeLayoutByName' => LayoutType::TitleContent->value ];
-		$slideCommands[] = [ 'SetText.0' => $this->getTitle() ];
+		$slideCommands[] = [ 'JumpToSlide' => 'last' ];
+
+		$slideCommands[] = [
+			'EditTextObject.0' => [
+				'SelectParagraph' => 0,
+				'InsertText' => $this->getTitle(),
+			]
+		];
 
 		if (is_array($this->getContent())) {
-			$editTextObjectCommands = [
-				[ 'SelectParagraph' => 0 ],
-				[ 'InsertText' => implode(PHP_EOL, $this->getContent()) ],
+			$slideCommands[] = [
+				'EditTextObject.1' => [
+					'SelectParagraph' => 0,
+					'InsertText' => implode(PHP_EOL, $this->getContent()),
+				]
 			];
-
-			$slideCommands[] = [ 'EditTextObject.1' => $editTextObjectCommands ];
 		} else {
-			$slideCommands[] = [ 'SetText.1' => $this->getContent() ];
+			$slideCommands[] = [
+				'EditTextObject.1' => [
+					'SelectParagraph' => 0,
+					'InsertText' => $this->getContent(),
+				]
+			];
 		}
 
 		return $slideCommands;
