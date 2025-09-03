@@ -9,20 +9,25 @@ import '../css/filetypes.scss'
 import { getCapabilities } from './services/capabilities.ts'
 import { autoSetupBuiltInCodeServerIfNeeded } from './services/builtInCode.ts'
 
-const supportedMimes = getCapabilities().mimetypes
-const AsyncViewerComponent = () => import('./view/Viewer.vue')
+const major = globalThis.OC.config.version.split('.')[0]
+// if this Nextcloud version ships a viewer with init script support, then we do not need to register the legacy viewer
+// but if no we need to register it:
+if (Number.parseInt(major) > 31 || globalThis.OC.config.version.startsWith('31.0.8')) {
+	const supportedMimes = getCapabilities().mimetypes
+	const AsyncViewerComponent = () => import('./view/Viewer.vue')
 
-if (OCA.Viewer) {
-	OCA.Viewer.registerHandler({
-		id: 'richdocuments',
-		group: null,
-		mimes: supportedMimes,
-		component: AsyncViewerComponent,
-		theme: 'default',
-		canCompare: true,
-	})
-} else {
-	console.error('Unable to register viewer handler')
+	if (OCA.Viewer) {
+		OCA.Viewer.registerHandler({
+			id: 'richdocuments',
+			group: null,
+			mimes: supportedMimes,
+			component: AsyncViewerComponent,
+			theme: 'default',
+			canCompare: true,
+		})
+	} else {
+		console.error('Unable to register viewer handler')
+	}
 }
 
 autoSetupBuiltInCodeServerIfNeeded()
