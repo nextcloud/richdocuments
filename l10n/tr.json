@@ -239,7 +239,7 @@
     "Cluster is scaling …" : "Küme ölçekleniyor…",
     "The collaborative editing was terminated by another user" : "İş birlikli düzenleme başka bir kullanıcı tarafından sonlandırıldı",
     "Document loading failed" : "Belge yüklenemedi",
-    "Please check the Collabora Online server log for more details and make sure that Nextcloud can be reached from there." : "Daha fazla ayrıntı için lütfen Collabora Online sunucu günlüğüne bakın ve buradan Nextcloud üzerine erişilebildiğinden emin olun.",
+    "Please check the Collabora Online server log for more details and make sure that Nextcloud can be reached from there." : "Daha fazla ayrıntı için lütfen Collabora Online sunucu günlüğü kayıtlarına bakın ve buradan Nextcloud üzerine erişilebildiğinden emin olun.",
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "Soket bağlantısı beklenmedik bir şekilde kapandı. Ters vekil sunucu yanlış yapılandırılmış olabilir, lütfen yöneticiyle görüşün.",
     "More information can be found in the reverse proxy documentation" : "Ayrıntılı bilgi almak için ters vekil sunucu belgelerine bakabilirsiniz",
     "Close" : "Kapat",
