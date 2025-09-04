@@ -80,10 +80,15 @@ class SlideDeckGenerationProvider implements ISynchronousProvider {
 			throw new \RuntimeException('Invalid input, expected "text" key with string value');
 		}
 
-		$response = $this->slideDeckService->generateSlideDeck(
-			$userId,
-			$input['text'],
-		);
+		try {
+			$response = $this->slideDeckService->generateSlideDeck(
+				$userId,
+				$input['text'],
+			);
+		} catch (\RuntimeException $e) {
+			// We can retry in case of faulty LLM JSON
+			$this->process($userId, $input, $reportProgress);
+		}
 
 		return ['slide_deck' => $response];
 	}

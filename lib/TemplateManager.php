@@ -467,6 +467,22 @@ class TemplateManager {
 		return true;
 	}
 
+	public function getAITemplate(?string $name = null): string {
+		$emptyAITemplates = __DIR__ . '/../emptyTemplates/ai/';
+		$templateName = ($name) ?: 'security';
+		$fullTemplatePath = $emptyAITemplates . $templateName . '.odp';
+
+		if (file_exists($fullTemplatePath)) {
+			$emptyFileContent = file_get_contents($fullTemplatePath);
+
+			if ($emptyFileContent !== false) {
+				return $emptyFileContent;
+			}
+		}
+
+		return '';
+	}
+
 	/**
 	 * Return default content for empty files of a given filename by file extension
 	 */
