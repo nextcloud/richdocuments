@@ -38,6 +38,7 @@
     "@nextcloud/sharing": "^0.2.4",
     "@nextcloud/viewer": "^1.0.0",
     "@nextcloud/vue": "^8.30.0",
+    "semver": "^7.7.2",
     "vue": "^2.7.16",
     "vue-material-design-icons": "^5.3.1"
   },
