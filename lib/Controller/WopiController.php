@@ -412,7 +412,7 @@ class WopiController extends Controller {
 
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
+			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH && $wopi->getTokenType() !== Wopi::TOKEN_TYPE_USER) {
 				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_BAD_REQUEST);
 			}
 
