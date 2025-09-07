@@ -59,6 +59,7 @@ OC.L10N.register(
     "Submit" : "Адправіць",
     "Description" : "Апісанне",
     "No results" : "Няма вынікаў",
+    "Select file or folder to link to" : "Выберыце файл або каталог, на які трэба зрабіць спасылку",
     "Close" : "Закрыць",
     "Edit" : "Рэдагаваць",
     "Open file locally" : "Адкрыць файл лакальна",
