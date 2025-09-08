@@ -38,7 +38,7 @@ class TitleContentSlide implements ISlide {
 		$slideCommands = [];
 
 		if ($this->getPosition() > 1) {
-			$slideCommands[] = [ 'DuplicateSlide' => 1 ];
+			$slideCommands[] = [ 'DuplicateSlide' => $this->getPosition() - 1 ];
 		}
 
 		$slideCommands[] = [ 'JumpToSlide' => $this->getPosition() ];
