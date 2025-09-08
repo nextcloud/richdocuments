@@ -6,7 +6,6 @@
 
 namespace Tests\Richdocuments;
 
-use OCA\Richdocuments\TaskProcessing\Presentation\LayoutType;
 use OCA\Richdocuments\TaskProcessing\Presentation\Slides\TitleContentSlide;
 use PHPUnit\Framework\TestCase;
 
@@ -43,9 +42,20 @@ class TitleContentSlideTest extends TestCase {
 		$slide = new TitleContentSlide(0, 'Title', 'Content');
 
 		$expectedSlideCommands = [
-			[ 'ChangeLayoutByName' => LayoutType::TitleContent->value ],
-			[ 'SetText.0' => 'Title' ],
-			[ 'SetText.1' => 'Content' ],
+			[ 'JumpToSlide' => 0 ],
+
+			[
+				'EditTextObject.0' => [
+					'SelectParagraph' => 0,
+					'InsertText' => 'Title',
+				]
+			],
+			[
+				'EditTextObject.1' => [
+					'SelectParagraph' => 0,
+					'InsertText' => 'Content',
+				]
+			]
 		];
 
 		$this->assertJsonStringEqualsJsonString(
@@ -58,13 +68,20 @@ class TitleContentSlideTest extends TestCase {
 		$slide = new TitleContentSlide(0, 'Title', ['Content', 'Content']);
 
 		$expectedSlideCommands = [
-			[ 'ChangeLayoutByName' => LayoutType::TitleContent->value ],
-			[ 'SetText.0' => 'Title' ],
+			// Jump to slide at $this->getPosition()
+			[ 'JumpToSlide' => 0 ],
+
+			[
+				'EditTextObject.0' => [
+					'SelectParagraph' => 0,
+					'InsertText' => 'Title',
+				]
+			],
 			[
 				'EditTextObject.1' => [
-					[ 'SelectParagraph' => 0 ],
-					[ 'InsertText' => 'Content' . PHP_EOL . 'Content' ],
-				],
+					'SelectParagraph' => 0,
+					'InsertText' => 'Content' . PHP_EOL . 'Content',
+				]
 			]
 		];
 
@@ -78,11 +95,24 @@ class TitleContentSlideTest extends TestCase {
 		$slide = new TitleContentSlide(2, 'Title', 'Content');
 
 		$expectedSlideCommands = [
-			[ 'JumpToSlide' => 'last' ],
-			[ 'InsertMasterSlide' => 0 ],
-			[ 'ChangeLayoutByName' => LayoutType::TitleContent->value ],
-			[ 'SetText.0' => 'Title' ],
-			[ 'SetText.1' => 'Content' ],
+			// Duplicates slide at index $this->getPosition() - 1
+			[ 'DuplicateSlide' => 1 ],
+
+			// Jump to slide at $this->getPosition()
+			[ 'JumpToSlide' => 2 ],
+
+			[
+				'EditTextObject.0' => [
+					'SelectParagraph' => 0,
+					'InsertText' => 'Title',
+				]
+			],
+			[
+				'EditTextObject.1' => [
+					'SelectParagraph' => 0,
+					'InsertText' => 'Content',
+				]
+			]
 		];
 
 		$this->assertJsonStringEqualsJsonString(

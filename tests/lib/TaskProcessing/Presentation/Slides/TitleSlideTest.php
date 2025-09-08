@@ -6,7 +6,6 @@
 
 namespace Tests\Richdocuments;
 
-use OCA\Richdocuments\TaskProcessing\Presentation\LayoutType;
 use OCA\Richdocuments\TaskProcessing\Presentation\Slides\TitleSlide;
 use PHPUnit\Framework\TestCase;
 
@@ -29,26 +28,18 @@ class TitleSlideTest extends TestCase {
 		$slide = new TitleSlide(0, 'Title', 'Subtitle');
 
 		$expectedSlideCommands = [
-			[ 'ChangeLayoutByName' => LayoutType::Title->value ],
-			[ 'SetText.0' => 'Title' ],
-			[ 'SetText.1' => 'Subtitle' ],
-		];
-
-		$this->assertJsonStringEqualsJsonString(
-			json_encode($expectedSlideCommands),
-			json_encode($slide->getSlideCommands()),
-		);
-	}
-
-	public function testSlideCommandsWithPosition(): void {
-		$slide = new TitleSlide(2, 'Title', 'Subtitle');
-
-		$expectedSlideCommands = [
-			[ 'JumpToSlide' => 'last' ],
-			[ 'InsertMasterSlide' => 0 ],
-			[ 'ChangeLayoutByName' => LayoutType::Title->value ],
-			[ 'SetText.0' => 'Title' ],
-			[ 'SetText.1' => 'Subtitle' ],
+			[
+				'EditTextObject.0' => [
+					'SelectParagraph' => 0,
+					'InsertText' => 'Title',
+				],
+			],
+			[
+				'EditTextObject.1' => [
+					'SelectParagraph' => 0,
+					'InsertText' => 'Subtitle',
+				]
+			],
 		];
 
 		$this->assertJsonStringEqualsJsonString(
