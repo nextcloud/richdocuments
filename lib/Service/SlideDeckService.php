@@ -28,6 +28,7 @@ Draft a presentation with slides based on the following JSON.
 Replace the title, subtitle, and content with your own.
 If the content is an array of bullet point strings, replace them as necessary and always use at least four of them. Do not place any dot (.) or hyphen (-) before the bullet points.
 Choose one of the following three presentation styles and replace the "presentationStyle" field with your choice: security, pitch, triangle
+The slide titles should not contain more than three words.
 Use the following JSON structure for your entire output.
 Output 5 or more of the JSON objects, and use each of them at least once.
 Output only the JSON array:
