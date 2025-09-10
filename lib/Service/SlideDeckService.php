@@ -90,7 +90,8 @@ EOF;
 			$transformedPresentation = $this->remoteService->transformDocumentStructure(
 				'presentation.' . $format,
 				$emptyPresentation,
-				$parsedStructure
+				$parsedStructure,
+				$format
 			);
 
 			return $transformedPresentation;

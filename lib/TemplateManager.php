@@ -467,9 +467,8 @@ class TemplateManager {
 		return true;
 	}
 
-	public function getAITemplate(?string $name = null): string {
+	public function getAITemplate(?string $templateName = 'security'): string {
 		$emptyAITemplates = __DIR__ . '/../emptyTemplates/ai/';
-		$templateName = ($name) ?: 'security';
 		$fullTemplatePath = $emptyAITemplates . $templateName . '.odp';
 
 		if (file_exists($fullTemplatePath)) {
