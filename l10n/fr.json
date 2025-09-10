@@ -239,7 +239,7 @@
     "Cluster is scaling …" : "Le cluster est en cours de redimensionnement…",
     "The collaborative editing was terminated by another user" : "La modification collaborative a été arrêtée par un autre utilisateur",
     "Document loading failed" : "Échec du chargement du document",
-    "Please check the Collabora Online server log for more details and make sure that Nextcloud can be reached from there." : "Veuillez vérifier les journaux du serveur Collabora Online pour plus de détails et assuez-vous que Nextcloud peut l'atteindre.",
+    "Please check the Collabora Online server log for more details and make sure that Nextcloud can be reached from there." : "Veuillez vérifier les logs du serveur Collabora Online pour plus de détails et assuez-vous que Nextcloud peut l'atteindre.",
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "La connexion au socket a fermé inopinément. Le proxy inversé est peut-être mal configuré, veuillez contacter l'administrateur.",
     "More information can be found in the reverse proxy documentation" : "Plus d'informations peuvent être trouvées sur la documentation du proxy inversé.",
     "Close" : "Fermer",
