@@ -53,14 +53,18 @@ class TitleContentSlide implements ISlide {
 		if (is_array($this->getContent())) {
 			$slideCommands[] = [
 				'EditTextObject.1' => [
-					'SelectParagraph' => 0,
-					'InsertText' => implode(PHP_EOL, $this->getContent()),
+					'SelectText' => [],
+					'UnoCommand' => '.uno:Cut',
+					'InsertText' => implode(PHP_EOL, array_map(function ($bulletPoint) {
+						return '• ' . $bulletPoint;
+					}, $this->getContent())),
 				]
 			];
 		} else {
 			$slideCommands[] = [
 				'EditTextObject.1' => [
-					'SelectParagraph' => 0,
+					'SelectText' => [],
+					'UnoCommand' => '.uno:Cut',
 					'InsertText' => $this->getContent(),
 				]
 			];
