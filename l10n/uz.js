@@ -23,6 +23,7 @@ OC.L10N.register(
     "Cancel" : "Bekor qilish",
     "Create" : "Yaratish",
     "Description" : "Tavsif",
+    "No results" : "Natija yo'q",
     "Select file" : "Faylni tanlang",
     "Close" : "Yopish",
     "Edit" : "Tahrirlash",
