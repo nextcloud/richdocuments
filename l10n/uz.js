@@ -22,6 +22,7 @@ OC.L10N.register(
     "Confirm" : "Confirm",
     "Cancel" : "Bekor qilish",
     "Create" : "Yaratish",
+    "Submit" : "Submit",
     "Description" : "Tavsif",
     "No results" : "Natija yo'q",
     "Select file" : "Faylni tanlang",
