@@ -344,16 +344,6 @@ export default {
 			this.loading = LOADING_STATE.DOCUMENT_READY
 			clearTimeout(this.loadingTimeout)
 			this.sendPostMessage('Host_PostmessageReady')
-			if (loadState('richdocuments', 'open_local_editor', true) && !this.isEmbedded) {
-				this.sendPostMessage('Insert_Button', {
-					id: 'Open_Local_Editor',
-					imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
-					mobile: false,
-					label: t('richdocuments', 'Open in local editor'),
-					hint: t('richdocuments', 'Open in local editor'),
-					insertBefore: 'print',
-				})
-			}
 		},
 		async share() {
 			FilesAppIntegration.share()
@@ -387,6 +377,17 @@ export default {
 					FilesAppIntegration.initAfterReady()
 				} else if (args.Status === 'Document_Loaded') {
 					this.documentReady()
+
+					if (loadState('richdocuments', 'open_local_editor', true) && !this.isEmbedded) {
+				        this.sendPostMessage('Insert_Button', {
+					        id: 'Open_Local_Editor',
+					        imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
+					        mobile: false,
+					        label: t('richdocuments', 'Open in local editor'),
+					        hint: t('richdocuments', 'Open in local editor'),
+					        insertBefore: 'print',
+				        })
+			        }
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
 					this.$emit('update:loaded', true)
