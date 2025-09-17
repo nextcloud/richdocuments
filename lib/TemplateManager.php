@@ -523,7 +523,7 @@ class TemplateManager {
 
 			$query = $this->db->getQueryBuilder();
 			$query->delete('richdocuments_template')
-			    ->where($this->userId !== null ? $query->expr()->eq('userid', $query->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR)) : $query->expr()->isNull('userid'))
+				->where($this->userId !== null ? $query->expr()->eq('userid', $query->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR)) : $query->expr()->isNull('userid'))
 				->andWhere($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 			$query->executeStatement();
 		} catch (Throwable $e) {
