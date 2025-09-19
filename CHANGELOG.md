@@ -4,6 +4,19 @@
 -->
 # Changelog
 
+## 8.5.11
+
+### Fixed
+- Register handler within init script by @susnux in [#4985](https://github.com/nextcloud/richdocuments/pull/4985)
+- Do not exclude Composer dependency `src` directory by @elzody in [#4989](https://github.com/nextcloud/richdocuments/pull/4989)
+- Prevent error when sending `null` to `json_decode` by @vitormattos in [#4992](https://github.com/nextcloud/richdocuments/pull/4992)
+- Improved backwards compatibility by @luka-nextcloud in [#4997](https://github.com/nextcloud/richdocuments/pull/4997)
+- Failing Cypress tests by @elzody in [#5035](https://github.com/nextcloud/richdocuments/pull/5035)
+
+### Other
+- NPM audits
+
+
 ## 8.5.10
 
 ### Fixed
