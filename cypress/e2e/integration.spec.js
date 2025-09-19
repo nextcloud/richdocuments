@@ -90,7 +90,14 @@ describe('Nextcloud integration', function() {
 
 	it('Open locally', function() {
 		cy.get('@loleafletframe').within(() => {
-			cy.get('#Open_Local_Editor').click()
+			cy.get('.notebookbar-shortcuts-bar', { timeout: 30_000 })
+				.as('shortcuts-bar')
+
+			cy.get('@shortcuts-bar').should('be.visible')
+
+			cy.get('@shortcuts-bar')
+			    .find('button[aria-label="Open in local editor"]')
+			    .click()
 		})
 
 		cy.get('.confirmation-dialog').should('be.visible')
@@ -112,11 +119,24 @@ describe('Nextcloud integration', function() {
 		cy.get('@open').its('firstCall.args.0').should('contain', 'nc://open/' + randUser.userId + '@' + nextcloudHost + '/document.odt')
 	})
 
-	it('Insert image', function() {
+	// TODO: Unskip once there is a viable nightly Docker container
+	//       available to the workflows
+	it.skip('Insert image', function() {
 		cy.get('@loleafletframe').within(() => {
-			cy.get('#Insert-tab-label').click()
-			cy.get('#insert-insert-graphic-button').click()
-			cy.get('#insert-insert-graphic-entries #insert-insert-graphic-entry-1').click()
+			cy.get('.notebookbar-tabs-container')
+				.get('button[aria-label="Insert"]')
+				.filter('[role="tab"]')
+				.click()
+
+			cy.get('#overflow-button-insert-illustrations')
+				.find('button[aria-label="Open Illustrations"]')
+				.click()
+
+			cy.get('#insert-insert-graphic')
+				.find('button[aria-label="Image"]')
+				.click()
+
+			cy.get('#insert-insert-graphic-entry-1').click()
 		})
 		cy.get('.modal-container__content').should('be.visible')
 	})
