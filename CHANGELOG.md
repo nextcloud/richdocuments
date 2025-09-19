@@ -4,6 +4,20 @@
 -->
 # Changelog
 
+## 8.7.5
+
+### Fixed
+- Allow Collabora Online to fetch configuration from Nextcloud by @mohit-marathe in [#4982](https://github.com/nextcloud/richdocuments/pull/4982)
+- Register handler within init script by @susnux in [#4986](https://github.com/nextcloud/richdocuments/pull/4986)
+- Do not exclude Composer dependency `src` directory by @elzody in [#4990](https://github.com/nextcloud/richdocuments/pull/4990)
+- Prevent error when sending `null` to `json_decode` by @vitormattos in [#4993](https://github.com/nextcloud/richdocuments/pull/4993)
+- Improved backwards compatibility by @luka-nextcloud in [#4998](https://github.com/nextcloud/richdocuments/pull/4998)
+- Do not rely on the speculative `getMountPoint()` method by @blizzz in [#5011](https://github.com/nextcloud/richdocuments/pull/5011)
+
+### Other
+- NPM audits
+
+
 ## 8.7.4
 
 ### Fixed
