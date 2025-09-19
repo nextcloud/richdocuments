@@ -133,6 +133,8 @@ OC.L10N.register(
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Σφάλμα: Δεν είναι δυνατή η έναρξη του ενσωματωμένου διακομιστή Collabora Online, ρυθμίστε έναν αυτόνομο.",
     "Close version preview" : "Κλείσιμο προεπισκόπησης έκδοσης",
     "Edit with {productName}" : "Επεξεργασία με {productName}",
+    "Open file locally" : "Άνοιγμα αρχείου τοπικά",
+    "Open locally" : "Άνοιγμα τοπικά",
     "Failed to revert the document to older version" : "Αποτυχία επαναφοράς του εγγράφου σε παλαιότερη έκδοση",
     "Built-in CODE server failed to start" : "Ο ενσωματωμένος διακομιστής CODE απέτυχε να ξεκινήσει",
     "Remove from favorites" : "Αφαίρεση από τα αγαπημένα",
