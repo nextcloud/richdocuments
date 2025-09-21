@@ -97,6 +97,7 @@ OC.L10N.register(
     "Select tags to enforce watermarking" : "Επιλέξτε ετικέτες για υποχρεωτικό υδατογράφημα",
     "Save" : "Αποθήκευση",
     "Remove" : "Αφαίρεση",
+    "Submit name" : "Υποβολή ονόματος",
     "Confirm" : "Επιβεβαίωση",
     "Cancel" : "Ακύρωση",
     "Save As" : "Αποθήκευση ως",
