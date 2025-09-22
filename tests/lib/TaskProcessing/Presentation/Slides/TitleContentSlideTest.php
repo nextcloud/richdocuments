@@ -52,7 +52,8 @@ class TitleContentSlideTest extends TestCase {
 			],
 			[
 				'EditTextObject.1' => [
-					'SelectParagraph' => 0,
+					'SelectText' => [],
+					'UnoCommand' => '.uno:Cut',
 					'InsertText' => 'Content',
 				]
 			]
@@ -79,8 +80,9 @@ class TitleContentSlideTest extends TestCase {
 			],
 			[
 				'EditTextObject.1' => [
-					'SelectParagraph' => 0,
-					'InsertText' => 'Content' . PHP_EOL . 'Content',
+					'SelectText' => [],
+					'UnoCommand' => '.uno:Cut',
+					'InsertText' => '• Content' . PHP_EOL . '• Content',
 				]
 			]
 		];
@@ -109,7 +111,8 @@ class TitleContentSlideTest extends TestCase {
 			],
 			[
 				'EditTextObject.1' => [
-					'SelectParagraph' => 0,
+					'SelectText' => [],
+					'UnoCommand' => '.uno:Cut',
 					'InsertText' => 'Content',
 				]
 			]
