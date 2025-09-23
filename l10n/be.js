@@ -58,6 +58,7 @@ OC.L10N.register(
     "Create" : "Стварыць",
     "Submit" : "Адправіць",
     "Description" : "Апісанне",
+    "Add new token" : "Дадаць новы токен",
     "No results" : "Няма вынікаў",
     "Select file or folder to link to" : "Выберыце файл або каталог, на які трэба зрабіць спасылку",
     "Close" : "Закрыць",
