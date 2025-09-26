@@ -4,6 +4,29 @@
 -->
 # Changelog
 
+## 9.0.0
+
+### Added
+- AI-generated documents, spreadsheets, and presentations by @elzody in [#5045](https://github.com/nextcloud/richdocuments/pull/5045)
+- WOPI proof validation by @elzody in [#4902](https://github.com/nextcloud/richdocuments/pull/4902)
+- New blank document template based on MS Word's styling by @emberfiend in [#4971](https://github.com/nextcloud/richdocuments/pull/4971)
+- Allow Collabora Online to fetch settings configuration from Nextcloud by @mohit-marathe in [#4974](https://github.com/nextcloud/richdocuments/pull/4974)
+
+### Fixed
+- Also include OpenDocument types in templates by @blizzz in [#5022](https://github.com/nextcloud/richdocuments/pull/5022)
+- Failing Cypress tests by @elzody in [#5033](https://github.com/nextcloud/richdocuments/pull/5033)
+- Do not rely on speculative `getMountPoint()` by @blizzz in [#5012](https://github.com/nextcloud/richdocuments/pull/5012)
+- Error when send `null` to `json_decode` by @vitormattos in [#4994](https://github.com/nextcloud/richdocuments/pull/4994)
+- Do not exclude dependency `src` directories by @elzody in [#4991](https://github.com/nextcloud/richdocuments/pull/4991)
+- Use Material Symbol variant for delete icon by @AndyScherzinger in [#4973](https://github.com/nextcloud/richdocuments/pull/4973)
+- Incorrect URL when Nextcloud installed under a subdirectory by @timar in [#4954](https://github.com/nextcloud/richdocuments/pull/4954)
+- Do not install Composer dev dependencies for tests by @elzody in [#4968](https://github.com/nextcloud/richdocuments/pull/4968)
+
+### Other
+- Adjust testing matrix for Nextcloud 32 on stable32 by @nickvergessen in [#4995](https://github.com/nextcloud/richdocuments/pull/4995)
+- Dependency updates
+- Node and NPM engine versions update
+
 ## 9.0.0-beta.2
 
 ### Added
