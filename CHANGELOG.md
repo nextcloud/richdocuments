@@ -1,5 +1,18 @@
 # Changelog
 
+## 8.4.13
+
+### Fixed
+- Apply proper default timezone for watermarks by @juliusknorr in [#5055](https://github.com/nextcloud/richdocuments/pull/5055)
+- Guest users inherit edit_group by @elzody in [#4838](https://github.com/nextcloud/richdocuments/pull/4838)
+- Shares allow document creation only for users that can edit by @tanyaka in [#4828](https://github.com/nextcloud/richdocuments/pull/4828)
+- Ensure edit permissions are checked before template file token generation by @printminion-co in [#4799](https://github.com/nextcloud/richdocuments/pull/4799)
+
+### Other
+- NPM audits
+- Dependency updates
+
+
 ## 8.4.12
 
 ### Added
