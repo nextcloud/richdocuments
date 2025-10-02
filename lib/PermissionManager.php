@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Richdocuments;
 
 use OCP\Constants;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Node;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -112,18 +113,21 @@ class PermissionManager {
 		return false;
 	}
 
-	public function shouldWatermark(Node $node, ?string $userId = null, ?IShare $share = null): bool {
+	public function shouldWatermark(Node|ICacheEntry $nodeOrCacheEntry, ?string $userId = null, ?IShare $share = null, ?string $ownerId = null): bool {
 		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no') === 'no') {
 			return false;
 		}
 
-		if (!in_array($node->getMimetype(), $this->appConfig->getMimeTypes(), true)) {
+		if (!in_array($nodeOrCacheEntry->getMimetype(), $this->appConfig->getMimeTypes(), true)) {
 			return false;
 		}
 
-		$fileId = $node->getId();
+		$fileId = $nodeOrCacheEntry->getId();
 
-		$isUpdatable = $node->isUpdateable() && (!$share || $share->getPermissions() & Constants::PERMISSION_UPDATE);
+		$isUpdatable = $nodeOrCacheEntry instanceof Node
+			? $nodeOrCacheEntry->isUpdateable()
+			: $nodeOrCacheEntry->getPermissions() & Constants::PERMISSION_UPDATE;
+		$isUpdatable = $isUpdatable && (!$share || $share->getPermissions() & Constants::PERMISSION_UPDATE);
 
 		$hasShareAttributes = $share && method_exists($share, 'getAttributes') && $share->getAttributes() instanceof IAttributes;
 		$isDisabledDownload = $hasShareAttributes && $share->getAttributes()->getAttribute('permissions', 'download') === false;
@@ -153,7 +157,10 @@ class PermissionManager {
 		}
 
 		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareAll', 'no') === 'yes') {
-			if ($userId === null || $node->getOwner()?->getUID() !== $userId) {
+			if (!$ownerId && $nodeOrCacheEntry instanceof Node) {
+				$ownerId = $nodeOrCacheEntry->getOwner()?->getUID();
+			}
+			if ($userId === null || $ownerId !== $userId) {
 				return true;
 			}
 		}
