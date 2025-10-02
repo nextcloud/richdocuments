@@ -6,6 +6,9 @@ import { registerFileAction, FileAction } from '@nextcloud/files'
 import { getCapabilities } from './services/capabilities.ts'
 import { translate as t } from '@nextcloud/l10n'
 
+// Import the export refresh listener to initialize it
+import './export-refresh-listener.js'
+
 // eslint-disable-next-line import/no-unresolved
 import appIcon from '../img/app.svg?raw'
 
