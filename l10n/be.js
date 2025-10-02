@@ -12,6 +12,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Адсутнічае часовая папка",
     "Could not write file to disk" : "Не ўдалося запісаць файл на дыск",
     "A PHP extension stopped the file upload" : "Пашырэнне PHP спыніла запампоўванне файла",
+    "No file uploaded or file size exceeds maximum of %s" : "Файл не запампаваны, або памер файла перавышае максімальны %s",
     "Failed to upload the file" : "Не ўдалося запампаваць файл",
     "File is too big" : "Файл занадта вялікі",
     "Only template files can be uploaded" : "Можна запампоўваць толькі файлы шаблонаў",

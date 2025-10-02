@@ -84,6 +84,8 @@ OC.L10N.register(
     "Edit" : "Breyta",
     "Close version preview" : "Loka forskoðun útgáfu",
     "Edit with {productName}" : "Breyta með {productName}",
+    "Open file locally" : "Opna skrá staðvært",
+    "Open locally" : "Opna staðvært",
     "Failed to revert the document to older version" : "Mistókst að endurheimta skjalið sem eldri útgáfu",
     "Remove from favorites" : "Fjarlægja úr eftirlætum",
     "Add to favorites" : "Bæta í eftirlæti",
