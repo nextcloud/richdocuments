@@ -203,7 +203,7 @@ OC.L10N.register(
     "{productName} is not configured" : "{productName} er ikke konfigureret",
     "Loading {filename} …" : "Indlæser {filename} …",
     "Failed to load {productName} - please try again later" : "Kunne ikke indlæse {productName} - prøv venligst igen senere",
-    "Open in local editor" : "Åben i lokal editor",
+    "Open in local editor" : "Åbn i lokal editor",
     "Close" : "Luk",
     "Edit" : "Redigér",
     "Open file locally" : "Åben fil lokalt",
