@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No files found for this task." : "Nem található fájl ehhez a feladathoz.",
     "Cannot create document" : "A dokumentum nem hozható létre",
     "New Document.odt" : "Új dokumentum.odt",
     "New Spreadsheet.ods" : "Új munkafüzet.ods",
