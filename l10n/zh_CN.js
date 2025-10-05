@@ -298,7 +298,7 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "为只读的链接共享显示水印",
     "Show watermark on link shares with specific system tags" : "为打了特定系统标签的链接共享显示水印",
     "Error" : "错误",
-    "An error occurred" : "发生了一个错误",
+    "An error occurred" : "发生错误",
     "Please choose your nickname to continue as guest user." : "请选择你的昵称来以一个访客的身份继续使用",
     "Nickname" : "昵称",
     "Set" : "设置",
