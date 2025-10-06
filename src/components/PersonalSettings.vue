@@ -34,47 +34,6 @@
 			</em>
 		</p>
 
-		<!-- Zotero -->
-		<div class="zotero-section">
-			<p><strong>{{ t('richdocuments', 'Zotero') }}</strong></p>
-			<template v-if="hasZoteroSupport">
-				<div class="input-wrapper">
-					<div class="zotero-inline">
-						<div class="zotero-input-wrapper">
-							<NcTextField id="zoteroAPIKeyField"
-								:value="zoteroAPIKey"
-								:label="t('richdocuments', 'Enter Zotero API Key')"
-								@update:value="setZoteroAPIKey" />
-						</div>
-						<NcButton id="zoteroAPIKeySave"
-							type="secondary"
-							@click="saveZoteroAPIKey">
-							{{ t('richdocuments', 'Save') }}
-						</NcButton>
-						<NcButton id="zoteroAPIKeyRemove"
-							type="secondary"
-							:title="t('richdocuments', 'Remove Zotero API Key')"
-							@click="resetZoteroAPI">
-							<DeleteIcon :size="20" />
-						</NcButton>
-					</div>
-					<p>
-						<em>
-							{{ t('richdocuments', 'To use Zotero specify your API key here. You can create your API key in your') }}
-							<a href="https://www.zotero.org/settings/keys" target="_blank">
-								{{ t('richdocuments', 'Zotero account API settings.') }}
-							</a>
-						</em>
-					</p>
-				</div>
-			</template>
-			<p v-else>
-				<em>
-					{{ t('richdocuments', 'This instance does not support Zotero, because the feature is missing or disabled. Please contact the administration.') }}
-				</em>
-			</p>
-		</div>
-
 		<!-- Document signing -->
 		<div class="docsign-section">
 			<p class="doc_sign_head">
@@ -158,7 +117,6 @@ export default {
 	data() {
 		return {
 			templateFolder: this.initial.templateFolder || '',
-			hasZoteroSupport: this.initial.hasZoteroSupport || false,
 			hasSettingIframeSupport: this.initial.hasSettingIframeSupport || false,
 			settingIframeUrl: this.initial.setting_iframe_url || '',
 			zoteroAPIKey: this.initial.zoteroAPIKey || '',
@@ -202,9 +160,6 @@ export default {
 				console.error('Failed to generate token for admin settings')
 			}
 		},
-		setZoteroAPIKey(newVal) {
-			this.zoteroAPIKey = newVal
-		},
 		async onTemplateSelectButtonClick() {
 			OC.dialogs.filepicker(
 				this.t('richdocuments', 'Select a personal template folder'),
@@ -224,15 +179,6 @@ export default {
 			const success = await this.updateSetting({ templateFolder: '' })
 			if (success) {
 				this.templateFolder = ''
-			}
-		},
-		async saveZoteroAPIKey() {
-			await this.updateSetting({ zoteroAPIKeyInput: this.zoteroAPIKey })
-		},
-		async resetZoteroAPI() {
-			const success = await this.updateSetting({ zoteroAPIKeyInput: '' })
-			if (success) {
-				this.zoteroAPIKey = ''
 			}
 		},
 		async setDocumentSigningCert(val) {
@@ -293,16 +239,6 @@ export default {
 .input-wrapper {
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
-}
-
-.zotero-section p {
-	margin-top: 5px !important;
-}
-
-.zotero-inline {
-	display: flex;
-	align-items: center;
 	gap: 1rem;
 }
 
