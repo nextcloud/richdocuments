@@ -49,7 +49,7 @@ class BeforeFetchPreviewListener implements IEventListener {
 		}
 
 		$userId = $this->userSession->getUser() ? $this->userSession->getUser()->getUID() : null;
-		if ($this->permissionManager->shouldWatermark($event->getNode(), $userId, $share)) {
+		if ($this->permissionManager->shouldWatermarkByNode($event->getNode(), $userId, $share)) {
 			throw new NotFoundException();
 		}
 	}
