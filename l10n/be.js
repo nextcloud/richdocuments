@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No files found for this task." : "Не знойдзена файлаў для гэтага задання.",
     "File already exists" : "Файл ужо існуе",
     "Saved" : "Захавана",
     "Error when saving" : "Памылка пры захаванні",
