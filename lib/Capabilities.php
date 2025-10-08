@@ -11,6 +11,7 @@ namespace OCA\Richdocuments;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 
 class Capabilities implements ICapability {
@@ -91,6 +92,7 @@ class Capabilities implements ICapability {
 	private ?array $capabilities = null;
 
 	public function __construct(
+		private IConfig $iconfig,
 		private AppConfig $config,
 		private CapabilitiesService $capabilitiesService,
 		private PermissionManager $permissionManager,
@@ -129,6 +131,20 @@ class Capabilities implements ICapability {
 			if (!$this->appManager->isEnabledForUser('files_pdfviewer')) {
 				$defaultMimetypes[] = 'application/pdf';
 				$optionalMimetypes = array_diff($optionalMimetypes, ['application/pdf']);
+			}
+
+			$configuredOptionalMimetypes = $this->iconfig->getSystemValue('richdocuments_optional_mimetypes', null);
+			if (is_string($configuredOptionalMimetypes) && strtolower(trim($configuredOptionalMimetypes)) === 'all') {
+				$optionalMimetypes = array_merge($optionalMimetypes, $defaultMimetypes);
+				$defaultMimetypes = [];
+			} else if (is_array($configuredOptionalMimetypes)) {
+				$defaultMimetypes = array_diff($defaultMimetypes, $configuredOptionalMimetypes);
+				$optionalMimetypes = array_merge($optionalMimetypes, $configuredOptionalMimetypes);
+			}
+
+			// For an unknown reason there must be at least one mimetype
+			if (count($defaultMimetypes) === 0) {
+				$defaultMimetypes = ['dummy-by-nextcloud-office-for-no-default-mimetype'];
 			}
 
 			$this->capabilities = [
