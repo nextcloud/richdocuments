@@ -8,6 +8,8 @@ namespace Tests\Richdocuments;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\PermissionManager;
+use OCP\Constants;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Node;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -162,7 +164,7 @@ class PermissionManagerTest extends TestCase {
 		$this->systemTagMapper->expects($this->once())->method('getTagIdsForObjects')->willReturn(['testFileId' => $objectTagIds]);
 		$this->appConfig->expects($this->once())->method('getAppValueArray')->willReturn($watermarkTagIds);
 
-		$result = $this->permissionManager->shouldWatermark($node, $userId, $share);
+		$result = $this->permissionManager->shouldWatermarkByNode($node, $userId, $share);
 
 		$this->assertTrue($result);
 	}
@@ -190,7 +192,7 @@ class PermissionManagerTest extends TestCase {
 		$this->systemTagMapper->expects($this->once())->method('getTagIdsForObjects')->willReturn(['testFileId' => $objectTagIds]);
 		$this->appConfig->expects($this->once())->method('getAppValueArray')->willReturn($watermarkTagIds);
 
-		$result = $this->permissionManager->shouldWatermark($node, $userId, null);
+		$result = $this->permissionManager->shouldWatermarkByNode($node, $userId, null);
 
 		$this->assertTrue($result);
 	}
@@ -214,7 +216,31 @@ class PermissionManagerTest extends TestCase {
 				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkTags', 'no', 'no'],
 				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareTalkPublic', 'no', 'yes'],
 			]);
-		$result = $this->permissionManager->shouldWatermark($node, $userId, $share);
+		$result = $this->permissionManager->shouldWatermarkByNode($node, $userId, $share);
+
+		$this->assertTrue($result);
+	}
+
+	public function testShouldWatermarkCacheEntry(): void {
+		$cacheEntry = $this->createCacheEntryMock();
+		$share = $this->createShareMock(IShare::TYPE_ROOM);
+		$userId = null;
+
+		$this->appConfig->expects($this->any())
+			->method('getMimeTypes')
+			->willReturn(Capabilities::MIMETYPES);
+
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no', 'yes'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkAll', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkRead', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkSecure', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkTags', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareTalkPublic', 'no', 'yes'],
+			]);
+		$result = $this->permissionManager->shouldWatermarkByCacheEntry($cacheEntry, $userId, $share);
 
 		$this->assertTrue($result);
 	}
@@ -222,8 +248,16 @@ class PermissionManagerTest extends TestCase {
 	private function createNodeMock(): Node {
 		$node = $this->createMock(Node::class);
 		$node->expects($this->any())->method('getMimetype')->willReturn('application/vnd.oasis.opendocument.spreadsheet');
-		$node->expects($this->any())->method('getId')->willReturn('testFileId');
+		$node->expects($this->any())->method('getId')->willReturn(42);
 		$node->expects($this->any())->method('isUpdateable')->willReturn(false);
+		return $node;
+	}
+
+	private function createCacheEntryMock(): ICacheEntry {
+		$node = $this->createMock(ICacheEntry::class);
+		$node->expects($this->any())->method('getMimetype')->willReturn('application/vnd.oasis.opendocument.spreadsheet');
+		$node->expects($this->any())->method('getId')->willReturn(42);
+		$node->expects($this->any())->method('getPermissions')->willReturn(Constants::PERMISSION_READ);
 		return $node;
 	}
 

@@ -113,21 +113,54 @@ class PermissionManager {
 		return false;
 	}
 
-	public function shouldWatermark(Node|ICacheEntry $nodeOrCacheEntry, ?string $userId = null, ?IShare $share = null, ?string $ownerId = null): bool {
+	public function shouldWatermarkByNode(
+		Node $node,
+		?string $userId = null,
+		?IShare $share = null
+	): bool {
+		return $this->shouldWatermark(
+			$node->getId(),
+			$node->getMimetype(),
+			$node->isUpdateable(),
+			$userId,
+			$share,
+			$node->getOwner()?->getUID(),
+		);
+	}
+
+	public function shouldWatermarkByCacheEntry(
+		ICacheEntry $cacheEntry,
+		?string $userId = null,
+		?IShare $share = null,
+		?string $ownerId = null
+	): bool {
+		return $this->shouldWatermark(
+			$cacheEntry->getId(),
+			$cacheEntry->getMimetype(),
+			(bool)($cacheEntry->getPermissions() & Constants::PERMISSION_UPDATE),
+			$userId,
+			$share,
+			$ownerId,
+		);
+	}
+
+	protected function shouldWatermark(
+		int $fileId,
+		string $mimetype,
+		bool $isFileUpdatable,
+		?string $userId,
+		?IShare $share,
+		?string $ownerId,
+	): bool {
 		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no') === 'no') {
 			return false;
 		}
 
-		if (!in_array($nodeOrCacheEntry->getMimetype(), $this->appConfig->getMimeTypes(), true)) {
+		if (!in_array($mimetype, $this->appConfig->getMimeTypes(), true)) {
 			return false;
 		}
 
-		$fileId = $nodeOrCacheEntry->getId();
-
-		$isUpdatable = $nodeOrCacheEntry instanceof Node
-			? $nodeOrCacheEntry->isUpdateable()
-			: $nodeOrCacheEntry->getPermissions() & Constants::PERMISSION_UPDATE;
-		$isUpdatable = $isUpdatable && (!$share || $share->getPermissions() & Constants::PERMISSION_UPDATE);
+		$isUpdatable = $isFileUpdatable && (!$share || $share->getPermissions() & Constants::PERMISSION_UPDATE);
 
 		$hasShareAttributes = $share && method_exists($share, 'getAttributes') && $share->getAttributes() instanceof IAttributes;
 		$isDisabledDownload = $hasShareAttributes && $share->getAttributes()->getAttribute('permissions', 'download') === false;
@@ -157,9 +190,6 @@ class PermissionManager {
 		}
 
 		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareAll', 'no') === 'yes') {
-			if (!$ownerId && $nodeOrCacheEntry instanceof Node) {
-				$ownerId = $nodeOrCacheEntry->getOwner()?->getUID();
-			}
 			if ($userId === null || $ownerId !== $userId) {
 				return true;
 			}

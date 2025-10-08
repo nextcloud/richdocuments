@@ -33,7 +33,7 @@ class OverwritePublicSharePropertiesListener implements IEventListener {
 			return;
 		}
 
-		if ($this->permissionManager->shouldWatermark($node, $this->userId, $share)) {
+		if ($this->permissionManager->shouldWatermarkByNode($node, $this->userId, $share)) {
 			$share->setHideDownload(true);
 		}
 	}
