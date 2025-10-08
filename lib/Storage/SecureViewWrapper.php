@@ -89,19 +89,25 @@ class SecureViewWrapper extends Wrapper {
 			fclose($fp);
 		}
 
-		try {
-			$node = $this->rootFolder->get($this->mountPoint . $path);
-		} catch (NotFoundException) {
-			// If the file is just created we may need to check the parent as this is only just about figuring out if it is a share
-			$node = $this->rootFolder->get(dirname($this->mountPoint . $path));
+		$storage = $sourceStorage ?? $this;
+		$cacheEntry = $storage->getCache()->get($path);
+		if (!$cacheEntry) {
+			$parent = dirname($path);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			$cacheEntry = $storage->getCache()->get($parent);
+			if (!$cacheEntry) {
+				throw new NotFoundException(sprintf('Could not find cache entry for path and parent of %s within storage %s ', $path, $storage->getId()));
+			}
 		}
 
-		$isSharedStorage = $node->getStorage()->instanceOfStorage(ISharedStorage::class);
+		$isSharedStorage = $storage->instanceOfStorage(ISharedStorage::class);
 
-		$share = $isSharedStorage ? $node->getStorage()->getShare() : null;
+		$share = $isSharedStorage ? $storage->getShare() : null;
 		$userId = $this->userSession->getUser()?->getUID();
 
-		return $this->permissionManager->shouldWatermark($node, $userId, $share);
+		return $this->permissionManager->shouldWatermark($cacheEntry, $userId, $share, $storage->getOwner($path) ?: null);
 	}
 
 
