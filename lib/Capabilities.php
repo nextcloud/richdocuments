@@ -38,7 +38,6 @@ class Capabilities implements ICapability {
 	];
 
 	public const MIMETYPES_MSOFFICE = [
-		'application/msonenote',
 		'application/msword',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
