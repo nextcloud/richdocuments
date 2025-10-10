@@ -34,47 +34,6 @@
 			</em>
 		</p>
 
-		<!-- Zotero -->
-		<div class="zotero-section">
-			<p><strong>{{ t('richdocuments', 'Zotero') }}</strong></p>
-			<template v-if="hasZoteroSupport">
-				<div class="input-wrapper">
-					<div class="zotero-inline">
-						<div class="zotero-input-wrapper">
-							<NcTextField id="zoteroAPIKeyField"
-								:value="zoteroAPIKey"
-								:label="t('richdocuments', 'Enter Zotero API Key')"
-								@update:value="setZoteroAPIKey" />
-						</div>
-						<NcButton id="zoteroAPIKeySave"
-							type="secondary"
-							@click="saveZoteroAPIKey">
-							{{ t('richdocuments', 'Save') }}
-						</NcButton>
-						<NcButton id="zoteroAPIKeyRemove"
-							type="secondary"
-							:title="t('richdocuments', 'Remove Zotero API Key')"
-							@click="resetZoteroAPI">
-							<DeleteIcon :size="20" />
-						</NcButton>
-					</div>
-					<p>
-						<em>
-							{{ t('richdocuments', 'To use Zotero specify your API key here. You can create your API key in your') }}
-							<a href="https://www.zotero.org/settings/keys" target="_blank">
-								{{ t('richdocuments', 'Zotero account API settings.') }}
-							</a>
-						</em>
-					</p>
-				</div>
-			</template>
-			<p v-else>
-				<em>
-					{{ t('richdocuments', 'This instance does not support Zotero, because the feature is missing or disabled. Please contact the administration.') }}
-				</em>
-			</p>
-		</div>
-
 		<!-- Document signing -->
 		<div class="docsign-section">
 			<p class="doc_sign_head">
