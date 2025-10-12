@@ -4,6 +4,18 @@
 -->
 # Changelog
 
+## 8.7.6
+
+### Fixed
+- Node cannot be found when within group folder by @blizzz in [#5080](https://github.com/nextcloud/richdocuments/pull/5080)
+- Delete template source after initial token is generated for guest users by @kaiyou in [#5076](https://github.com/nextcloud/richdocuments/pull/5076)
+- Adjust Cypress selectors by @elzody in [#5046](https://github.com/nextcloud/richdocuments/pull/5046)
+- Failing Cypress tests by @elzody in [#5034](https://github.com/nextcloud/richdocuments/pull/5034)
+
+### Other
+- NPM audits
+- Dependency updates
+
 ## 8.7.5
 
 ### Fixed
