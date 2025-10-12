@@ -4,6 +4,16 @@
 -->
 # Changelog
 
+## 8.5.12
+
+### Fixed
+- Delete template source after initial token is generated for guest users by @kaiyou in [#5075](https://github.com/nextcloud/richdocuments/pull/5075)
+- Apply proper default timezone for watermarks by @juliusknorr in [#5056](https://github.com/nextcloud/richdocuments/pull/5056)
+
+### Other
+- NPM audits
+- Dependency updates
+
 ## 8.5.11
 
 ### Fixed
