@@ -4,6 +4,17 @@
 -->
 # Changelog
 
+## 9.0.1
+
+### Fixed
+- Node cannot be found when within group folder by @blizzz in [#5081](https://github.com/nextcloud/richdocuments/pull/5081)
+- Delete template source after initial token is generated for guest users by @kaiyou in [#5077](https://github.com/nextcloud/richdocuments/pull/5077)
+
+### Other
+- Run Cypress on stable32 server version by @elzody in [#5078](https://github.com/nextcloud/richdocuments/pull/5078)
+- NPM audits
+- Dependency updates
+
 ## 9.0.0
 
 ### Added
