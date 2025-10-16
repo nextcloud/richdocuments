@@ -79,7 +79,7 @@
     "Empty" : "Tom",
     "Anonymous guest" : "Anonym gæst",
     "%s (Guest)" : "%s (Gæst)",
-    "Edit office documents directly in your browser." : "Rediger office dokcumenter direkte i din browser.",
+    "Edit office documents directly in your browser." : "Redigér office dokumenter direkte i din browser.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Denne applikation kan forbinde til en Collabora Online (eller anden) server (WOPI lignende klient). Nextcloud er WOPI hosten. Læs venligst dokumentationen for at lære mere om dette.\n\nDu kan også redigere dine dokumenter offline med Collabora Office app'en fra **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** og **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** butikken.",
     "Accepted file types: {accepts}" : "Accepterede filtyper: {accepts}",
     "Uploaded template \"{name}\"" : "Uploadet skabelon \"{name}\"",
