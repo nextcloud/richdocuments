@@ -25,10 +25,10 @@ export default {
 					}
 				}
 
-				// Workaround to add the current user to the suggestions if they are not already in the list+
+				// Workaround to add the current user to the suggestions if they are not already in the list
 				// https://github.com/nextcloud/server/issues/48180
 				const currentUser = getCurrentUser()
-				if (!users.some(user => user.id === currentUser.uid) && currentUser.uid.includes(text)) {
+				if (!users.some(user => user.id === currentUser.uid) && (currentUser.uid.includes(text) || currentUser.displayName.includes(text))) {
 					users.push({ id: currentUser.uid, label: currentUser.displayName })
 				}
 
