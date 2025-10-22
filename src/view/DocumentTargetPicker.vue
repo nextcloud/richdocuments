@@ -120,7 +120,6 @@ export default {
 						self.fetchReferences()
 					},
 				})
-				.setContainer(this.$refs.picker)
 				.build()
 				.pick()
 		},
