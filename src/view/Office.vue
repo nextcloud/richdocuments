@@ -340,6 +340,7 @@ export default {
 				readOnly: forceReadOnly || version > 0,
 				revisionHistory: !this.isPublic,
 				closeButton: !Config.get('hideCloseButton') && !this.isEmbedded,
+				target: data.target,
 			})
 			this.$set(this.formData, 'action', action)
 			this.$set(this.formData, 'accessToken', data.token)
