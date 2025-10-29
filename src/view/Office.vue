@@ -87,6 +87,7 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import AlertOctagonOutline from 'vue-material-design-icons/AlertOctagonOutline.vue'
 import { loadState } from '@nextcloud/initial-state'
 import { showInfo, spawnDialog } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
 
 import ZoteroHint from '../components/Modal/ZoteroHint.vue'
 import { basename, dirname } from 'path'
@@ -191,6 +192,7 @@ export default {
 			showZotero: false,
 			modified: false,
 			hasWidgetEditingEnabled: false,
+			recentExport: false,
 
 			formData: {
 				action: null,
@@ -415,12 +417,19 @@ export default {
 				}
 				break
 			case 'UI_Close':
+				// If we recently did a saveAs operation, emit refresh event
+				if (this.recentExport) {
+					emit('richdocuments:export-completed', {
+						timestamp: Date.now(),
+					})
+				}
 				this.close()
 				break
 			case 'Session_Closed':
 				this.handleSessionClosed(args)
 				break
 			case 'UI_SaveAs':
+				this.recentExport = true
 				this.saveAs(args.format)
 				break
 			case 'Action_Save_Resp':
