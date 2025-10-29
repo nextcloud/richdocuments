@@ -46,7 +46,7 @@ OC.L10N.register(
     "New presentation" : "Nouvelle présentation",
     "New diagram" : "Nouveau diagramme",
     "{user} has mentioned you in {node}" : "{user} vous a mentionné dans {node}",
-    "Link to office document section" : "Lien vers la section des documents bureautiques",
+    "Link to office document section" : "Lien vers une section de document bureautique",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Titres",
     "Sections" : "Sections",
