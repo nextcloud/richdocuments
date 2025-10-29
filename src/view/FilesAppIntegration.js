@@ -431,7 +431,7 @@ export default {
 			return
 		}
 		OCA?.Files?.Sidebar?.open(this.filePath + '/' + this.fileName)
-		OCA?.Files?.Sidebar?.setActiveTab('version_vue')
+		OCA?.Files?.Sidebar?.setActiveTab('files_versions')
 	},
 
 	/**
