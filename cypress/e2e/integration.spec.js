@@ -63,9 +63,9 @@ describe('Nextcloud integration', function() {
 			.should('be.visible')
 			.should('contain.text', filename)
 
-		cy.get('#tab-version_vue').should('be.visible')
+		cy.get('#tab-files_versions').should('be.visible')
 
-		cy.get('#tab-version_vue .version__info__label').contains('Current version')
+		cy.get('#tab-files_versions .version__info__label').contains('Current version')
 	})
 
 	it('Save as', function() {
