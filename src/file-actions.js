@@ -24,14 +24,7 @@ const openPdf = new FileAction({
 	},
 
 	enabled: (files) => {
-		if (files.length !== 1) {
-			return false
-		}
-
-		const isPdf = files[0].mime === 'application/pdf'
-		// Only enable the file action when files_pdfviewer is enabled
-		const optionalMimetypes = getCapabilities().mimetypesNoDefaultOpen
-		return isPdf && optionalMimetypes.includes('application/pdf')
+		return files.length === 1 && getCapabilities().mimetypesNoDefaultOpen.includes(files[0].mime)
 	},
 
 	exec: (file) => {
