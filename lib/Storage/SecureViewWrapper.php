@@ -107,7 +107,7 @@ class SecureViewWrapper extends Wrapper {
 		$share = $isSharedStorage ? $storage->getShare() : null;
 		$userId = $this->userSession->getUser()?->getUID();
 
-		return $this->permissionManager->shouldWatermark($cacheEntry, $userId, $share, $storage->getOwner($path) ?: null);
+		return $this->permissionManager->shouldWatermarkByCacheEntry($cacheEntry, $userId, $share, $storage->getOwner($path) ?: null);
 	}
 
 
