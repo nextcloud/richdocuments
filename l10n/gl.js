@@ -101,7 +101,7 @@ OC.L10N.register(
     "Connecting Collabora Online Single Click with Nginx" : "Conectando Collabora Online con Nginx cun só clic",
     "Setting up a new server" : "Configuración dun novo servidor",
     "Collabora Online should use the same protocol as the server installation." : "Collabora Online debe utilizar o mesmo protocolo que a instalación do servidor.",
-    "Your browser has been unable to connect to the Collabora server:" : "O seu navegador non foi quen de conectar co servidor de Collabora:",
+    "Your browser has been unable to connect to the Collabora server:" : "O seu navegador non é quen de conectar co servidor de Collabora:",
     "This URL is determined on the Collabora server either from the configured URL or the server_name parameter in coolwsd.xml." : "Este URL determínase no servidor de Collabora a partir do URL configurado ou do parámetro server_name en coolwsd.xml.",
     "Collabora Online server is reachable." : "O servidor de Collabora Online é accesíbel.",
     "URL used by the browser:" : "URL empregado polo navegador:",
