@@ -17,8 +17,8 @@ const handleScrollReset = () => {
 // see https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport
 const handleResize = () => {
 	const expectedHeight = window.visualViewport.height ?? document.documentElement.clientHeight
-	const frame = document.getElementById('richdocumentsframe')
-	if (frame) {
+	const frames = document.getElementsByClassName('office-viewer__iframe')
+	for (const frame of frames) {
 		frame.style.maxHeight = expectedHeight + 'px'
 	}
 	const viewer = document.querySelector('.office-viewer')
