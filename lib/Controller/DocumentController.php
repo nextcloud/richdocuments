@@ -406,8 +406,20 @@ class DocumentController extends Controller {
 
 			$this->tokenManager->setGuestName($wopi, $guestName);
 
+			$params = [
+				'urlSrc' => $this->tokenManager->getUrlSrc($file)
+			];
+
+			$targetData = $this->session->get(self::SESSION_FILE_TARGET);
+			if ($targetData) {
+				$this->session->remove(self::SESSION_FILE_TARGET);
+				if ($targetData['fileId'] === $fileId) {
+					$params['target'] = $targetData['target'];
+				}
+			}
+
 			return new DataResponse(array_merge(
-				[ 'urlSrc' => $this->tokenManager->getUrlSrc($file) ],
+				$params,
 				$wopi->jsonSerialize(),
 			));
 		} catch (Exception $e) {
