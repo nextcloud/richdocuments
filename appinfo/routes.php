@@ -18,6 +18,7 @@ return [
 		['name' => 'document#heartbeat', 'url' => '/heartbeat', 'verb' => 'GET'],
 
 		['name' => 'document#editOnline', 'url' => 'editonline', 'verb' => 'GET'],
+		['name' => 'document#editOnlineFollowMeSlideShow', 'url' => 'editonline/followPresentation/{fileId}', 'verb' => 'GET'],
 		['name' => 'document#editOnlineTarget', 'url' => 'editonline/{fileId}/{target}', 'verb' => 'GET'],
 
 		// external api access

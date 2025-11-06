@@ -34,6 +34,7 @@ use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Reference\OfficeTargetReferenceProvider;
+use OCA\Richdocuments\Reference\OfficePresentationStarter;
 use OCA\Richdocuments\Storage\SecureViewWrapper;
 use OCA\Richdocuments\TaskProcessing\SlideDeckGenerationProvider;
 use OCA\Richdocuments\TaskProcessing\SlideDeckGenerationTaskType;
@@ -87,6 +88,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeGetTemplatesEvent::class, BeforeGetTemplatesListener::class);
 		$context->registerEventListener(OverwritePublicSharePropertiesEvent::class, OverwritePublicSharePropertiesListener::class);
 		$context->registerReferenceProvider(OfficeTargetReferenceProvider::class);
+		$context->registerReferenceProvider(OfficePresentationStarter::class);
 		$context->registerSensitiveMethods(WopiMapper::class, [
 			'getPathForToken',
 			'getWopiForToken',

@@ -64,6 +64,10 @@ class InitialStateService {
 		$this->initialState->provideInitialState('startPresentation', $startPresentation);
 	}
 
+	public function provideFollowPresentation(bool $startFollowMePresentation = false): void {
+		$this->initialState->provideInitialState('startFollowMePresentation', $startFollowMePresentation);
+	}
+
 	public function provideAdminSettings(): void {
 		$this->initialState->provideInitialState('adminSettings', [
 			'templatesAvailable' => $this->capabilitiesService->hasTemplateSource(),

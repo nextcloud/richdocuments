@@ -383,6 +383,33 @@ class DocumentController extends Controller {
 		return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
 	}
 
+	#[NoCSRFRequired]
+	#[NoAdminRequired]
+	#[UseSession]
+	public function editOnlineFollowMeSlideShow(int $fileId): RedirectResponse|TemplateResponse {
+		if (!$this->userId) {
+			return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$file = $this->getFileForUser($fileId);
+
+			$this->session->set(self::SESSION_FILE_TARGET, [
+				'fileId' => $file->getId()
+			]);
+
+			$filePath = $file->getFileInfo()->getInternalPath();
+			$directoryPath = substr($filePath, 0, strrpos($filePath, '/') + 1);
+			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/apps/files/' . $directoryPath . $file->getId());
+			$parameters = '?openfile=true&startFollowMePresentation=true';
+			$redirectUrl = $redirectUrl . $parameters;
+			return new RedirectResponse($redirectUrl);
+		} catch (NotFoundException|NotPermittedException|NoUserException) {
+		}
+
+		return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
+	}
+
 	#[PublicPage]
 	public function token(int $fileId, ?string $shareToken = null, ?string $path = null, ?string $guestName = null): DataResponse {
 		try {

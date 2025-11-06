@@ -325,6 +325,7 @@ export default {
 			Config.update('urlsrc', data.urlSrc)
 			Config.update('wopi_callback_url', loadState('richdocuments', 'wopi_callback_url', ''))
 			Config.update('startPresentation', loadState('richdocuments', 'startPresentation', false))
+			Config.update('startFollowMePresentation', loadState('richdocuments', 'startFollowMePresentation', false))
 
 			const forceReadOnly = this.isEmbedded && !this.hasWidgetEditingEnabled
 
@@ -336,6 +337,7 @@ export default {
 				closeButton: !Config.get('hideCloseButton') && !this.isEmbedded,
 				startPresentation: Config.get('startPresentation'),
 				target: data.target,
+				startFollowMePresentation: Config.get('startFollowMePresentation'),
 			})
 			this.$set(this.formData, 'action', action)
 			this.$set(this.formData, 'accessToken', data.token)
