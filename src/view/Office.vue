@@ -326,6 +326,7 @@ export default {
 			Config.update('wopi_callback_url', loadState('richdocuments', 'wopi_callback_url', ''))
 			Config.update('startPresentation', loadState('richdocuments', 'startPresentation', false))
 			Config.update('startFollowMePresentation', loadState('richdocuments', 'startFollowMePresentation', false))
+			Config.update('presentationLeaderId', loadState('richdocuments', 'presentationLeaderId', false))
 
 			const forceReadOnly = this.isEmbedded && !this.hasWidgetEditingEnabled
 
@@ -338,6 +339,7 @@ export default {
 				startPresentation: Config.get('startPresentation'),
 				target: data.target,
 				startFollowMePresentation: Config.get('startFollowMePresentation'),
+				presentationLeaderId: Config.get('presentationLeaderId'),
 			})
 			this.$set(this.formData, 'action', action)
 			this.$set(this.formData, 'accessToken', data.token)

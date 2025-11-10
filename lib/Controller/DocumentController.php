@@ -386,7 +386,7 @@ class DocumentController extends Controller {
 	#[NoCSRFRequired]
 	#[NoAdminRequired]
 	#[UseSession]
-	public function editOnlineFollowMeSlideShow(int $fileId): RedirectResponse|TemplateResponse {
+	public function editOnlineFollowMeSlideShow(int $fileId, ?string $leaderId = null): RedirectResponse|TemplateResponse {
 		if (!$this->userId) {
 			return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
 		}
@@ -398,10 +398,11 @@ class DocumentController extends Controller {
 				'fileId' => $file->getId()
 			]);
 
-			$filePath = $file->getFileInfo()->getInternalPath();
-			$directoryPath = substr($filePath, 0, strrpos($filePath, '/') + 1);
-			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/apps/files/' . $directoryPath . $file->getId());
-			$parameters = '?openfile=true&startFollowMePresentation=true';
+			$filePath = $file->getPath();
+			$pathPrefixLen = strlen('/' . $this->userId. '/files');
+			$directoryPath = substr($filePath, $pathPrefixLen , strrpos($filePath, '/') - $pathPrefixLen + 1);
+			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/apps/files/files/' . $file->getId());
+			$parameters = '?openfile=true&startFollowMePresentation=true&presentationLeaderId=' . $leaderId . '&dir=' . $directoryPath;
 			$redirectUrl = $redirectUrl . $parameters;
 			return new RedirectResponse($redirectUrl);
 		} catch (NotFoundException|NotPermittedException|NoUserException) {

@@ -39,8 +39,8 @@ class OfficePresentationStarter extends ADiscoverableReferenceProvider {
 		$start = $this->urlGenerator->getAbsoluteURL('/apps/' . Application::APPNAME);
 		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/' . Application::APPNAME);
 
-		$noIndexMatch = preg_match('/^' . preg_quote($start, '/') . '\/editonline\/followPresentation\/([0-9]+)/', $referenceText) === 1;
-		$indexMatch = preg_match('/^' . preg_quote($startIndex, '/') . '\/editonline\/followPresentation\/([0-9]+)/', $referenceText) === 1;
+		$noIndexMatch = preg_match('/^' . preg_quote($start, '/') . '\/editonline\/followPresentation\/([0-9]+)\/(.*)$/', $referenceText) === 1;
+		$indexMatch = preg_match('/^' . preg_quote($startIndex, '/') . '\/editonline\/followPresentation\/([0-9]+)\/(.*)$/', $referenceText) === 1;
 
 		return $noIndexMatch || $indexMatch;
 	}
@@ -52,9 +52,9 @@ class OfficePresentationStarter extends ADiscoverableReferenceProvider {
 		$start = $this->urlGenerator->getAbsoluteURL('/apps/' . Application::APPNAME);
 		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/' . Application::APPNAME);
 
-		$matched = preg_match('/^' . preg_quote($start, '/') . '\/editonline\/followPresentation\/([0-9]+)/', $referenceText, $matches) === 1;
+		$matched = preg_match('/^' . preg_quote($start, '/') . '\/editonline\/followPresentation\/([0-9]+)\/(.*)$/', $referenceText, $matches) === 1;
 		if (!$matched) {
-			$matched = preg_match('/^' . preg_quote($startIndex, '/') . '\/editonline\/followPresentation\/([0-9]+)/', $referenceText, $matches) === 1;
+			$matched = preg_match('/^' . preg_quote($startIndex, '/') . '\/editonline\/followPresentation\/([0-9]+)\/(.*)$/', $referenceText, $matches) === 1;
 		}
 
 		if (!$matched) {

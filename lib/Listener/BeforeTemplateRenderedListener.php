@@ -38,5 +38,9 @@ class BeforeTemplateRenderedListener implements IEventListener {
 
 		$startFollowMePresentation = $this->request->getParam('startFollowMePresentation') === 'true';
 		$this->initialStateService->provideFollowPresentation($startFollowMePresentation);
+
+		$presentationLeaderId = $this->request->getParam('presentationLeaderId');
+		if ($presentationLeaderId)
+			$this->initialStateService->providePresentationLeader($presentationLeaderId);
 	}
 }

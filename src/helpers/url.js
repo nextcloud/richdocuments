@@ -29,7 +29,7 @@ const getWopiSrc = (fileId) => {
 	return wopiurl
 }
 
-const getWopiUrl = ({ fileId, readOnly, closeButton, revisionHistory, target = undefined, startPresentation = false, startFollowMePresentation = false }) => {
+const getWopiUrl = ({ fileId, readOnly, closeButton, revisionHistory, target = undefined, startPresentation = false, startFollowMePresentation = false, presentationLeaderId = '' }) => {
 	// Only set the revision history parameter if the versions app is enabled
 	revisionHistory = revisionHistory && window?.oc_appswebroots?.files_versions
 
@@ -46,6 +46,7 @@ const getWopiUrl = ({ fileId, readOnly, closeButton, revisionHistory, target = u
 		+ (target ? '&target=' + encodeURIComponent(target) : '')
 		+ (startPresentation ? '&startPresentation=1' : '')
 		+ (startFollowMePresentation ? '&startFollowMePresentation=1' : '')
+		+ (presentationLeaderId ? '&presentationLeaderId=' + presentationLeaderId : '')
 }
 
 const getDocumentUrlFromTemplate = (templateId, fileName, fileDir, fillWithTemplate) => {

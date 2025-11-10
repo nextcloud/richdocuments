@@ -23,6 +23,7 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import TableOfContentsIcon from 'vue-material-design-icons/TableOfContents.vue'
+import { getCurrentUser } from '@nextcloud/auth'
 
 export default {
 	name: 'FollowMePresentationPicker',
@@ -99,7 +100,7 @@ export default {
 		},
 		submit() {
 			const fileLink = window.location.protocol + '//' + window.location.host
-				+ generateUrl('/apps/richdocuments/editonline/followPresentation/{fileId}', { fileId: this.fileId })
+				+ generateUrl('/apps/richdocuments/editonline/followPresentation/{fileId}/{leaderId}', { fileId: this.fileId, leaderId: getCurrentUser().uid })
 			this.$emit('submit', fileLink)
 		},
 		async fetchReferences() {
