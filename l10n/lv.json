@@ -49,6 +49,8 @@
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "Ligzdas savienojums negaidīti aizvērās. Apvērstais starpniekserveris varētu būt nepareizi konfigurēts. Lūgums sazināties ar pārvaldītāju.",
     "Close" : "Aizvērt",
     "Edit" : "Labot",
+    "Open file locally" : "Atvērt datni vietēji",
+    "Open locally" : "Atvērt vietēji",
     "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Datnei tagad vajadzētu atvērties. Ja tas nenotiek, jāpārliecinās, ka sistēmā ir uzstādīts Nextcloud klients.",
     "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju",
     "Remove from favorites" : "Noņemt no izlases",
