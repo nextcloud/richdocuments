@@ -136,7 +136,7 @@ class WopiController extends Controller {
 		$isTaskProcessingEnabled = $isSmartPickerEnabled && $this->taskProcessingManager->isTaskProcessingEnabled();
 
 		$share = $this->getShareForWopiToken($wopi, $file);
-		$shouldUseSecureView = $this->permissionManager->shouldWatermark($file, $wopi->getEditorUid(), $share);
+		$shouldUseSecureView = $this->permissionManager->shouldWatermarkByNode($file, $wopi->getEditorUid(), $share);
 
 		// If the file is locked manually by a user we want to open it read only for all others
 		$canWriteThroughLock = true;
