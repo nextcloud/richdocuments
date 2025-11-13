@@ -30,6 +30,7 @@ class RichDocumentsContext implements Context {
 	private $fileIds = [];
 	/** @var array List of templates fetched for a given file type */
 	private $templates = [];
+	private array $directoryListing = [];
 
 	/** @BeforeScenario */
 	public function gatherContexts(BeforeScenarioScope $scope) {
@@ -73,6 +74,47 @@ class RichDocumentsContext implements Context {
 
 		Assert::assertNotEmpty($this->fileId);
 		Assert::assertNotEmpty($this->wopiToken);
+	}
+
+	/**
+	 * @When the download button for :path will be visible to :user
+	 */
+	public function downloadButtonIsVisible(string $path, string $user): void {
+		$this->downloadButtonIsNotVisibleOrNot($path, $user, true);
+	}
+
+	/**
+	 * @When the download button for :path will not be visible to :user
+	 */
+	public function downloadButtonIsNotVisible(string $path, string $user): void {
+		$this->downloadButtonIsNotVisibleOrNot($path, $user, false);
+	}
+
+	private function downloadButtonIsNotVisibleOrNot(string $path, string $user, bool $isVisible): void {
+		$hideDownloadProperty = '{http://nextcloud.org/ns}hide-download';
+		$this->serverContext->usingWebAsUser($user);
+		$fileInfo = $this->filesContext->listFolder($path, 0, [$hideDownloadProperty]);
+
+		if ($isVisible) {
+			Assert::assertTrue(!isset($fileInfo[$hideDownloadProperty]) || $fileInfo[$hideDownloadProperty] === 'false');
+		} else {
+			Assert::assertTrue(isset($fileInfo[$hideDownloadProperty]), 'property is not set');
+			Assert::assertTrue($fileInfo[$hideDownloadProperty] === 'true', 'property is not true');
+			Assert::assertTrue(isset($fileInfo[$hideDownloadProperty]) && $fileInfo[$hideDownloadProperty] === 'true');
+		}
+	}
+
+	/**
+	 * @When the download button for :path will not be visible in the last link share
+	 */
+	public function theDownloadButtonWillNotBeVisibleInLastLinkShare(string $path): void {
+		$hideDownloadProperty = '{http://nextcloud.org/ns}hide-download';
+		$this->serverContext->usingWebAsUser();
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$davClient = $this->filesContext->getPublicSabreClient($shareToken);
+		$result = $davClient->propFind($path, ['{http://nextcloud.org/ns}hide-download'], 1);
+		$fileInfo = $result[array_key_first($result)];
+		Assert::assertTrue(!isset($fileInfo[$hideDownloadProperty]) || $fileInfo[$hideDownloadProperty] === 'true');
 	}
 
 	public function generateTokenWithApi($user, $fileId, ?string $shareToken = null, ?string $path = null, ?string $guestName = null) {
@@ -247,5 +289,27 @@ class RichDocumentsContext implements Context {
 		$fileId = $result['{http://owncloud.org/ns}fileid'];
 
 		$this->wopiContext->collaboraRenamesTo($fileId, $newName);
+	}
+
+	/**
+	 * @When admin enables secure view
+	 */
+	public function enableSecureView(): void {
+		$this->serverContext->actAsAdmin(function () {
+			$watermarkKeysToEnable = [
+				'watermark_enabled',
+				'watermark_linkAll',
+				'watermark_shareRead',
+			];
+
+			foreach ($watermarkKeysToEnable as $configKey) {
+				$this->serverContext->sendOCSRequest(
+					'POST',
+					'apps/provisioning_api/api/v1/config/apps/files/' . $configKey,
+					['value' => 'yes'],
+				);
+				$this->serverContext->assertHttpStatusCode(200);
+			}
+		});
 	}
 }
