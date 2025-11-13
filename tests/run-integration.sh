@@ -50,11 +50,13 @@ PHPPIDB=$!
 
 $OCC config:app:set richdocuments wopi_url --value="http://localhost:9980"
 $OCC config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
+$OCC config:app:set files watermark_enabled --value="yes"
+$OCC config:app:set files watermark_linkAll --value="yes"
+$OCC config:app:set files watermark_shareRead --value="yes"
 $OCC richdocuments:activate-config
 $OCC config:system:set allow_local_remote_servers --value true --type bool
 $OCC config:system:set gs.trustedHosts 0 --value="localhost:$PORT_SERVERA"
 $OCC config:system:set gs.trustedHosts 1 --value="localhost:$PORT_SERVERB"
-
 
 vendor/bin/behat $SCENARIO_TO_RUN
 RESULT=$?
