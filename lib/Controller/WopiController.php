@@ -64,8 +64,8 @@ use Psr\Log\LoggerInterface;
 
 #[RestrictToWopiServer]
 class WopiController extends Controller {
-	// Signifies LOOL that document has been changed externally in this storage
-	public const LOOL_STATUS_DOC_CHANGED = 1010;
+	// Signifies COOL that document has been changed externally in this storage
+	public const COOL_STATUS_DOC_CHANGED = 1010;
 
 	public const WOPI_AVATAR_SIZE = 64;
 
@@ -586,7 +586,7 @@ class WopiController extends Controller {
 				$file = $this->rootFolder->get($path);
 			} else {
 				$file = $this->getFileForWopiToken($wopi);
-				$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
+				$wopiHeaderTime = $this->request->getHeader('X-COOL-WOPI-Timestamp');
 
 				if (!empty($wopiHeaderTime) && $wopiHeaderTime !== Helper::toISO8601($file->getMTime() ?? 0)) {
 					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
@@ -594,7 +594,7 @@ class WopiController extends Controller {
 						'storageTime' => Helper::toISO8601($file->getMTime() ?? 0)
 					]);
 					// Tell WOPI client about this conflict.
-					return new JSONResponse(['LOOLStatusCode' => self::LOOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
+					return new JSONResponse(['COOLStatusCode' => self::COOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
 				}
 			}
 
