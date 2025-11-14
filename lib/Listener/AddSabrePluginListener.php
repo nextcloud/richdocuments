@@ -14,6 +14,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Container\ContainerInterface;
 
+/** @template-implements IEventListener<SabrePluginAddEvent|BeforeSabrePubliclyLoadedEvent> */
 class AddSabrePluginListener implements IEventListener {
 
 	public function __construct(

@@ -9,16 +9,13 @@ namespace OCA\Richdocuments\DAV;
 
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\Node;
-use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
-use OCA\Richdocuments\PermissionManager;
+use OCA\Richdocuments\Service\SecureViewService;
 use OCA\Richdocuments\Storage\SecureViewWrapper;
 use OCP\Files\ForbiddenException;
 use OCP\Files\NotFoundException;
-use OCP\Files\Storage\ISharedStorage;
-use OCP\Files\Storage\IStorage;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IAppConfig;
-use OCP\IUserSession;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
@@ -27,14 +24,13 @@ use Sabre\DAV\ServerPlugin;
 class SecureViewPlugin extends ServerPlugin {
 	public function __construct(
 		protected WOPIMiddleware $wopiMiddleware,
-		protected IUserSession $userSession,
-		protected PermissionManager $permissionManager,
 		protected IAppConfig $appConfig,
+		protected SecureViewService $secureViewService,
 	) {
 	}
 
 	public function initialize(Server $server) {
-		if ($this->appConfig->getValueString(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no') === 'no') {
+		if (!$this->secureViewService->isEnabled()) {
 			return;
 		}
 		$server->on('propFind', $this->handleGetProperties(...));
@@ -64,49 +60,19 @@ class SecureViewPlugin extends ServerPlugin {
 	}
 
 	private function isDownloadable(\OCP\Files\Node $node): bool {
-		try {
-			$this->checkFileAccess($node->getInternalPath(), $node->getStorage());
+		$storage = $node->getStorage();
+		if ($this->wopiMiddleware->isWOPIRequest()
+			|| $storage === null
+			|| !$storage->instanceOfStorage(SecureViewWrapper::class)
+		) {
 			return true;
-		} catch (ForbiddenException) {
+		}
+
+		try {
+			return !$this->secureViewService->shouldSecure($node->getInternalPath(), $storage);
+		} catch (StorageNotAvailableException|ForbiddenException|NotFoundException $e) {
+			// Exceptions cannot be nicely inferred.
 			return false;
 		}
-	}
-
-	private function checkFileAccess(string $path, IStorage $storage): void {
-		if ($this->wopiMiddleware->isWOPIRequest() || !$storage->instanceOfStorage(SecureViewWrapper::class)) {
-			return;
-		}
-
-		if ($this->shouldSecure($path, $storage)) {
-			throw new ForbiddenException('Download blocked due the secure view policy', false);
-		}
-	}
-
-	// FIXME: remove duplication by moving into a SecureViewService
-	private function shouldSecure(string $path, ?IStorage $sourceStorage = null): bool {
-		if ($sourceStorage !== $this && $sourceStorage !== null) {
-			$fp = $sourceStorage->fopen($path, 'r');
-			fclose($fp);
-		}
-
-		$storage = $sourceStorage ?? $this;
-		$cacheEntry = $storage->getCache()->get($path);
-		if (!$cacheEntry) {
-			$parent = dirname($path);
-			if ($parent === '.') {
-				$parent = '';
-			}
-			$cacheEntry = $storage->getCache()->get($parent);
-			if (!$cacheEntry) {
-				throw new NotFoundException(sprintf('Could not find cache entry for path and parent of %s within storage %s ', $path, $storage->getId()));
-			}
-		}
-
-		$isSharedStorage = $storage->instanceOfStorage(ISharedStorage::class);
-
-		$share = $isSharedStorage ? $storage->getShare() : null;
-		$userId = $this->userSession->getUser()?->getUID();
-
-		return $this->permissionManager->shouldWatermark($cacheEntry, $userId, $share, $storage->getOwner($path) ?: null);
 	}
 }
