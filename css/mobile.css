@@ -15,7 +15,7 @@
 		padding-top: 0;
 	}
 
-	#richdocumentsframe {
+	.office-viewer__iframe {
 		height: 100%;
 		position: fixed;
 	}

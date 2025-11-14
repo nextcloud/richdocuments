@@ -99,7 +99,7 @@ import {
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration.js'
 import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora.js'
-import { enableScrollLock, disableScrollLock } from '../helpers/safariFixer.js'
+import { enableScrollLock, disableScrollLock } from '../helpers/mobileFixer.js'
 import axios from '@nextcloud/axios'
 import {
 	generateUrl,

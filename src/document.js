@@ -9,7 +9,7 @@ import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import Config from './services/config.tsx'
 import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters.js'
-import { enableScrollLock } from './helpers/safariFixer.js'
+import { enableScrollLock } from './helpers/mobileFixer.js'
 import PostMessageService from './services/postMessage.tsx'
 import { getCapabilities } from './services/capabilities.ts'
 import {
