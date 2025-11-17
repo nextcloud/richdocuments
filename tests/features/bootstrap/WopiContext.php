@@ -81,7 +81,7 @@ class WopiContext implements Context {
 		$options = [
 			'body' => $file,
 			'headers' => [
-				'X-LOOL-WOPI-Timestamp' => $this->checkFileInfoResult['LastModifiedTime']
+				'X-COOL-WOPI-Timestamp' => $this->checkFileInfoResult['LastModifiedTime']
 			]
 		];
 		try {
@@ -287,7 +287,7 @@ class WopiContext implements Context {
 		$options = [
 			'body' => $file,
 			'headers' => [
-				'X-LOOL-WOPI-Timestamp' => $this->checkFileInfoResult['LastModifiedTime'],
+				'X-COOL-WOPI-Timestamp' => $this->checkFileInfoResult['LastModifiedTime'],
 				'X-WOPI-SuggestedTarget' => $newName,
 				'X-WOPI-Override' => 'PUT_RELATIVE',
 			]
@@ -303,7 +303,7 @@ class WopiContext implements Context {
 		$client = new Client();
 		$options = [
 			'headers' => [
-				'X-LOOL-WOPI-Timestamp' => $this->checkFileInfoResult['LastModifiedTime'],
+				'X-COOL-WOPI-Timestamp' => $this->checkFileInfoResult['LastModifiedTime'],
 				'X-WOPI-RequestedName' => $newName,
 				'X-WOPI-Override' => 'RENAME_FILE',
 			],
