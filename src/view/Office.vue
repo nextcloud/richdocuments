@@ -188,6 +188,9 @@ export default {
 			modified: false,
 			hasWidgetEditingEnabled: false,
 
+			// Track the last requested save-as filename for export operations
+			lastSaveAsFilename: null,
+
 			formData: {
 				action: null,
 				accessToken: null,
@@ -417,8 +420,24 @@ export default {
 				this.saveAs(args.format)
 				break
 			case 'Action_Save_Resp':
-				if (args.fileName !== this.filename) {
-					FilesAppIntegration.saveAs(args.fileName)
+				console.debug('[viewer] Received post message Action_Save_Resp', args, this.lastSaveAsFilename)
+				if (args.success) {
+					let newFileName = args.fileName
+
+					// If no filename is provided for exportas, use the last tracked filename
+					if (!newFileName && args.result === 'exportas' && this.lastSaveAsFilename) {
+						newFileName = this.lastSaveAsFilename
+					}
+
+					if (newFileName && newFileName !== this.filename) {
+						// When exporting (e.g., DOCX -> PDF), a new file is created
+						// Fetch its metadata and emit files:node:created to show it in the files list
+						FilesAppIntegration.createNodeForNewFile(newFileName)
+					} else {
+						// When saving the current file, update its modification time
+						FilesAppIntegration.updateFileInfo(undefined, Date.now())
+					}
+					this.lastSaveAsFilename = null
 				}
 				break
 			case 'UI_InsertGraphic':
