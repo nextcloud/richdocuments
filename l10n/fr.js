@@ -53,7 +53,7 @@ OC.L10N.register(
     "Images" : "Images",
     "Sheets" : "Feuilles",
     "Slides" : "Diapositives",
-    "Office" : "Nextcloud Office",
+    "Office" : "Office",
     "Nextcloud Assistant Slide Deck Generator" : "Générateur de Diapositives avec Nextcloud Assistant",
     "Generate Slide Deck" : "Générer un diaporama",
     "Generate a slide deck from a presentation script" : "Générer un diaporama à partir d'un prompt",
