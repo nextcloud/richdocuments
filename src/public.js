@@ -10,14 +10,11 @@ import {
 	isDownloadHidden,
 } from './helpers/index.js'
 import { getCapabilities } from './services/capabilities.ts'
-import { registerNewFileMenuEntries } from './view/NewFileMenu.js'
 
 document.addEventListener('DOMContentLoaded', () => {
 	if (!isPublicShare() || !OCA.Viewer) {
 		return
 	}
-
-	registerNewFileMenuEntries()
 
 	const isEnabledFilesPdfViewer = getCapabilities().mimetypesNoDefaultOpen.includes('application/pdf')
 
