@@ -550,23 +550,19 @@ export default {
 		}
 
 		try {
-			// Query the directory containing the file, not the file itself
+			const path = `${this.filePath}/${basename}`
 			const client = davGetClient()
-			const results = await client.getDirectoryContents(`${davRootPath}${this.filePath}`, {
+			const results = await client.getDirectoryContents(`${davRootPath}${path}`, {
 				details: true,
 				data: davGetDefaultPropfind(),
 			})
-
-			// Find the specific file in the directory listing
-			const nodes = results.data
-				.map((result) => davResultToNode(result))
-				.filter((node) => node.basename === basename)
+			const nodes = results.data.map((result) => davResultToNode(result))
 
 			if (nodes[0]) {
 				console.debug('[FilesAppIntegration] Emitting files:node:created for', basename)
 				emit('files:node:created', nodes[0])
 			} else {
-				console.warn('[FilesAppIntegration] New file not found in directory:', basename)
+				console.warn('[FilesAppIntegration] New file not found:', basename)
 			}
 		} catch (e) {
 			console.error('Failed to fetch new file metadata from webdav', e)
