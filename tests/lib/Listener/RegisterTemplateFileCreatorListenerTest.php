@@ -114,6 +114,7 @@ class RegisterTemplateFileCreatorListenerTest extends TestCase {
 	public function testHandleDoesNotRegisterIfUserCannotEdit() {
 		$event = $this->createMock(RegisterTemplateCreatorEvent::class);
 		$event->method('getTemplateManager')->willReturn($this->templateManager);
+		$this->permissionManager->method('loggedInUser')->willReturn('user');
 		$this->permissionManager->method('isEnabledForUser')->willReturn(true);
 		$this->permissionManager->method('userCanEdit')->willReturn(false);
 		$this->capabilitiesService->method('getCapabilities')->willReturn(['something']);
