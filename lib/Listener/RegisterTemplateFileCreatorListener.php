@@ -34,7 +34,13 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 			return;
 		}
 
-		if (!$this->permissionManager->isEnabledForUser() || !$this->permissionManager->userCanEdit() || empty($this->capabilitiesService->getCapabilities())) {
+		if (empty($this->capabilitiesService->getCapabilities())) {
+			return;
+		}
+
+		$user = $this->permissionManager->loggedInUser();
+		$userCanCreate = $this->permissionManager->isEnabledForUser($user) || $this->permissionManager->userCanEdit($user);
+		if ($user && !$userCanCreate) {
 			return;
 		}
 
