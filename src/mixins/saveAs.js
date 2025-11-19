@@ -4,6 +4,7 @@
  */
 
 import { spawnDialog } from '@nextcloud/dialogs'
+import { basename } from 'path'
 import SaveAs from '../components/Modal/SaveAs.vue'
 
 export default {
@@ -16,7 +17,13 @@ export default {
 					format,
 					description: t('richdocuments', 'Save a copy of the file under a new name and continue editing the new file'),
 				},
-				(value) => value && this.sendPostMessage('Action_SaveAs', { Filename: value, Notify: true }),
+				(value) => {
+					if (value) {
+						// Track the requested filename for export operations
+						this.lastSaveAsFilename = basename(value)
+						this.sendPostMessage('Action_SaveAs', { Filename: value, Notify: true })
+					}
+				},
 			)
 		},
 	},
