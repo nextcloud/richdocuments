@@ -540,7 +540,7 @@ export default {
 	 * @param {string} basename - The name of the new file (e.g., "test.pdf")
 	 */
 	async createNodeForNewFile(basename) {
-		if (isPublicShare()) {
+		if (isPublic) {
 			return
 		}
 
