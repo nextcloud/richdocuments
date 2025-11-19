@@ -454,3 +454,17 @@ Cypress.Commands.add('makeTalkRoomPublic', (user, token, password = '') => {
 	})
 })
 
+Cypress.Commands.add('newFileFromMenu', (fileType = 'document', fileName = 'MyNewFile') => {
+	cy.get('form[data-cy-upload-picker=""]')
+		.should('be.visible')
+		.click()
+
+	cy.get('button[role="menuitem"]')
+		.contains('New ' + fileType)
+		.should('be.visible')
+		.click()
+
+	cy.get('input[data-cy-files-new-node-dialog-input=""]')
+		.should('be.visible')
+		.type(fileName + '{enter}')
+})
