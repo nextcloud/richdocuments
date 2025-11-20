@@ -41,10 +41,10 @@ OC.L10N.register(
     "Download" : "Unduh",
     "Guest" : "Tamu",
     "New file" : "Berkas baru",
-    "Could not create file" : "Tidak dapat membuat berkas",
     "Error" : "Kesalahan",
     "An error occurred" : "Terjadi kesalahan",
     "Nickname" : "Nama panggilan",
-    "Saving…" : "Menyimpan..."
+    "Saving…" : "Menyimpan...",
+    "Could not create file" : "Tidak dapat membuat berkas"
 },
 "nplurals=1; plural=0;");

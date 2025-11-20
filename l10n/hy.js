@@ -23,8 +23,8 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Մանրամասներ",
     "Download" : "Ներբեռնել",
-    "Could not create file" : "Չկարողացա ստեղծել ֆայլը",
     "Error" : "Սխալ",
-    "Nickname" : "Մականուն"
+    "Nickname" : "Մականուն",
+    "Could not create file" : "Չկարողացա ստեղծել ֆայլը"
 },
 "nplurals=2; plural=(n != 1);");

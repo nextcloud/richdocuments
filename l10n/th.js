@@ -65,12 +65,12 @@ OC.L10N.register(
     "Details" : "รายละเอียด",
     "Download" : "ดาวน์โหลด",
     "New file" : "ไฟล์ใหม่",
-    "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกแล้ว แต่มีข้อผิดพลาด: Collabora Online ควรใช้โปรโตคอลเดียวกับการติดตั้งบนเซิร์ฟเวอร์",
     "Could not establish connection to the Collabora Online server. This might be due to a missing configuration of your web server. For more information, please visit: " : "ไม่สามารถสร้างการเชื่อมต่อกับเซิร์ฟเวอร์ Collabora Online ซึ่งอาจเกิดจากการกำหนดค่าเว็บเซิร์ฟเวอร์ของคุณขาดหายไป สำหรับข้อมูลเพิ่มเติม กรุณาเยี่ยมชม:",
     "Error" : "ข้อผิดพลาด",
     "An error occurred" : "เกิดข้อผิดพลาด",
     "Nickname" : "ชื่อเล่น",
+    "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "มีเอกสารอยู่แล้ว"
 },
