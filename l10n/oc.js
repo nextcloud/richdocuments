@@ -36,12 +36,12 @@ OC.L10N.register(
     "Download" : "Telecargar",
     "Guest" : "Convidat",
     "New file" : "Fichièr novèl",
-    "Could not create file" : "Impossible de crear lo fichièr",
     "Error" : "Error",
     "An error occurred" : "Una error s’es producha",
     "Nickname" : "Escais",
     "Saving…" : "Enregistrament…",
     "Last saved version" : "Darrièra version salvagarda",
+    "Could not create file" : "Impossible de crear lo fichièr",
     "Collabora Online" : "Collabora en linha"
 },
 "nplurals=2; plural=(n > 1);");

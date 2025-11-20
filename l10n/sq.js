@@ -39,11 +39,11 @@ OC.L10N.register(
     "Download" : "Shkarko",
     "Guest" : "I ftuar",
     "New file" : "Skedë e re",
-    "Could not create file" : "Kartela s’u krijua dot",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "U ruajt me gabim: Collabora Online do të duhej të përdorte të njëjtin protokoll si instalimi i shërbyesit.",
     "Error" : "Error",
     "Nickname" : "Nofkë",
     "Saving…" : "Duke u ruajtur...",
+    "Could not create file" : "Kartela s’u krijua dot",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");
