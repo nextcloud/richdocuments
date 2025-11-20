@@ -27,7 +27,7 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Detallar",
     "Download" : "Yüklə",
-    "Could not create file" : "Faylı yaratmaq olmur",
-    "Error" : "Səhv"
+    "Error" : "Səhv",
+    "Could not create file" : "Faylı yaratmaq olmur"
 },
 "nplurals=2; plural=(n != 1);");

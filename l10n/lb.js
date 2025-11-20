@@ -22,9 +22,9 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Detailer",
     "Download" : "Eroflueden",
-    "Could not create file" : "De Fichier konnt net erstallt ginn",
     "Error" : "Fehler",
     "Nickname" : "Spëtznumm",
+    "Could not create file" : "De Fichier konnt net erstallt ginn",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");
