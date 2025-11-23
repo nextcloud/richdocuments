@@ -109,6 +109,7 @@ OC.L10N.register(
     "Select tags to enforce watermarking" : "برچسب ها را برای اجرای علامت چاپ انتخاب کنید",
     "Save" : "ذخیره",
     "Remove" : "حذف",
+    "Submit name" : "ارسال نام",
     "Confirm" : "تأیید",
     "Cancel" : "لغو",
     "Save As" : "ذخیره",
