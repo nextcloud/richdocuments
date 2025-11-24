@@ -395,7 +395,8 @@ class DocumentController extends Controller {
 			$file = $this->getFileForUser($fileId);
 
 			$this->session->set(self::SESSION_FILE_TARGET, [
-				'fileId' => $file->getId()
+				'fileId' => $file->getId(),
+				'PresentationLeader' => $file->getFileInfo()->getOwner()->getUid()
 			]);
 
 			$filePath = $file->getPath();
@@ -425,7 +426,7 @@ class DocumentController extends Controller {
 			}
 
 			$isGuest = $guestName || !$this->userId;
-			$wopi = $this->getToken($file, $share, null, $isGuest);
+			$wopi = $this->getToken($file, $share, null, $isGuest, presentationLeader: $this->session->get(self::SESSION_FILE_TARGET)['PresentationLeader']);
 
 			$this->tokenManager->setGuestName($wopi, $guestName);
 
@@ -520,7 +521,7 @@ class DocumentController extends Controller {
 		throw new NotFoundException();
 	}
 
-	private function getToken(File $file, ?IShare $share = null, ?int $version = null, bool $isGuest = false): Wopi {
+	private function getToken(File $file, ?IShare $share = null, ?int $version = null, bool $isGuest = false, ?string $presentationLeader = null): Wopi {
 		// Pass through $version
 		$templateFile = $this->templateManager->getTemplateSource($file->getId());
 		if ($templateFile) {
@@ -540,7 +541,7 @@ class DocumentController extends Controller {
 		}
 
 
-		return $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId);
+		return $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId, presentationLeader: $presentationLeader);
 	}
 
 	private function getWopiFileId(int $fileId, ?int $version = null): string {

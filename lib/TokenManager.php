@@ -45,7 +45,7 @@ class TokenManager {
 	/**
 	 * @throws Exception
 	 */
-	public function generateWopiToken(string $fileId, ?string $shareToken = null, ?string $editoruid = null, bool $direct = false): Wopi {
+	public function generateWopiToken(string $fileId, ?string $shareToken = null, ?string $editoruid = null, bool $direct = false, ?string $presentationLeader = null): Wopi {
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
@@ -121,7 +121,7 @@ class TokenManager {
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 		$guestName = $editoruid === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
-		return $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, $hideDownload, $direct, 0, $shareToken);
+		return $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, $hideDownload, $direct, 0, $shareToken, $presentationLeader);
 	}
 
 	/**

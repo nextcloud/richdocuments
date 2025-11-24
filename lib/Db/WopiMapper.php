@@ -14,6 +14,8 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
+use OCP\ICacheFactory;
+use OCP\ICache;
 
 /** @template-extends QBMapper<Wopi> */
 class WopiMapper extends QBMapper {
@@ -23,6 +25,7 @@ class WopiMapper extends QBMapper {
 		private LoggerInterface $logger,
 		private ITimeFactory $timeFactory,
 		private AppConfig $appConfig,
+		private ICacheFactory $cacheFactory,
 	) {
 		parent::__construct($db, 'richdocuments_wopi', Wopi::class);
 	}
@@ -38,7 +41,7 @@ class WopiMapper extends QBMapper {
 	 * @param int $templateDestination
 	 * @return Wopi
 	 */
-	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost, ?string $guestDisplayname = null, $hideDownload = false, $direct = false, $templateId = 0, $share = null) {
+	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost, ?string $guestDisplayname = null, $hideDownload = false, $direct = false, $templateId = 0, $share = null, ?string $presentationLeader = null) {
 		$token = $this->random->generate(32, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
 
 		$wopi = Wopi::fromParams([
@@ -57,8 +60,20 @@ class WopiMapper extends QBMapper {
 			'remoteServer' => '',
 			'remoteServerToken' => '',
 			'share' => $share,
-			'tokenType' => $guestDisplayname === null ? Wopi::TOKEN_TYPE_USER : Wopi::TOKEN_TYPE_GUEST
+			'tokenType' => $guestDisplayname === null ? Wopi::TOKEN_TYPE_USER : Wopi::TOKEN_TYPE_GUEST,
+			'presentationLeader' => $presentationLeader
 		]);
+
+		// store transient value in memcache keyed by token with TTL = token expiry - now
+		if ($presentationLeader !== null) {
+			/** @var ICache $cache */
+			$cache = $this->cacheFactory->createLocal('richdocuments_wopi');
+			$ttl = $this->calculateNewTokenExpiry() - $this->timeFactory->getTime();
+			if ($ttl <= 0) {
+				$ttl = 60;
+			}
+			$cache->set('wopi_extra_' . $token, json_encode(['PresentationLeader' => $presentationLeader]), (int)$ttl);
+		}
 
 		/** @var Wopi $wopi */
 		$wopi = $this->insert($wopi);

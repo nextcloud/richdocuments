@@ -124,6 +124,8 @@ class Wopi extends Entity implements \JsonSerializable {
 	/** @var int */
 	protected $tokenType = 0;
 
+	protected ?string $presentationLeader = null;
+
 	public function __construct() {
 		$this->addType('ownerUid', Types::STRING);
 		$this->addType('editorUid', Types::STRING);
@@ -139,6 +141,7 @@ class Wopi extends Entity implements \JsonSerializable {
 		$this->addType('hideDownload', Types::BOOLEAN);
 		$this->addType('direct', Types::BOOLEAN);
 		$this->addType('tokenType', Types::INTEGER);
+		$this->addType('presentationLeader', Types::STRING);
 	}
 
 	public function hasTemplateId() {
@@ -166,6 +169,14 @@ class Wopi extends Entity implements \JsonSerializable {
 
 	public function getDirect() {
 		return (bool)$this->direct;
+	}
+
+	public function setPresentationLeader(?string $val): void {
+		$this->presentationLeader = $val;
+	}
+
+	public function getPresentationLeader(): ?string {
+		return $this->presentationLeader;
 	}
 
 	#[\ReturnTypeWillChange]

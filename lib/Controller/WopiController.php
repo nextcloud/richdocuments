@@ -64,6 +64,8 @@ use OCP\Share\IShare;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
+use OCP\ICacheFactory;
+use OCP\ICache;
 
 #[RestrictToWopiServer]
 class WopiController extends Controller {
@@ -96,6 +98,7 @@ class WopiController extends Controller {
 		private SettingsService $settingsService,
 		private CapabilitiesService $capabilitiesService,
 		private Helper $helper,
+		private ICacheFactory $cacheFactory,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -149,6 +152,17 @@ class WopiController extends Controller {
 		$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
 
 
+		$cache = $this->cacheFactory->createLocal('richdocuments_wopi');
+		$extraJson = $cache->get('wopi_extra_' . $wopi->getToken());
+		if ($extraJson !== false && $extraJson !== '') {
+			$decoded = json_decode($extraJson, true);
+			if (is_array($decoded) && isset($decoded['PresentationLeader'])) {
+				$wopi->setPresentationLeader($decoded['PresentationLeader']);
+			}
+			$cache->remove('wopi_extra_' . $wopi->getToken());
+		}
+
+
 		$response = [
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
@@ -181,6 +195,7 @@ class WopiController extends Controller {
 			'EnableRemoteAIContent' => $isTaskProcessingEnabled,
 			'HasContentRange' => true,
 			'ServerPrivateInfo' => [],
+			'PresentationLeader' => $wopi->getPresentationLeader()
 		];
 
 		if ($this->capabilitiesService->hasSettingIframeSupport()) {
