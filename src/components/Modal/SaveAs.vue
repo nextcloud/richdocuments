@@ -91,9 +91,14 @@ export default {
 		const extension = filename.split('.').pop()
 		const filenameWithoutExtension = filename.substring(0, filename.length - extension.length - 1)
 		this.$nextTick(() => {
-			const input = this.$refs.nameInput.$refs.inputField.$el.querySelector('input')
-			input.setSelectionRange(0, filenameWithoutExtension.length)
-			input.focus()
+			// Wait for NcTextField to fully render and populate the input value
+			setTimeout(() => {
+				const input = this.$refs.nameInput?.$refs.inputField?.$el?.querySelector('input')
+				if (input && input.value) {
+					input.focus()
+					input.setSelectionRange(0, filenameWithoutExtension.length)
+				}
+			}, 50)
 		})
 	},
 	methods: {
