@@ -104,6 +104,37 @@ describe('Public sharing of office documents', () => {
 				})
 			})
 		})
+
+		describe('New file', () => {
+			before(() => {
+				cy.createFolder(shareOwner, '/Shared-Folder')
+				cy.createFolder(shareOwner, '/Shared-Folder/Subfolder')
+			})
+
+			it('Creates a new file in a public share as a guest', () => {
+				cy.shareLink(shareOwner, '/Shared-Folder', { permissions: 13 }).then((token) => {
+					cy.logout()
+
+					cy.visit(`/s/${token}`, {
+						onBeforeLoad(win) {
+							cy.spy(win, 'postMessage').as('postMessage')
+						},
+					})
+
+					cy.get('tr[data-cy-files-list-row-name="Subfolder"]')
+						.should('be.visible')
+						.click()
+
+					cy.newFileFromMenu('document', 'MyNewFile')
+					waitForCollabora()
+
+					// Make sure the document is still in the correct subfolder
+					cy.reload()
+					cy.get('tr[data-cy-files-list-row-name="MyNewFile.odt"]')
+						.should('be.visible')
+				})
+			})
+		})
 	})
 })
 
