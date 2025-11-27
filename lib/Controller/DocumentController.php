@@ -241,9 +241,11 @@ class DocumentController extends Controller {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			// not authenticated ?
 			if ($share->getPassword()) {
-				if (!$this->session->exists('public_link_authenticated')
-					|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
-				) {
+				$authenticatedLinks = $this->session->get('public_link_authenticated');
+
+				$isAuthenticated = (is_array($authenticatedLinks) && in_array($share->getId(), $authenticatedLinks));
+				$isAuthenticated = $isAuthenticated || ($authenticatedLinks === (string)$share->getId());
+				if (!$isAuthenticated) {
 					throw new Exception('Invalid password');
 				}
 			}
@@ -458,9 +460,12 @@ class DocumentController extends Controller {
 	private function getFileForShare(IShare $share, ?int $fileId, ?string $path = null): File {
 		// not authenticated ?
 		if ($share->getPassword()) {
-			if (!$this->session->exists('public_link_authenticated')
-				|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
-			) {
+			$authenticatedLinks = $this->session->get('public_link_authenticated');
+
+			$isAuthenticated = (is_array($authenticatedLinks) && in_array($share->getId(), $authenticatedLinks));
+			$isAuthenticated = $isAuthenticated || ($authenticatedLinks === (string)$share->getId());
+
+			if (!$isAuthenticated) {
 				throw new NotPermittedException('Invalid password');
 			}
 		}
