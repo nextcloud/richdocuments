@@ -4,6 +4,23 @@
 -->
 # Changelog
 
+## 8.7.7
+
+### Fixed
+
+- Fix: Properly handle authenticated links being an array by @juliusknorr in [#5204](https://github.com/nextcloud/richdocuments/pull/5204)
+- Fix: Document created in wrong location on public share by @elzody in [#5188](https://github.com/nextcloud/richdocuments/pull/5188)
+- Fix(SecureView): hide disfunctional *download* files action by @blizzz in [#5200](https://github.com/nextcloud/richdocuments/pull/5200)
+- Fix: Pass document target through viewer component by @juliusknorr in [#5139](https://github.com/nextcloud/richdocuments/pull/5139)
+- Fix: Drop nonexisting onenote support from mime type list by @juliusknorr in [#5084](https://github.com/nextcloud/richdocuments/pull/5084)
+
+ ### Other
+
+- Refresh files list after exporting a file in a different format by @silverkszlo in [#5184](https://github.com/nextcloud/richdocuments/pull/5184)
+- Update LOOL to COOL naming conventions by @juliusknorr in [#5158](https://github.com/nextcloud/richdocuments/pull/5158)
+- NPM audits
+- Dependency updates
+
 ## 8.7.6
 
 ### Fixed
