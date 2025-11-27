@@ -10,6 +10,7 @@ use League\CommonMark\GithubFlavoredMarkdownConverter;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\TaskProcessing\TextToDocumentProvider;
 use OCA\Richdocuments\TaskProcessing\TextToSpreadsheetProvider;
+use OCP\IL10N;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
@@ -37,6 +38,7 @@ EOF;
 	public function __construct(
 		private IManager $taskProcessingManager,
 		private RemoteService $remoteService,
+		private IL10N $l10n,
 	) {
 	}
 
@@ -45,6 +47,7 @@ EOF;
 		$taskInput = $prompt . "\n\n" . $description;
 		$markdownContent = $this->runTextToTextTask($taskInput, $userId);
 		$converter = new GithubFlavoredMarkdownConverter();
+		$markdownContentWithAiNote = $markdownContent . "\n\n" . $this->l10n->t('This document was generated using Artificial Intelligence');
 		$htmlContent = $converter->convert($markdownContent)->getContent();
 		$htmlStream = $this->stringToStream($htmlContent);
 		$docxContent = $this->remoteService->convertTo('document.html', $htmlStream, $targetFormat);
