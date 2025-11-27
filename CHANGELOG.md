@@ -4,6 +4,18 @@
 -->
 # Changelog
 
+## 8.5.13
+
+### Fixed
+
+- Fix: Pass document target through viewer component by @juliusknorr in [#5140](https://github.com/nextcloud/richdocuments/pull/5140)
+
+### Other
+
+- Refresh files list after exporting a file in a different format by @silverkszlo in [#5185](https://github.com/nextcloud/richdocuments/pull/5185)
+- NPM audits
+- Dependency updates
+
 ## 8.5.12
 
 ### Fixed
