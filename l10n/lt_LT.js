@@ -80,7 +80,6 @@ OC.L10N.register(
     "Failed to save settings." : "Nepavyko įrašyti nustatymų.",
     "Unexpected error occurred." : "Įvyko netikėta klaida.",
     "Select a template directory" : "Pasirinkite šablonų katalogą",
-    "Zotero" : "„Zotero“",
     "Description" : "Aprašas",
     "Add new token" : "Pridėti naują prieigos raktą",
     "Delete this font" : "Ištrinti šį šriftą",
