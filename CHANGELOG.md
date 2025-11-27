@@ -4,6 +4,20 @@
 -->
 # Changelog
 
+## 9.0.2
+
+### Fixed
+
+- Fix: Pass document target through viewer component by @elzody in [#5138](https://github.com/nextcloud/richdocuments/pull/5138)
+- Fix: Drop nonexisting onenote support from mime type list by @juliusknorr in [#5083](https://github.com/nextcloud/richdocuments/pull/5083)
+
+### Other
+
+- Refresh files list after exporting a file in a different format by @silverkszlo in [#5183](https://github.com/nextcloud/richdocuments/pull/5183)
+- Dependency updates
+- NPM audits
+
+
 ## 9.0.1
 
 ### Fixed
