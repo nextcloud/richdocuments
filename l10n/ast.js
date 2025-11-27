@@ -51,7 +51,6 @@ OC.L10N.register(
     "File name" : "Nome del ficheru",
     "Create" : "Crear",
     "Submit" : "Unviar",
-    "Zotero" : "Zotero",
     "Description" : "Descripción",
     "No results" : "Nun hai nengún resultáu",
     "Select file or folder to link to" : "Seleicionar un ficheru o una carpeta a la qu'enllaciar",
