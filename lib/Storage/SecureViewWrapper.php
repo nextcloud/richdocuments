@@ -11,11 +11,9 @@ namespace OCA\Richdocuments\Storage;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\PermissionManager;
-use OCP\Files\Folder;
+use OCA\Richdocuments\Service\SecureViewService;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
-use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IUserSession;
 use OCP\Server;
@@ -25,6 +23,7 @@ class SecureViewWrapper extends Wrapper {
 	private WOPIMiddleware $wopiMiddleware;
 	private IRootFolder $rootFolder;
 	private IUserSession $userSession;
+	private SecureViewService $secureViewService;
 
 	private string $mountPoint;
 
@@ -35,6 +34,7 @@ class SecureViewWrapper extends Wrapper {
 		$this->wopiMiddleware = Server::get(WOPIMiddleware::class);
 		$this->rootFolder = Server::get(IRootFolder::class);
 		$this->userSession = Server::get(IUserSession::class);
+		$this->secureViewService = Server::get(SecureViewService::class);
 
 		$this->mountPoint = $parameters['mountPoint'];
 	}
@@ -79,36 +79,15 @@ class SecureViewWrapper extends Wrapper {
 	 * @throws ForbiddenException
 	 */
 	private function checkFileAccess(string $path): void {
-		if ($this->shouldSecure($path) && !$this->wopiMiddleware->isWOPIRequest()) {
+		if (!$this->wopiMiddleware->isWOPIRequest() && $this->secureViewService->shouldSecure($path, $this, false)) {
 			throw new ForbiddenException('Download blocked due the secure view policy', false);
 		}
 	}
 
-	private function shouldSecure(string $path, ?IStorage $sourceStorage = null): bool {
-		if ($sourceStorage !== $this && $sourceStorage !== null) {
-			$fp = $sourceStorage->fopen($path, 'r');
-			fclose($fp);
-		}
-
-		$storage = $sourceStorage ?? $this;
-
-		$isSharedStorage = $storage->instanceOfStorage(ISharedStorage::class);
-		$mountNode = $this->rootFolder->get($storage->getMountPoint());
-		try {
-			$node = $mountNode instanceof Folder ? $mountNode->get($path) : $mountNode;
-		} catch (NotFoundException $e) {
-			// If the file is just created we may need to check the parent as this is only just about figuring out if it is a share
-			$node = $mountNode->get(dirname($path));
-		}
-		$share = $isSharedStorage ? $node->getStorage()->getShare() : null;
-		$userId = $this->userSession->getUser()?->getUID();
-
-		return $this->permissionManager->shouldWatermark($node, $userId, $share);
-	}
-
-
 	private function checkSourceAndTarget(string $source, string $target, ?IStorage $sourceStorage = null): void {
-		if ($this->shouldSecure($source, $sourceStorage) && !$this->shouldSecure($target)) {
+		if ($this->secureViewService->shouldSecure($source, $sourceStorage ?? $this, $sourceStorage !== null)
+			&& !$this->secureViewService->shouldSecure($target, $this)
+		) {
 			throw new ForbiddenException('Download blocked due the secure view policy. The source requires secure view that the target cannot offer.', false);
 		}
 	}

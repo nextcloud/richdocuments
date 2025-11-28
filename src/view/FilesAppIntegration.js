@@ -537,6 +537,38 @@ export default {
 		return this.fileNode
 	},
 
+	/**
+	 * Fetch metadata for a newly created file and emit files:node:created event
+	 * This is used when exporting a document (e.g., DOCX -> PDF) to make the
+	 * new file appear in the files list without manual reload
+	 *
+	 * @param {string} basename - The name of the new file (e.g., "test.pdf")
+	 */
+	async createNodeForNewFile(basename) {
+		if (isPublicShare()) {
+			return
+		}
+
+		try {
+			const path = `${this.filePath}/${basename}`
+			const client = davGetClient()
+			const results = await client.getDirectoryContents(`${davRootPath}${path}`, {
+				details: true,
+				data: davGetDefaultPropfind(),
+			})
+			const nodes = results.data.map((result) => davResultToNode(result))
+
+			if (nodes[0]) {
+				console.debug('[FilesAppIntegration] Emitting files:node:created for', basename)
+				emit('files:node:created', nodes[0])
+			} else {
+				console.warn('[FilesAppIntegration] New file not found:', basename)
+			}
+		} catch (e) {
+			console.error('Failed to fetch new file metadata from webdav', e)
+		}
+	},
+
 	changeFilesRoute(fileId) {
 		OCP?.Files?.Router?.goToRoute(
 			OCP.Files.Router.name,

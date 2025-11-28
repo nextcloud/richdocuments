@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\AppInfo;
 
+use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
@@ -15,6 +16,7 @@ use OCA\Richdocuments\Conversion\ConversionProvider;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Listener\AddContentSecurityPolicyListener;
 use OCA\Richdocuments\Listener\AddFeaturePolicyListener;
+use OCA\Richdocuments\Listener\AddSabrePluginListener;
 use OCA\Richdocuments\Listener\BeforeFetchPreviewListener;
 use OCA\Richdocuments\Listener\BeforeGetTemplatesListener;
 use OCA\Richdocuments\Listener\BeforeTemplateRenderedListener;
@@ -49,6 +51,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
+use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
 use OCP\Files\Storage\IStorage;
@@ -86,6 +89,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$context->registerEventListener(BeforeGetTemplatesEvent::class, BeforeGetTemplatesListener::class);
 		$context->registerEventListener(OverwritePublicSharePropertiesEvent::class, OverwritePublicSharePropertiesListener::class);
+		$context->registerEventListener(SabrePluginAddEvent::class, AddSabrePluginListener::class);
+		$context->registerEventListener(BeforeSabrePubliclyLoadedEvent::class, AddSabrePluginListener::class);
 		$context->registerReferenceProvider(OfficeTargetReferenceProvider::class);
 		$context->registerSensitiveMethods(WopiMapper::class, [
 			'getPathForToken',

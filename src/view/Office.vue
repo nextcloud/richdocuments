@@ -192,6 +192,9 @@ export default {
 			modified: false,
 			hasWidgetEditingEnabled: false,
 
+			// Track the last requested save-as filename for export operations
+			lastSaveAsFilename: null,
+
 			formData: {
 				action: null,
 				accessToken: null,
@@ -332,6 +335,7 @@ export default {
 				revisionHistory: !this.isPublic,
 				closeButton: !Config.get('hideCloseButton') && !this.isEmbedded,
 				startPresentation: Config.get('startPresentation'),
+				target: data.target,
 			})
 			this.$set(this.formData, 'action', action)
 			this.$set(this.formData, 'accessToken', data.token)
@@ -351,16 +355,6 @@ export default {
 			this.loading = LOADING_STATE.DOCUMENT_READY
 			clearTimeout(this.loadingTimeout)
 			this.sendPostMessage('Host_PostmessageReady')
-			if (loadState('richdocuments', 'open_local_editor', true) && !this.isEmbedded) {
-				this.sendPostMessage('Insert_Button', {
-					id: 'Open_Local_Editor',
-					imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
-					mobile: false,
-					label: t('richdocuments', 'Open in local editor'),
-					hint: t('richdocuments', 'Open in local editor'),
-					insertBefore: 'print',
-				})
-			}
 		},
 		async share() {
 			FilesAppIntegration.share()
@@ -394,6 +388,17 @@ export default {
 					FilesAppIntegration.initAfterReady()
 				} else if (args.Status === 'Document_Loaded') {
 					this.documentReady()
+
+					if (loadState('richdocuments', 'open_local_editor', true) && !this.isEmbedded) {
+				        this.sendPostMessage('Insert_Button', {
+					        id: 'Open_Local_Editor',
+					        imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
+					        mobile: false,
+					        label: t('richdocuments', 'Open in local editor'),
+					        hint: t('richdocuments', 'Open in local editor'),
+					        insertBefore: 'print',
+				        })
+			        }
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
 					this.$emit('update:loaded', true)
@@ -423,8 +428,24 @@ export default {
 				this.saveAs(args.format)
 				break
 			case 'Action_Save_Resp':
-				if (args.fileName !== this.filename) {
-					FilesAppIntegration.saveAs(args.fileName)
+				console.debug('[viewer] Received post message Action_Save_Resp', args, this.lastSaveAsFilename)
+				if (args.success) {
+					let newFileName = args.fileName
+
+					// If no filename is provided for exportas, use the last tracked filename
+					if (!newFileName && args.result === 'exportas' && this.lastSaveAsFilename) {
+						newFileName = this.lastSaveAsFilename
+					}
+
+					if (newFileName && newFileName !== this.filename) {
+						// When exporting (e.g., DOCX -> PDF), a new file is created
+						// Fetch its metadata and emit files:node:created to show it in the files list
+						FilesAppIntegration.createNodeForNewFile(newFileName)
+					} else {
+						// When saving the current file, update its modification time
+						FilesAppIntegration.updateFileInfo(undefined, Date.now())
+					}
+					this.lastSaveAsFilename = null
 				}
 				break
 			case 'UI_InsertGraphic':

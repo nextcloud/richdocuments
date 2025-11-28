@@ -29,7 +29,7 @@ node_modules
 psalm.xml
 run-eslint.sh
 screenshots
-src
+/src/
 tests
 tsconfig.json
 webpack.*
