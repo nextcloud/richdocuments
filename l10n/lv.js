@@ -34,7 +34,7 @@ OC.L10N.register(
     "Your browser has been unable to connect to the Collabora server:" : "Pārlūks nevarēja savienoties ar Collabora serveri:",
     "Click here for more info" : "Klikšķināt šeit, lai iegūtu vairāk informācijas",
     "Advanced settings" : "Paplašināti iestatījumi",
-    "Select groups" : "Atlasīt grupas",
+    "Select groups" : "Izvēlieties grupas",
     "Save" : "Saglabāt",
     "Remove" : "Noņemt",
     "Confirm" : "Apstiprināt",

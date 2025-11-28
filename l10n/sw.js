@@ -50,7 +50,6 @@ OC.L10N.register(
     "New file" : "Faili mpya",
     "Error" : "Hitilafu",
     "An error occurred" : "Hitilafu imetokea",
-    "Nickname" : "Nickname",
     "Set" : "Imetumwa",
     "Saving…" : "Inahifadhi..."
 },
