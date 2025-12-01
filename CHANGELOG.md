@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.4.14
+
+### Fixed
+- Do not set the container for the file picker by @juliusknorr in [#5117](https://github.com/nextcloud/richdocuments/pull/5117)
+- Pass document target through viewer component by @juliusknorr in [#5141](https://github.com/nextcloud/richdocuments/pull/5141)
+
 ## 8.4.13
 
 ### Fixed
