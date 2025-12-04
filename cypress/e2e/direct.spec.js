@@ -183,12 +183,7 @@ describe('Direct editing (legacy)', function() {
 					.should('be.visible')
 				cy.get('.saveas-dialog input[type=text]')
 					.should('be.visible')
-					.should('have.value', 'document.odt')
-
-				cy.get('.saveas-dialog input[type=text]')
-					.clear()
-				cy.get('.saveas-dialog input[type=text]')
-					.type('/document.rtf')
+					.should('have.value', 'document.rtf')
 
 				cy.get('.saveas-dialog button.button-vue--vue-primary').click()
 
