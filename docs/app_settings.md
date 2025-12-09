@@ -39,7 +39,7 @@ To go back to default theme:
 
 By default Nextcloud will generate previews of Office files using the Collabora file conversion endpoint. This can be turned off through
 
-	occ config:app:set richdocuments preview_generation --type boolean --lazy --value true
+	occ config:app:set richdocuments preview_generation --type boolean --lazy --value false
 
 ### Electronic signature
 From a shell running in the Nextcloud root directory, run the following `occ`
