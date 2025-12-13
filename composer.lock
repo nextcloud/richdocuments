@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dcbc3ffeda41a52852e9331fbc2852b5",
+    "content-hash": "7ae38a0279d7135930caeaa66ff7752c",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -2020,20 +2020,20 @@
         },
         {
             "name": "psalm/phar",
-            "version": "6.5.1",
+            "version": "6.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/phar.git",
-                "reference": "f7ecaf8740f32d58695cee5ac11663e02b44b223"
+                "reference": "57ec52ce25ece3a00371a6d08ade8e36a61ca783"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/phar/zipball/f7ecaf8740f32d58695cee5ac11663e02b44b223",
-                "reference": "f7ecaf8740f32d58695cee5ac11663e02b44b223",
+                "url": "https://api.github.com/repos/psalm/phar/zipball/57ec52ce25ece3a00371a6d08ade8e36a61ca783",
+                "reference": "57ec52ce25ece3a00371a6d08ade8e36a61ca783",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1 || ^8.0"
+                "php": "^8.2"
             },
             "conflict": {
                 "vimeo/psalm": "*"
@@ -2049,9 +2049,9 @@
             "description": "Composer-based Psalm Phar",
             "support": {
                 "issues": "https://github.com/psalm/phar/issues",
-                "source": "https://github.com/psalm/phar/tree/6.5.1"
+                "source": "https://github.com/psalm/phar/tree/6.14.1"
             },
-            "time": "2025-02-10T10:05:10+00:00"
+            "time": "2025-12-10T09:38:52+00:00"
         },
         {
             "name": "psr/clock",
@@ -4058,5 +4058,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }
