@@ -474,7 +474,7 @@ const documentsMain = {
 							SaveAs,
 							{
 								path: documentsMain.fileName,
-								format: args.Format,
+								format: args.format,
 							},
 							(value) => value && PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { Filename: value, Notify: true }),
 						)
