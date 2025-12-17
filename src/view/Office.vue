@@ -306,7 +306,7 @@ export default {
 	methods: {
 		async load() {
 			const fileid = this.fileid ?? basename(dirname(this.source))
-			const version = this.fileid ? 0 : basename(this.source)
+			const version = this.fileid ? '0' : basename(this.source)
 
 			enableScrollLock()
 
@@ -330,8 +330,8 @@ export default {
 
 			// Generate form and submit to the iframe
 			const action = getWopiUrl({
-				fileId: fileid + '_' + loadState('richdocuments', 'instanceId', 'instanceid') + (version > 0 ? '_' + version : ''),
-				readOnly: forceReadOnly || version > 0,
+				fileId: fileid + '_' + loadState('richdocuments', 'instanceId', 'instanceid') + (version && version !== '0' ? '_' + version : ''),
+				readOnly: forceReadOnly || (version && version !== '0'),
 				revisionHistory: !this.isPublic,
 				closeButton: !Config.get('hideCloseButton') && !this.isEmbedded,
 				startPresentation: Config.get('startPresentation'),
