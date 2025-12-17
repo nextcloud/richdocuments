@@ -196,7 +196,7 @@ class TokenManager {
 			$targetFile->getId(),
 			$owneruid,
 			$editoruid,
-			0,
+			'0',
 			$updatable,
 			$serverHost,
 			$isGuest ? '' : null,
