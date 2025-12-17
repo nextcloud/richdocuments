@@ -32,7 +32,7 @@ class ConvertToBigInt extends Command {
 
 	protected function getColumnsByTable() {
 		return [
-			'richdocuments_wopi' => ['id', 'fileid', 'version', 'template_id', 'template_destination', 'expiry'],
+			'richdocuments_wopi' => ['id', 'fileid', 'template_id', 'template_destination', 'expiry'],
 			'richdocuments_direct' => ['id', 'fileid', 'template_id', 'template_destination', 'timestamp'],
 			'richdocuments_assets' => ['id', 'fileid', 'timestamp'],
 		];

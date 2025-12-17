@@ -497,8 +497,7 @@ class DocumentController extends Controller {
 		throw new NotFoundException();
 	}
 
-	private function getToken(File $file, ?IShare $share = null, ?int $version = null, bool $isGuest = false): Wopi {
-		// Pass through $version
+	private function getToken(File $file, ?IShare $share = null, ?string $version = null, bool $isGuest = false): Wopi {
 		$templateFile = $this->templateManager->getTemplateSource($file->getId());
 		if ($templateFile) {
 			$owneruid = $share?->getShareOwner() ?? $file->getOwner()->getUID();
@@ -520,7 +519,7 @@ class DocumentController extends Controller {
 		return $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId);
 	}
 
-	private function getWopiFileId(int $fileId, ?int $version = null): string {
+	private function getWopiFileId(int $fileId, ?string $version = null): string {
 		return $fileId . '_' . $this->config->getSystemValue('instanceid') . ($version ? '_' . $version : '');
 	}
 }
