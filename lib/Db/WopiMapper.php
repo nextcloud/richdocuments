@@ -31,7 +31,7 @@ class WopiMapper extends QBMapper {
 	 * @param int $fileId
 	 * @param string $owner
 	 * @param string $editor
-	 * @param int $version
+	 * @param string $version
 	 * @param bool $updatable
 	 * @param string $serverHost
 	 * @param string $guestDisplayname
