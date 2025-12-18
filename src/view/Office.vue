@@ -104,6 +104,7 @@ import axios from '@nextcloud/axios'
 import {
 	generateUrl,
 	imagePath,
+	generateFilePath,
 } from '@nextcloud/router'
 import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 import { getCapabilities } from './../services/capabilities.ts'
@@ -195,6 +196,9 @@ export default {
 			// Track the last requested save-as filename for export operations
 			lastSaveAsFilename: null,
 
+			// Store original favicon for restoration
+			originalFavicon: null,
+
 			formData: {
 				action: null,
 				accessToken: null,
@@ -256,6 +260,10 @@ export default {
 		},
 	},
 	async mounted() {
+		// Store and update favicon
+		this.storeFavicon()
+		this.updateFavicon()
+
 		this.postMessage = new PostMessageService({
 			FRAME_DOCUMENT: () => document.getElementById(this.iframeId).contentWindow,
 		})
@@ -302,6 +310,7 @@ export default {
 	},
 	beforeDestroy() {
 		this.postMessage.unregisterPostMessageHandler(this.postMessageHandler)
+		this.restoreFavicon()
 	},
 	methods: {
 		async load() {
@@ -365,6 +374,7 @@ export default {
 				FilesAppIntegration.updateFileInfo(undefined, Date.now())
 			}
 			disableScrollLock()
+			this.restoreFavicon()
 			this.$emit('close')
 		},
 		reload() {
@@ -535,6 +545,42 @@ export default {
 
 		toggleEdit() {
 			this.hasWidgetEditingEnabled = true
+		},
+
+		getDocumentTypeIcon() {
+			const mime = this.mime.toLowerCase()
+
+			if (mime.includes('spreadsheet')
+				|| mime.includes('sheet')
+				|| mime.includes('excel')
+				|| mime.includes('csv')
+				|| mime.includes('numbers')) {
+				return 'x-office-spreadsheet'
+			}
+
+			if (mime.includes('presentation')
+				|| mime.includes('powerpoint')
+				|| mime.includes('slideshow')
+				|| mime.includes('keynote')) {
+				return 'x-office-presentation'
+			}
+
+			if (mime.includes('drawing')
+				|| mime.includes('graphics')
+				|| mime.includes('visio')) {
+				return 'x-office-drawing'
+			}
+
+			return 'x-office-document'
+		},
+
+		restoreFavicon() {
+			if (this.originalFavicon) {
+				const link = document.querySelector('link[rel*="icon"]')
+				if (link) {
+					link.href = this.originalFavicon
+				}
+			}
 		},
 
 	},
