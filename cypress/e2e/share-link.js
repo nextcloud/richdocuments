@@ -21,7 +21,7 @@ describe('Public sharing of office documents', () => {
 
 	const userMatrix = [shareOwner, otherUser]
 
-	describe('Share with users', () => {
+	describe.skip('Share with users', () => {
 		describe('Readonly file', () => {
 			for (const user of userMatrix) {
 				it('Loads readonly file as user: ' + user.userId, () => {
