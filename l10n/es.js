@@ -303,7 +303,7 @@ OC.L10N.register(
     "Insert from {name}" : "Insertar a partir de {name}",
     "Last saved version" : "Última versión guardada",
     "Current version (unsaved changes)" : "Versión actual (cambios no guardados)",
-    "Please enter the filename for the new document" : "Por favor ingresa el nombre del archivo para el nuevo documento",
+    "Please enter the filename for the new document" : "Introduce el nombre del archivo para el nuevo documento",
     "Create a new document" : "Crear nuevo documento",
     "Could not create file" : "No se ha podido crear el archivo",
     "Open with {productName}" : "Abrir con {productName}",
