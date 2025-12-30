@@ -139,7 +139,7 @@
     "I agree, and use the demo server" : "Ich stimme der Benutzung des Demo-Servers zu",
     "I will setup my own server" : "Ich werde meinen eigenen Server aufsetzen",
     "Advanced settings" : "Erweiterte Einstellungen",
-    "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Office Open XML (OOXML) anstelle von OpenDocument Format (ODF) als Standard für neuen Dateien verwenden",
+    "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Office Open XML (OOXML) anstelle von OpenDocument Format (ODF) als Standard für neue Dateien verwenden",
     "Restrict usage to specific groups" : "Verwendung auf bestimmte Gruppen beschränken",
     "{productName} is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "{productName} ist standardmäßig für alle Benutzer aktiviert. Wenn diese Einstellung aktiv ist, können nur Mitglieder der angegebenen Gruppen es verwenden.",
     "Select groups" : "Gruppen auswählen",
