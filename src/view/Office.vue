@@ -260,7 +260,6 @@ export default {
 		},
 	},
 	async mounted() {
-		// Store and update favicon
 		this.storeFavicon()
 		this.updateFavicon()
 
@@ -572,6 +571,25 @@ export default {
 			}
 
 			return 'x-office-document'
+		},
+
+		storeFavicon() {
+			const link = document.querySelector('link[rel*="icon"]')
+			if (link) {
+				this.originalFavicon = link.href
+			}
+		},
+
+		updateFavicon() {
+			const link = document.querySelector('link[rel*="icon"]')
+			if (link) {
+				const iconPath = generateFilePath(
+					'richdocuments',
+					'img',
+					this.getDocumentTypeIcon() + '.svg',
+				)
+				link.href = window.location.protocol + '//' + getNextcloudUrl() + iconPath
+			}
 		},
 
 		restoreFavicon() {
