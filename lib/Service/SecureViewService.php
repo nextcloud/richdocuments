@@ -51,7 +51,7 @@ class SecureViewService {
 			$isDir = true;
 		}
 		
-		if ($tryOpen && !isDir) {
+		if ($tryOpen && !$isDir) {
 			// Attempt to open the file to potentially trigger cache entry creation
 			$fp = $storage->fopen($path, 'r');
 			if ($fp !== false && is_resource($fp)) {
