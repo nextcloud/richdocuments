@@ -33,10 +33,10 @@ class SecureViewService {
 	 * triggering backend cache updates for files if requested, and supports external storages. Delegates
 	 * the actual policy decision to shouldWatermark().
 	 *
-	 * @param string $path      Relative storage path to check.
+	 * @param string $path Relative storage path to check.
 	 * @param IStorage $storage Storage backend instance.
-	 * @param bool $tryOpen     Whether to attempt opening files to force/cache refresh file metadata.
-	 * @return bool             True if SecureView restrictions may apply (per shouldWatermark()), false otherwise.
+	 * @param bool $tryOpen Whether to attempt opening files to force/cache refresh file metadata.
+	 * @return bool True if SecureView restrictions may apply (per shouldWatermark()), false otherwise.
 	 * @throws NotFoundException If neither the file nor its parent are present in the filecache/remote storage.
 	 */
 	public function shouldSecure(string $path, IStorage $storage, bool $tryOpen = true): bool {
