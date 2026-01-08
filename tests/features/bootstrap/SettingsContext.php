@@ -8,6 +8,7 @@ declare(strict_types = 1);
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Hook\AfterScenario;
 use Behat\Hook\BeforeScenario;
 use Behat\Step\Then;
 use Behat\Step\When;
@@ -36,6 +37,11 @@ class SettingsContext implements Context {
 			'base_uri' => $this->serverContext->getBaseUrl() . 'apps/richdocuments/',
 			'http_errors' => false,
 		]);
+	}
+
+	#[AfterScenario]
+	public function cleanup() {
+		$this->httpResponse = null;
 	}
 
 	#[When('the admin settings are requested by a user')]
