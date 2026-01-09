@@ -497,6 +497,11 @@ class WopiController extends Controller {
 			$category = $settingsUrl->getCategory();
 			$fileName = $settingsUrl->getFileName();
 			$userId = $wopi->getEditorUid();
+			$isUserAdmin = $this->groupManager->isAdmin($userId);
+
+			if ($settingsUrl->isSystemConfig() && !$isUserAdmin) {
+				throw new NotPermittedException();
+			}
 
 			$this->settingsService->deleteSettingsFile($type, $category, $fileName, $userId);
 
