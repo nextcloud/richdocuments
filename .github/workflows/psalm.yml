@@ -47,35 +47,31 @@ jobs:
     name: Psalm Static Analysis (PHP ${{ matrix.php-versions }})
 
     steps:
-      - name: Testing some things
-        run: echo ${{ needs.matrix.outputs.branches-max }}
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
-      #    steps:
-      #      - name: Checkout
-      #        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      #        with:
-      #          persist-credentials: false
-      #
-      #      - name: Set up php${{ matrix.php-versions }}
-      #        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 # v2.32.0
-      #        with:
-      #          php-version: ${{ matrix.php-versions }}
-      #          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
-      #          coverage: none
-      #          ini-file: development
-      #          # Temporary workaround for missing pcntl_* in PHP 8.3
-      #          ini-values: disable_functions=
-      #        env:
-      #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #
-      #      - name: Install dependencies
-      #        run: |
-      #          composer remove nextcloud/ocp --dev
-      #          composer i
-      #
-      #      - name: Install nextcloud/ocp
-      #        run: composer require --dev nextcloud/ocp:dev-${{ matrix.branches-max }} --ignore-platform-reqs --with-dependencies
-      #
-      #      - name: Run coding standards check
-      #        run: composer run psalm -- --threads=1 --monochrome --no-progress --output-format=github
+      - name: Set up php${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 # v2.32.0
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: none
+          ini-file: development
+          # Temporary workaround for missing pcntl_* in PHP 8.3
+          ini-values: disable_functions=
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: |
+          composer remove nextcloud/ocp --dev
+          composer i
+
+      - name: Install nextcloud/ocp
+        run: composer require --dev nextcloud/ocp:dev-${{ needs.matrix.outputs.branches-max }} --ignore-platform-reqs --with-dependencies
+
+      - name: Run coding standards check
+        run: composer run psalm -- --threads=1 --monochrome --no-progress --output-format=github
 
