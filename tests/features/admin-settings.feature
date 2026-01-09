@@ -15,3 +15,7 @@ Background:
     When a user deletes a system configuration file
     Then the system configuration deletion is forbidden
 
+  Scenario: Admin can delete a system config file
+    When an admin deletes a system configuration file
+    Then the system configuration deletion is allowed
+

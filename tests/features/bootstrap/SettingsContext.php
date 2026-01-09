@@ -99,7 +99,19 @@ class SettingsContext implements Context {
 
 	#[When('an admin deletes a system configuration file')]
 	public function adminDeletesSystemConfigFile() {
+		$this->serverContext->actAsAdmin(function () {
+			$settingsAccessToken = $this->getSettingsAccessToken('admin');
+			$deleteOptions = [
+				'query' => [
+					'access_token' => $settingsAccessToken,
+					'fileId' => '/settings/systemconfig/wordbook/poc.dic',
+				],
+			];
 
+			$options = array_merge($this->serverContext->getWebOptions(), $deleteOptions);
+
+			$this->httpResponse = $this->http->delete('wopi/settings', $options);
+		});
 	}
 
 	#[Then('the system configuration upload is forbidden')]
@@ -119,7 +131,7 @@ class SettingsContext implements Context {
 
 	#[Then('the system configuration deletion is allowed')]
 	public function systemConfigDeletionAllowed() {
-
+		Assert::assertEquals(200, $this->httpResponse->getStatusCode());
 	}
 
 	private function getSettingsAccessToken(string $type) {
