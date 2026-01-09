@@ -372,7 +372,7 @@ class WopiController extends Controller {
 						$offset = intval($matches[1] ?? 0);
 						$length = intval($matches[2] ?? 0) - $offset + 1;
 						if ($length <= 0) {
-							$length = $filesize - $offset;
+							$length = (int)$filesize - $offset;
 						}
 
 						$fp = $file->fopen('rb');
@@ -385,7 +385,9 @@ class WopiController extends Controller {
 						$response->addHeader('Accept-Ranges', 'bytes');
 						$response->addHeader('Content-Length', (string)$filesize);
 						$response->setStatus(Http::STATUS_PARTIAL_CONTENT);
-						$response->addHeader('Content-Range', 'bytes ' . $offset . '-' . ($offset + $length) . '/' . $filesize);
+
+						$blockSize = ($offset + $length);
+						$response->addHeader('Content-Range', "bytes $offset-$blockSize/$filesize");
 					} else {
 						$response = new StreamResponse($file->fopen('rb'));
 					}

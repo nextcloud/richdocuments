@@ -187,7 +187,8 @@ EOF;
 		}
 		$taskOutput = $task->getOutput();
 		if ($taskOutput === null) {
-			throw new RuntimeException('Task with id ' . $task->getId() . ' does not have any output');
+			$taskId = $task->getId();
+			throw new RuntimeException("Task with id $taskId does not have any output");
 		}
 
 		/** @var string $taskOutputString */
