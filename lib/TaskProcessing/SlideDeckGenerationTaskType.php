@@ -25,6 +25,7 @@ class SlideDeckGenerationTaskType implements ITaskType {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Generate Slide Deck');
 	}
@@ -32,6 +33,7 @@ class SlideDeckGenerationTaskType implements ITaskType {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Generate a slide deck from a presentation script');
 	}
@@ -39,6 +41,7 @@ class SlideDeckGenerationTaskType implements ITaskType {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -46,6 +49,7 @@ class SlideDeckGenerationTaskType implements ITaskType {
 	/**
 	 * @return ShapeDescriptor[]
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'text' => new ShapeDescriptor(
@@ -59,6 +63,7 @@ class SlideDeckGenerationTaskType implements ITaskType {
 	/**
 	 * @return ShapeDescriptor[]
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'slide_deck' => new ShapeDescriptor(

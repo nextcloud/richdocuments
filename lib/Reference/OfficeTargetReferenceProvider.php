@@ -35,6 +35,7 @@ class OfficeTargetReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function matchReference(string $referenceText): bool {
 		$start = $this->urlGenerator->getAbsoluteURL('/apps/' . Application::APPNAME);
 		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/' . Application::APPNAME);
@@ -48,6 +49,7 @@ class OfficeTargetReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function resolveReference(string $referenceText): ?IReference {
 		$start = $this->urlGenerator->getAbsoluteURL('/apps/' . Application::APPNAME);
 		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/' . Application::APPNAME);
@@ -121,6 +123,7 @@ class OfficeTargetReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getCachePrefix(string $referenceId): string {
 		return $referenceId;
 	}
@@ -128,22 +131,27 @@ class OfficeTargetReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getCacheKey(string $referenceId): ?string {
 		return $this->userId ?? '';
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'office-target';
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l10n->t('Link to office document section');
 	}
 
+	#[\Override]
 	public function getOrder(): int {
 		return 90;
 	}
 
+	#[\Override]
 	public function getIconUrl(): string {
 		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath(Application::APPNAME, 'app-dark.svg'));
 	}

@@ -21,56 +21,69 @@ class SlideDeckGenerationProvider implements ISynchronousProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return Application::APPNAME . '-slide_deck_generator';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Nextcloud Assistant Slide Deck Generator');
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return SlideDeckGenerationTaskType::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 120;
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		if ($userId === null) {
 			throw new \RuntimeException('User ID is required to process the prompt.');

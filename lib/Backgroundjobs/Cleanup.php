@@ -23,6 +23,7 @@ class Cleanup extends TimedJob {
 		$this->setInterval(60 * 60);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		// Expire template mappings for file creation
 		$query = $this->db->getQueryBuilder();

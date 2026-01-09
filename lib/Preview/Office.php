@@ -27,6 +27,7 @@ abstract class Office implements IProviderV2 {
 		$this->capabilities = $capabilities->getCapabilities()['richdocuments'] ?? [];
 	}
 
+	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
 		if (isset($this->capabilities['collabora']['convert-to']['available'])) {
 			return (bool)$this->capabilities['collabora']['convert-to']['available'] && $this->appConfig->isPreviewGenerationEnabled();
@@ -34,6 +35,7 @@ abstract class Office implements IProviderV2 {
 		return false;
 	}
 
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		if ($file->getSize() === 0) {
 			return null;

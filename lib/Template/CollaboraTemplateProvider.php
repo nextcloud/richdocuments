@@ -29,6 +29,7 @@ class CollaboraTemplateProvider implements ICustomTemplateProvider {
 		return CollaboraTemplateProvider::class;
 	}
 
+	#[\Override]
 	public function getCustomTemplates(string $mimetype): array {
 		if (in_array($mimetype, TemplateManager::MIMES_DOCUMENTS)) {
 			$type = 'document';
@@ -62,6 +63,7 @@ class CollaboraTemplateProvider implements ICustomTemplateProvider {
 		return false;
 	}
 
+	#[\Override]
 	public function getCustomTemplate(string $template): File {
 		return $this->templateManager->get((int)$template);
 	}

@@ -18,6 +18,7 @@ use OCP\Util;
 
 /** @template-implements IEventListener<Event|RenderReferenceEvent> */
 class ReferenceListener implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$event instanceof RenderReferenceEvent) {
 			return;

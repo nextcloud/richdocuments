@@ -33,14 +33,17 @@ class Notifier implements INotifier {
 	) {
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'richdocuments';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Office';
 	}
 
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== Application::APPNAME) {
 			throw new UnknownNotificationException('Application should be text instead of ' . $notification->getApp());
