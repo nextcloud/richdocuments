@@ -19,3 +19,7 @@ Background:
     When an admin uploads a system configuration file
     Then the system configuration upload is allowed
 
+  Scenario: Normal user cannot delete a system config file
+    When a user deletes a system configuration file
+    Then the system configuration deletion is forbidden
+
