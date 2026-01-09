@@ -39,36 +39,42 @@ class SecureViewWrapper extends Wrapper {
 		$this->mountPoint = $parameters['mountPoint'];
 	}
 
+	#[\Override]
 	public function fopen($path, $mode) {
 		$this->checkFileAccess($path);
 
 		return $this->storage->fopen($path, $mode);
 	}
 
+	#[\Override]
 	public function file_get_contents(string $path): false|string {
 		$this->checkFileAccess($path);
 
 		return $this->storage->file_get_contents($path);
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		$this->checkSourceAndTarget($source, $target);
 
 		return parent::copy($source, $target);
 	}
 
+	#[\Override]
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$this->checkSourceAndTarget($sourceInternalPath, $targetInternalPath, $sourceStorage);
 
 		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$this->checkSourceAndTarget($sourceInternalPath, $targetInternalPath, $sourceStorage);
 
 		return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$this->checkSourceAndTarget($source, $target);
 

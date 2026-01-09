@@ -19,10 +19,12 @@ class Section implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getID() {
 		return 'richdocuments';
 	}
 
+	#[\Override]
 	public function getName() {
 		if ($this->capabilitites->hasNextcloudBranding()) {
 			return $this->l10n->t('Office');
@@ -30,10 +32,12 @@ class Section implements IIconSection {
 		return $this->capabilitites->getProductName();
 	}
 
+	#[\Override]
 	public function getPriority() {
 		return 75;
 	}
 
+	#[\Override]
 	public function getIcon() {
 		return $this->url->imagePath('richdocuments', 'app-dark.svg');
 	}

@@ -30,10 +30,12 @@ class TitleContentSlide implements ISlide {
 		return $this->content;
 	}
 
+	#[\Override]
 	public function getPosition(): int {
 		return $this->position;
 	}
 
+	#[\Override]
 	public function getSlideCommands(): array {
 		$slideCommands = [];
 

@@ -17,10 +17,12 @@ class InstallDefaultFonts implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Install default fonts';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$appVersion = $this->config->getAppValue('richdocuments', 'installed_version');
 

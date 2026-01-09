@@ -132,6 +132,7 @@ class CapabilitiesService extends CachedRequestService {
 		return rtrim($remoteHost, '/') . '/hosting/capabilities';
 	}
 
+	#[\Override]
 	protected function sendRequest(IClient $client): string {
 		$response = $client->get($this->getCapabilitiesEndpoint(), $this->getDefaultRequestOptions());
 		return (string)$response->getBody();

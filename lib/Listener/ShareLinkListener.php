@@ -28,6 +28,7 @@ class ShareLinkListener implements \OCP\EventDispatcher\IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$event instanceof ShareLinkAccessedEvent) {
 			return;
