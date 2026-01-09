@@ -44,7 +44,7 @@ jobs:
       matrix:
         php-versions: ${{ fromJson(needs.matrix.outputs.php-versions) }}
 
-    name: psalm-static-analysis
+    name: Psalm Static Analysis (PHP ${{ matrix.php-versions }})
 
     steps:
       - name: Testing some things
