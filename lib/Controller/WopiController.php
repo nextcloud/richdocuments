@@ -41,7 +41,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
-use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Lock\ILock;
@@ -459,7 +458,7 @@ class WopiController extends Controller {
 			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
 			$settingsUrl = new SettingsUrl($fileId);
 			if ($settingsUrl->isSystemConfig() && !$isUserAdmin) {
-				throw new ForbiddenException('User is not an administrator', false);
+				throw new NotPermittedException();
 			}
 
 			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $userId);
@@ -473,9 +472,8 @@ class WopiController extends Controller {
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Invalid token'], Http::STATUS_FORBIDDEN);
-		} catch (ForbiddenException $e) {
-			$this->logger->error($e->getMessage(), [ 'exception' => $e ]);
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (NotPermittedException $e) {
+			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
