@@ -83,21 +83,16 @@ class SettingsContext implements Context {
 	public function userUploadsSystemConfigFile() {
 		$this->serverContext->actingAsUser('user1');
 
-		$options = $this->serverContext->getWebOptions();
-
-		$tokenResponse = $this->http->get('settings/generateToken/user', $options);
-		$jsonTokenResponse = json_decode($tokenResponse->getBody()->getContents(), true);
-		$settingsToken = $jsonTokenResponse['token'];
-
+		$settingsAccessToken = $this->getSettingsAccessToken('user');
 		$postOptions = [
 			'query' => [
-				'access_token' => $settingsToken,
+				'access_token' => $settingsAccessToken,
 				'fileId' => '/settings/systemconfig/wordbook/poc.dic',
 			],
 			'body' => 'fake dictionary',
 		];
 
-		$options = array_merge($options, $postOptions);
+		$options = array_merge($this->serverContext->getWebOptions(), $postOptions);
 
 		$this->httpResponse = $this->http->post('wopi/settings/upload', $options);
 	}
@@ -105,21 +100,16 @@ class SettingsContext implements Context {
 	#[When('an admin uploads a system configuration file')]
 	public function adminUploadsSystemConfigFile() {
 		$this->serverContext->actAsAdmin(function () {
-			$options = $this->serverContext->getWebOptions();
-
-			$tokenResponse = $this->http->get('settings/generateToken/admin', $options);
-			$jsonTokenResponse = json_decode($tokenResponse->getBody()->getContents(), true);
-			$settingsToken = $jsonTokenResponse['token'];
-
+			$settingsAccessToken = $this->getSettingsAccessToken('admin');
 			$postOptions = [
 				'query' => [
-					'access_token' => $settingsToken,
+					'access_token' => $settingsAccessToken,
 					'fileId' => '/settings/systemconfig/wordbook/poc.dic',
 				],
 				'body' => 'fake dictionary',
 			];
 
-			$options = array_merge($options, $postOptions);
+			$options = array_merge($this->serverContext->getWebOptions(), $postOptions);
 
 			$this->httpResponse = $this->http->post('wopi/settings/upload', $options);
 		});
@@ -133,5 +123,15 @@ class SettingsContext implements Context {
 	#[Then('the system configuration upload is allowed')]
 	public function systemConfigUploadAllowed() {
 		Assert::assertEquals(200, $this->httpResponse->getStatusCode());
+	}
+
+	private function getSettingsAccessToken(string $type) {
+		$options = $this->serverContext->getWebOptions();
+
+		$response = $this->http->get("settings/generateToken/$type", $options);
+		$responseBody = $response->getBody()->getContents();
+		$responseJson = json_decode($responseBody, true);
+
+		return $responseJson['token'];
 	}
 }
