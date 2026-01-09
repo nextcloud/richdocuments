@@ -78,4 +78,32 @@ class SettingsContext implements Context {
 			$this->httpResponse->getBody()->getContents(),
 		);
 	}
+
+	#[When('a user uploads a system configuration file')]
+	public function userUploadsSystemConfigFile() {
+		$this->serverContext->actingAsUser('user1');
+
+		$options = $this->serverContext->getWebOptions();
+
+		$tokenResponse = $this->http->get('settings/generateToken/user', $options);
+		$jsonTokenResponse = json_decode($tokenResponse->getBody()->getContents(), true);
+		$settingsToken = $jsonTokenResponse['token'];
+
+		$postOptions = [
+			'query' => [
+				'access_token' => $settingsToken,
+				'fileId' => '/settings/systemconfig/wordbook/poc.dic',
+			],
+			'body' => 'fake dictionary',
+		];
+
+		$options = array_merge($options, $postOptions);
+
+		$this->httpResponse = $this->http->post('wopi/settings/upload', $options);
+	}
+
+	#[Then('the system configuration upload is forbidden')]
+	public function systemConfigUploadForbidden() {
+		Assert::assertEquals(403, $this->httpResponse->getStatusCode());
+	}
 }
