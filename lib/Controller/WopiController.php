@@ -446,6 +446,13 @@ class WopiController extends Controller {
 				throw new \Exception('UserID is empty');
 			}
 
+			$isUserAdmin = $this->groupManager->isAdmin($userId);
+			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
+			$settingsUrl = new SettingsUrl($fileId);
+			if ($settingsUrl->isSystemConfig() && !$isUserAdmin) {
+				throw new NotPermittedException();
+			}
+
 			$content = fopen('php://input', 'rb');
 			if (!$content) {
 				throw new \Exception('Failed to read input stream.');
@@ -454,12 +461,6 @@ class WopiController extends Controller {
 			$fileContent = stream_get_contents($content);
 			fclose($content);
 
-			$isUserAdmin = $this->groupManager->isAdmin($userId);
-			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
-			$settingsUrl = new SettingsUrl($fileId);
-			if ($settingsUrl->isSystemConfig() && !$isUserAdmin) {
-				throw new NotPermittedException();
-			}
 
 			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $userId);
 
