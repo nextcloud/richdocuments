@@ -23,18 +23,20 @@ const openPdf = new FileAction({
 			{ productName: getCapabilities().productName })
 	},
 
-	enabled: (files) => {
-		if (files.length !== 1) {
+	enabled: ({ nodes }) => {
+		if (nodes.length !== 1) {
 			return false
 		}
 
-		const isPdf = files[0].mime === 'application/pdf'
+		const isPdf = nodes[0].mime === 'application/pdf'
 		// Only enable the file action when files_pdfviewer is enabled
 		const optionalMimetypes = getCapabilities().mimetypesNoDefaultOpen
 		return isPdf && optionalMimetypes.includes('application/pdf')
 	},
 
-	exec: (file) => {
+	exec: ({ nodes }) => {
+		const file = nodes[0]
+
 		// If no viewer API, we can't open the document
 		if (!OCA.Viewer) {
 			return
