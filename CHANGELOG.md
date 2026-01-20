@@ -4,6 +4,19 @@
 -->
 # Changelog
 
+## 10.0.0-beta.1
+
+### Added
+- Use file type icon as favicon by @juliusknorr in [#5234](https://github.com/nextcloud/richdocuments/pull/5234)
+
+### Fixed
+- Re-add missing methods by @juliusknorr in [#5256](https://github.com/nextcloud/richdocuments/pull/5256)
+- Command documentation by @come-nc in [#5216](https://github.com/nextcloud/richdocuments/pull/5216)
+- Pass format to save as by @Minion3665 in [#5208](https://github.com/nextcloud/richdocuments/pull/5208)
+
+### Other
+- Dependency updates
+
 ## 9.0.0-beta.1
 
 ### Added
