@@ -100,7 +100,7 @@
     "Setting up a new server" : "Налаштування нового сервера",
     "Collabora Online should use the same protocol as the server installation." : "Collabora Online має використовувати той самий протокол, що й інсталяція сервера.",
     "Your browser has been unable to connect to the Collabora server:" : "Ваш бравзер не зміг з'єднатися із сервером Collabora:",
-    "This URL is determined on the Collabora server either from the configured URL or the server_name parameter in coolwsd.xml." : "Цей URL визначено у налаштуваннях серверу Collabora, чи з налаштувань URL або в параметрі server_name у файлі налаштувань coolwsd.xml.",
+    "This URL is determined on the Collabora server either from the configured URL or the server_name parameter in coolwsd.xml." : "Це посилання визначено у налаштуваннях сервера Collabora або з налаштувань URL або в параметрі server_name у файлі налаштувань coolwsd.xml.",
     "Collabora Online server is reachable." : "Сервер Collabora Online доступний.",
     "URL used by the browser:" : "URL, який було використано бравзером:",
     "Nextcloud URL used by Collabora:" : "URL Nextcloud для Collabora:",
