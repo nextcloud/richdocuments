@@ -18,6 +18,9 @@ env:
   CYPRESS_baseUrl: http://172.17.0.1:8081/index.php
   CYPRESS_collaboraUrl: http://172.17.0.1:9980
 
+permissions:
+  contents: read
+
 jobs:
   cypress:
 
@@ -37,7 +40,7 @@ jobs:
 
     services:
       collabora:
-        image: ${{ matrix.code-image == 'release' && 'collabora/code:latest' || 'juliushaertl/nc-code-nightly:latest' }}
+        image: ${{ matrix.code-image == 'release' && 'collabora/code:latest' || 'juliushaertl/nc-code-nightly:latest' }} # zizmor: ignore[unpinned-images]
         env:
           extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
           aliasgroup1: 'http://172.17.0.1'
@@ -46,17 +49,12 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
+          submodules: true
           repository: nextcloud/server
           ref: ${{ matrix.server-versions }}
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
       - name: Register main git reference
         run: |
@@ -64,29 +62,33 @@ jobs:
           echo "main_app_ref=$main_app_ref" >> $GITHUB_ENV
 
       - name: Checkout viewer
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           repository: nextcloud/viewer
           ref: ${{ matrix.server-versions }}
           path: apps/viewer
 
       - name: Checkout spreed
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           repository: nextcloud/spreed
           ref: ${{ env.main_app_ref }}
           path: apps/spreed
 
       - name: Checkout files_pdfviewer
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           repository: nextcloud/files_pdfviewer
           ref: ${{ matrix.server-versions }}
           path: apps/files_pdfviewer
 
       - name: Checkout ${{ env.APP_NAME }}
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           path: apps/${{ env.APP_NAME }}
 
       - name: Read package.json node and npm engines version
@@ -162,7 +164,7 @@ jobs:
           cat data/nextcloud.log
 
       - name: Cache node modules
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         env:
           cache-name: cache-node-modules
         with:
