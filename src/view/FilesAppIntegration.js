@@ -11,11 +11,11 @@ import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
 import {
-	davGetClient,
-	davGetDefaultPropfind,
-	davResultToNode,
-	davRootPath,
-} from '@nextcloud/files'
+	getClient,
+	getDefaultPropfind,
+	resultToNode,
+	defaultRootPath,
+} from '@nextcloud/files/dav'
 import SaveAs from '../components/Modal/SaveAs.vue'
 
 export default {
@@ -521,12 +521,12 @@ export default {
 
 		try {
 			const path = this.filePath + '/' + this.fileName
-			const client = davGetClient()
-			const results = await client.getDirectoryContents(`${davRootPath}${path}`, {
+			const client = getClient()
+			const results = await client.getDirectoryContents(`${defaultRootPath}${path}`, {
 				details: true,
-				data: davGetDefaultPropfind(),
+				data: getDefaultPropfind(),
 			})
-			const nodes = results.data.map((result) => davResultToNode(result))
+			const nodes = results.data.map((result) => resultToNode(result))
 
 			this.fileNode = nodes[0] ?? null
 		} catch (e) {
@@ -551,12 +551,12 @@ export default {
 
 		try {
 			const path = `${this.filePath}/${basename}`
-			const client = davGetClient()
-			const results = await client.getDirectoryContents(`${davRootPath}${path}`, {
+			const client = getClient()
+			const results = await client.getDirectoryContents(`${defaultRootPath}${path}`, {
 				details: true,
-				data: davGetDefaultPropfind(),
+				data: getDefaultPropfind(),
 			})
-			const nodes = results.data.map((result) => davResultToNode(result))
+			const nodes = results.data.map((result) => resultToNode(result))
 
 			if (nodes[0]) {
 				console.debug('[FilesAppIntegration] Emitting files:node:created for', basename)

@@ -44,6 +44,7 @@ class WOPIMiddleware extends Middleware {
 	) {
 	}
 
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		parent::beforeController($controller, $methodName);
 
@@ -134,6 +135,7 @@ class WOPIMiddleware extends Middleware {
 		$this->isWOPIRequest = true;
 	}
 
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception): Response {
 		if ($exception instanceof WopiException && $controller instanceof WopiController) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);

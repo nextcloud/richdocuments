@@ -30,6 +30,7 @@ class Admin implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$this->initialStateService->provideCapabilities();
 		$this->initialStateService->provideAdminSettings();
@@ -66,10 +67,12 @@ class Admin implements ISettings {
 		);
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'richdocuments';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 0;
 	}

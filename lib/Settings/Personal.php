@@ -26,6 +26,7 @@ class Personal implements ISettings {
 	}
 
 	/** @psalm-suppress InvalidNullableReturnType */
+	#[\Override]
 	public function getForm() {
 		if (!$this->capabilitiesService->hasTemplateSource()) {
 			/** @psalm-suppress NullableReturnStatement */
@@ -52,6 +53,7 @@ class Personal implements ISettings {
 		);
 	}
 
+	#[\Override]
 	public function getSection() {
 		if (!$this->capabilitiesService->hasTemplateSource()) {
 			return null;
@@ -60,6 +62,7 @@ class Personal implements ISettings {
 		return 'richdocuments';
 	}
 
+	#[\Override]
 	public function getPriority() {
 		return 0;
 	}

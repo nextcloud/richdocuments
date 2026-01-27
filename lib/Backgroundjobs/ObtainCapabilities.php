@@ -26,6 +26,7 @@ class ObtainCapabilities extends TimedJob {
 		$this->setInterval(60 * 60);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		if (!$this->appConfig->getCollaboraUrlInternal()) {
 			return;

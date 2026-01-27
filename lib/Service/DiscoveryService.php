@@ -57,6 +57,7 @@ class DiscoveryService extends CachedRequestService {
 		);
 	}
 
+	#[\Override]
 	protected function sendRequest(IClient $client): string {
 		$response = $client->get($this->getDiscoveryEndpoint(), $this->getDefaultRequestOptions());
 		return (string)$response->getBody();

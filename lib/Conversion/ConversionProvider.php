@@ -57,6 +57,7 @@ class ConversionProvider implements IConversionProvider {
 		$this->l10n = $l10nFactory->get('richdocuments');
 	}
 
+	#[\Override]
 	public function getSupportedMimeTypes(): array {
 		$documents = self::MIME_TYPES['documents'];
 		$sheets = self::MIME_TYPES['sheets'];
@@ -133,6 +134,7 @@ class ConversionProvider implements IConversionProvider {
 		];
 	}
 
+	#[\Override]
 	public function convertFile(File $file, string $targetMimeType): mixed {
 		$targetFileExtension = $this->getExtensionForMimeType($targetMimeType);
 		if ($targetFileExtension === null) {

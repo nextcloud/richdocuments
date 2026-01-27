@@ -99,6 +99,7 @@ class Capabilities implements ICapability {
 	) {
 	}
 
+	#[\Override]
 	public function getCapabilities() {
 		// Only expose capabilities for users with enabled office or guests (where it depends on the share owner if they have access)
 		if (!$this->permissionManager->isEnabledForUser() && $this->userId !== null) {

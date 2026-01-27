@@ -25,32 +25,39 @@ class TextToSpreadsheetProvider implements ISynchronousProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return Application::APPNAME . '-spreadsheet_generator';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Nextcloud Office spreadsheet generator');
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToSpreadsheetTaskType::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 120;
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [
 			'target_format' => self::DEFAULT_TARGET_FORMAT,
 		];
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'target_format' => new ShapeDescriptor(
@@ -61,6 +68,7 @@ class TextToSpreadsheetProvider implements ISynchronousProvider {
 		];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [
 			'target_format' => [
@@ -70,26 +78,31 @@ class TextToSpreadsheetProvider implements ISynchronousProvider {
 		];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [
 			'target_format' => self::DEFAULT_TARGET_FORMAT,
 		];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		if ($userId === null) {
 			throw new \RuntimeException('User ID is required to process the prompt.');

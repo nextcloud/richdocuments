@@ -10,6 +10,7 @@ class MSExcel extends Office {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return self::MIMETYPE_REGEX;
 	}

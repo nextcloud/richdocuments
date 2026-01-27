@@ -7,6 +7,8 @@ OC.L10N.register(
     "Missing a temporary folder" : "Ixuṣ ukaram akudan",
     "File is too big" : "Afaylu-agi bezzaf meqqer",
     "New document" : "Isemli amaynut",
+    "New spreadsheet" : "Ambellez amaynut ",
+    "New presentation" : "Tanekda tamaynut",
     "Images" : "Tugniwin",
     "New" : "Amaynut",
     "Save" : "Sekles",

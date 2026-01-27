@@ -71,6 +71,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APPNAME, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', $this, 'addStorageWrapper');
 
@@ -114,6 +115,7 @@ class Application extends App implements IBootstrap {
 		$context->registerTaskProcessingTaskType(SlideDeckGenerationTaskType::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 

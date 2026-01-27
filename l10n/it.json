@@ -134,7 +134,7 @@
     "Built-in CODE Server is starting up shortly, please wait." : "Il server CODE integrato si avvierà a breve, attendi.",
     "Built-in CODE Server is restarting, please wait." : "Il server CODE integrato è in fase di riavvio, attendi.",
     "Error: Cannot find the AppImage, please reinstall the Collabora Online Built-in server." : "Errore: impossibile trovare AppImage, installa nuovamente il server integrato di Collabora Online.",
-    "Error: Unable to make the AppImage executable, please setup a standalone server." : "Errore: impossible rendere Appimage eseguibile, configura un server indipendente.",
+    "Error: Unable to make the AppImage executable, please setup a standalone server." : "Errore: impossibile rendere Appimage eseguibile, configura un server indipendente.",
     "Error: Exec disabled in PHP, please enable it, or setup a standalone server." : "Errore: exec disabilitato in PHP, abilitalo o configura un server indipendente.",
     "Error: Not running on x86-64 or ARM64 (aarch64) Linux, please setup a standalone server." : "Errore: non in esecuzione su Linux x86-64 o ARM64 (aarch64), configura un server indipendente.",
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Errore: la libreria fontconfig non è installata sul tuo server, installala o configura un server autonomo.",

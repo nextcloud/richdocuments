@@ -63,6 +63,7 @@ namespace OC\Files\Storage\Wrapper {
         public function getInstanceOfStorage(string $class): ?IStorage {};
         public function __call(string $method, array $args) {};
         public function getDirectDownload(string $path): array|false {};
+		public function getDirectDownloadById(string $fileId): array|false {};
         public function getAvailability(): array {};
         public function setAvailability(bool $isAvailable): void {};
         public function verifyPath(string $path, string $fileName): void {};
