@@ -37,6 +37,7 @@ describe('New file menu', function() {
 		const newFileTypeLabels = [
 			'document', 'spreadsheet', 'presentation', 'diagram',
 		]
+
 		newFileTypeLabels.forEach((filetype) => {
 			it('Create empty ' + filetype + ' file', function() {
 				cy.newFileFromMenu(filetype, 'MyNewFile')
