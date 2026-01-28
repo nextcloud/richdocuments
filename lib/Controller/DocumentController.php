@@ -256,7 +256,7 @@ class DocumentController extends Controller {
 			}
 
 			$node = $share->getNode();
-			if ($filePath !== null) {
+			if ($filePath !== null && $node instanceof Folder) {
 				$node = $node->get($filePath);
 			}
 
@@ -484,10 +484,8 @@ class DocumentController extends Controller {
 			throw new NotFoundException();
 		}
 
-		if ($path !== null) {
-			$node = $node->get($path);
-		} else {
-			$node = $node->getFirstNodeById($fileId);
+		if ($node instanceof Folder) {
+			$node = ($path !== null) ? $node->get($path) : $node->getFirstNodeById($fileId);
 		}
 
 		if ($node instanceof File) {
