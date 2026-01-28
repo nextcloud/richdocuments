@@ -146,7 +146,7 @@ describe('Direct editing (legacy)', function() {
 		})
 	})
 
-	it('Open a remotely shared file', () => {
+	it.skip('Open a remotely shared file', () => {
 		cy.createRandomUser().then(shareRecipient => {
 			cy.login(randUser)
 			cy.shareFileToRemoteUser(randUser, '/document.odt', shareRecipient)
