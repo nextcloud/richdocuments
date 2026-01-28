@@ -11,6 +11,9 @@ import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
 import {
+	getSidebar
+} from '@nextcloud/files'
+import {
 	getClient,
 	getDefaultPropfind,
 	resultToNode,
@@ -106,7 +109,7 @@ export default {
 
 		this.changeFilesRoute(node.fileid)
 
-		OCA?.Files?.Sidebar?.close()
+		getSidebar()?.close()
 
 		if (this.getFileList()) {
 			const newFileModel = oldFile.clone()
@@ -115,12 +118,10 @@ export default {
 			newFileModel.set('mtime', Date.now())
 			this.getFileList()
 				.add(newFileModel.toJSON())
-
-			OC.Apps.hideAppSidebar()
 		}
 	},
 
-	share() {
+	async share() {
 		if (this.handlers.share && this.handlers.share(this)) {
 			return
 		}
@@ -130,8 +131,10 @@ export default {
 			return
 		}
 
-		OCA?.Files?.Sidebar?.open(this.filePath + '/' + this.fileName)
-		OCA?.Files?.Sidebar?.setActiveTab('sharing')
+		const node = await this.getFileNode()
+		const sidebar = getSidebar()
+		sidebar?.open(node)
+		sidebar?.setActiveTab('sharing')
 	},
 
 	rename(newName) {
@@ -144,7 +147,7 @@ export default {
 		}
 
 		if (this.getFileList()) {
-			OC.Apps.hideAppSidebar()
+			getSidebar()?.close()
 		}
 	},
 
@@ -421,17 +424,20 @@ export default {
 		avatardiv.append(popover)
 	},
 
-	showRevHistory() {
+	async showRevHistory() {
 		if (this.handlers.showRevHistory && this.handlers.showRevHistory(this)) {
 			return
 		}
 
-		if (isPublicShare() || !OCA?.Files?.Sidebar) {
+		if (isPublicShare()) {
 			console.error('[FilesAppIntegration] Versions are not supported')
 			return
 		}
-		OCA?.Files?.Sidebar?.open(this.filePath + '/' + this.fileName)
-		OCA?.Files?.Sidebar?.setActiveTab('files_versions')
+
+		const node = await this.getFileNode()
+		const sidebar = getSidebar()
+		sidebar?.open(node)
+		sidebar?.setActiveTab('files_versions')
 	},
 
 	/**
