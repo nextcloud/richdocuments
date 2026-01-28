@@ -80,23 +80,19 @@ describe('Nextcloud integration', function() {
 			cy.get('#saveas-entries #saveas-entry-1').click()
 		})
 
+		cy.get('.saveas-dialog').should('be.visible')
+		cy.get('.saveas-dialog input[type=text]')
+			.should('be.visible')
+			.should('have.value', `/${exportFilename}`)
 
-        cy.get('.saveas-dialog').should('be.visible')
-        cy.get('.saveas-dialog input[type=text]')
-            .should('be.visible')
-            .should('have.value', `/${exportFilename}`)
+		cy.get('.saveas-dialog button.button-vue--vue-primary').click()
 
-        cy.get('.saveas-dialog button.button-vue--vue-primary').click()
+		cy.get('@loleafletframe').within(() => {
+			cy.get('#closebutton').click()
+			cy.waitForViewerClose()
+		})
 
-        cy.get('@loleafletframe').within(() => {
-            cy.get('#closebutton').click()
-            cy.waitForViewerClose()
-        })
-
-        // FIXME: We should not need to reload
-        cy.get('.breadcrumb__crumbs a').eq(0).click({ force: true })
-
-        cy.openFile(exportFilename)
+		cy.openFile(exportFilename)
 	})
 
 	it('Open locally', function() {
