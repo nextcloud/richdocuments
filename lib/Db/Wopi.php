@@ -17,8 +17,8 @@ use OCP\DB\Types;
  * @method string getEditorUid()
  * @method void setFileid(int $fileid)
  * @method int getFileid()
- * @method void setVersion(int $version)
- * @method int getVersion()
+ * @method void setVersion(string $version)
+ * @method string getVersion()
  * @method void setCanwrite(bool $canwrite)
  * @method bool getCanwrite()
  * @method void setServerHost(string $host)
@@ -82,7 +82,7 @@ class Wopi extends Entity implements \JsonSerializable {
 	/** @var int */
 	protected $fileid;
 
-	/** @var int */
+	/** @var string */
 	protected $version;
 
 	/** @var bool */
@@ -128,7 +128,7 @@ class Wopi extends Entity implements \JsonSerializable {
 		$this->addType('ownerUid', Types::STRING);
 		$this->addType('editorUid', Types::STRING);
 		$this->addType('fileid', Types::INTEGER);
-		$this->addType('version', Types::INTEGER);
+		$this->addType('version', Types::STRING);
 		$this->addType('canwrite', Types::BOOLEAN);
 		$this->addType('serverHost', Types::STRING);
 		$this->addType('token', Types::STRING);
