@@ -245,7 +245,7 @@ class DocumentController extends Controller {
 				$authenticatedLinks = $this->session->get('public_link_authenticated');
 
 				$isAuthenticated = (is_array($authenticatedLinks) && in_array($share->getId(), $authenticatedLinks));
-				$isAuthenticated = $isAuthenticated || ($authenticatedLinks === (string)$share->getId());
+				$isAuthenticated = $isAuthenticated || ($authenticatedLinks === $share->getId());
 				if (!$isAuthenticated) {
 					throw new Exception('Invalid password');
 				}
@@ -256,7 +256,7 @@ class DocumentController extends Controller {
 			}
 
 			$node = $share->getNode();
-			if ($filePath !== null) {
+			if ($filePath !== null && $node instanceof Folder) {
 				$node = $node->get($filePath);
 			}
 
@@ -464,7 +464,7 @@ class DocumentController extends Controller {
 			$authenticatedLinks = $this->session->get('public_link_authenticated');
 
 			$isAuthenticated = (is_array($authenticatedLinks) && in_array($share->getId(), $authenticatedLinks));
-			$isAuthenticated = $isAuthenticated || ($authenticatedLinks === (string)$share->getId());
+			$isAuthenticated = $isAuthenticated || ($authenticatedLinks === $share->getId());
 
 			if (!$isAuthenticated) {
 				throw new NotPermittedException('Invalid password');
@@ -484,10 +484,8 @@ class DocumentController extends Controller {
 			throw new NotFoundException();
 		}
 
-		if ($path !== null) {
-			$node = $node->get($path);
-		} else {
-			$node = $node->getFirstNodeById($fileId);
+		if ($node instanceof Folder) {
+			$node = ($path !== null) ? $node->get($path) : $node->getFirstNodeById($fileId);
 		}
 
 		if ($node instanceof File) {

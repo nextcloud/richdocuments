@@ -122,7 +122,7 @@ class PermissionManager {
 			return false;
 		}
 
-		$fileId = $nodeOrCacheEntry->getId();
+		$fileId = (string)$nodeOrCacheEntry->getId();
 
 		$isUpdatable = $nodeOrCacheEntry instanceof Node
 			? $nodeOrCacheEntry->isUpdateable()

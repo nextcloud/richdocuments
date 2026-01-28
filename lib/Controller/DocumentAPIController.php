@@ -68,7 +68,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 					$authenticatedLinks = $this->session->get('public_link_authenticated');
 
 					$isAuthenticated = (is_array($authenticatedLinks) && in_array($share->getId(), $authenticatedLinks));
-					$isAuthenticated = $isAuthenticated || ($authenticatedLinks === (string)$share->getId());
+					$isAuthenticated = $isAuthenticated || ($authenticatedLinks === $share->getId());
 					if (!$isAuthenticated) {
 						throw new Exception('Invalid password');
 					}
