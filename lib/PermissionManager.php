@@ -146,7 +146,7 @@ class PermissionManager {
 
 			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkTags', 'no') === 'yes') {
 				$tags = $this->appConfig->getAppValueArray('watermark_linkTagsList');
-				$fileTags = $this->systemTagObjectMapper->getTagIdsForObjects([$fileId], 'files')[$fileId];
+				$fileTags = $this->systemTagObjectMapper->getTagIdsForObjects([(string)$fileId], 'files')[$fileId];
 				$fileTags = array_map('strval', $fileTags);
 				foreach ($fileTags as $tagId) {
 					if (in_array($tagId, $tags, true)) {
@@ -189,7 +189,7 @@ class PermissionManager {
 		}
 		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allTags', 'no') === 'yes') {
 			$tags = $this->appConfig->getAppValueArray('watermark_allTagsList');
-			$fileTags = $this->systemTagObjectMapper->getTagIdsForObjects([$fileId], 'files')[$fileId];
+			$fileTags = $this->systemTagObjectMapper->getTagIdsForObjects([(string)$fileId], 'files')[$fileId];
 			$fileTags = array_map('strval', $fileTags);
 			foreach ($fileTags as $tagId) {
 				if (in_array($tagId, $tags, true)) {
