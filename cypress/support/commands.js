@@ -456,6 +456,7 @@ Cypress.Commands.add('makeTalkRoomPublic', (user, token, password = '') => {
 
 Cypress.Commands.add('newFileFromMenu', (fileType = 'document', fileName = 'MyNewFile') => {
 	cy.get('form[data-cy-upload-picker=""]')
+		.first()
 		.should('be.visible')
 		.click()
 
