@@ -910,7 +910,9 @@ class WopiController extends Controller {
 				return $node;
 			}
 
-			return $node->getFirstNodeById($wopi->getFileid());
+			if ($node instanceof Folder) {
+				return $node->getFirstNodeById($wopi->getFileid());
+			}
 		}
 
 		// Group folders requires an active user to be set in order to apply the proper acl permissions as for anonymous requests it requires share permissions for read access
