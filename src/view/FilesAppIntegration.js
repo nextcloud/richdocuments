@@ -4,7 +4,6 @@
  */
 
 import { generateUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
 import { getFilePickerBuilder, spawnDialog } from '@nextcloud/dialogs'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import axios from '@nextcloud/axios'
@@ -48,15 +47,15 @@ export default {
 	},
 
 	initAfterReady() {
-		this.handlers?.initAfterReady(this)
+		this.handlers.initAfterReady?.(this)
 	},
 
 	close() {
-		this.handlers?.close(this)
+		this.handlers.close?.(this)
 	},
 
 	async saveAs(newName) {
-		if (this.handlers?.saveAs && this.handlers.saveAs(this)) {
+		if (this.handlers.saveAs?.(this)) {
 			return
 		}
 
@@ -76,7 +75,7 @@ export default {
 	},
 
 	async share() {
-		if (this.handlers.share && this.handlers.share(this)) {
+		if (this.handlers.share?.(this)) {
 			return
 		}
 
@@ -96,7 +95,7 @@ export default {
 
 		this.fileName = newName
 
-		if (this.handlers.rename && this.handlers.rename(this)) {
+		if (this.handlers.rename?.(this)) {
 			return
 		}
 
@@ -146,7 +145,9 @@ export default {
 	insertGraphic(insertFileProc) {
 		this.insertFile_impl(['image/png', 'image/gif', 'image/jpeg', 'image/svg'],
 			insertFileProc,
-			(filesAppIntegration, mimeTypeFilter, { insertFileFromPath }) => { return this.handlers.insertGraphic && this.handlers.insertGraphic(filesAppIntegration, { insertFileFromPath }) })
+			(filesAppIntegration, mimeTypeFilter, { insertFileFromPath }) => {
+				return this.handlers.insertGraphic?.(filesAppIntegration, { insertFileFromPath })
+			})
 	},
 
 	insertFile(mimeTypeFilter, insertFileProc) {
@@ -154,7 +155,7 @@ export default {
 	},
 
 	async showRevHistory() {
-		if (this.handlers.showRevHistory && this.handlers.showRevHistory(this)) {
+		if (this.handlers.showRevHistory?.(this)) {
 			return
 		}
 
@@ -180,7 +181,7 @@ export default {
 	 * @param {string} type the file type
 	 */
 	createNewFile(type) {
-		if (this.handlers.createNewFile && this.handlers.createNewFile(this, { type })) {
+		if (this.handlers.createNewFile?.(this, { type })) {
 			return
 		}
 
