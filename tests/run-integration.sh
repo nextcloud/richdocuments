@@ -55,7 +55,7 @@ $OCC config:system:set allow_local_remote_servers --value true --type bool
 $OCC config:system:set gs.trustedHosts 0 --value="localhost:$PORT_SERVERA"
 $OCC config:system:set gs.trustedHosts 1 --value="localhost:$PORT_SERVERB"
 
-vendor/bin/behat $SCENARIO_TO_RUN
+vendor/bin/behat --colors $SCENARIO_TO_RUN
 RESULT=$?
 
 kill $PHPPIDA
