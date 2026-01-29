@@ -277,18 +277,22 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) =>
 	return cy.get('@loleafletframe')
 })
 
-Cypress.Commands.add('waitForPostMessage', (messageId, values = undefined) => {
+Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefined) => {
 	cy.get('@postMessage', { timeout: 20000 }).should(spy => {
-		const calls = spy.getCalls()
+	  const calls = spy.getCalls()
 		const findMatchingCall = calls.find(call => call.args[0].indexOf('"MessageId":"' + messageId + '"') !== -1)
+
 		if (!findMatchingCall) {
 			return expect(findMatchingCall).to.not.be.undefined
 		}
-		if (!values) {
-			const object = JSON.parse(findMatchingCall.args[0])
-			values.forEach(value => {
-				expect(object.Values).to.have.property(value, values[value])
-			})
+
+		if (expectedValues) {
+		  const message = JSON.parse(findMatchingCall.args[0])
+
+			for (const [key, value] of Object.entries(expectedValues)) {
+			  expect(message.Values).to.have.property(key)
+				expect(message.Values[key]).to.equal(value)
+			}
 		}
 	})
 })
@@ -404,7 +408,6 @@ Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
 					break
 				default:
 					expect.fail('Using a field type not yet supported')
-					break
 				}
 			}
 		})
