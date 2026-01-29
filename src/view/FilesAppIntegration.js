@@ -11,7 +11,7 @@ import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
 import {
-	getSidebar
+	getSidebar,
 } from '@nextcloud/files'
 import {
 	getClient,
