@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 default:
+  formatters:
+    junit:
+      output_path: '%paths.base%/../output'
   autoload:
     '': '%paths.base%/../features/bootstrap'
   suites:
@@ -22,9 +25,3 @@ default:
         - DirectContext
         - FederationContext
         - ApiContext
-
-
-  extensions:
-    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
-      filename: report.xml
-      outputDir: '%paths.base%/../output/'
