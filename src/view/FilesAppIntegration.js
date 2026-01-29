@@ -20,7 +20,6 @@ import { isPublicShare } from '@nextcloud/sharing/public'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import $ from 'jquery'
 import SaveAs from '../components/Modal/SaveAs.vue'
-import { getCurrentDirectory } from '../helpers/filesApp.js'
 
 export default {
 
@@ -198,7 +197,7 @@ export default {
 				if (type === 'text') {
 					type = 'document'
 				}
-				const url = generateUrl('/apps/files/?dir=' + getCurrentDirectory() + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
+				const url = generateUrl('/apps/files/?dir=' + this.filePath + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
 				window.open(url, '_blank')
 			}
 		})
