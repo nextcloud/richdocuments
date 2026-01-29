@@ -27,17 +27,11 @@ export default {
 
 	filePath: undefined,
 
-	/* Views: people currently editing the file */
-	views: {},
-
 	followingEditor: false,
 
 	following: null,
 
 	handlers: {},
-
-	startLoading() {
-	},
 
 	init({ fileName, fileId, filePath, sendPostMessage }) {
 		this.fileNode = undefined
@@ -157,29 +151,6 @@ export default {
 
 	insertFile(mimeTypeFilter, insertFileProc) {
 		this.insertFile_impl(mimeTypeFilter, insertFileProc, this.handlers.insertFile)
-	},
-
-	setViews(views) {
-		this.views = {}
-		views.forEach((view) => {
-			this.views[view.ViewId] = view
-		})
-	},
-
-	followReset(event) {
-		this.sendPostMessage('Action_FollowUser', { Follow: false })
-		this.following = null
-		this.followingEditor = false
-	},
-	followCurrentEditor(event) {
-		this.sendPostMessage('Action_FollowUser', { Follow: true })
-		this.following = null
-		this.followingEditor = true
-	},
-	followView(view) {
-		this.sendPostMessage('Action_FollowUser', { ViewId: view.ViewId, Follow: true })
-		this.following = view.ViewId
-		this.followingEditor = false
 	},
 
 	async showRevHistory() {
