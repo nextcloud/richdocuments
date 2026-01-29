@@ -8,7 +8,6 @@ import { getFilePickerBuilder, spawnDialog } from '@nextcloud/dialogs'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
-import { getCurrentDirectory } from '../helpers/filesApp.js'
 import {
 	getSidebar,
 } from '@nextcloud/files'
@@ -197,7 +196,7 @@ export default {
 					if (type === 'text') {
 						type = 'document'
 					}
-					const url = generateUrl('/apps/files/?dir=' + getCurrentDirectory() + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
+					const url = generateUrl('/apps/files/?dir=' + this.filePath + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
 					window.open(url, '_blank')
 				}
 			},
