@@ -11,7 +11,7 @@ import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
 import {
-	getSidebar
+	getSidebar,
 } from '@nextcloud/files'
 import {
 	getClient,
@@ -25,10 +25,6 @@ export default {
 
 	fileNode: undefined,
 
-	fileModel: null,
-
-	fileList: undefined,
-
 	filePath: undefined,
 
 	/* Views: people currently editing the file */
@@ -41,19 +37,13 @@ export default {
 	handlers: {},
 
 	startLoading() {
-		if (this.getFileList()) {
-			this.getFileList().setViewerMode && this.getFileList().setViewerMode(true)
-			this.getFileList().showMask && this.getFileList().showMask()
-		}
 	},
 
-	init({ fileName, fileId, filePath, sendPostMessage, fileList, fileModel }) {
+	init({ fileName, fileId, filePath, sendPostMessage }) {
 		this.fileNode = undefined
 		this.fileName = fileName
 		this.fileId = fileId
-		this.fileList = fileList
 		this.filePath = filePath
-		this.fileModel = fileModel
 		this.sendPostMessage = sendPostMessage
 
 		this.getFileNode(true)
@@ -64,29 +54,15 @@ export default {
 	},
 
 	initAfterReady() {
-		if (this.handlers.initAfterReady && this.handlers.initAfterReady(this)) {
-			return
-		}
-
-		if (this.getFileList()) {
-			this.getFileModel()
-			this.getFileList().hideMask && this.getFileList().hideMask()
-			this.getFileList().setPageTitle && this.getFileList().setPageTitle(this.fileName)
-		}
+		this.handlers?.initAfterReady(this)
 	},
 
 	close() {
-		if (this.handlers.close && this.handlers.close(this)) {
-			return
-		}
-
-		this.fileModel = null
+		this.handlers?.close(this)
 	},
 
 	async saveAs(newName) {
-		const oldFile = this.getFileModel()
-
-		if (this.handlers.saveAs && this.handlers.saveAs(this)) {
+		if (this.handlers?.saveAs && this.handlers.saveAs(this)) {
 			return
 		}
 
@@ -103,15 +79,6 @@ export default {
 		this.changeFilesRoute(node.fileid)
 
 		getSidebar()?.close()
-
-		if (this.getFileList()) {
-			const newFileModel = oldFile.clone()
-			newFileModel.set('id', node.fileid)
-			newFileModel.set('name', newName)
-			newFileModel.set('mtime', Date.now())
-			this.getFileList()
-				.add(newFileModel.toJSON())
-		}
 	},
 
 	async share() {
@@ -139,9 +106,7 @@ export default {
 			return
 		}
 
-		if (this.getFileList()) {
-			getSidebar()?.close()
-		}
+		getSidebar()?.close()
 	},
 
 	/**
@@ -192,37 +157,6 @@ export default {
 
 	insertFile(mimeTypeFilter, insertFileProc) {
 		this.insertFile_impl(mimeTypeFilter, insertFileProc, this.handlers.insertFile)
-	},
-
-	getFileList() {
-		if (this.fileList) {
-			return this.fileList
-		}
-		if (OCA.Files && OCA.Files.App) {
-			return OCA.Files.App.fileList
-		}
-		if (OCA.Sharing && OCA.Sharing.PublicApp) {
-			return OCA.Sharing.PublicApp.fileList
-		}
-		return null
-	},
-
-	getFileModel() {
-		if (this.fileModel) {
-			return this.fileModel
-		}
-		if (!this.getFileList() || !this.getFileList().getModelForFile || !this.getFileList()._updateDetailsView) {
-			return null
-		}
-		try {
-			this.getFileList()._updateDetailsView(this.fileName, false)
-
-			this.fileModel = this.getFileList().getModelForFile(this.fileName)
-		} catch (e) {
-			return null
-		}
-
-		return this.fileModel
 	},
 
 	setViews(views) {
@@ -298,17 +232,6 @@ export default {
 		)
 	},
 
-	loggingContext() {
-		return {
-			currentUser: getCurrentUser()?.uid,
-			file: {
-				sharingToken: document.getElementById('sharingToken')?.value,
-				fileId: this.fileId,
-				filePath: (this.filePath ?? '') + '/' + this.fileName,
-			},
-		}
-	},
-
 	async updateFileInfo(name, mtime) {
 		const node = await this.getFileNode()
 
@@ -323,21 +246,6 @@ export default {
 
 			emit('files:node:updated', node)
 		}
-
-		// FIXME: Remove once all files app is moved to vue
-		const fileInfo = this.getFileModel()
-		if (!fileInfo) {
-			return
-		}
-
-		if (name) {
-			fileInfo.set('name', name)
-		}
-
-		if (mtime) {
-			fileInfo.set('mtime', mtime)
-		}
-		fileInfo.trigger('change', this.getFileModel())
 	},
 
 	async getFileNode(forceFetch = false) {
