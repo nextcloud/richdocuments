@@ -57,12 +57,6 @@ export default {
 		this.fileModel = fileModel
 		this.sendPostMessage = sendPostMessage
 
-		if (this.fileModel && this.fileModel.on) {
-			this.fileModel.on('change', () => {
-				this._addHeaderFileActions()
-			})
-		}
-
 		this.getFileNode(true)
 	},
 
@@ -88,7 +82,6 @@ export default {
 		}
 
 		this.fileModel = null
-		$('#richdocuments-header').remove()
 	},
 
 	async saveAs(newName) {
@@ -226,12 +219,6 @@ export default {
 			this.getFileList()._updateDetailsView(this.fileName, false)
 
 			this.fileModel = this.getFileList().getModelForFile(this.fileName)
-
-			if (this.fileModel && this.fileModel.on) {
-				this.fileModel.on('change', () => {
-					this._addHeaderFileActions()
-				})
-			}
 		} catch (e) {
 			return null
 		}
@@ -244,185 +231,22 @@ export default {
 		views.forEach((view) => {
 			this.views[view.ViewId] = view
 		})
-		this.renderAvatars()
 	},
 
 	followReset(event) {
 		this.sendPostMessage('Action_FollowUser', { Follow: false })
 		this.following = null
 		this.followingEditor = false
-		this.renderAvatars()
 	},
 	followCurrentEditor(event) {
 		this.sendPostMessage('Action_FollowUser', { Follow: true })
 		this.following = null
 		this.followingEditor = true
-		this.renderAvatars()
 	},
 	followView(view) {
 		this.sendPostMessage('Action_FollowUser', { ViewId: view.ViewId, Follow: true })
 		this.following = view.ViewId
 		this.followingEditor = false
-		this.renderAvatars()
-	},
-
-	_addHeaderFileActions() {
-		console.debug('[FilesAppIntegration] Adding header file actions')
-		OC.unregisterMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'))
-		$('#richdocuments-actions').remove()
-		const isInverted = Boolean(window?.OCA?.Theming?.inverted)
-		const actionsContainer = $('<div id="richdocuments-actions"><div class="icon-collabora icon-more ' + (isInverted ? 'icon-black' : 'icon-white') + '"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>')
-		const actions = actionsContainer.find('#richdocuments-actions-menu').empty()
-
-		const getContext = () => ({
-			$file: this.getFileList().$el ? this.getFileList().$el.find('[data-id=' + this.fileId + ']').first() : null,
-			fileActions: this.getFileList().fileActions,
-			fileList: this.getFileList(),
-			fileInfoModel: this.getFileModel(),
-		})
-
-		const isFavorite = function(fileInfo) {
-			return fileInfo.get('tags') && fileInfo.get('tags').indexOf(OC.TAG_FAVORITE) >= 0
-		}
-		const $favorite = $('<li><a></a></li>').click((event) => {
-			$favorite.find('a').removeClass('icon-starred').removeClass('icon-star-dark').addClass('icon-loading-small')
-			if (this.handlers.actionFavorite && this.handlers.actionFavorite(this)) {
-				return
-			}
-			this.getFileList().fileActions.triggerAction('Favorite', this.getFileModel(), this.getFileList())
-			this.getFileModel().trigger('change', this.getFileModel())
-		})
-		if (isFavorite(this.getFileModel())) {
-			$favorite.find('a').text(t('files', 'Remove from favorites'))
-			$favorite.find('a').addClass('icon-starred')
-		} else {
-			$favorite.find('a').text(t('files', 'Add to favorites'))
-			$favorite.find('a').addClass('icon-star-dark')
-		}
-
-		const $info = $('<li><a class="icon-info"></a></li>').click(() => {
-			if (this.handlers.actionDetails && this.handlers.actionDetails(this)) {
-				return
-			}
-			this.getFileList().fileActions.actions.all.Details.action(this.fileName, getContext())
-			OC.hideMenus()
-		})
-		$info.find('a').text(t('files', 'Details'))
-		const $download = $('<li><a class="icon-download">Download</a></li>').click(() => {
-			if (this.handlers.actionDownload && this.handlers.actionDownload(this)) {
-				return
-			}
-			this.getFileList().fileActions.actions.all.Download.action(this.fileName, getContext())
-			OC.hideMenus()
-		})
-		$download.find('a').text(t('files', 'Download'))
-		actions.append($favorite).append($info).append($download)
-		$('#richdocuments-header').append(actionsContainer)
-		OC.registerMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'), false, true)
-	},
-
-	/**
-	 * @param {View} view the view
-	 * @return {$|HTMLElement}
-	 * @private
-	 */
-	_userEntry(view) {
-		const entry = $('<li></li>')
-		entry.append(this._avatarForView(view))
-
-		const label = $('<div class="label"></div>')
-		label.text(view.UserName)
-		if (view.ReadOnly === '1') {
-			label.text(view.UserName + ' ' + t('richdocuments', '(read only)'))
-
-		}
-		label.click((event) => {
-			event.stopPropagation()
-			this.followView(view)
-		})
-		if (this.following === view.ViewId) {
-			$('#editors-menu').find('li').removeClass('active')
-			entry.addClass('active')
-		}
-		entry.append(label)
-
-		const isFileOwner = !isPublicShare() && this.getFileModel() && typeof this.getFileModel().get('shareOwner') === 'undefined'
-		const canEdit = this.getFileModel() && !!(this.getFileModel().get('permissions') & OC.PERMISSION_UPDATE)
-		if (isFileOwner && canEdit && !view.IsCurrentView) {
-			const removeButton = $('<div class="icon-close" title="' + t('richdocuments', 'Remove user') + '"/>')
-			removeButton.click(() => {
-				this.sendPostMessage('Action_RemoveView', { ViewId: view.ViewId })
-			})
-			entry.append(removeButton)
-		}
-		return entry
-	},
-
-	/**
-	 * @param {View} view the view
-	 * @return {$|HTMLElement}
-	 * @private
-	 */
-	_avatarForView(view) {
-		const userId = (view.UserId === '') ? view.UserName : view.UserId
-		const avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + userId + '"></div></div>')
-		const avatar = avatarContainer.find('.avatar')
-
-		avatar.css({
-			borderColor: '#' + ('000000' + Number(view.Color).toString(16)).slice(-6),
-			borderWidth: '2px',
-			borderStyle: 'solid',
-		})
-		if (view.ReadOnly === '1') {
-			avatarContainer.addClass('read-only')
-			$(avatar).attr('title', view.UserName + ' ' + t('richdocuments', '(read only)'))
-		} else {
-			$(avatar).attr('title', view.UserName)
-		}
-
-		$(avatar).avatar(userId, 32, undefined, true, undefined, view.UserName)
-		return avatarContainer
-	},
-
-	renderAvatars() {
-		const avatardiv = $('#header .header-right #richdocuments-avatars')
-		avatardiv.empty()
-		const popover = $('<div id="editors-menu" class="popovermenu"><ul></ul></div>')
-
-		const users = []
-		// Add new avatars
-		let i = 0
-		for (const viewId in this.views) {
-			/**
-			 * @type {View}
-			 */
-			const view = this.views[viewId]
-			view.UserName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest')
-			popover.find('ul').append(this._userEntry(view))
-
-			if (view.UserId === getCurrentUser()?.uid) {
-				continue
-			}
-			if (view.UserId !== '' && users.indexOf(view.UserId) > -1) {
-				continue
-			}
-			users.push(view.UserId)
-			if (i++ < 4) {
-				avatardiv.append(this._avatarForView(view))
-			}
-		}
-		const followCurrentEditor = $('<li><input type="checkbox" class="checkbox" /><label class="label">' + t('richdocuments', 'Follow current editor') + '</label></li>')
-		followCurrentEditor.find('label').click((event) => {
-			event.stopPropagation()
-			if (this.followingEditor) {
-				this.followReset()
-			} else {
-				this.followCurrentEditor()
-			}
-		})
-		followCurrentEditor.find('.checkbox').prop('checked', this.followingEditor)
-		popover.find('ul').append(followCurrentEditor)
-		avatardiv.append(popover)
 	},
 
 	async showRevHistory() {
