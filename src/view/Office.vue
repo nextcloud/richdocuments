@@ -123,6 +123,7 @@ import uiMention from '../mixins/uiMention.js'
 import version from '../mixins/version.js'
 import { getCurrentUser, getGuestNickname } from '@nextcloud/auth'
 import { shouldAskForGuestName } from '../helpers/guestName.js'
+import { getSidebar } from '@nextcloud/files'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 
@@ -288,7 +289,7 @@ export default {
 				},
 			})
 
-			window.OCA?.Files?.Sidebar?.close()
+			getSidebar()?.close()
 		}
 		this.postMessage.registerPostMessageHandler(this.postMessageHandler)
 
