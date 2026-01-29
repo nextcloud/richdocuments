@@ -49,7 +49,6 @@ class Personal implements ISettings {
 				'publicWopiUrl' => $this->appConfig->getCollaboraUrlPublic(),
 				'setting_iframe_url' => $this->tokenManager->getUrlSrcForMimeType('Settings'),
 			],
-			'blank'
 		);
 	}
 

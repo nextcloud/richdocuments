@@ -63,7 +63,6 @@ class Admin implements ISettings {
 					'setting_iframe_url' => $this->tokenManager->getUrlSrcForMimeType('Settings'),
 				],
 			],
-			'blank'
 		);
 	}
 
