@@ -278,21 +278,40 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) =>
 })
 
 Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefined) => {
-	cy.get('@postMessage', { timeout: 20000 }).should(spy => {
-	  const calls = spy.getCalls()
-		const findMatchingCall = calls.find(call => call.args[0].indexOf('"MessageId":"' + messageId + '"') !== -1)
-
-		if (!findMatchingCall) {
-			return expect(findMatchingCall).to.not.be.undefined
+	const checkExpectedValues = (message, values) => {
+		for (const [key, value] of Object.entries(values)) {
+			if (!message.Values[key] || message.Values[key] !== value) {
+				return false
+			}
 		}
 
-		if (expectedValues) {
-		  const message = JSON.parse(findMatchingCall.args[0])
+		return true
+	}
 
-			for (const [key, value] of Object.entries(expectedValues)) {
-			  expect(message.Values).to.have.property(key)
-				expect(message.Values[key]).to.equal(value)
+	cy.get('@postMessage', { timeout: 20000 }).should(spy => {
+		const calls = spy.getCalls()
+		const messagesMatchingId = []
+
+		// Find all messages matching the given ID
+		// We do it this way to avoid the shallow copy of Array.filter()
+		for (const call of calls) {
+			if (call.args[0].includes(`"MessageId":"${messageId}"`)) {
+				messagesMatchingId.push(JSON.parse(call.args[0]))
 			}
+		}
+
+		expect(messagesMatchingId.length).to.be.greaterThan(0)
+
+		if (expectedValues) {
+			const messagesMatchingValues = []
+
+			for (const message of messagesMatchingId) {
+				if (checkExpectedValues(message, expectedValues)) {
+					messagesMatchingValues.push(message)
+				}
+			}
+
+			expect(messagesMatchingValues.length).to.be.greaterThan(0)
 		}
 	})
 })
