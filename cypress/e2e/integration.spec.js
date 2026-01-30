@@ -87,6 +87,9 @@ describe('Nextcloud integration', function() {
 
 		cy.get('.saveas-dialog button.button-vue--vue-primary').click()
 
+		// Wait for confirmation from Collabora that the file was saved
+		cy.waitForPostMessage('Action_Save_Resp', { success: true, fileName: exportFilename })
+
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#closebutton').click()
 			cy.waitForViewerClose()
