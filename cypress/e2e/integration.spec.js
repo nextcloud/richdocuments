@@ -68,7 +68,7 @@ describe('Nextcloud integration', function() {
 		cy.get('#tab-version_vue .version__info__label').contains('Current version')
 	})
 
-	it.skip('Save as', function() {
+	it('Save as', function() {
 		const exportFilename = 'document.rtf'
 		cy.get('@loleafletframe').within(() => {
 			cy.get('.notebookbar-tabs-container', { timeout: 30_000 })
@@ -81,22 +81,22 @@ describe('Nextcloud integration', function() {
 		})
 
 
-        cy.get('.saveas-dialog').should('be.visible')
-        cy.get('.saveas-dialog input[type=text]')
-            .should('be.visible')
-            .should('have.value', `/${exportFilename}`)
+		cy.get('.saveas-dialog').should('be.visible')
+		cy.get('.saveas-dialog input[type=text]')
+		    .should('be.visible')
+		    .should('have.value', `/${exportFilename}`)
 
-        cy.get('.saveas-dialog button.button-vue--vue-primary').click()
+		cy.get('.saveas-dialog button.button-vue--vue-primary').click()
+		
+		// Wait for confirmation from Collabora that the file was saved
+		cy.waitForPostMessage('Action_Save_Resp', { success: true, fileName: exportFilename })
 
-        cy.get('@loleafletframe').within(() => {
-            cy.get('#closebutton').click()
-            cy.waitForViewerClose()
-        })
+		cy.get('@loleafletframe').within(() => {
+		    cy.get('#closebutton').click()
+		    cy.waitForViewerClose()
+		})
 
-        // FIXME: We should not need to reload
-        cy.get('.breadcrumb__crumbs a').eq(0).click({ force: true })
-
-        cy.openFile(exportFilename)
+		cy.openFile(exportFilename)
 	})
 
 	it('Open locally', function() {
