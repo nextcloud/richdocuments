@@ -27,7 +27,7 @@
 		<directory name="composer" />
 		<directory name="vendor" />
 		<ignoreFiles>
-			<directory name="vendor/jakub-onderka" />
+			<directory name="vendor/php-parallel-lint" />
 		</ignoreFiles>
 	</extraFiles>
 	<issueHandlers>
