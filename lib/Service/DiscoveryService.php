@@ -159,7 +159,7 @@ class DiscoveryService extends CachedRequestService {
 	private function extractProofKey(
 		string $valAttr,
 		string $modAttr,
-		string $expAttr
+		string $expAttr,
 	): ?ProofKey {
 		try {
 			$xml = $this->getParsedDiscoveryXml();
@@ -167,7 +167,7 @@ class DiscoveryService extends CachedRequestService {
 			$publicKeyResult = $xml->xpath(self::XPATH_PROOF_KEY . '/@' . $valAttr);
 			$publicKeyNode = (is_array($publicKeyResult) && isset($publicKeyResult[0])) ? $publicKeyResult[0] : null;
 
-			$modulusResult   = $xml->xpath(self::XPATH_PROOF_KEY . '/@' . $modAttr);
+			$modulusResult = $xml->xpath(self::XPATH_PROOF_KEY . '/@' . $modAttr);
 			$modulusNode = (is_array($modulusResult) && isset($modulusResult[0])) ? $modulusResult[0] : null;
 
 			$exponentResult = $xml->xpath(self::XPATH_PROOF_KEY . '/@' . $expAttr);
