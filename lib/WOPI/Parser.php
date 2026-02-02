@@ -31,22 +31,54 @@ class Parser {
 	}
 
 	/**
-	 * @throws Exception
+	 * Retrieves the urlsrc of the first action from WOPI discovery for the specified app name.
+	 *
+	 * @return array{urlsrc: string, action: string}
+	 * @throws Exception if discovery XML is null, empty, malformed, or does not contain a matching action node.
 	 */
-	private function getUrlSrc(string $mimetype): array {
+	private function getUrlSrc(string $appName): array {
 		$discovery = $this->discoveryService->get();
-		$this->logger->debug('WOPI::getUrlSrc discovery: {discovery}', ['discovery' => $discovery]);
-		$discoveryParsed = simplexml_load_string($discovery);
 
-		$result = $discoveryParsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action', $mimetype));
-		if ($result && count($result) > 0) {
-			return [
-				'urlsrc' => (string)$result[0]['urlsrc'],
-				'action' => (string)$result[0]['name'],
-			];
+		if ($discovery === null || $discovery === '') {
+			$this->logger->error('WOPI::getUrlSrc - Discovery XML is null or empty');
+			throw new Exception('Discovery XML is null or empty');
 		}
 
-		$this->logger->error('Didn\'t find urlsrc for mimetype {mimetype} in this WOPI discovery response: {discovery}', ['mimetype' => $mimetype, 'discovery' => $discovery]);
-		throw new Exception('Could not find urlsrc for ' . $mimetype . ' in WOPI discovery response');
+		$this->logger->debug('WOPI::getUrlSrc discovery: {discovery}', ['discovery' => $discovery]);
+
+		$discoveryParsed = simplexml_load_string($discovery);
+		if ($discoveryParsed === false) {
+			$this->logger->error(
+				'WOPI::getUrlSrc - Invalid or malformed XML in WOPI discovery response',
+				['discovery' => $discovery]
+			);
+			throw new Exception('Malformed XML in WOPI discovery response');
+		}
+
+		$result = $discoveryParsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name="%s"]/action[1]', $appName));
+		if (empty($result)) {
+			$this->logger->error(
+				"WOPI::getUrlSrc - Could not find action for appName {appName} in this WOPI discovery response: {discovery}",
+				['appName' => $appName, 'discovery' => $discovery]
+			);
+			throw new Exception("Could not find action for {$appName} in WOPI discovery response");
+		}
+
+		$firstAction = $result[0];
+		$urlsrcSet = isset($firstAction['urlsrc']) && (string)$firstAction['urlsrc'] !== '';
+		$nameSet = isset($firstAction['name']) && (string)$firstAction['name'] !== '';
+
+		if (!$urlsrcSet || !$nameSet) {
+			$this->logger->error(
+				"WOPI::getUrlSrc - Found node for appName {appName}, but urlsrc and/or name are missing/empty in WOPI discovery",
+				['appName' => $appName, 'discovery' => $discovery]
+			);
+			throw new Exception("Found node for {$appName}, but urlsrc and/or name are missing/empty");
+		}
+
+		return [
+			'urlsrc' => (string)$firstAction['urlsrc'],
+			'action' => (string)$firstAction['name'],
+		];
 	}
 }
