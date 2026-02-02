@@ -115,6 +115,7 @@ OC.L10N.register(
     "Select tags to enforce watermarking" : "Odaberi oznake za stavljanje vodenih žigova",
     "Save" : "Spremi",
     "Remove" : "Ukloni",
+    "Submit name" : "Pošalji naziv",
     "Confirm" : "Potvrdi",
     "Cancel" : "Odustani",
     "Save As" : "Spremi kao",
