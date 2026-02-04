@@ -76,8 +76,8 @@ describe('Nextcloud integration', function() {
 
 			cy.get('button[aria-label="File"]').click()
 			cy.get('button[aria-label="Save As"]')
-				.should('be.visible')
-				.click({ force: true })
+				.should('be.visible', { timeout: 10_000 })
+				.click()
 
 			cy.get('#saveas-entries > div')
 				.contains('Rich Text (.rtf)')
