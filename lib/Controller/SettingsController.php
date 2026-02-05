@@ -20,6 +20,8 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -254,18 +256,12 @@ class SettingsController extends Controller {
 		return new JSONResponse($response);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @param $key
-	 * @param $value
-	 * @return JSONResponse
-	 */
-	public function setPersonalSettings($templateFolder,
-		$zoteroAPIKeyInput,
-		$documentSigningCertInput,
-		$documentSigningKeyInput,
-		$documentSigningCaInput) {
+	#[NoAdminRequired]
+	public function setPersonalSettings(?string $templateFolder,
+		?string $zoteroAPIKeyInput,
+		?string $documentSigningCertInput,
+		?string $documentSigningKeyInput,
+		?string $documentSigningCaInput): JSONResponse {
 		$message = $this->l10n->t('Saved');
 		$status = 'success';
 
@@ -320,14 +316,12 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @return JSONResponse|DataResponse
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function getFontNames() {
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function getFontNames(): JSONResponse|DataResponse {
 		$fileNames = $this->fontService->getFontFileNames();
 		$etag = md5(implode('/', $fileNames));
 		$ifNoneMatchHeader = $this->request->getHeader('If-None-Match');
@@ -340,14 +334,12 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @return JSONResponse|DataResponse
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function getJsonFontList() {
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function getJsonFontList(): JSONResponse|DataResponse {
 		$files = $this->fontService->getFontFiles();
 		$etags = array_map(
 			static fn (ISimpleFile $f) => $f->getETag(),
@@ -366,15 +358,12 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $name
-	 * @return DataDisplayResponse|DataResponse
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function getFontFile(string $name) {
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function getFontFile(string $name): DataDisplayResponse|DataResponse {
 		try {
 			$fontFile = $this->fontService->getFontFile($name);
 			$etag = $fontFile->getETag();
@@ -394,14 +383,11 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $name
-	 * @return DataDisplayResponse
 	 * @throws \OCP\Files\NotPermittedException
 	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getFontFileOverview(string $name): DataDisplayResponse {
 		try {
 			$fontFileOverviewContent = $this->fontService->getFontFileOverview($name);
@@ -416,11 +402,9 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
-	 * @param string $type - Type is 'admin' or 'user'
-	 * @return DataResponse
+	 * @param 'admin'|'user' $type
 	 */
+	#[NoAdminRequired]
 	public function generateIframeToken(string $type): DataResponse {
 		try {
 			$response = $this->settingsService->generateIframeToken($type, $this->userId);
@@ -433,8 +417,6 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @param string $name
-	 * @return DataResponse
 	 * @throws NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
 	 */
@@ -443,9 +425,6 @@ class SettingsController extends Controller {
 		return new DataResponse();
 	}
 
-	/**
-	 * @return JSONResponse
-	 */
 	public function uploadFontFile(): JSONResponse {
 		try {
 			$file = $this->getUploadedFile('fontfile');
@@ -475,19 +454,10 @@ class SettingsController extends Controller {
 		}
 	}
 
-	/**
-	 * @param string $type
-	 * @param string $token
-	 * @param string $category
-	 * @param string $name
-	 *
-	 * @return DataDisplayResponse
-	 *
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 **/
-	public function getSettingsFile(string $type, string $token, string $category, string $name) {
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function getSettingsFile(string $type, string $token, string $category, string $name): DataDisplayResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($token);
 			$userId = $wopi->getEditorUid() ?: $wopi->getOwnerUid();
@@ -519,8 +489,6 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @param string $key
-	 * @return array
 	 * @throws UploadException
 	 */
 	private function getUploadedFile(string $key): array {
