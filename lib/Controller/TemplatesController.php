@@ -12,10 +12,14 @@ use OC\Files\Filesystem;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCsrfRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\Files\File;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -27,19 +31,10 @@ use Psr\Log\LoggerInterface;
 
 class TemplatesController extends Controller {
 	/** @var int Max template size */
-	private $maxSize = 20 * 1024 * 1024;
+	private int $maxSize = 20 * 1024 * 1024;
 
-	/**
-	 * Templates controller
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IL10N $l10n
-	 * @param TemplateManager $manager
-	 * @param IPreview $preview
-	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		private IL10N $l10n,
 		private TemplateManager $manager,
@@ -48,33 +43,22 @@ class TemplatesController extends Controller {
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->appName = $appName;
-		$this->request = $request;
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * Get preview for a specific template
 	 *
-	 * @param int $fileId The template id
-	 * @param int $x
-	 * @param int $y
-	 * @param bool $a
-	 * @param bool $forceIcon
-	 * @param string $mode
-	 * @return DataResponse
 	 * @throws NotFoundResponse
 	 */
-	public function getPreview($fileId,
-		$x = 150,
-		$y = 150,
-		$a = false,
-		$forceIcon = true,
-		$mode = 'fill') {
+	#[NoAdminRequired]
+	#[NoCsrfRequired]
+	#[PublicPage]
+	public function getPreview(int $fileId,
+		int $x = 150,
+		int $y = 150,
+		bool $a = false,
+		bool $forceIcon = true,
+		string $mode = 'fill'): DataResponse {
 		if ($fileId === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -94,10 +78,8 @@ class TemplatesController extends Controller {
 
 	/**
 	 * Add a global template
-	 *
-	 * @return JSONResponse
 	 */
-	public function add() {
+	public function add(): JSONResponse {
 		$files = $this->request->getUploadedFile('files');
 
 		if (!is_null($files)) {
@@ -149,11 +131,8 @@ class TemplatesController extends Controller {
 
 	/**
 	 * Delete a global template
-	 *
-	 * @param int $fileId
-	 * @return JSONResponse
 	 */
-	public function delete($fileId) {
+	public function delete(int $fileId): JSONResponse {
 		try {
 			$this->manager->delete($fileId);
 
@@ -169,22 +148,13 @@ class TemplatesController extends Controller {
 		}
 	}
 
-	/**
-	 * @param Node $node
-	 * @param int $x
-	 * @param int $y
-	 * @param bool $a
-	 * @param bool $forceIcon
-	 * @param string $mode
-	 * @return DataResponse|FileDisplayResponse
-	 */
 	private function fetchPreview(
-		Node $node,
+		File $node,
 		int $x,
 		int $y,
 		bool $a = false,
 		bool $forceIcon = true,
-		string $mode = IPreview::MODE_FILL): Http\Response {
+		string $mode = IPreview::MODE_FILL): DataResponse|FileDisplayResponse {
 		if (!($node instanceof Node) || (!$forceIcon && !$this->preview->isAvailable($node))) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
