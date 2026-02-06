@@ -40,7 +40,6 @@ class ShareLinkListener implements \OCP\EventDispatcher\IEventListener {
 		$loggedInUser = $this->permissionManager->loggedInUser();
 
 		if ($this->permissionManager->isEnabledForUser($owner)) {
-			$this->initialStateService->prepareParams(['userId' => $loggedInUser]);
 			$this->initialStateService->provideCapabilities();
 
 			Util::addInitScript(Application::APPNAME, Application::APPNAME . '-init-viewer');
