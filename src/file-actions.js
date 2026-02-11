@@ -2,14 +2,14 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { registerFileAction, FileAction } from '@nextcloud/files'
+import { registerFileAction } from '@nextcloud/files'
 import { getCapabilities } from './services/capabilities.ts'
 import { translate as t } from '@nextcloud/l10n'
 
 // eslint-disable-next-line import/no-unresolved
 import appIcon from '../img/app.svg?raw'
 
-const openPdf = new FileAction({
+const openPdf = {
 	id: 'office-open-pdf',
 
 	iconSvgInline: () => {
@@ -44,6 +44,6 @@ const openPdf = new FileAction({
 
 		OCA.Viewer.openWith('richdocuments', { path: file.path })
 	},
-})
+}
 
 registerFileAction(openPdf)
