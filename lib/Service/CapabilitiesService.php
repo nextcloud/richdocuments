@@ -69,10 +69,6 @@ class CapabilitiesService extends CachedRequestService {
 		return $this->isVersionAtLeast('21.11');
 	}
 
-	public function hasDrawSupport(): bool {
-		return $this->isVersionAtLeast('6.4.7');
-	}
-
 	public function hasTemplateSource(): bool {
 		return $this->getCapabilities()['hasTemplateSource'] ?? false;
 	}
