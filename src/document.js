@@ -4,7 +4,6 @@ import { emit, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
-import $ from 'jquery'
 import SaveAs from './components/Modal/SaveAs.vue'
 import { generateCSSVarTokens, getCollaboraTheme, getUIDefaults } from './helpers/coolParameters.js'
 import {

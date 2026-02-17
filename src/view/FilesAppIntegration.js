@@ -18,7 +18,6 @@ import {
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
-import $ from 'jquery'
 import SaveAs from '../components/Modal/SaveAs.vue'
 
 export default {
