@@ -37,7 +37,8 @@ let checkingProxyStatus = false
 const checkProxyStatus = () => {
 	checkingProxyStatus = true
 	const url = Config.get('urlsrc').slice(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
-	$.get(url + '?status').done(function(val) {
+	axios.get(url + '?status').then(function(response) {
+		const val = response.data
 		if (val && val.status && val.status !== 'OK') {
 			if (val.status === 'starting' || val.status === 'stopped') {
 				document.getElementById('proxyLoadingIcon').classList.add('icon-loading-small')
@@ -71,6 +72,9 @@ const checkProxyStatus = () => {
 			return
 		}
 
+		checkingProxyStatus = false
+	}).catch(function(error) {
+		console.error('Failed to check proxy status:', error)
 		checkingProxyStatus = false
 	})
 }
@@ -140,18 +144,26 @@ const documentsMain = {
 
 	UI: {
 		/* Editor wrapper HTML */
-		container: '<div id="mainContainer" class="claro">'
+		container: '<div id="mainContainer">'
 					+ '</div>',
 
-		viewContainer: '<div id="revViewerContainer" class="claro">'
+		viewContainer: '<div id="revViewerContainer">'
 						+ '<div id="revViewer"></div>'
 						+ '</div>',
 
 		showViewer(fileId, title) {
 			// remove previous viewer, if open, and set a new one
 			if (documentsMain.isViewerMode) {
-				$('#revViewer').remove()
-				$('#revViewerContainer').prepend($('<div id="revViewer">'))
+				const revViewer = document.getElementById('revViewer')
+				if (revViewer) {
+					revViewer.remove()
+				}
+				const revViewerContainer = document.getElementById('revViewerContainer')
+				if (revViewerContainer) {
+					const newRevViewer = document.createElement('div')
+					newRevViewer.id = 'revViewer'
+					revViewerContainer.prepend(newRevViewer)
+				}
 			}
 
 			const urlsrc = getWopiUrl({ fileId, title, readOnly: true, closeButton: !documentsMain.hideCloseButton })
@@ -176,25 +188,42 @@ const documentsMain = {
 			// iframe that contains the Collabora Online Viewer
 			const frame = '<iframe data-cy="coolframe" id="loleafletframe" name="loleafletframe_viewer" allowfullscreen allow="clipboard-read *; clipboard-write *" nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;" title="' + getCapabilities().productName + '"/>'
 
-			$('#revViewer').append(form)
-			$('#revViewer').append(frame)
-			$('#loleafletframe_viewer').focus()
+			const revViewer = document.getElementById('revViewer')
+			if (revViewer) {
+				revViewer.insertAdjacentHTML('beforeend', form)
+				revViewer.insertAdjacentHTML('beforeend', frame)
+			}
+			const loleafletframe = document.getElementsByName('loleafletframe_viewer')[0]
+			if (loleafletframe) {
+				loleafletframe.focus()
+			}
 
 			// submit that
-			$('#loleafletform_viewer').submit()
+			const loleafletform = document.getElementById('loleafletform_viewer')
+			if (loleafletform) {
+				loleafletform.submit()
+			}
 			documentsMain.isViewerMode = true
 			// for closing revision mode
-			$('#revViewerContainer .closeButton').click(function(e) {
-				e.preventDefault()
-				documentsMain.onCloseViewer()
-			})
+			const closeButton = document.querySelector('#revViewerContainer .closeButton')
+			if (closeButton) {
+				closeButton.addEventListener('click', function(e) {
+					e.preventDefault()
+					documentsMain.onCloseViewer()
+				})
+			}
 		},
 
 		loadRevViewerContainer() {
-			if (!$('revViewerContainer').length) {
-				$(document.body).prepend(documentsMain.UI.viewContainer)
-				const closeButton = $('<button class="icon-close closeButton" title="' + t('richdocuments', 'Close version preview') + '"/>')
-				$('#revViewerContainer').prepend(closeButton)
+			if (!document.getElementById('revViewerContainer')) {
+				document.body.insertAdjacentHTML('afterbegin', documentsMain.UI.viewContainer)
+				const closeButton = document.createElement('button')
+				closeButton.className = 'icon-close closeButton'
+				closeButton.title = t('richdocuments', 'Close version preview')
+				const revViewerContainer = document.getElementById('revViewerContainer')
+				if (revViewerContainer) {
+					revViewerContainer.prepend(closeButton)
+				}
 			}
 		},
 
@@ -213,8 +242,8 @@ const documentsMain = {
 			PostMessages.sendPostMessage('parent', 'loading')
 			hideLoadingIndicator()
 
-			$(document.body).addClass('claro')
-			$(document.body).prepend(documentsMain.UI.container)
+			document.body.classList.add('claro')
+			document.body.insertAdjacentHTML('afterbegin', documentsMain.UI.container)
 
 			const urlsrc = getWopiUrl({ fileId, title, readOnly: false, closeButton: !documentsMain.hideCloseButton, revisionHistory: !documentsMain.isPublic, target: Config.get('target') })
 
@@ -238,17 +267,23 @@ const documentsMain = {
 			// iframe that contains the Collabora Online
 			const frame = '<iframe data-cy="coolframe" id="loleafletframe" name="loleafletframe" nonce="' + btoa(getRequestToken()) + '" scrolling="no" allowfullscreen allow="clipboard-read *; clipboard-write *" style="width:100%;height:100%;position:absolute;" title="' + getCapabilities().productName + '"/>'
 
-			$('#mainContainer').append(form)
-			$('#mainContainer').append(frame)
-			$('#loleafletframe').focus()
+			const mainContainer = document.getElementById('mainContainer')
+			if (mainContainer) {
+				mainContainer.insertAdjacentHTML('beforeend', form)
+				mainContainer.insertAdjacentHTML('beforeend', frame)
+			}
+			const loleafletframe = document.getElementById('loleafletframe')
+			if (loleafletframe) {
+				loleafletframe.focus()
+			}
 
-			documentsMain.registerAutoLogout($('#loleafletframe')[0])
+			documentsMain.registerAutoLogout(loleafletframe)
 
 			emit('richdocuments:wopi-load:started', {
 				wopiFileId: fileId,
 			})
 			// Listen for App_LoadingStatus as soon as possible
-			$('#loleafletframe').ready(function() {
+			if (loleafletframe) {
 				const editorInitListener = ({ parsed, data }) => {
 					console.debug('[document] editorInitListener: Received post message ', parsed)
 					const { msgId, args } = parsed
@@ -333,179 +368,200 @@ const documentsMain = {
 						editorInitListener({ data: JSON.stringify(message), parsed: message })
 					}
 				}, 45000)
-			})
+			}
 
-			$('#loleafletframe').on('load', function() {
-				const ViewerToLool = [
-					'Action_FollowUser',
-					'Host_VersionRestore',
-					'Action_RemoveView',
-					'Action_InsertLink',
-					'Action_Paste',
-					'Action_GetLinkPreview_Resp',
-				]
-				PostMessages.registerPostMessageHandler(({ parsed, data }) => {
-					console.debug('[document] Received post message ', parsed)
-					const { msgId, args, deprecated } = parsed
+			if (loleafletframe) {
+				loleafletframe.addEventListener('load', function() {
+					const ViewerToLool = [
+						'Action_FollowUser',
+						'Host_VersionRestore',
+						'Action_RemoveView',
+						'Action_InsertLink',
+						'Action_Paste',
+						'Action_GetLinkPreview_Resp',
+					]
+					PostMessages.registerPostMessageHandler(({ parsed, data }) => {
+						console.debug('[document] Received post message ', parsed)
+						const { msgId, args, deprecated } = parsed
 
-					if (deprecated) {
-						return
-					}
+						if (deprecated) {
+							return
+						}
 
-					if (documentsMain.isViewerMode) {
-						let { fileId, title, version } = args
-						switch (parsed.msgId) {
-						case 'Action_loadRevViewer':
-							documentsMain.UI.loadRevViewerContainer()
-							if (fileId) {
-								fileId += '_' + Config.get('instanceId')
-								if (version) {
-									fileId += `_${version}`
-									title += `_${version}`
+						if (documentsMain.isViewerMode) {
+							let { fileId, title, version } = args
+							switch (parsed.msgId) {
+							case 'Action_loadRevViewer':
+								documentsMain.UI.loadRevViewerContainer()
+								if (fileId) {
+									fileId += '_' + Config.get('instanceId')
+									if (version) {
+										fileId += `_${version}`
+										title += `_${version}`
+									}
+									documentsMain.UI.showViewer(
+										fileId, title,
+									)
 								}
-								documentsMain.UI.showViewer(
-									fileId, title,
-								)
-							}
-							break
-						case 'Host_VersionRestore':
+								break
+							case 'Host_VersionRestore':
 							// resolve the deferred object immediately if client doesn't support version states
-							if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
-								console.error('No version support')
-								// Not forwarding message to collabora
+								if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
+									console.error('No version support')
+									// Not forwarding message to collabora
+									return
+								}
+								documentsMain.onCloseViewer()
+								break
+							case 'App_VersionRestore':
+							// Status = Pre_Restore_Ack -> Ready to restore version
+								break
+							case 'UI_Share':
+								break
+							default:
 								return
 							}
-							documentsMain.onCloseViewer()
+
+						}
+
+						// Pass all messages to viewer if not direct editing or
+						if (!isDirectEditing() && ViewerToLool.indexOf(msgId) === -1) {
+							PostMessages.sendPostMessage('parent', data)
+						}
+						// Pass messages from viewer to lool
+						if (ViewerToLool.indexOf(msgId) >= 0) {
+							return PostMessages.sendPostMessage('loolframe', data)
+						}
+
+						if (isMobileInterfaceAvailable()) {
+							if (msgId === 'Download_As') {
+								return callMobileMessage('downloadAs', args)
+							}
+							if (msgId === 'File_Rename') {
+								return callMobileMessage('fileRename', args)
+							} else if (msgId === 'UI_Paste') {
+								callMobileMessage('paste')
+								return
+							}
+							if (msgId === 'UI_Close') {
+								callMobileMessage('close')
+							} else if (msgId === 'UI_InsertGraphic') {
+								callMobileMessage('insertGraphic')
+							} else if (msgId === 'UI_Share') {
+								callMobileMessage('share')
+							} else if (msgId === 'UI_Hyperlink') {
+								callMobileMessage('hyperlink', args)
+							}
+							// Fallback to web UI for SaveAs, otherwise ignore other post messages
+							if (msgId !== 'UI_SaveAs') {
+								return
+							}
+						}
+
+						switch (parsed.msgId) {
+						case 'UI_Close':
+						case 'close':
+							documentsMain.onClose()
 							break
-						case 'App_VersionRestore':
-							// Status = Pre_Restore_Ack -> Ready to restore version
+						// Messages received from the viewer
+						case 'postAsset':
+							documentsMain.postAsset(args.FileName, args.Url)
 							break
-						case 'UI_Share':
+						case 'UI_FileVersions':
+						case 'rev-history':
+							documentsMain.UI.loadRevViewerContainer()
+							documentsMain.UI.showViewer(
+								documentsMain.fileId, documentsMain.title,
+							)
+							break
+						case 'RD_Version_Restored': {
+							const loleafletformViewer = document.getElementById('loleafletform_viewer')
+							if (loleafletformViewer) {
+								loleafletformViewer.submit()
+							}
+							break
+						}
+						case 'File_Rename':
+							documentsMain.fileName = args.NewName
+							break
+						case 'Views_List':
+							documentsMain.users = []
+							parsed.args.forEach((view) => {
+								if (!view.UserId.startsWith('Guest-')) {
+									documentsMain.users.push({ id: view.UserId, label: view.UserName })
+								}
+							})
+							break
+						case 'Get_Views_Resp':
+							if (documentsMain.openingLocally) {
+								documentsMain.UI.removeViews(parsed.args)
+								documentsMain.unlockFile()
+									.catch(_ => {}) // Unlocking failed, possibly because file was not locked, we want to proceed regardless.
+									.then(() => {
+										documentsMain.openLocally()
+									})
+							}
+							break
+						case 'UI_Mention':
+							documentsMain.sendUserList(parsed.args.text)
 							break
 						default:
-							return
+							console.debug('[document] Unhandled post message', parsed)
 						}
 
-					}
-
-					// Pass all messages to viewer if not direct editing or
-					if (!isDirectEditing() && ViewerToLool.indexOf(msgId) === -1) {
-						PostMessages.sendPostMessage('parent', data)
-					}
-					// Pass messages from viewer to lool
-					if (ViewerToLool.indexOf(msgId) >= 0) {
-						return PostMessages.sendPostMessage('loolframe', data)
-					}
-
-					if (isMobileInterfaceAvailable()) {
-						if (msgId === 'Download_As') {
-							return callMobileMessage('downloadAs', args)
-						}
-						if (msgId === 'File_Rename') {
-							return callMobileMessage('fileRename', args)
-						} else if (msgId === 'UI_Paste') {
-							callMobileMessage('paste')
-							return
-						}
-						if (msgId === 'UI_Close') {
-							callMobileMessage('close')
-						} else if (msgId === 'UI_InsertGraphic') {
-							callMobileMessage('insertGraphic')
-						} else if (msgId === 'UI_Share') {
-							callMobileMessage('share')
-						} else if (msgId === 'UI_Hyperlink') {
-							callMobileMessage('hyperlink', args)
-						}
-						// Fallback to web UI for SaveAs, otherwise ignore other post messages
-						if (msgId !== 'UI_SaveAs') {
-							return
-						}
-					}
-
-					switch (parsed.msgId) {
-					case 'UI_Close':
-					case 'close':
-						documentsMain.onClose()
-						break
-						// Messages received from the viewer
-					case 'postAsset':
-						documentsMain.postAsset(args.FileName, args.Url)
-						break
-					case 'UI_FileVersions':
-					case 'rev-history':
-						documentsMain.UI.loadRevViewerContainer()
-						documentsMain.UI.showViewer(
-							documentsMain.fileId, documentsMain.title,
-						)
-						break
-					case 'RD_Version_Restored':
-						$('#loleafletform_viewer').submit()
-						break
-					case 'File_Rename':
-						documentsMain.fileName = args.NewName
-						break
-					case 'Views_List':
-						documentsMain.users = []
-						parsed.args.forEach((view) => {
-							if (!view.UserId.startsWith('Guest-')) {
-								documentsMain.users.push({ id: view.UserId, label: view.UserName })
+						if (msgId === 'UI_SaveAs') {
+							spawnDialog(
+								SaveAs,
+								{
+									path: documentsMain.fileName,
+									format: args.format,
+								},
+								(value) => value && PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { Filename: value, Notify: true }),
+							)
+						} else if (msgId === 'Action_Save_Resp') {
+							if (args.success && args.fileName) {
+								documentsMain.fileName = args.fileName
 							}
-						})
-						break
-					case 'Get_Views_Resp':
-						if (documentsMain.openingLocally) {
-							documentsMain.UI.removeViews(parsed.args)
-							documentsMain.unlockFile()
-								.catch(_ => {}) // Unlocking failed, possibly because file was not locked, we want to proceed regardless.
-								.then(() => {
-									documentsMain.openLocally()
-								})
 						}
-						break
-					case 'UI_Mention':
-						documentsMain.sendUserList(parsed.args.text)
-						break
-					default:
-						console.debug('[document] Unhandled post message', parsed)
-					}
+					})
 
-					if (msgId === 'UI_SaveAs') {
-						spawnDialog(
-							SaveAs,
-							{
-								path: documentsMain.fileName,
-								format: args.format,
-							},
-							(value) => value && PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { Filename: value, Notify: true }),
-						)
-					} else if (msgId === 'Action_Save_Resp') {
-						if (args.success && args.fileName) {
-							documentsMain.fileName = args.fileName
-						}
+					// Tell the LOOL iframe that we are ready now
+					PostMessages.sendWOPIPostMessage('loolframe', 'Host_PostmessageReady', {})
+
+					// In the mobile apps, don't let Collabora Online handle the
+					// hyperlinks, instead do that in the apps
+					if (isMobileInterfaceAvailable()) {
+						PostMessages.sendWOPIPostMessage('loolframe', 'Disable_Default_UIAction', { action: 'UI_Hyperlink', disable: true })
 					}
 				})
-
-				// Tell the LOOL iframe that we are ready now
-				PostMessages.sendWOPIPostMessage('loolframe', 'Host_PostmessageReady', {})
-
-				// In the mobile apps, don't let Collabora Online handle the
-				// hyperlinks, instead do that in the apps
-				if (isMobileInterfaceAvailable()) {
-					PostMessages.sendWOPIPostMessage('loolframe', 'Disable_Default_UIAction', { action: 'UI_Hyperlink', disable: true })
-				}
-			})
+			}
 
 			// submit that
-			$('#loleafletform').submit()
+			const loleafletform = document.getElementById('loleafletform')
+			if (loleafletform) {
+				loleafletform.submit()
+			}
 		},
 
 		hideEditor() {
-			// Fade out editor
-			$('#mainContainer').fadeOut('fast', function() {
-				$('#mainContainer').remove()
-				$('#content-wrapper').fadeIn('fast')
-				$(document.body).removeClass('claro')
-			})
+		// Fade out editor
+			const mainContainer = document.getElementById('mainContainer')
+			const contentWrapper = document.getElementById('content-wrapper')
+
+			if (mainContainer) {
+				mainContainer.style.transition = 'opacity 200ms'
+				mainContainer.style.opacity = '0'
+
+				setTimeout(() => {
+					mainContainer.remove()
+					if (contentWrapper) {
+						contentWrapper.style.transition = 'opacity 200ms'
+						contentWrapper.style.opacity = '1'
+						contentWrapper.style.display = ''
+					}
+					document.body.classList.remove('claro')
+				}, 200)
+			}
 		},
 
 		removeViews(views) {
@@ -552,7 +608,7 @@ const documentsMain = {
 		// Does anything indicate that we need to autostart a session?
 		const fileId = (getSearchParam('fileId') || '').replace(/^\W*/, '')
 
-		if (fileId && Number.isInteger(Number(fileId)) && $('#nickname').length === 0) {
+		if (fileId && Number.isInteger(Number(fileId)) && !document.getElementById('nickname')) {
 			documentsMain.isEditorMode = true
 			documentsMain.originalFileId = fileId
 		}
@@ -574,11 +630,10 @@ const documentsMain = {
 		documentsMain.isPublic = !Config.get('userId')
 		documentsMain.hideCloseButton = Config.get('hideCloseButton')
 
-		$('footer,nav').hide()
-		// fade out file list and show the document
-		$('#content-wrapper').fadeOut('fast').promise().done(function() {
-			documentsMain.loadDocument(documentsMain.fileName, documentsMain.fileId)
+		document.querySelectorAll('footer, nav').forEach(el => {
+			el.style.display = 'none'
 		})
+		documentsMain.loadDocument(documentsMain.fileName, documentsMain.fileId)
 	},
 
 	loadDocument(title, fileId) {
@@ -588,8 +643,7 @@ const documentsMain = {
 	onEditorShutdown(message) {
 		OC.Notification.show(message)
 
-		$(window).off('beforeunload')
-		$(window).off('unload')
+		// Note: Event handlers cleanup removed (no longer using jQuery)
 		if (documentsMain.isEditorMode) {
 			documentsMain.isEditorMode = false
 		} else {
@@ -597,15 +651,18 @@ const documentsMain = {
 		}
 		documentsMain.UI.hideEditor()
 
-		$('footer,nav').show()
+		document.querySelectorAll('footer, nav').forEach(el => {
+			el.style.display = ''
+		})
 	},
 
 	onClose() {
 		documentsMain.isEditorMode = false
-		$(window).off('beforeunload')
-		$(window).off('unload')
+		// Note: Event handlers cleanup removed (no longer using jQuery)
 
-		$('footer,nav').show()
+		document.querySelectorAll('footer, nav').forEach(el => {
+			el.style.display = ''
+		})
 		documentsMain.UI.hideEditor()
 		documentsMain.openLocally()
 
@@ -613,13 +670,22 @@ const documentsMain = {
 	},
 
 	onCloseViewer() {
-		$('#revisionsContainer *').off()
+		// Note: Event handlers cleanup removed (no longer using jQuery)
 
-		$('#revPanelContainer').remove()
-		$('#revViewerContainer').remove()
+		const revPanelContainer = document.getElementById('revPanelContainer')
+		if (revPanelContainer) {
+			revPanelContainer.remove()
+		}
+		const revViewerContainer = document.getElementById('revViewerContainer')
+		if (revViewerContainer) {
+			revViewerContainer.remove()
+		}
 		documentsMain.isViewerMode = false
 
-		$('#loleafletframe').focus()
+		const loleafletframe = document.getElementById('loleafletframe')
+		if (loleafletframe) {
+			loleafletframe.focus()
+		}
 	},
 
 	/**
