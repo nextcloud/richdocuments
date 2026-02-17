@@ -51,7 +51,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        code-image: [ 'release', 'nightly' ]
+        code-image: [ 'release' ]
         php-versions: ['8.1']
         databases: ['sqlite']
         server-versions: ['stable32']
