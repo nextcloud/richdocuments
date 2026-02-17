@@ -668,6 +668,10 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		if (!$wopi->getCanwrite()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		switch ($wopiOverride) {
 			case 'LOCK':
 				return $this->lock($wopi, $wopiLock);
@@ -685,10 +689,6 @@ class WopiController extends Controller {
 
 
 		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
-
-		if (!$wopi->getCanwrite()) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
-		}
 
 		// Unless the editor is empty (public link) we modify the files as the current editor
 		$editor = $wopi->getEditorUid();
