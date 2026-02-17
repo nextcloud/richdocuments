@@ -73,33 +73,10 @@ class RegisterTemplateFileCreatorListenerTest extends TestCase {
 		$this->permissionManager->method('isEnabledForUser')->willReturn(true);
 		$this->permissionManager->method('userCanEdit')->willReturn(true);
 		$this->capabilitiesService->method('getCapabilities')->willReturn(['something']);
-		$this->capabilitiesService->method('hasDrawSupport')->willReturn(true);
 		$this->config->method('getAppValue')->willReturn('ooxml');
 		$this->appManager->method('getAppPath')->willReturn('/tmp');
 
 		$this->templateManager->expects($this->exactly(4))->method('registerTemplateFileCreator');
-
-		$listener = new RegisterTemplateFileCreatorListener(
-			$this->l10n,
-			$this->config,
-			$this->appManager,
-			$this->capabilitiesService,
-			$this->permissionManager
-		);
-		$listener->handle($event);
-	}
-
-	public function testHandleRegistersWithoutDrawSupport() {
-		$event = $this->createMock(RegisterTemplateCreatorEvent::class);
-		$event->method('getTemplateManager')->willReturn($this->templateManager);
-		$this->permissionManager->method('isEnabledForUser')->willReturn(true);
-		$this->permissionManager->method('userCanEdit')->willReturn(true);
-		$this->capabilitiesService->method('getCapabilities')->willReturn(['something']);
-		$this->capabilitiesService->method('hasDrawSupport')->willReturn(false);
-		$this->config->method('getAppValue')->willReturn('ooxml');
-		$this->appManager->method('getAppPath')->willReturn('/tmp');
-
-		$this->templateManager->expects($this->exactly(3))->method('registerTemplateFileCreator');
 
 		$listener = new RegisterTemplateFileCreatorListener(
 			$this->l10n,

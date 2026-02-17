@@ -88,9 +88,6 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 			return $odpType;
 		});
 
-		if (!$this->capabilitiesService->hasDrawSupport()) {
-			return;
-		}
 		$templateManager->registerTemplateFileCreator(function () use ($ooxml, $appPath) {
 			$odpType = new TemplateFileCreator('richdocuments', $this->l10n->t('New diagram'), '.odg');
 			$odpType->addMimetype('application/vnd.oasis.opendocument.graphics');

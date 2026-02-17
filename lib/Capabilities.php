@@ -117,14 +117,6 @@ class Capabilities implements ICapability {
 				array_push($optionalMimetypes, ...self::MIMETYPES_MSOFFICE);
 			}
 
-			// If version is too old, draw is not supported
-			if (!$this->capabilitiesService->hasDrawSupport()) {
-				$defaultMimetypes = array_diff($defaultMimetypes, [
-					'application/vnd.oasis.opendocument.graphics',
-					'application/vnd.oasis.opendocument.graphics-flat-xml',
-				]);
-			}
-
 			if (!$this->appManager->isEnabledForUser('files_pdfviewer')) {
 				$defaultMimetypes[] = 'application/pdf';
 				$optionalMimetypes = array_diff($optionalMimetypes, ['application/pdf']);
@@ -133,7 +125,7 @@ class Capabilities implements ICapability {
 			$this->capabilities = [
 				'richdocuments' => [
 					'version' => $this->appManager->getAppVersion('richdocuments'),
-					'mimetypes' => array_values($defaultMimetypes),
+					'mimetypes' => $defaultMimetypes,
 					'mimetypesNoDefaultOpen' => array_values($optionalMimetypes),
 					'mimetypesSecureView' => $this->config->useSecureViewAdditionalMimes() ? self::SECURE_VIEW_ADDITIONAL_MIMES : [],
 					'collabora' => $collaboraCapabilities,
