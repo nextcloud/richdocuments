@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import './init-shared.js'
-import $ from 'jquery'
 import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
