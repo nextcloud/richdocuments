@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -136,9 +137,9 @@ class TokenManager {
 		$remoteTokenType = $remoteWopi->getEditorUid() !== null ? Wopi::TOKEN_TYPE_REMOTE_USER : Wopi::TOKEN_TYPE_REMOTE_GUEST;
 		$wopi->setTokenType($remoteTokenType);
 		$wopi->setGuestDisplayname(
-			$remoteTokenType === Wopi::TOKEN_TYPE_REMOTE_USER ?
-				$remoteWopi->getEditorUid() . '@' . $remoteServer :
-				$remoteWopi->getGuestDisplayname()
+			$remoteTokenType === Wopi::TOKEN_TYPE_REMOTE_USER
+				? $remoteWopi->getEditorUid() . '@' . $remoteServer
+				: $remoteWopi->getGuestDisplayname()
 		);
 		$wopi->setShare($shareToken);
 		$wopi->setCanwrite($wopi->getCanwrite() && $remoteWopi->getCanwrite());
