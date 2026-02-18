@@ -5,7 +5,7 @@
 import { User } from '@nextcloud/e2e-test-server/cypress'
 
 const usesHttps = Cypress.config('baseUrl').startsWith('https')
-const collaboraUrl = Cypress.config('collaboraUrl')
+const collaboraUrl = Cypress.env('collaboraUrl')
 const defaultFonts = ['AmaticSC-Regular.ttf']
 
 describe('Office admin settings', function() {
