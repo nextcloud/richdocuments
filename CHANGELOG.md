@@ -4,6 +4,30 @@
 -->
 # Changelog
 
+## 10.0.0
+
+### Added
+- Use file type icon as favicon by @juliusknorr in [#5234](https://github.com/nextcloud/richdocuments/pull/5234)
+
+### Fixed
+- Re-add missing methods by @juliusknorr in [#5256](https://github.com/nextcloud/richdocuments/pull/5256)
+- Command documentation by @come-nc in [#5216](https://github.com/nextcloud/richdocuments/pull/5216)
+- Pass format to save as by @Minion3665 in [#5208](https://github.com/nextcloud/richdocuments/pull/5208)
+- Emit `files:node:updated` event on `UI_Save` by @silverkszlo in [#5362](https://github.com/nextcloud/richdocuments/pull/5362)
+- Properly handle sidebar in 33 by @juliusknorr in [#5300](https://github.com/nextcloud/richdocuments/pull/5300)
+- Remove hasDrawSupport check that strips .odg mimetypes by @timar in [#5374](https://github.com/nextcloud/richdocuments/pull/5374)
+- Properly work with non-numeric version ids by @juliusknorr in [#5377](https://github.com/nextcloud/richdocuments/pull/5377)
+- For now assume we have form filling if no version can be determined by @juliusknorr [#5391](https://github.com/nextcloud/richdocuments/pull/5391)
+
+### Other
+- Dependency updates
+- Temporarily skip failing federation test for now by @juliusknorr in [#5339](https://github.com/nextcloud/richdocuments/pull/5339)
+- Use first uploader element by @elzody in [#5338](https://github.com/nextcloud/richdocuments/pull/5338)
+- Pin action versions by @nickvergessen in [#5303](https://github.com/nextcloud/richdocuments/pull/5303)
+- Adjust testing matrix for Nextcloud 33 by @nickvergessen in [#5281](https://github.com/nextcloud/richdocuments/pull/5281)
+- Skip nightly collabora images for our stable branches by @juliusknorr [#5380](https://github.com/nextcloud/richdocuments/pull/5380)
+- Use stable33 server for cypress tests by @elzody in [#5392](use stable33 server for cypress tests)
+
 ## 10.0.0-beta.1
 
 ### Added
