@@ -57,6 +57,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install composer dependencies
+        run: composer install
+
       - name: Lint
         run: composer run lint
 
