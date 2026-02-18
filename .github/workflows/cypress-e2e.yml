@@ -25,6 +25,7 @@ jobs:
   cypress:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     strategy:
       fail-fast: false
@@ -226,6 +227,7 @@ jobs:
 
   summary:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [ cypress ]
 
     if: always()
