@@ -25,7 +25,7 @@
 		"jakub-onderka/php-parallel-lint": "^1.0.0",
 		"psalm/phar": "^6.15",
 		"friendsofphp/php-cs-fixer": "^3.8",
-		"nextcloud/coding-standard": "^1.0",
+		"nextcloud/coding-standard": "^1.4",
 		"nextcloud/ocp": "dev-master",
 		"phpunit/phpunit": "^9.6",
 		"bamarni/composer-bin-plugin": "^1.9"
