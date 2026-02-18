@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Migration;
 
 use Closure;
+use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -57,7 +58,7 @@ class Version10000Date20251217143558 extends SimpleMigrationStep {
 		}
 
 		$table->changeColumn('version', [
-			'type' => 'string',
+			'type' => Type::getType('string'),
 			'notnull' => false,
 			'length' => 1024,
 			'default' => '0',
