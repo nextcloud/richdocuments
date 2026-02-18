@@ -34,7 +34,7 @@ jobs:
         containers: [1, 2, 3]
         php-versions: [ '8.2' ]
         databases: [ 'sqlite' ]
-        server-versions: [ 'master' ]
+        server-versions: [ 'stable33' ]
 
     name: runner ${{ matrix.code-image}}-${{ matrix.containers }}
 
