@@ -503,6 +503,9 @@ export default {
 					FilesAppIntegration.updateFileInfo(undefined, Date.now())
 				}
 				break
+			case 'UI_Save':
+				FilesAppIntegration.updateFileInfo(undefined, Date.now())
+				break
 			case 'Clicked_Button':
 				this.buttonClicked(args)
 				break
