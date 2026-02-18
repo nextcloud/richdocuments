@@ -90,7 +90,8 @@ class CapabilitiesService extends CachedRequestService {
 	}
 
 	public function hasFormFilling(): bool {
-		return $this->isVersionAtLeast('24.04.5.2');
+		$productVersion = $this->getCapabilities()['productVersion'] ?? '0.0.0.0';
+		return $this->isVersionAtLeast('24.04.5.2') || $productVersion === '0.0.0.0';
 	}
 
 	private function isVersionAtLeast(string $version): bool {
