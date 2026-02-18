@@ -180,17 +180,17 @@ describe('Nextcloud integration', function() {
 				cy.pickFile('document.odt')
 			})
 
-			it.skip('Can link to heading', function() {
+			it('Can link to heading', function() {
 				cy.get('[data-cy-section-label="Headings"]').children().first().click()
 				cy.get('[data-cy-link-to-section=""]').click()
 			})
 
-			it.skip('Can link to section', function() {
+			it('Can link to section', function() {
 				cy.get('[data-cy-section-label="Sections"]').children().first().click()
 				cy.get('[data-cy-link-to-section=""]').click()
 			})
 
-			it.skip('Can link to image', function() {
+			it('Can link to image', function() {
 				cy.get('[data-cy-section-label="Images"]').children().first().click()
 				cy.get('[data-cy-link-to-section=""]').click()
 			})
