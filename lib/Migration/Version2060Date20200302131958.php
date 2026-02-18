@@ -74,11 +74,10 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 20,
 			]);
-			$table->addColumn('version', 'bigint', [
-				//'notnull' => true,
+			$table->addColumn('version', 'string', [
 				'notnull' => false,
-				'length' => 20,
-				'default' => 0,
+				'length' => 1024,
+				'default' => '0',
 			]);
 			$table->addColumn('canwrite', 'boolean', [
 				//'notnull' => true,
