@@ -4,6 +4,11 @@
 -->
 # Changelog
 
+## 10.0.1
+
+### Fixed
+- Use Doctrine string type by @nickvergessen in [#5395](https://github.com/nextcloud/richdocuments/pull/5395)
+
 ## 10.0.0
 
 ### Added
