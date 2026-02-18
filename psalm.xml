@@ -41,6 +41,7 @@
 				<referencedClass name="OC\*" />
 				<referencedClass name="OC" />
 				<referencedClass name="OC\Security\CSP\ContentSecurityPolicyNonceManager" />
+				<referencedClass name="Doctrine\DBAL\Types\Type" />
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedDocblockClass>
