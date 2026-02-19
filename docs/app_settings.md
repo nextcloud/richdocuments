@@ -25,6 +25,30 @@ token. These credentials then can be used by the 3rd party application to make c
 ### Canonical webroot
 Canonical webroot, in case there are multiple, for Collabora Online to use. Provide the one with least restrictions. E.g.: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.
 
+### Theme
+
+By default Nextcloud Office comes with Nextcloud theme (monochrome icons following Nextcloud style), to change to a more traditional office look:
+
+	occ config:app:set richdocuments theme --value="collabora"
+
+To go back to default theme:
+
+	occ config:app:set richdocuments theme --value="nextcloud"
+
+### Previews
+
+By default Nextcloud will generate previews of Office files using the Collabora file conversion endpoint. This can be turned off through
+
+	occ config:app:set richdocuments preview_generation --type boolean --lazy --value false
+
+The timeout for preview conversion requests (in seconds) can be configured. The default is 5 seconds:
+
+	occ config:app:set richdocuments preview_conversion_timeout --type integer --value 10
+
+Files larger than the configured maximum file size will be skipped and no preview will be generated. The default limit is 100 MB (104857600 bytes):
+
+	occ config:app:set richdocuments preview_conversion_max_filesize --type integer --value 52428800
+
 ### Electronic signature
 From a shell running in the Nextcloud root directory, run the following `occ`
 command to configure a non-default base URL for eID Easy. For example:
