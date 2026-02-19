@@ -8,7 +8,7 @@ import { randHash } from '../utils/index.js'
 const shareOwner = new User(randHash(), randHash())
 const otherUser = new User(randHash(), randHash())
 
-describe.skip('Public sharing of office documents', () => {
+describe('Public sharing of office documents', () => {
 	before(function() {
 		cy.nextcloudTestingAppConfigSet('richdocuments', 'doc_format', '')
 		cy.createUser(shareOwner)
@@ -21,7 +21,7 @@ describe.skip('Public sharing of office documents', () => {
 
 	const userMatrix = [shareOwner, otherUser]
 
-	describe.skip('Share with users', () => {
+	describe('Share with users', () => {
 		describe('Readonly file', () => {
 			for (const user of userMatrix) {
 				it('Loads readonly file as user: ' + user.userId, () => {
