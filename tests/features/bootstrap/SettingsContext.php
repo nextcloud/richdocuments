@@ -34,7 +34,7 @@ class SettingsContext implements Context {
 		$this->serverContext = $scope->getEnvironment()->getContext(ServerContext::class);
 
 		$this->http = new GuzzleHttp\Client([
-			'base_uri' => $this->serverContext->getBaseUrl() . 'apps/richdocuments/',
+			'base_uri' => $this->serverContext->getBaseUrl() . 'index.php/apps/richdocuments/',
 			'http_errors' => false,
 		]);
 	}
