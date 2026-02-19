@@ -46,7 +46,7 @@ class WOPIMiddlewareTest extends \PHPUnit\Framework\TestCase {
 		$this->discoveryService = $this->createMock(DiscoveryService::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->proofKeyService = $this->createMock(ProofKeyService::class);
-		
+
 		$this->middleware = new WOPIMiddleware(
 			$this->config,
 			$this->urlGenerator,
