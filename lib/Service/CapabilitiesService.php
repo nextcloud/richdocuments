@@ -105,8 +105,8 @@ class CapabilitiesService extends CachedRequestService {
 	public function getProductName(): string {
 		$theme = $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud');
 
-		if (isset($this->capabilities['productName']) && $theme !== 'nextcloud') {
-			return $this->capabilities['productName'];
+		if (isset($this->getCapabilities()['productName']) && $theme !== 'nextcloud') {
+			return $this->getCapabilities()['productName'];
 		}
 
 		return $this->l10n->t('Nextcloud Office');
