@@ -63,4 +63,40 @@ class AppConfigTest extends TestCase {
 
 		$this->assertSame([], $result);
 	}
+
+	public function testGetPreviewConversionTimeoutReturnsDefault(): void {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('richdocuments', 'preview_conversion_timeout', 5)
+			->willReturn(5);
+
+		$this->assertSame(5, $this->appConfig->getPreviewConversionTimeout());
+	}
+
+	public function testGetPreviewConversionTimeoutReturnsConfiguredValue(): void {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('richdocuments', 'preview_conversion_timeout', 5)
+			->willReturn(30);
+
+		$this->assertSame(30, $this->appConfig->getPreviewConversionTimeout());
+	}
+
+	public function testGetPreviewConversionMaxFileSizeReturnsDefault(): void {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('richdocuments', 'preview_conversion_max_filesize', 104857600)
+			->willReturn(104857600);
+
+		$this->assertSame(104857600, $this->appConfig->getPreviewConversionMaxFileSize());
+	}
+
+	public function testGetPreviewConversionMaxFileSizeReturnsConfiguredValue(): void {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('richdocuments', 'preview_conversion_max_filesize', 104857600)
+			->willReturn(52428800);
+
+		$this->assertSame(52428800, $this->appConfig->getPreviewConversionMaxFileSize());
+	}
 }
