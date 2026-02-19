@@ -19,3 +19,10 @@ Background:
     When an admin deletes a system configuration file
     Then the system configuration deletion is allowed
 
+  Scenario: Normal user cannot retrieve admin settings
+    When the admin settings are requested by a user
+    Then the admin settings are forbidden
+
+  Scenario: Admin can retrieve admin settings
+    When the admin settings are requested by an admin
+    Then the admin settings are returned

@@ -34,7 +34,7 @@ class SettingsContext implements Context {
 		$this->serverContext = $scope->getEnvironment()->getContext(ServerContext::class);
 
 		$this->http = new GuzzleHttp\Client([
-			'base_uri' => $this->serverContext->getBaseUrl() . 'apps/richdocuments/',
+			'base_uri' => $this->serverContext->getBaseUrl() . 'index.php/apps/richdocuments/',
 			'http_errors' => false,
 		]);
 	}
@@ -112,6 +112,41 @@ class SettingsContext implements Context {
 
 			$this->httpResponse = $this->http->delete('wopi/settings', $options);
 		});
+	}
+
+	#[When('the admin settings are requested by a user')]
+	public function userRequestAdminSettings() {
+		$this->serverContext->actingAsUser('user1');
+
+		$options = $this->serverContext->getWebOptions();
+		$this->httpResponse = $this->http->get('ajax/settings.php', $options);
+	}
+
+	#[When('the admin settings are requested by an admin')]
+	public function adminRequestAdminSettings() {
+		$this->serverContext->actAsAdmin(function () {
+			$options = $this->serverContext->getWebOptions();
+			$this->httpResponse = $this->http->get('ajax/settings.php', $options);
+		});
+	}
+
+	#[Then('the admin settings are forbidden')]
+	public function adminSettingsRequestForbidden() {
+		Assert::assertEquals(403, $this->httpResponse->getStatusCode());
+
+		Assert::assertJsonStringEqualsJsonString(
+			'{"message":"Logged in account must be an admin"}',
+			$this->httpResponse->getBody()->getContents(),
+		);
+	}
+
+	#[Then('the admin settings are returned')]
+	public function adminSettingsRequestReturned() {
+		Assert::assertEquals(200, $this->httpResponse->getStatusCode());
+		Assert::assertJsonStringNotEqualsJsonString(
+			'{}',
+			$this->httpResponse->getBody()->getContents(),
+		);
 	}
 
 	#[Then('the system configuration upload is forbidden')]
