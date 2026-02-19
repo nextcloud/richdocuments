@@ -99,7 +99,6 @@ class SettingsController extends Controller {
 		return new DataResponse([], Http::STATUS_NOT_FOUND);
 	}
 
-	#[NoAdminRequired]
 	public function getSettings(): JSONResponse {
 		return new JSONResponse($this->getSettingsData());
 	}
