@@ -4,6 +4,16 @@
 -->
 # Changelog
 
+## 8.5.14
+
+### Fixed
+- Remove hasDrawSupport check that strips .odg mimetypes by @timar in [#5390](https://github.com/nextcloud/richdocuments/pull/5390)
+- For now assume we have form filling if no version can be determined by @juliusknorr in [#5389](https://github.com/nextcloud/richdocuments/pull/5389)
+- Pass format to SaveAs by @Minion3665 in [#5223](https://github.com/nextcloud/richdocuments/pull/5223)
+
+### Other
+- NPM audits
+
 ## 8.5.13
 
 ### Fixed
