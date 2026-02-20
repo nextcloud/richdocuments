@@ -442,11 +442,17 @@ class WopiController extends Controller {
 	public function uploadSettingsFile(string $fileId, string $access_token): JSONResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-
 			$userId = $wopi->getEditorUid();
 
 			if (empty($userId)) {
 				throw new \Exception('UserID is empty');
+			}
+
+			$isUserAdmin = $this->groupManager->isAdmin($userId);
+			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
+			$settingsUrl = new SettingsUrl($fileId);
+			if ($settingsUrl->isSystemConfig() && !$isUserAdmin) {
+				throw new NotPermittedException();
 			}
 
 			$content = fopen('php://input', 'rb');
@@ -457,8 +463,7 @@ class WopiController extends Controller {
 			$fileContent = stream_get_contents($content);
 			fclose($content);
 
-			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
-			$settingsUrl = new SettingsUrl($fileId);
+
 			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $userId);
 
 			return new JSONResponse([
@@ -470,6 +475,8 @@ class WopiController extends Controller {
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Invalid token'], Http::STATUS_FORBIDDEN);
+		} catch (NotPermittedException $e) {
+			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -493,6 +500,11 @@ class WopiController extends Controller {
 			$category = $settingsUrl->getCategory();
 			$fileName = $settingsUrl->getFileName();
 			$userId = $wopi->getEditorUid();
+			$isUserAdmin = $this->groupManager->isAdmin($userId);
+
+			if ($settingsUrl->isSystemConfig() && !$isUserAdmin) {
+				throw new NotPermittedException();
+			}
 
 			$this->settingsService->deleteSettingsFile($type, $category, $fileName, $userId);
 

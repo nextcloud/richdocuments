@@ -78,4 +78,104 @@ class SettingsContext implements Context {
 			$this->httpResponse->getBody()->getContents(),
 		);
 	}
+
+	#[When('a user uploads a system configuration file')]
+	public function userUploadsSystemConfigFile() {
+		$this->serverContext->actingAsUser('user1');
+
+		$settingsAccessToken = $this->getSettingsAccessToken('user');
+		$postOptions = [
+			'query' => [
+				'access_token' => $settingsAccessToken,
+				'fileId' => '/settings/systemconfig/wordbook/poc.dic',
+			],
+			'body' => 'fake dictionary',
+		];
+
+		$options = array_merge($this->serverContext->getWebOptions(), $postOptions);
+
+		$this->httpResponse = $this->http->post('wopi/settings/upload', $options);
+	}
+
+	#[When('an admin uploads a system configuration file')]
+	public function adminUploadsSystemConfigFile() {
+		$this->serverContext->actAsAdmin(function () {
+			$settingsAccessToken = $this->getSettingsAccessToken('admin');
+			$postOptions = [
+				'query' => [
+					'access_token' => $settingsAccessToken,
+					'fileId' => '/settings/systemconfig/wordbook/poc.dic',
+				],
+				'body' => 'fake dictionary',
+			];
+
+			$options = array_merge($this->serverContext->getWebOptions(), $postOptions);
+
+			$this->httpResponse = $this->http->post('wopi/settings/upload', $options);
+		});
+	}
+
+	#[When('a user deletes a system configuration file')]
+	public function userDeletesSystemConfigFile() {
+		$this->serverContext->actingAsUser('user1');
+
+		$settingsAccessToken = $this->getSettingsAccessToken('user');
+		$deleteOptions = [
+			'query' => [
+				'access_token' => $settingsAccessToken,
+				'fileId' => '/settings/systemconfig/wordbook/poc.dic',
+			],
+		];
+
+		$options = array_merge($this->serverContext->getWebOptions(), $deleteOptions);
+
+		$this->httpResponse = $this->http->delete('wopi/settings', $options);
+	}
+
+	#[When('an admin deletes a system configuration file')]
+	public function adminDeletesSystemConfigFile() {
+		$this->serverContext->actAsAdmin(function () {
+			$settingsAccessToken = $this->getSettingsAccessToken('admin');
+			$deleteOptions = [
+				'query' => [
+					'access_token' => $settingsAccessToken,
+					'fileId' => '/settings/systemconfig/wordbook/poc.dic',
+				],
+			];
+
+			$options = array_merge($this->serverContext->getWebOptions(), $deleteOptions);
+
+			$this->httpResponse = $this->http->delete('wopi/settings', $options);
+		});
+	}
+
+	#[Then('the system configuration upload is forbidden')]
+	public function systemConfigUploadForbidden() {
+		Assert::assertEquals(403, $this->httpResponse->getStatusCode());
+	}
+
+	#[Then('the system configuration upload is allowed')]
+	public function systemConfigUploadAllowed() {
+		Assert::assertEquals(200, $this->httpResponse->getStatusCode());
+	}
+
+	#[Then('the system configuration deletion is forbidden')]
+	public function systemConfigDeletionForbidden() {
+		Assert::assertEquals(403, $this->httpResponse->getStatusCode());
+	}
+
+	#[Then('the system configuration deletion is allowed')]
+	public function systemConfigDeletionAllowed() {
+		Assert::assertEquals(200, $this->httpResponse->getStatusCode());
+	}
+
+	private function getSettingsAccessToken(string $type) {
+		$options = $this->serverContext->getWebOptions();
+
+		$response = $this->http->get("settings/generateToken/$type", $options);
+		$responseBody = $response->getBody()->getContents();
+		$responseJson = json_decode($responseBody, true);
+
+		return $responseJson['token'];
+	}
 }
