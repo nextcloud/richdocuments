@@ -100,4 +100,13 @@ class SettingsUrl {
 	public function getRawUrl(): string {
 		return $this->rawUrl;
 	}
+
+	/**
+	 * Determines if this Settings URL leads to a system config file
+	 *
+	 * @return bool
+	 */
+	public function isSystemConfig(): bool {
+		return $this->getType() === 'systemconfig';
+	}
 }
