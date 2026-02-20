@@ -4,6 +4,24 @@
 -->
 # Changelog
 
+## 8.7.8
+
+### Fixed
+- Non-admins cannot upload/delete system config settings by @elzody in [#5424](https://github.com/nextcloud/richdocuments/pull/5424)
+- Properly annotate settings controller by @elzody in [#5418](https://github.com/nextcloud/richdocuments/pull/5418)
+- Properly check for lock wopi operations by @juliusknorr in [#5414](https://github.com/nextcloud/richdocuments/pull/5414)
+- For now assume we have form filling if no version can be determined by @juliusknorr in [#5385](https://github.com/nextcloud/richdocuments/pull/5385)
+- Properly work with non-numeric version ids by @juliusknorr in [#5379](https://github.com/nextcloud/richdocuments/pull/5379)
+- Remove hasDrawSupport check that strips .odg mimetypes by @timar in [#5376](https://github.com/nextcloud/richdocuments/pull/5376)
+- Emit `files:node:updated` event on `UI_Save` by @silverkszlo in [#5364](https://github.com/nextcloud/richdocuments/pull/5364)
+- Drop dead code from ShareLinkListener by @joshtrichards in [#5333](https://github.com/nextcloud/richdocuments/pull/5333)
+- Stabilize save as test by @elzody in [#5315](https://github.com/nextcloud/richdocuments/pull/5315)
+- Pass format to SaveAs by @Minion3665 in [#5222](https://github.com/nextcloud/richdocuments/pull/5222)
+
+### Other
+- Dependency updates
+- NPM audits
+
 ## 8.7.7
 
 ### Fixed
