@@ -4,6 +4,19 @@
 -->
 # Changelog
 
+## 10.1.0
+
+### Added
+- Implement AI Watermarking by @marcelklehr in [#5411](https://github.com/nextcloud/richdocuments/pull/5411)
+
+### Fixed
+- Non-admins cannot upload/delete system config settings by @elzody in [#5422](https://github.com/nextcloud/richdocuments/pull/5422)
+- Properly annotate settings controller by @elzody in [#5417](https://github.com/nextcloud/richdocuments/pull/5417)
+- Properly check for lock wopi operations by @juliusknorr in [#5415](https://github.com/nextcloud/richdocuments/pull/5415)
+
+### Other
+- Dependency updates
+
 ## 10.0.1
 
 ### Fixed
