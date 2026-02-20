@@ -4,6 +4,24 @@
 -->
 # Changelog
 
+## 9.0.3
+
+### Fixed
+- Non-admins cannot upload/delete system config settings by @elzody in [#5423](https://github.com/nextcloud/richdocuments/pull/5423)
+- Properly annotate settings controller by @elzody in [#5419](https://github.com/nextcloud/richdocuments/pull/5419)
+- Properly check for lock wopi operations by @juliusknorr in [#5413](https://github.com/nextcloud/richdocuments/pull/5413)
+- For now assume we have form filling if no version can be determined by @juliusknorr in [#5384](https://github.com/nextcloud/richdocuments/pull/5384)
+- Properly work with non-numeric version ids by @juliusknorr in [#5378](https://github.com/nextcloud/richdocuments/pull/5378)
+- Remove hasDrawSupport check that strips .odg mimetypes by @timar in [#5375](https://github.com/nextcloud/richdocuments/pull/5375)
+- Emit `files:node:updated` event on `UI_Save` by @silverkszlo in [#5363](https://github.com/nextcloud/richdocuments/pull/5363)
+- Register handler within init script by @susnux in [#5355](https://github.com/nextcloud/richdocuments/pull/5355)
+- Drop dead code from ShareLinkListener by @joshtrichards in [#5334](https://github.com/nextcloud/richdocuments/pull/5334)
+- Stabilize Save As test by @elzody in [#5314](https://github.com/nextcloud/richdocuments/pull/5314)
+- Pass format to SaveAs by @Minion3665 in [#5221](https://github.com/nextcloud/richdocuments/pull/5221)
+
+### Other
+- Dependency updates
+
 ## 9.0.2
 
 ### Fixed
