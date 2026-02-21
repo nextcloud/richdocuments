@@ -48,7 +48,7 @@ OC.L10N.register(
     "{user} has mentioned you in {node}" : "{user} hat Sie in {node} erwähnt",
     "Link to office document section" : "Link zum Abschnitt im Bürodokument",
     "Nextcloud Office" : "Nextcloud Office",
-    "This document was generated using Artificial Intelligence" : "Dieses Dokument wurde mit künstlicher inteligenz erstellt",
+    "This document was generated using Artificial Intelligence" : "Dieses Dokument wurde mit künstlicher Intelligenz erstellt",
     "Headings" : "Überschriften",
     "Sections" : "Abschnitte",
     "Images" : "Bilder",
