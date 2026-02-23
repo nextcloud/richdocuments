@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -39,7 +40,7 @@ class SettingsUrl {
 	 */
 	private function parseUrl(string $url): void {
 		$decodedUrl = urldecode($url);
-		
+
 		$parsedUrl = parse_url($decodedUrl);
 		if (!isset($parsedUrl['path'])) {
 			throw new InvalidArgumentException('Invalid URL: Path not found.');
@@ -99,5 +100,14 @@ class SettingsUrl {
 	 */
 	public function getRawUrl(): string {
 		return $this->rawUrl;
+	}
+
+	/**
+	 * Determines if this Settings URL leads to a system config file
+	 *
+	 * @return bool
+	 */
+	public function isSystemConfig(): bool {
+		return $this->getType() === 'systemconfig';
 	}
 }

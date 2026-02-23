@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -99,7 +100,6 @@ class SettingsController extends Controller {
 		return new DataResponse([], Http::STATUS_NOT_FOUND);
 	}
 
-	#[NoAdminRequired]
 	public function getSettings(): JSONResponse {
 		return new JSONResponse($this->getSettingsData());
 	}

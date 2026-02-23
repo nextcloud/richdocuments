@@ -2,8 +2,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 default:
   formatters:
-    junit:
-      output_path: '%paths.base%/../output'
     pretty:
       output_styles:
         comment: [ 'bright-blue' ]
@@ -28,3 +26,4 @@ default:
         - DirectContext
         - FederationContext
         - ApiContext
+        - SettingsContext

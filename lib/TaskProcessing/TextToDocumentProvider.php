@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,11 +13,11 @@ use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Service\DocumentGenerationService;
 use OCP\IL10N;
 use OCP\TaskProcessing\EShapeType;
-use OCP\TaskProcessing\ISynchronousProvider;
+use OCP\TaskProcessing\ISynchronousWatermarkingProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\ShapeEnumValue;
 
-class TextToDocumentProvider implements ISynchronousProvider {
+class TextToDocumentProvider implements ISynchronousWatermarkingProvider {
 	public const DEFAULT_TARGET_FORMAT = 'docx';
 
 	public function __construct(
@@ -102,7 +103,7 @@ class TextToDocumentProvider implements ISynchronousProvider {
 	 * @inheritDoc
 	 */
 	#[\Override]
-	public function process(?string $userId, array $input, callable $reportProgress): array {
+	public function process(?string $userId, array $input, callable $reportProgress, bool $includeWatermark = true): array {
 		if ($userId === null) {
 			throw new \RuntimeException('User ID is required to process the prompt.');
 		}
@@ -121,6 +122,7 @@ class TextToDocumentProvider implements ISynchronousProvider {
 			$userId,
 			$input['text'],
 			$targetFormat,
+			$includeWatermark
 		);
 
 		return [

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -102,8 +103,8 @@ class CapabilitiesService extends CachedRequestService {
 	public function getProductName(): string {
 		$theme = $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud');
 
-		if (isset($this->capabilitites['productName']) && $theme !== 'nextcloud') {
-			return $this->capabilitites['productName'];
+		if (isset($this->getCapabilities()['productName']) && $theme !== 'nextcloud') {
+			return $this->getCapabilities()['productName'];
 		}
 
 		return $this->l10n->t('Nextcloud Office');

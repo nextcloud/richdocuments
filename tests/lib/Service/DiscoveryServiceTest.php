@@ -30,7 +30,7 @@ class DiscoveryServiceTest extends TestCase {
 
 	public function setUp(): void {
 		parent::setUp();
-		
+
 		$this->clientService = $this->createStub(IClientService::class);
 		$this->cacheFactory = $this->createStub(ICacheFactory::class);
 		$this->appDataFactory = $this->createStub(IAppDataFactory::class);
@@ -60,7 +60,7 @@ class DiscoveryServiceTest extends TestCase {
 
 		$this->discoveryService->method('get')
 			->willReturn($discoveryXml);
-		
+
 		$this->assertTrue($this->discoveryService->hasProofKey());
 	}
 
@@ -72,7 +72,7 @@ class DiscoveryServiceTest extends TestCase {
 
 		$this->discoveryService->method('get')
 			->willReturn($discoveryXml);
-		
+
 		$this->assertFalse($this->discoveryService->hasProofKey());
 	}
 

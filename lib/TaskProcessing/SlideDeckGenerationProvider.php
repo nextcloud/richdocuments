@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,9 +12,9 @@ namespace OCA\Richdocuments\TaskProcessing;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Service\SlideDeckService;
 use OCP\IL10N;
-use OCP\TaskProcessing\ISynchronousProvider;
+use OCP\TaskProcessing\ISynchronousWatermarkingProvider;
 
-class SlideDeckGenerationProvider implements ISynchronousProvider {
+class SlideDeckGenerationProvider implements ISynchronousWatermarkingProvider {
 
 	public function __construct(
 		private SlideDeckService $slideDeckService,
@@ -84,7 +85,7 @@ class SlideDeckGenerationProvider implements ISynchronousProvider {
 	 * @inheritDoc
 	 */
 	#[\Override]
-	public function process(?string $userId, array $input, callable $reportProgress): array {
+	public function process(?string $userId, array $input, callable $reportProgress, bool $includeWatermark = true): array {
 		if ($userId === null) {
 			throw new \RuntimeException('User ID is required to process the prompt.');
 		}
@@ -93,10 +94,11 @@ class SlideDeckGenerationProvider implements ISynchronousProvider {
 			throw new \RuntimeException('Invalid input, expected "text" key with string value');
 		}
 
-		$response = $this->withRetry(function () use ($userId, $input) {
+		$response = $this->withRetry(function () use ($userId, $input, $includeWatermark) {
 			return $this->slideDeckService->generateSlideDeck(
 				$userId,
 				$input['text'],
+				$includeWatermark,
 			);
 		});
 

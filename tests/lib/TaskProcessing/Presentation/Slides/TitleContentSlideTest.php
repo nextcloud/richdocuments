@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,7 +17,7 @@ class TitleContentSlideTest extends TestCase {
 
 	public function testCreateWithStringContent(): void {
 		$slide = new TitleContentSlide(0, 'Title', 'Content');
-		
+
 		$this->assertInstanceOf(TitleContentSlide::class, $slide);
 
 		$this->assertEquals($slide->getPosition(), 0);
