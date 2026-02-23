@@ -31,13 +31,15 @@
 <script>
 import { translate as t } from '@nextcloud/l10n'
 import { showError } from '@nextcloud/dialogs'
-import { getClient, getDefaultPropfind, resultToNode, defaultRootPath } from '@nextcloud/files/dav'
+import { getCurrentUser } from '@nextcloud/auth'
+import { getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { emit } from '@nextcloud/event-bus'
+import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-
+import Config from '../../services/config.tsx'
 export default {
 	name: 'SaveAs',
 	components: {
@@ -75,6 +77,12 @@ export default {
 		}
 	},
 	computed: {
+		rootPath() {
+			if (isPublicShare()) {
+				return `/files/${getSharingToken()}`
+			}
+			return `/files/${getCurrentUser()?.uid ?? Config.get('userId')}`
+		},
 		newFileName: {
 			get() {
 				if (this.selectedPath !== '') {
@@ -113,25 +121,31 @@ export default {
 				const client = getClient()
 				const filename = this.newFileName
 
-				try {
-					const result = await client.stat(`${defaultRootPath}${filename}`, {
-						details: true,
-						data: getDefaultPropfind(),
-					})
+				// In direct editing sessions there is no authenticated DAV session
+				// so we skip the existence check and let the backend handle conflicts.
+				// A future improvement could use a dedicated API endpoint that validates
+				// the WOPI token and checks file existence on behalf of the user.
+				if (!Config.get('direct')) {
+					try {
+						const result = await client.stat(`${this.rootPath}/${filename}`, {
+							details: true,
+							data: getDefaultPropfind(),
+						})
 
-					if (result) {
-						showError(t('richdocuments', 'A file with that name already exists.'))
-						const node = resultToNode(result.data)
-						emit('files:node:updated', node)
-						this.isChecking = false
-						return
-					}
-				} catch (error) {
-					if (error.response?.status !== 404) {
-						console.error('Error checking file existence:', error)
-						showError(t('richdocuments', 'Error checking if file exists.'))
-						this.isChecking = false
-						return
+						if (result) {
+							showError(t('richdocuments', 'A file with that name already exists.'))
+							const node = resultToNode(result.data)
+							emit('files:node:updated', node)
+							this.isChecking = false
+							return
+						}
+					} catch (error) {
+						if (error.response?.status !== 404) {
+							console.error('Error checking file existence:', error)
+							showError(t('richdocuments', 'Error checking if file exists.'))
+							this.isChecking = false
+							return
+						}
 					}
 				}
 
