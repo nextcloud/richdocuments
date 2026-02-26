@@ -207,6 +207,18 @@ namespace Symfony\Component\HttpFoundation {
 	}
 }
 
+namespace Symfony\Component\Console\Output {
+	interface OutputInterface {
+		public function writeln(string $text): void;
+	}
+}
+
+namespace GuzzleHttp\Exception {
+	class ClientException {
+		public function getResponse();
+	}
+}
+
 #[\Attribute(Attribute::TARGET_PARAMETER)]
 class SensitiveParameter {
 }

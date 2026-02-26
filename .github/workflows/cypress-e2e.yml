@@ -43,8 +43,8 @@ jobs:
       collabora:
         image: ${{ matrix.code-image == 'release' && 'collabora/code:latest' || 'juliushaertl/nc-code-nightly:latest' }} # zizmor: ignore[unpinned-images]
         env:
-          extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
-          aliasgroup1: 'http://172.17.0.1'
+          extra_params: '--o:ssl.enable=false --o:home_mode.enable=true --o:logging.level=debug'
+          aliasgroup1: 'http://172.17.0.1:8081'
         ports:
           - "9980:9980"
 
@@ -139,6 +139,10 @@ jobs:
           php occ config:system:set memcache.local --value="\\OC\\Memcache\\APCu"
           php -f index.php
           PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:8081 &
+
+          sleep 10
+          curl -v http://172.17.0.1:8081/status.php
+
           export OC_PASS=1234561
           php occ user:add --password-from-env user1
           php occ user:add --password-from-env user2
@@ -150,11 +154,10 @@ jobs:
           php occ app:enable --force spreed
           php occ app:list
           php occ config:system:set trusted_domains 1 --value="172.17.0.1"
+          php occ config:system:set overwrite.cli.url --value="http://172.17.0.1:8081"
 
-          php occ config:app:set richdocuments wopi_url --value="http://localhost:9980"
-          php occ config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
           php occ config:system:set allow_local_remote_servers --value true --type bool
-          php occ richdocuments:activate-config
+          php occ richdocuments:activate-config --wopi-url="http://localhost:9980" --callback-url="http://172.17.0.1:8081"
 
           curl http://admin:admin@localhost:8081/ocs/v1.php/cloud/capabilities\?format\=json -H 'OCS-APIRequest: true'
 
@@ -224,6 +227,10 @@ jobs:
           name: nextcloud-log-${{ matrix.code-image }}-${{ matrix.containers }}
           path: data/nextcloud.log
           retention-days: 5
+
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
 
   summary:
     runs-on: ubuntu-latest
