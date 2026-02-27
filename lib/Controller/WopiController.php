@@ -128,10 +128,10 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$isPublic = empty($wopi->getEditorUid());
+		$isPublic = $wopi->getShare() !== null || empty($wopi->getEditorUid());
 		$guestUserId = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
 		$user = $this->userManager->get($wopi->getEditorUid());
-		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
+		$userDisplayName = $user !== null ? $user->getDisplayName() : $wopi->getGuestDisplayname();
 		$isVersion = $version !== '0';
 		$isSmartPickerEnabled = (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect();
 		$isTaskProcessingEnabled = $isSmartPickerEnabled && $this->taskProcessingManager->isTaskProcessingEnabled();
@@ -147,7 +147,7 @@ class WopiController extends Controller {
 		} catch (NoLockProviderException|PreConditionNotMetException) {
 		}
 
-		$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
+		$userId = !empty($wopi->getEditorUid()) ? $wopi->getEditorUid() : $guestUserId;
 
 
 		$response = [
