@@ -55,6 +55,7 @@ OC.L10N.register(
     "Remove" : "Выдаліць",
     "Confirm" : "Пацвердзіць",
     "Cancel" : "Скасаваць",
+    "A file with that name already exists." : "Файл з такой назвай ужо існуе.",
     "Save as" : "Захаваць як",
     "File name" : "Назва файла",
     "Create" : "Стварыць",
