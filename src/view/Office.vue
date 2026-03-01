@@ -277,13 +277,10 @@ export default {
 		}
 
 		if (this.fileid) {
-			const fileList = OCA?.Files?.App?.getCurrentFileList?.()
 			FilesAppIntegration.init({
 				fileName: basename(this.filename),
 				fileId: this.fileid,
 				filePath: dirname(this.filename),
-				fileList,
-				fileModel: fileList?.getModelForFile(basename(this.filename)),
 				sendPostMessage: (msgId, values) => {
 					this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 				},
