@@ -7,11 +7,24 @@
     pkgs = import nixpkgs { inherit system; };
     system = "x86_64-linux";
 
-    nodeVersion = builtins.replaceStrings ["^"] [""] (builtins.fromJSON (builtins.readFile ./package.json)).engines.node;
+    getVersion = versionString: builtins.splitVersion (builtins.replaceStrings ["^"] [""] versionString);
+
+    node = rec {
+      version = (getVersion (builtins.fromJSON (builtins.readFile ./package.json)).engines.node);
+      pkgName = "nodejs_${builtins.elemAt version 0}";
+    };
+
+    php = rec {
+      version = (getVersion (builtins.fromJSON (builtins.readFile ./composer.json)).config.platform.php);
+      pkgName = "php${builtins.concatStringsSep "" version}";
+    };
   in {
     devShells.${system}.default = pkgs.mkShell {
       packages = [
-        pkgs."nodejs_${builtins.elemAt (builtins.splitVersion nodeVersion) 0}"
+        pkgs.${node.pkgName}
+
+        pkgs.${php.pkgName}
+        pkgs."${php.pkgName}Packages".composer
       ];
     };
   };
