@@ -575,7 +575,8 @@ export default {
 	}
 
 	&__embedding {
-		min-height: 400px;
+		min-height: min(50vh, 100vh - 120px) !important;
+		max-height: calc(100vh - 120px) !important;
 
 		.toggle-interactive {
 			position: sticky;
