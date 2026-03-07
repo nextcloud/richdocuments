@@ -16,6 +16,7 @@ use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -25,6 +26,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\IDBConnection;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Share\IManager as ShareManager;
@@ -32,6 +34,7 @@ use Psr\Log\LoggerInterface;
 
 class DirectViewController extends Controller {
 	use DocumentTrait;
+	use TTransactional;
 
 	public function __construct(
 		string $appName,
@@ -47,6 +50,7 @@ class DirectViewController extends Controller {
 		private TemplateManager $templateManager,
 		private FederationService $federationService,
 		private LoggerInterface $logger,
+		private IDBConnection $db,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -62,76 +66,78 @@ class DirectViewController extends Controller {
 	 */
 	public function show($token) {
 		try {
-			$direct = $this->directMapper->getByToken($token);
-		} catch (DoesNotExistException $e) {
-			$response = $this->renderErrorPage('Failed to open the requested file.');
-			$response->setStatus(Http::STATUS_FORBIDDEN);
-			return $response;
-		}
+			return $this->atomic(function () use ($token) {
+				try {
+					$direct = $this->directMapper->getByToken($token, true);
+				} catch (DoesNotExistException $e) {
+					$response = $this->renderErrorPage('Failed to open the requested file.');
+					$response->setStatus(Http::STATUS_FORBIDDEN);
+					return $response;
+				}
 
-		// Delete the token. They are for 1 time use only
-		$this->directMapper->delete($direct);
+				// Direct token for share link
+				if (!empty($direct->getShare())) {
+					$response = $this->showPublicShare($direct);
 
-		// Direct token for share link
-		if (!empty($direct->getShare())) {
-			return $this->showPublicShare($direct);
-		}
+					// Consume one-time token only for successful(ish) outcomes (2xx/3xx)
+					if ($response->getStatus() < 400) {
+						$this->directMapper->delete($direct);
+					}
 
-		$this->userScopeService->setUserScope($direct->getUid());
-		$this->userScopeService->setFilesystemScope($direct->getUid());
+					return $response;
+				}
 
-		$folder = $this->rootFolder->getUserFolder($direct->getUid());
+				$this->userScopeService->setUserScope($direct->getUid());
+				$this->userScopeService->setFilesystemScope($direct->getUid());
 
-		try {
-			$item = $folder->getFirstNodeById($direct->getFileid());
-			if (!($item instanceof File)) {
-				throw new \Exception();
-			}
+				$folder = $this->rootFolder->getUserFolder($direct->getUid());
 
-			/** Open file from remote collabora */
-			$federatedUrl = $this->federationService->getRemoteRedirectURL($item, $direct);
-			if ($federatedUrl !== null) {
-				$response = new RedirectResponse($federatedUrl);
-				$response->addHeader('X-Frame-Options', 'ALLOW');
+				$item = $folder->getFirstNodeById($direct->getFileid());
+				if (!($item instanceof File)) {
+					throw new \RuntimeException('Direct target is not a file');
+				}
+
+				/** Open file from remote collabora */
+				$federatedUrl = $this->federationService->getRemoteRedirectURL($item, $direct);
+				if ($federatedUrl !== null) {
+					$this->directMapper->delete($direct); // consume one-time token success path
+
+					$response = new RedirectResponse($federatedUrl);
+					$response->addHeader('X-Frame-Options', 'ALLOW');
+					return $response;
+				}
+
+				$wopi = null;
+				$template = $direct->getTemplateId() ? $this->templateManager->get($direct->getTemplateId()) : null;
+				if ($template !== null) {
+					$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $item->getId(), $direct->getUid(), false, true);
+				}
+				if ($wopi === null) {
+					$wopi = $this->tokenManager->generateWopiToken((string)$item->getId(), null, $direct->getUid(), true);
+				}
+
+				$urlSrc = $this->tokenManager->getUrlSrc($item);
+				$relativePath = $folder->getRelativePath($item->getPath());
+
+				$params = [
+					'permissions' => $item->getPermissions(),
+					'title' => basename($relativePath),
+					'fileId' => $wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid'),
+					'token' => $wopi->getToken(),
+					'token_ttl' => $wopi->getExpiry(),
+					'urlsrc' => $urlSrc,
+					'path' => $relativePath,
+					'direct' => true,
+					'userId' => $direct->getUid(),
+				];
+
+				$response = $this->documentTemplateResponse($wopi, $params);
+				$this->directMapper->delete($direct); // consume one-time token on success path
 				return $response;
-			}
-
-			$wopi = null;
-			$template = $direct->getTemplateId() ? $this->templateManager->get($direct->getTemplateId()) : null;
-
-			if ($template !== null) {
-				$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $item->getId(), $direct->getUid(), false, true);
-			}
-
-			if ($wopi === null) {
-				$wopi = $this->tokenManager->generateWopiToken((string)$item->getId(), null, $direct->getUid(), true);
-			}
-
-			$urlSrc = $this->tokenManager->getUrlSrc($item);
-		} catch (\Exception $e) {
-			$this->logger->error('Failed to generate token for existing file on direct editing', ['exception' => $e]);
+			});
+		} catch (\Throwable $e) {
+			$this->logger->error('Failed to open the requested file for direct editing', ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
-		}
-
-		$relativePath = $folder->getRelativePath($item->getPath());
-
-		try {
-			$params = [
-				'permissions' => $item->getPermissions(),
-				'title' => basename($relativePath),
-				'fileId' => $wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid'),
-				'token' => $wopi->getToken(),
-				'token_ttl' => $wopi->getExpiry(),
-				'urlsrc' => $urlSrc,
-				'path' => $relativePath,
-				'direct' => true,
-				'userId' => $direct->getUid(),
-			];
-
-			return $this->documentTemplateResponse($wopi, $params);
-		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			return  $this->renderErrorPage('Failed to open the requested file.');
 		}
 	}
 
