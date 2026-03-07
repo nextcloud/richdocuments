@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,6 +19,9 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -32,6 +36,9 @@ use OCP\IRequest;
 use OCP\Share\IManager as ShareManager;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Controller for resolving one-time direct-edit tokens and opening documents.
+ */
 class DirectViewController extends Controller {
 	use DocumentTrait;
 	use TTransactional;
@@ -56,15 +63,12 @@ class DirectViewController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * @param string $token
-	 * @return JSONResponse|RedirectResponse|TemplateResponse
-	 * @throws NotFoundException
+	 * Resolve a one-time direct-edit token and open the requested document.
 	 */
-	public function show($token) {
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
+	public function show(string $token): RedirectResponse|TemplateResponse {
 		try {
 			return $this->atomic(function () use ($token) {
 				try {
@@ -141,7 +145,10 @@ class DirectViewController extends Controller {
 		}
 	}
 
-	public function showPublicShare(Direct $direct) {
+	/**
+	 * Open a direct-edit request for a public share.
+	 */
+	public function showPublicShare(Direct $direct): RedirectResponse|TemplateResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($direct->getShare());
 
@@ -191,7 +198,7 @@ class DirectViewController extends Controller {
 		return new TemplateResponse('core', '403', [], 'guest');
 	}
 
-	private function renderErrorPage($message) {
+	private function renderErrorPage($message): TemplateResponse {
 		$params = [
 			'errors' => [['error' => $message]]
 		];
