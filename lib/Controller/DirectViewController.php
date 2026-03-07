@@ -57,7 +57,7 @@ class DirectViewController extends Controller {
 		private TemplateManager $templateManager,
 		private FederationService $federationService,
 		private LoggerInterface $logger,
-		private IDBConnection $db,
+		private IDBConnection $dbConnection,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -138,7 +138,7 @@ class DirectViewController extends Controller {
 				$response = $this->documentTemplateResponse($wopi, $params);
 				$this->directMapper->delete($direct); // consume one-time token on success path
 				return $response;
-			});
+			}, $this->dbConnection);
 		} catch (\Throwable $e) {
 			$this->logger->error('Failed to open the requested file for direct editing', ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
