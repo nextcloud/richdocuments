@@ -47,17 +47,30 @@ class DirectMapper extends QBMapper {
 	}
 
 	/**
-	 * @throws DoesNotExistException
+	 * Fetch a direct-link token record.
+	 *
+	 * @param string $token Token value from direct-link URL
+	 * @param bool $forUpdate When true, issues a row-level lock (FOR UPDATE).
+	 *                        Call only within a DB transaction when token consumption
+	 *                        must be serialized to avoid concurrent reuse.
+	 *
+	 * @throws DoesNotExistException If token does not exist or is expired (or deletion otherwise fails).
 	 */
-	public function getByToken(string $token): Direct {
+	public function getByToken(string $token, bool $forUpdate = false): Direct {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from('richdocuments_direct')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)));
 
+		if ($forUpdate) {
+			// Lock token row so concurrent requests cannot consume it in parallel.
+			$qb->forUpdate();
+		}
+
 		try {
 			$direct = $this->findEntity($qb);
 			if (($direct->getTimestamp() + self::TOKEN_TTL) < $this->timeFactory->getTime()) {
+				// Opportunistic cleanup: expired tokens are removed on read.
 				$this->delete($direct);
 				throw new DoesNotExistException('Could not find token.');
 			}
