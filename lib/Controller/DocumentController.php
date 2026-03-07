@@ -118,7 +118,6 @@ class DocumentController extends Controller {
 			$federatedUrl = $this->federationService->getRemoteRedirectURL($file);
 			if ($federatedUrl !== null) {
 				$response = new RedirectResponse($federatedUrl);
-				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
 
@@ -208,7 +207,6 @@ class DocumentController extends Controller {
 			$federatedUrl = $this->federationService->getRemoteRedirectURL($file, null, $share);
 			if ($federatedUrl !== null) {
 				$response = new RedirectResponse($federatedUrl);
-				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
 
@@ -288,7 +286,6 @@ class DocumentController extends Controller {
 				];
 
 				$response = $this->documentTemplateResponse($wopi, $params);
-				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
 		} catch (ShareNotFound) {
