@@ -17,6 +17,7 @@ OC.L10N.register(
     "Headings" : "Títols",
     "Images" : "Imatges",
     "New" : "Nòu",
+    "Failed to save settings" : "Fracàs de l’enregistrament dels paramètres",
     "Advanced settings" : "Paramètres avançats",
     "Save" : "Enregistrar",
     "Remove" : "Suprimir",
