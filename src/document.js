@@ -306,6 +306,7 @@ const documentsMain = {
 								label: t('richdocuments', 'Open in local editor'),
 								hint: t('richdocuments', 'Open in local editor'),
 								insertBefore: 'print',
+								accessKey: '2',
 							})
 						}
 
