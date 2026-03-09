@@ -92,7 +92,6 @@ class DirectViewController extends Controller {
 			$federatedUrl = $this->federationService->getRemoteRedirectURL($item, $direct);
 			if ($federatedUrl !== null) {
 				$response = new RedirectResponse($federatedUrl);
-				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
 
@@ -151,7 +150,6 @@ class DirectViewController extends Controller {
 			$federatedUrl = $this->federationService->getRemoteRedirectURL($node, $direct, $share);
 			if ($federatedUrl !== null) {
 				$response = new RedirectResponse($federatedUrl);
-				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
 
