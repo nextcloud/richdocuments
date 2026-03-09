@@ -545,7 +545,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .office-viewer {
-	z-index: 100000;
 	max-width: 100%;
 	display: flex;
 	flex-direction: column;
