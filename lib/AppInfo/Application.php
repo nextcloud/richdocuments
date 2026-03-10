@@ -31,10 +31,12 @@ use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\Notification\Notifier;
 use OCA\Richdocuments\Preview\EMF;
 use OCA\Richdocuments\Preview\MSExcel;
+use OCA\Richdocuments\Preview\MSPowerPoint;
 use OCA\Richdocuments\Preview\MSWord;
 use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
+use OCA\Richdocuments\Preview\Rtf;
 use OCA\Richdocuments\Reference\OfficeTargetReferenceProvider;
 use OCA\Richdocuments\Storage\SecureViewWrapper;
 use OCA\Richdocuments\TaskProcessing\SlideDeckGenerationProvider;
@@ -100,10 +102,12 @@ class Application extends App implements IBootstrap {
 
 		$context->registerPreviewProvider(EMF::class, EMF::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(MSExcel::class, MSExcel::MIMETYPE_REGEX);
+		$context->registerPreviewProvider(MSPowerPoint::class, MSPowerPoint::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(MSWord::class, MSWord::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(OOXML::class, OOXML::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(OpenDocument::class, OpenDocument::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(Pdf::class, Pdf::MIMETYPE_REGEX);
+		$context->registerPreviewProvider(Rtf::class, Rtf::MIMETYPE_REGEX);
 		$context->registerFileConversionProvider(ConversionProvider::class);
 		$context->registerNotifierService(Notifier::class);
 
