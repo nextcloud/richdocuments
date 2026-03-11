@@ -69,6 +69,14 @@ class InitialStateService {
 		$this->initialState->provideInitialState('adminSettings', [
 			'templatesAvailable' => $this->capabilitiesService->hasTemplateSource(),
 			'templates' => $this->templateManager->getSystemFormatted(),
+
+			'acceptedTemplateTypes' => [
+				'.ott', '.otg', '.otp', '.ots',
+				'.odt', '.odg', '.odp', '.ods',
+				'.dot', '.dotx', '.doc', '.docx',
+				'.xlt', '.xltx', '.xls', '.xlsx',
+				'.pot', '.potx', '.ppt', '.pptx',
+			],
 		]);
 	}
 
