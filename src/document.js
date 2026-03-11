@@ -4,7 +4,7 @@
  */
 import './init-shared.js'
 import $ from 'jquery'
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe } from '@nextcloud/event-bus'
 import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
@@ -27,6 +27,10 @@ import SaveAs from './components/Modal/SaveAs.vue'
 const PostMessages = new PostMessageService({
 	parent: window.parent,
 	loolframe: () => document.getElementById('loleafletframe').contentWindow,
+})
+
+subscribe('richdocuments:grab-focus', () => {
+	PostMessages.sendWOPIPostMessage('loolframe', 'Grab_Focus')
 })
 
 if (isDirectEditing()) {
