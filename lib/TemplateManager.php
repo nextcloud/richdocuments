@@ -59,7 +59,7 @@ class TemplateManager {
 		'drawing' => self::MIMES_DRAWINGS,
 	];
 
-	public const TYPE_EXTENTION = [
+	public const TYPE_EXTENSIONS = [
 		'document' => 'odt',
 		'spreadsheet' => 'ods',
 		'presentation' => 'odp',
@@ -425,7 +425,7 @@ class TemplateManager {
 			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
 			'type' => $this->flipTypes()[$template->getMimeType()],
 			'delete' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
-			'extension' => ($ooxml && isset(self::TYPE_EXTENSION_OOXML[$documentType])) ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
+			'extension' => ($ooxml && isset(self::TYPE_EXTENSION_OOXML[$documentType])) ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENSIONS[$documentType],
 		];
 	}
 
@@ -452,7 +452,7 @@ class TemplateManager {
 			'id' => $template->getId(),
 			'name' => $this->l->t('Empty'),
 			'type' => $this->flipTypes()[$template->getMimeType()],
-			'extension' => ($ooxml && isset(self::TYPE_EXTENSION_OOXML[$documentType])) ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
+			'extension' => ($ooxml && isset(self::TYPE_EXTENSION_OOXML[$documentType])) ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENSIONS[$documentType],
 		];
 	}
 
