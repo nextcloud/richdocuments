@@ -85,7 +85,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s (gost)",
     "Edit office documents directly in your browser." : "Uređujte dokumente paketa Office izravno u svom pregledniku.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Ova se aplikacija može povezati s poslužiteljem Collabora Online (ili drugim) (WOPI ili sličan klijent). Nextcloud je domaćin za WOPI. Pročitajte dokumentaciju za više informacija.\n\nDokumente također možete uređivati u izvanmrežnom načinu rada s pomoću aplikacije Collabora Office koju možete pronaći u trgovinama aplikacija **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** i **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)**.",
-    "Accepted file types: {accepts}" : "Prihvaćene vrste datoteka: {accepts}",
     "Uploaded template \"{name}\"" : "Predložak \"{name}\" je prenesen",
     "Template \"{name}\" already exists" : "Predložak \"{name}\" već postoji",
     "Unable to delete template" : "Nije moguće izbrisati predložak",

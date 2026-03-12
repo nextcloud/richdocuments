@@ -78,7 +78,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s (gjest)",
     "Edit office documents directly in your browser." : "Rediger Office-dokumenter i nettleseren din.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Dette programmet kan koble til en Collabora Online (eller annen) server (WOPI-lignende klient). Nextcloud er WOPI Vert. Vennligst les dokumentasjonen for å lære mer om det.\n\nDu kan også redigere dokumentene dine frakoblet med Collabora Office-appen fra **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** og **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** butikken.",
-    "Accepted file types: {accepts}" : "Aksepterte filtyper: {accepts}",
     "Uploaded template \"{name}\"" : "Opplastet mal: \"{name}\"",
     "Template \"{name}\" already exists" : "Malen \"{name}\" eksisterer fra før",
     "Unable to delete template" : "Kunne ikke slette mal",
