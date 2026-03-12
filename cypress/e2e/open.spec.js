@@ -65,8 +65,12 @@ describe('Open existing office files', function() {
 			cy.waitForViewer()
 			cy.waitForCollabora()
 
+			cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+
+			// Wait for document to be fully loaded before verifying
 			cy.screenshot('open-file_' + filename)
 			cy.get('@loleafletframe').within(() => {
+				cy.get('input#document-name-input', { timeout: 10000 }).should('be.visible')
 				cy.verifyOpen(filename)
 			})
 			// FIXME: wait for sidebar tab content
@@ -113,6 +117,12 @@ describe('Open PDF with richdocuments', () => {
 	// Verify that using the file action 'Edit with Nextcloud Office'
 	// opens the file using richdocuments
 	it('Open PDF with richdocuments', () => {
+		cy.visit('/apps/files', {
+			onBeforeLoad(win) {
+				cy.spy(win, 'postMessage').as('postMessage')
+			},
+		})
+
 		cy.get('[data-cy-files-list-row-name="document.pdf"]').as('pdf')
 		cy.get('@pdf').find('.action-items').as('actions')
 
@@ -123,8 +133,11 @@ describe('Open PDF with richdocuments', () => {
 		cy.waitForViewer()
 		cy.waitForCollabora()
 
+		cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+
 		// Verify that the correct file is open
 		cy.get('@loleafletframe').within(() => {
+			cy.get('input#document-name-input', { timeout: 10000 }).should('be.visible')
 			cy.verifyOpen('document.pdf')
 		})
 
