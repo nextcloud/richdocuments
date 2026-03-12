@@ -83,7 +83,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s (مېھمان)",
     "Edit office documents directly in your browser." : "ئىشخانا ھۆججەتلىرىنى تور كۆرگۈچىڭىزدە بىۋاسىتە تەھرىرلەڭ.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "بۇ پروگرامما Collabora Online (ياكى باشقا) مۇلازىمېتىرغا (WOPI غا ئوخشاش خېرىدار) ئۇلىنالايدۇ. Nextcloud بولسا WOPI رىياسەتچىسى. بۇ توغرىلىق تېخىمۇ كۆپ ئۇچۇرغا ئېرىشىش ئۈچۈن ھۆججەتلەرنى ئوقۇڭ.\n\nسىز ** [ئاندىرويىد] (https://play.google.com/store/apps/details?id=com.collabora.libreoffice) ** ۋە * دىن Collabora Office دېتالى بىلەن ھۆججەتلىرىڭىزنى تور سىرتىدا تەھرىرلىيەلەيسىز. * [iOS] (https://apps.apple.com/us/app/collabora-office/id1440482071) ** دۇكىنى.",
-    "Accepted file types: {accepts}" : "رۇخسەت قىلىنغان ھۆججەت تىپلىرى: {accepts}.",
     "Uploaded template \"{name}\"" : "ئۈلگە \"{name}\" چىقىرىلدى",
     "Template \"{name}\" already exists" : "ئۈلگە \"{name}\" ئاللىبۇرۇن مەۋجۇت",
     "Unable to delete template" : "ئۈلگىنى ئۆچۈرەلمىدى",
