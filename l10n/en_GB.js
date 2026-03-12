@@ -85,7 +85,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s (Guest)",
     "Edit office documents directly in your browser." : "Edit office documents directly in your browser.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store.",
-    "Accepted file types: {accepts}" : "Accepted file types: {accepts}",
     "Uploaded template \"{name}\"" : "Uploaded template \"{name}\"",
     "Template \"{name}\" already exists" : "Template \"{name}\" already exists",
     "Unable to delete template" : "Unable to delete template",

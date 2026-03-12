@@ -83,7 +83,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s (Hosť)",
     "Edit office documents directly in your browser." : "Upravte kancelárske dokumenty priamo v prehliadači.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Táto aplikácia sa môže pripojiť k serveru Collabora Online (alebo k inému) serveru (klientovi typu WOPI). Nextcloud je hostiteľom WOPI. Prečítajte si dokumentáciu, aby ste sa o tom dozvedeli viac.\n\nDokumenty môžete tiež upravovať off-line pomocou aplikácie Collabora Office z obchodu **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice) ** a ** [iOS](https://apps.apple.com/us/app/collabora-office/id1440482071) **.",
-    "Accepted file types: {accepts}" : "Akceptované typy súborov: {accepts}",
     "Uploaded template \"{name}\"" : "Nahraná šablóna \"{name}\"",
     "Template \"{name}\" already exists" : "Šablóna \"{name}\" už existuje",
     "Unable to delete template" : "Nepodarilo sa zmazať šablónu",
