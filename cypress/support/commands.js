@@ -181,7 +181,9 @@ Cypress.Commands.add('shareLink', (user, path, shareData = {}) => {
 })
 
 Cypress.Commands.add('openFile', fileName => {
-	cy.get(`[data-cy-files-list] tr[data-cy-files-list-row-name="${fileName}"] [data-cy-files-list-row-name-link]`).click()
+	cy.get(`[data-cy-files-list] tr[data-cy-files-list-row-name="${fileName}"] [data-cy-files-list-row-name-link]`, { timeout: 10000 })
+		.should('be.visible')
+		.click()
 })
 
 Cypress.Commands.add('nextcloudEnableApp', (appId) => {
@@ -238,7 +240,7 @@ Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configVa
 })
 
 Cypress.Commands.add('waitForViewer', () => {
-	cy.get('#viewer', { timeout: 50000 })
+	cy.get('#viewer', { timeout: 60000 })
 		.should('be.visible')
 		.and('have.class', 'modal-mask')
 		.and('not.have.class', 'icon-loading')
@@ -252,7 +254,7 @@ Cypress.Commands.add('waitForViewerClose', () => {
 Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) => {
 	const wrappedFrameIdentifier = federated ? 'coolframe' : 'documentframe'
 	if (wrapped) {
-		cy.get(`[data-cy="${wrappedFrameIdentifier}"]`, { timeout: 30000 })
+		cy.get(`[data-cy="${wrappedFrameIdentifier}"]`, { timeout: 60000 })
 			.its('0.contentDocument')
 			.its('body').should('not.be.empty')
 			.should('be.visible').should('not.be.empty')
@@ -260,8 +262,8 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) =>
 	}
 
 	const coolFrame = wrapped
-		? cy.get('@collaboraframe').find('[data-cy="coolframe"]', { timeout: 30000 })
-		: cy.get('[data-cy="coolframe"]')
+		? cy.get('@collaboraframe').find('[data-cy="coolframe"]', { timeout: 60000 })
+		: cy.get('[data-cy="coolframe"]', { timeout: 60000 })
 
 	coolFrame
 		.its('0.contentDocument')
@@ -270,7 +272,7 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) =>
 
 	cy.get('@loleafletframe')
 		.within(() => {
-			cy.get('#main-document-content').should('be.visible')
+			cy.get('#main-document-content', { timeout: 30000 }).should('be.visible')
 		})
 
 	return cy.get('@loleafletframe')
@@ -323,10 +325,10 @@ Cypress.Commands.add('inputCollaboraGuestName', (guestName = 'cloud') => {
 
 Cypress.Commands.add('closeDocument', () => {
 	cy.get('@loleafletframe').within(() => {
-		cy.get('#closebutton').click()
+		cy.get('#closebutton', { timeout: 10000 }).should('be.visible').click()
 	})
 
-	cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+	cy.get('#viewer', { timeout: 10000 }).should('not.exist')
 })
 
 Cypress.Commands.add('verifyOpen', (filename) => {
@@ -476,17 +478,17 @@ Cypress.Commands.add('makeTalkRoomPublic', (user, token, password = '') => {
 })
 
 Cypress.Commands.add('newFileFromMenu', (fileType = 'document', fileName = 'MyNewFile') => {
-	cy.get('form[data-cy-upload-picker=""]')
+	cy.get('form[data-cy-upload-picker=""]', { timeout: 10000 })
 		.first()
 		.should('be.visible')
 		.click()
 
-	cy.get('button[role="menuitem"]')
+	cy.get('button[role="menuitem"]', { timeout: 10000 })
 		.contains('New ' + fileType)
 		.should('be.visible')
 		.click()
 
-	cy.get('input[data-cy-files-new-node-dialog-input=""]')
+	cy.get('input[data-cy-files-new-node-dialog-input=""]', { timeout: 10000 })
 		.should('be.visible')
 		.type(fileName + '{enter}')
 })

@@ -38,9 +38,9 @@ describe('Open existing office files', function() {
 
 			cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
-			// Share action
-			cy.wait(2000)
+			// Wait for document to be fully loaded before verifying
 			cy.get('@loleafletframe').within(() => {
+				cy.get('input#document-name-input', { timeout: 10000 }).should('be.visible')
 				cy.verifyOpen(filename)
 			})
 
