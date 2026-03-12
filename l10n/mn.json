@@ -83,7 +83,6 @@
     "%s (Guest)" : "%s (Зочин)",
     "Edit office documents directly in your browser." : "Оффис баримт бичгүүдийг хөтөч дээрээ шууд засварлах.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Энэ програм нь Collabora Online (эсвэл бусад) сервертэй (WOPI-тэй төстэй Client) холбогдох боломжтой. Nextcloud нь WOPI Host юм. Дэлгэрэнгүй мэдээллийг баримт бичгээс уншина уу.\n\nМөн **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** болон **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** дэлгүүрийн Collabora Office програмаар баримт бичгээ офлайнаар засварлах боломжтой.",
-    "Accepted file types: {accepts}" : "Зөвшөөрөгдсөн файлын төрлүүд: {accepts}",
     "Uploaded template \"{name}\"" : "\"{name}\" загвар байршуулагдсан",
     "Template \"{name}\" already exists" : "\"{name}\" загвар аль хэдийн байна",
     "Unable to delete template" : "Загвар устгаж чадсангүй",

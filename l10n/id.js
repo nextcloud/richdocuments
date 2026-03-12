@@ -83,7 +83,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s (Tamu)",
     "Edit office documents directly in your browser." : "Edit dokumen Office langsung di peramban Anda.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Aplikasi ini dapat terhubung ke server Collabora Online (atau lainnya) (Klien mirip WOPI). Nextcloud adalah Host WOPI. Silakan baca dokumentasi untuk mempelajari lebih lanjut tentang hal tersebut.\n\nAnda juga dapat mengedit dokumen Anda secara luring dengan aplikasi Collabora Office dari toko **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** dan **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)**.",
-    "Accepted file types: {accepts}" : "Jenis berkas yang diterima: {accepts}",
     "Uploaded template \"{name}\"" : "Template \"{name}\" diunggah",
     "Template \"{name}\" already exists" : "Template \"{name}\" sudah ada",
     "Unable to delete template" : "Tidak dapat menghapus template",

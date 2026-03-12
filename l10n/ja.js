@@ -60,7 +60,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s(人のゲスト)",
     "Edit office documents directly in your browser." : "ブラウザーで直接オフィス文書を編集する。",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "このアプリケーションは、Collabora Online（または他の）サーバー（WOPIのようなクライアント）に接続できます。 NextcloudはWOPIホストです。詳細については、ドキュメントをお読みください。\n\nまた、**[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)**  や **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** ストアからCollaboraOfficeアプリを使用してオフラインでドキュメントを編集することもできます。 ",
-    "Accepted file types: {accepts}" : "利用可能なファイル形式: {accepts}",
     "Uploaded template \"{name}\"" : "テンプレート \"{name}\" をアップロードしました",
     "Template \"{name}\" already exists" : "テンプレート \"{name}\" は既に存在します",
     "Unable to delete template" : "テンプレートを削除できません",
