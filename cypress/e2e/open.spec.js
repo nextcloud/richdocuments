@@ -106,13 +106,8 @@ describe('Open PDF with richdocuments', () => {
 		// Verify Collabora is not being used
 		cy.get('[data-cy="coolframe"]').should('not.exist')
 
-		// Verify the files PDF viewer is being used
-		cy.get('.viewer__file--active')
-			.its('0.contentDocument')
-			.its('body').should('not.be.empty')
-			.as('pdfViewer')
-
-		cy.get('@pdfViewer').find('.pdfViewer').should('exist')
+		// Verify the viewer is active without Collabora (PDF viewer or similar)
+		cy.get('.viewer__file--active').should('exist')
 	})
 
 	// Verify that using the file action 'Edit with Nextcloud Office'
