@@ -123,6 +123,7 @@ class DirectViewController extends Controller {
 				'urlsrc' => $urlSrc,
 				'path' => $relativePath,
 				'direct' => true,
+				'userId' => $direct->getUid(),
 			];
 
 			return $this->documentTemplateResponse($wopi, $params);
