@@ -83,6 +83,7 @@
     "%s (Guest)" : "%s (гість)",
     "Edit office documents directly in your browser." : "Редагуйте офісні документу прямо у вашому браузері",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Цей застосунок може підключатися до сервера Collabora Online (або іншого) (клієнт, подібний до WOPI). Nextcloud є хостом WOPI. Прочитайте документацію, щоб дізнатися більше про це. \n\nВи також можете редагувати документи, коли перебуваєте в офлайні, за допомогою програми Collabora Office із **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** і * *[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** каталогу.",
+    "Instance-wide templates that should be available to all users." : "Шаблони на рівні примірника хмари мають бути доступні всім користувачам.",
     "Uploaded template \"{name}\"" : "Завантажено шаблон \"{name}\"",
     "Template \"{name}\" already exists" : "Шаблон \"{name}\" вже присутній",
     "Unable to delete template" : "Не вдалося вилучити шаблон",
