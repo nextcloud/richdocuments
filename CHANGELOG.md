@@ -4,6 +4,19 @@
 -->
 # Changelog
 
+## 9.0.4
+
+### Fixed
+
+- widen global templates restrictions by @elzody in [#5477](https://github.com/nextcloud/richdocuments/pull/5477)
+- remove superfluous high z-index by @mejo- in [#5469](https://github.com/nextcloud/richdocuments/pull/5469)
+- set sensible height for embedded widget by @mejo- in [#5472](https://github.com/nextcloud/richdocuments/pull/5472)
+- drop beyond deprecated `X-Frame-Options` by @joshtrichards in [#5466](https://github.com/nextcloud/richdocuments/pull/5466)
+- Check file existence before using save as by @juliusknorr in [#5444](https://github.com/nextcloud/richdocuments/pull/5444)
+
+### Other
+- Dependency updates
+
 ## 9.0.3
 
 ### Fixed
