@@ -145,7 +145,7 @@ function waitForCollabora() {
 	cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
 	cy.get('@loleafletframe').within(() => {
-		cy.get('#closebutton').click()
-		cy.waitForViewerClose()
+		cy.get('#closebutton', { timeout: 10000 }).should('be.visible').click()
 	})
+	cy.waitForViewerClose()
 }

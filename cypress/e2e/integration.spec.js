@@ -75,17 +75,17 @@ describe('Nextcloud integration', function() {
 				.should('be.visible')
 
 			cy.get('button[aria-label="File"]').click()
-			cy.get('button[aria-label="Save As"]')
-				.should('be.visible', { timeout: 10_000 })
+			cy.get('button[aria-label="Save As"]', { timeout: 10_000 })
+				.should('be.visible')
 				.click()
 
-			cy.get('#saveas-entries > div')
+			cy.get('#saveas-entries > div', { timeout: 10_000 })
 				.contains('Rich Text (.rtf)')
 				.should('be.visible')
 				.click()
 		})
 
-		cy.get('.saveas-dialog').should('be.visible')
+		cy.get('.saveas-dialog', { timeout: 10_000 }).should('be.visible')
 		cy.get('.saveas-dialog input[type=text]')
 			.should('be.visible')
 			.should('have.value', `/${exportFilename}`)
@@ -96,9 +96,9 @@ describe('Nextcloud integration', function() {
 		cy.waitForPostMessage('Action_Save_Resp', { success: true, fileName: exportFilename })
 
 		cy.get('@loleafletframe').within(() => {
-			cy.get('#closebutton').click()
-			cy.waitForViewerClose()
+			cy.get('#closebutton', { timeout: 10000 }).should('be.visible').click()
 		})
+		cy.waitForViewerClose()
 
 		cy.openFile(exportFilename)
 	})
