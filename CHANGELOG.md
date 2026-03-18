@@ -4,6 +4,20 @@
 -->
 # Changelog
 
+## 10.1.1
+
+### Added
+- show share button for nonshareable docs by @emberfiend in [#5456](https://github.com/nextcloud/richdocuments/pull/5456)
+
+### Fixed
+- Add accessKey to Open in local editor button by @codewithvk in [#5480](https://github.com/nextcloud/richdocuments/pull/5480)
+- widen global templates restrictions by @elzody in [#5476](https://github.com/nextcloud/richdocuments/pull/5476)
+- remove superfluous high z-index by @mejo- in [#5470](https://github.com/nextcloud/richdocuments/pull/5470)
+- set sensible height for embedded widget by @mejo- in [#5471](https://github.com/nextcloud/richdocuments/pull/5471)
+
+### Other
+- Dependency updates
+
 ## 10.1.0
 
 ### Added
