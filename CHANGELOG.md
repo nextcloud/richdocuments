@@ -4,6 +4,12 @@
 -->
 # Changelog
 
+## 10.1.2
+
+### Fixed
+
+- fix: Force hide viewer header after changed iframe z-index [#5498](https://github.com/nextcloud/richdocuments/pull/5498)
+
 ## 10.1.1
 
 ### Added
