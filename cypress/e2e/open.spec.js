@@ -38,6 +38,11 @@ describe('Open existing office files', function() {
 
 			cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
+			cy.get('#viewer .modal-header')
+				.should('exist')
+				.and('not.be.visible')
+				.and('have.css', 'display', 'none')
+
 			// Share action
 			cy.wait(2000)
 			cy.get('@loleafletframe').within(() => {
@@ -64,6 +69,11 @@ describe('Open existing office files', function() {
 			cy.openFile(filename)
 			cy.waitForViewer()
 			cy.waitForCollabora()
+
+			cy.get('#viewer .modal-header')
+				.should('exist')
+				.and('not.be.visible')
+				.and('have.css', 'display', 'none')
 
 			cy.screenshot('open-file_' + filename)
 			cy.get('@loleafletframe').within(() => {
