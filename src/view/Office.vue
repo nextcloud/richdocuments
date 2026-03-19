@@ -669,6 +669,10 @@ export default {
 	position: absolute;
 }
 
+[data-handler="richdocuments"] .modal-header {
+	display: none !important;
+}
+
 [data-handler="richdocuments"] .modal-container {
 	bottom: 0;
 }
