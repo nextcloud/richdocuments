@@ -214,13 +214,16 @@ export default {
 	},
 	computed: {
 		showIframe() {
-			return this.loading >= LOADING_STATE.FRAME_READY || this.debug
+			return this.loading >= LOADING_STATE.FRAME_READY || this.debug || this.isPlainWopi
 		},
 		iframeTitle() {
 			return loadState('richdocuments', 'productName', 'Nextcloud Office')
 		},
+		isPlainWopi() {
+			return getCapabilities().collabora.length === 0
+		},
 		showLoadingIndicator() {
-			return this.loading < LOADING_STATE.FRAME_READY
+			return this.loading < LOADING_STATE.FRAME_READY && !this.isPlainWopi
 		},
 		errorMessage() {
 			switch (parseInt(this.error)) {

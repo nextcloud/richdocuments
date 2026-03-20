@@ -23,6 +23,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -143,7 +144,11 @@ class WOPIMiddleware extends Middleware {
 		}
 
 		if ($exception instanceof NotPermittedException && $controller instanceof WopiController) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+		}
+
+		if ($exception instanceof NotFoundException && $controller instanceof WopiController) {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		if ($controller instanceof WopiController) {
