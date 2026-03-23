@@ -506,7 +506,9 @@ class TemplateManager {
 	public function isSupportedTemplateSource(string $extension): bool {
 		$supportedExtensions = [
 			'ott', 'otg', 'otp', 'ots',
+			'odt', 'odg', 'odp', 'ods',
 			'dotx', 'xltx', 'potx',
+			'docx', 'xlsx', 'pptx',
 			'dot', 'xlt', 'pot',
 		];
 		return in_array($extension, $supportedExtensions, true);
