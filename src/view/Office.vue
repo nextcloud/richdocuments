@@ -408,8 +408,8 @@ export default {
 				        })
 			        }
 
-                    if (this.isEmbedded && this.hasWidgetEditingEnabled) {
-                      this.sendPostMessage('Hide_Sidebar')
+					if (this.isEmbedded && this.hasWidgetEditingEnabled) {
+						this.sendPostMessage('Hide_Sidebar')
 					}
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
