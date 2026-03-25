@@ -417,7 +417,7 @@ class TemplateManager {
 	 * @return array
 	 */
 	public function formatNodeReturn(File $template) {
-		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', 'ooxml') === 'ooxml';
+		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', 'odf') === 'ooxml';
 		$documentType = $this->flipTypes()[$template->getMimeType()];
 		return [
 			'id' => $template->getId(),
