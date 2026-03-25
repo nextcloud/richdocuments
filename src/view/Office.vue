@@ -69,10 +69,11 @@
 			:src="iframeSrc"
 			:title="iframeTitle" />
 
-		<NcButton v-if="isEmbedded && !hasWidgetEditingEnabled" class="toggle-interactive" @click="toggleEdit">
-			{{ t('richdocuments', 'Edit') }}
+		<NcButton v-if="isEmbedded" class="toggle-interactive" @click="toggleEdit">
+			{{ toggleEditString }}
 			<template #icon>
-				<PencilIcon />
+				<EyeIcon v-if="hasWidgetEditingEnabled" />
+				<PencilIcon v-else />
 			</template>
 		</NcButton>
 		<ZoteroHint :show.sync="showZotero" @submit="reload" />
@@ -80,6 +81,7 @@
 </template>
 
 <script>
+import EyeIcon from 'vue-material-design-icons/EyeOutline.vue'
 import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
@@ -141,6 +143,7 @@ export default {
 		NcButton,
 		NcEmptyContent,
 		NcLoadingIcon,
+		EyeIcon,
 		PencilIcon,
 		ZoteroHint,
 	},
@@ -253,6 +256,11 @@ export default {
 		},
 		showAdminWebsocketFailure() {
 			return getCurrentUser()?.isAdmin && this.errorType === 'websocketconnectionfailed'
+		},
+		toggleEditString() {
+			return this.hasWidgetEditingEnabled
+				? t('richdocuments', 'Preview')
+				: t('richdocuments', 'Edit')
 		},
 	},
 	watch: {
@@ -548,7 +556,7 @@ export default {
 		},
 
 		toggleEdit() {
-			this.hasWidgetEditingEnabled = true
+			this.hasWidgetEditingEnabled = !this.hasWidgetEditingEnabled
 		},
 
 		getDocumentTypeIcon() {
@@ -644,12 +652,9 @@ export default {
 		max-height: calc(100vh - 120px) !important;
 
 		.toggle-interactive {
-			position: sticky;
-			bottom: 12px;
-			right: 12px;
-			z-index: 1;
-			margin-left: auto;
-			margin-right: 0;
+			position: absolute;
+			bottom: calc(var(--default-grid-baseline) * 2);
+			right: calc(var(--default-grid-baseline) * 2);
 		}
 	}
 
