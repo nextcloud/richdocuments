@@ -49,7 +49,7 @@ abstract class CachedRequestService {
 			return $value;
 		}
 
-		return null;
+		return $this->fetch();
 	}
 
 	public function getLastUpdate(): ?int {
