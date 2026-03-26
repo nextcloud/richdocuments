@@ -56,12 +56,14 @@ class ProofKeyServiceTest extends TestCase {
 		$this->proofKeyService = new ProofKeyService($this->discoveryService);
 	}
 
-	public function testWindowsToUnixTimestamp(): void {
-		// Timestamps representing 15 February, 2024 00:00:00
-		$windowsTimestamp = '133524468000000000';
-		$expectedUnixTimestamp = '1707973200';
-		
-		$unixTimestamp = $this->proofKeyService->windowsToUnixTimestamp($windowsTimestamp);
+	public function testTicksToUnixTimestamp(): void {
+		// .NET ticks representing the Unix epoch
+		$ticksUnixEpoch = 621355968000000000;
+
+		// The conversion should result in a Unix timestamp of 0
+		$expectedUnixTimestamp = 0;
+
+		$unixTimestamp = $this->proofKeyService->ticksToUnixTimestamp($ticksUnixEpoch);
 
 		$this->assertEquals($expectedUnixTimestamp, $unixTimestamp);
 	}
