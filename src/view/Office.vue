@@ -418,6 +418,10 @@ export default {
 					        accessKey: '2',
 				        })
 			        }
+
+					if (this.isEmbedded && this.hasWidgetEditingEnabled) {
+						this.sendPostMessage('Hide_Sidebar')
+					}
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
 					this.$emit('update:loaded', true)
