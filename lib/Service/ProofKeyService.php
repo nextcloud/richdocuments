@@ -16,11 +16,10 @@ use phpseclib3\Math\BigInteger;
 use Throwable;
 
 class ProofKeyService {
-	// The Windows epoch is used for WOPI timestamps (as it is a MS protocol)
-	//     Notes: According to the MS documentation it begins on 01-01-0001
-	//            but all evidence in practice points to 01-01-1601
-	private const WINDOWS_EPOCH = '01-01-1601 00:00:00';
-	private const UNIX_EPOCH = '01-01-1970 00:00:00';
+	// Offset between the .NET epoch (01-01-0001 00:00:00 UTC)
+	// and the Unix epoch (01-01-1970 00:00:00 UTC)
+	// in 100-nanosecond intervals
+	private const EPOCH_OFFSET = 621355968000000000;
 
 	public function __construct(
 		private DiscoveryService $discoveryService,
@@ -47,27 +46,20 @@ class ProofKeyService {
 		return $isValid;
 	}
 
-	public function windowsToUnixTimestamp(string $windowsTimestamp): string {
-		// Convert the epochs to timestamps
-		$windowsEpoch = strtotime(self::WINDOWS_EPOCH);
-		$unixEpoch = strtotime(self::UNIX_EPOCH);
+	public function ticksToUnixTimestamp(int $ticks): int {
+		// Subtract the epoch offset from the .NET ticks
+		$unixTicks = $ticks - self::EPOCH_OFFSET;
 
-		// Calculate the difference between the Unix and Windows epochs in seconds
-		$epochOffset = (float)($unixEpoch - $windowsEpoch);
+		// Divide that by 1e7 to convert from 100ns intervals to seconds
+		$unixTimestamp = intdiv($unixTicks, 10000000);
 
-		// Convert the Windows timestamp from 100-nanoseconds intervals to seconds
-		$windowsTimestampSeconds = ((float)$windowsTimestamp) / 1e7;
-
-		// Finally, subtract the number of seconds between the Windows and Unix epochs
-		// from the number of seconds in the given Windows timestamp
-		$convertedWindowsTimestamp = (int)($windowsTimestampSeconds - $epochOffset);
-
-		return (string)$convertedWindowsTimestamp;
+		// That leaves us with the Unix timestamp
+		return $unixTimestamp;
 	}
 
-	public function isOldTimestamp(int $timestamp): bool {
+	public function isOldTimestamp(int $unixTimestamp): bool {
 		$timestampDateTime = new DateTime();
-		$timestampDateTime->setTimestamp($timestamp);
+		$timestampDateTime->setTimestamp($unixTimestamp);
 
 		$now = new DateTimeImmutable();
 		$controlDateTime = $now->modify('-20 minutes');
