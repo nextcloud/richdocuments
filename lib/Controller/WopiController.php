@@ -20,6 +20,7 @@ use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\Service\UserScopeService;
+use OCA\Richdocuments\Service\WopiRateLimitService;
 use OCA\Richdocuments\TaskProcessingManager;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
@@ -58,6 +59,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
+use OCP\Security\RateLimiting\IRateLimitExceededException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
@@ -96,6 +98,7 @@ class WopiController extends Controller {
 		private SettingsService $settingsService,
 		private CapabilitiesService $capabilitiesService,
 		private Helper $helper,
+		private WopiRateLimitService $wopiRateLimitService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -131,11 +134,35 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		if ($wopi->isGuest()) {
+			try {
+				$this->wopiRateLimitService->registerRequest($wopi, 'checkFileInfo');
+			} catch (IRateLimitExceededException $e) {
+				$this->logger->warning('WOPI checkFileInfo rate limit exceeded for token {wopiId} from {remoteAddress}', [
+					'wopiId' => $wopi->getId(),
+					'remoteAddress' => $this->request->getRemoteAddress(),
+				]);
+				return new JSONResponse([], Http::STATUS_TOO_MANY_REQUESTS);
+			}
+		}
+
 		$isPublic = empty($wopi->getEditorUid());
+		$isVersion = $version !== '0';
+		if ($isPublic && $isVersion) {
+			$this->logger->debug(
+				'Version access with public link is not allowed',
+				[
+					'fileId' => $fileId,
+					'version' => $version
+				],
+			);
+
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		$guestUserId = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
 		$user = $this->userManager->get($wopi->getEditorUid());
 		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
-		$isVersion = $version !== '0';
 		$isSmartPickerEnabled = (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect();
 		$isTaskProcessingEnabled = $isSmartPickerEnabled && $this->taskProcessingManager->isTaskProcessingEnabled();
 
@@ -352,6 +379,18 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		if ($wopi->isGuest()) {
+			try {
+				$this->wopiRateLimitService->registerRequest($wopi, 'getFile');
+			} catch (IRateLimitExceededException $e) {
+				$this->logger->warning('WOPI getFile rate limit exceeded for token {wopiId} from {remoteAddress}', [
+					'wopiId' => $wopi->getId(),
+					'remoteAddress' => $this->request->getRemoteAddress(),
+				]);
+				return new JSONResponse([], Http::STATUS_TOO_MANY_REQUESTS);
+			}
+		}
+
 		if ((int)$fileId !== $wopi->getFileid()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -361,6 +400,18 @@ class WopiController extends Controller {
 			$file = $this->getFileForWopiToken($wopi);
 			\OC_User::setIncognitoMode(true);
 			if ($version !== '0') {
+				if (empty($wopi->getEditorUid())) {
+					$this->logger->debug(
+						'Version access with public link is not allowed',
+						[
+							'fileId' => $fileId,
+							'version' => $version
+						],
+					);
+
+					return new JSONResponse([], Http::STATUS_FORBIDDEN);
+				}
+
 				$versionManager = \OCP\Server::get(IVersionManager::class);
 				$info = $versionManager->getVersionFile($this->userManager->get($wopi->getUserForFileAccess()), $file, $version);
 				if ($info->getSize() === 0) {
