@@ -235,6 +235,7 @@ OC.L10N.register(
     "{productName} is not configured" : "{productName} nije konfiguriran",
     "Starting the built-in CODE server failed" : "Neuspjelo pokretanje ugrađenog CODE poslužitelja",
     "Loading {filename} …" : "Učitavanje {filename} …",
+    "Preview" : "Pretpregled",
     "Edit" : "Uredi",
     "Failed to load {productName} - please try again later" : "Neuspjelo učitavanje {productName} – pokušajte ponovo kasnije",
     "Open in local editor" : "Otvori u lokalnom uređivaču",
