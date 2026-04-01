@@ -154,6 +154,7 @@ OC.L10N.register(
     "Save As" : "Opslaan als",
     "Save as" : "Opslaan als",
     "Path to save" : "Pad om op te slaan",
+    "Invalid file name" : "Ongeldige bestandsnaam",
     "Select template" : "Selecteer sjabloon",
     "File name" : "Bestandsnaam",
     "Create" : "Aanmaken",
