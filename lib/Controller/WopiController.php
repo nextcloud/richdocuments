@@ -113,6 +113,10 @@ class WopiController extends Controller {
 			[$fileId, , $version] = Helper::parseFileId($fileId);
 
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
+			if ($this->config->getSystemValue('overwriteprotocol', '') === 'https') {
+				$serverHost = preg_replace('/^http:/i', 'https:', $wopi->getServerHost());
+				$wopi->setServerHost($serverHost);
+			}
 			$file = $this->getFileForWopiToken($wopi);
 			if (!($file instanceof File)) {
 				throw new NotFoundException('No valid file found for ' . $fileId);
@@ -541,6 +545,10 @@ class WopiController extends Controller {
 
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
+			if ($this->config->getSystemValue('overwriteprotocol', '') === 'https') {
+				$serverHost = preg_replace('/^http:/i', 'https:', $wopi->getServerHost());
+				$wopi->setServerHost($serverHost);
+			}
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
