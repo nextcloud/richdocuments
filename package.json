@@ -63,7 +63,7 @@
     "cypress-split": "^1.24.31",
     "eslint-plugin-cypress": "^3.5.0",
     "ts-loader": "^9.5.4",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
   "jest": {
     "verbose": true,
