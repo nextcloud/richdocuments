@@ -512,8 +512,10 @@ class SettingsController extends Controller {
 				]
 			);
 		} catch (NotFoundException $e) {
+			$this->logger->info('Settings file not found', ['type' => $type, 'category' => $category, 'name' => $name, 'exception' => $e]);
 			return new DataDisplayResponse('File not found.', 404);
 		} catch (\Exception $e) {
+			$this->logger->error('Error fetching settings file', ['exception' => $e]);
 			return new DataDisplayResponse('Something went wrong', 500);
 		}
 	}
