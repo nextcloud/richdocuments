@@ -114,44 +114,75 @@ abstract class CachedRequestService {
 	}
 
 	/**
-	 * @return boolean indicating if proxy.php is in initialize or false otherwise
+	 * Checks if the Collabora proxy (i.e. built-in CODE app) is in-use and, if so, whether it is currently 
+	 * initializing ("starting" or "restarting").
+	 *
+	 * @return bool True if proxy is initializing; false otherwise.
 	 */
 	private function isProxyStarting(): bool {
 		$url = $this->appConfig->getValueString('richdocuments', 'wopi_url', '');
-		$usesProxy = false;
 		$proxyPos = strrpos($url, 'proxy.php');
-		if ($proxyPos !== false) {
-			$usesProxy = true;
+
+		if ($proxyPos === false) {
+			return false;
 		}
 
-		if ($usesProxy === true) {
-			$statusUrl = substr($url, 0, $proxyPos);
-			$statusUrl = $statusUrl . 'proxy.php?status';
+		// Build endpoint for status checking
+		$statusUrl = substr($url, 0, $proxyPos) . 'proxy.php?status';
 
+		$options = [
+			'timeout' => 5,
+			'nextcloud' => ['allow_local_address' => true]
+		];
+
+		if ($this->appConfig->getValueString('richdocuments', 'disable_certificate_verification') === 'yes') {
+			$options['verify'] = false;
+		}
+
+		try {
 			$client = $this->clientService->newClient();
-			$options = ['timeout' => 5, 'nextcloud' => ['allow_local_address' => true]];
+			$response = $client->get($statusUrl, $options);
 
-			if ($this->appConfig->getValueString('richdocuments', 'disable_certificate_verification') === 'yes') {
-				$options['verify'] = false;
+			$statusCode = $response->getStatusCode();
+
+			if ($statusCode !== 200) {
+				$this->logger->debug("isProxyStarting: Proxy status endpoint returned non-200 code: {$statusCode} url={$statusUrl}");
+				return false;
 			}
 
-			try {
-				$response = $client->get($statusUrl, $options);
+			$bodyRaw = $response->getBody();
+			$body = json_decode($bodyRaw, true);
 
-				if ($response->getStatusCode() === 200) {
-					$body = json_decode($response->getBody(), true);
-
-					if ($body['status'] === 'starting'
-						|| $body['status'] === 'stopped'
-						|| $body['status'] === 'restarting') {
-						return true;
-					}
-				}
-			} catch (\Exception) {
-				// ignore
+			if (!is_array($body) || !isset($body['status'])) {
+				$this->logger->debug("isProxyStarting: Unexpected response format from proxy: url={$statusUrl} body={$bodyRaw}");
+				return false;
 			}
+
+			if ($body['status'] === 'error') {
+				$errorDetail = $body['error'] ?? '';
+				$this->logger->error("isProxyStarting: Proxy returned status 'error'. url={$statusUrl} error=\"{$errorDetail}\"");
+				return false;
+			}
+
+			if ($body['status'] === 'OK') {
+				$this->logger->debug("isProxyStarting: Proxy status is OK at url={$statusUrl} (already started)");
+				return false;
+			}
+
+			if ($body['status'] === 'starting' || $body['status'] === 'restarting') {
+				$this->logger->debug("isProxyStarting: Proxy is '{$body['status']}' at url={$statusUrl}");
+				return true;
+			}
+
+			// Defensive fallback
+			$this->logger->debug("isProxyStarting: Proxy status is '{$body['status']}' at url={$statusUrl} (not starting)");
+			return false;
+		} catch (\Throwable $e) {
+			$this->logger->debug(
+				"isProxyStarting: Exception contacting proxy status endpoint at {$statusUrl}: {$e->getMessage()}",
+				['exception' => $e]
+			);
+			return false;
 		}
-
-		return false;
 	}
 }
