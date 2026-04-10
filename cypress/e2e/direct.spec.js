@@ -109,9 +109,15 @@ describe('Direct editing (legacy)', function() {
 			.then((token) => {
 				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
 				cy.logout()
-				cy.visit(token)
+				cy.visit(token, {
+					onBeforeLoad(win) {
+						cy.spy(win, 'postMessage').as('postMessage')
+					},
+				})
 				cy.waitForCollabora(false)
+				cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 				cy.screenshot('direct')
+				cy.closeDirectDocument()
 			})
 	})
 
@@ -131,6 +137,7 @@ describe('Direct editing (legacy)', function() {
 						cy.waitForCollabora(false)
 						cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 						cy.screenshot('direct-new')
+						cy.closeDirectDocument()
 					})
 			})
 	})
@@ -141,9 +148,15 @@ describe('Direct editing (legacy)', function() {
 				.then((token) => {
 					cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
 					cy.logout()
-					cy.visit(token)
+					cy.visit(token, {
+						onBeforeLoad(win) {
+							cy.spy(win, 'postMessage').as('postMessage')
+						},
+					})
 					cy.waitForCollabora(false)
+					cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 					cy.screenshot('direct-share-link')
+					cy.closeDirectDocument()
 				})
 		})
 	})
@@ -168,11 +181,16 @@ describe('Direct editing (legacy)', function() {
 			.then((token) => {
 				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'tabbed')
 				cy.logout()
-				cy.visit(token)
+				cy.visit(token, {
+					onBeforeLoad(win) {
+						cy.spy(win, 'postMessage').as('postMessage')
+					},
+				})
 				cy.waitForCollabora(false)
+				cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
 				cy.get('@loleafletframe').within(() => {
-					cy.get('.notebookbar-tabs-container', { timeout: 30_000 })
+					cy.get('.notebookbar-tabs-container')
 						.should('be.visible')
 
 					cy.get('button[aria-label="File"]').click()
@@ -192,6 +210,7 @@ describe('Direct editing (legacy)', function() {
 				cy.get('@loleafletframe').within(() => {
 					cy.verifyOpen('document.rtf')
 				})
+				cy.closeDirectDocument()
 			})
 	})
 

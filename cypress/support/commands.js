@@ -329,6 +329,14 @@ Cypress.Commands.add('closeDocument', () => {
 	cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 })
 
+Cypress.Commands.add('closeDirectDocument', () => {
+	cy.get('@loleafletframe').within(() => {
+		cy.get('#closebutton').click()
+	})
+
+	cy.get('#mainContainer').should('not.exist')
+})
+
 Cypress.Commands.add('verifyOpen', (filename) => {
 	cy.get('input#document-name-input').should(($docName) => {
 		expect($docName.val()).to.equal(filename)
