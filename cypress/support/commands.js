@@ -329,6 +329,33 @@ Cypress.Commands.add('closeDocument', () => {
 	cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 })
 
+Cypress.Commands.add('closeDirectDocument', () => {
+	cy.get('@loleafletframe').within(() => {
+		cy.get('#closebutton').click()
+	})
+
+	cy.get('#mainContainer').should('not.exist')
+})
+
+Cypress.Commands.add('deleteFile', (user, target) => {
+	cy.login(user)
+	const rootPath = `${url}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
+	const filePath = target.split('/').map(encodeURIComponent).join('/')
+
+	return cy.request('/csrftoken')
+		.then(({ body }) => body.token)
+		.then(requesttoken => {
+			return cy.request({
+				url: `${rootPath}/${filePath}`,
+				method: 'DELETE',
+				headers: {
+					requesttoken,
+				},
+				failOnStatusCode: false,
+			})
+		})
+})
+
 Cypress.Commands.add('verifyOpen', (filename) => {
 	cy.get('input#document-name-input').should(($docName) => {
 		expect($docName.val()).to.equal(filename)
