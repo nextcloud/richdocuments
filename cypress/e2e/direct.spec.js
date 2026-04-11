@@ -91,21 +91,28 @@ const createDirectEditingLinkForShareToken = (shareToken, host = undefined, path
 
 describe('Direct editing (legacy)', function() {
 	let randUser
-	let fileId
 
 	before(function() {
 		cy.createRandomUser().then(user => {
 			randUser = user
-			cy.login(user)
-			cy.uploadFile(user, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
-				.then((id) => {
-					fileId = id
-				})
 		})
 	})
 
+	beforeEach(function() {
+		cy.uploadFile(randUser, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
+			.then((id) => {
+				cy.wrap(id).as('fileId')
+			})
+	})
+
+	afterEach(function() {
+		cy.deleteFile(randUser, '/document.odt')
+		cy.deleteFile(randUser, '/mynewfile.odt')
+		cy.deleteFile(randUser, '/document.rtf')
+	})
+
 	it('Open an existing file', function() {
-		createDirectEditingLink(randUser, fileId)
+		createDirectEditingLink(randUser, this.fileId)
 			.then((token) => {
 				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
 				cy.logout()
@@ -177,7 +184,7 @@ describe('Direct editing (legacy)', function() {
 	})
 
 	it('Save as', function() {
-		createDirectEditingLink(randUser, fileId)
+		createDirectEditingLink(randUser, this.fileId)
 			.then((token) => {
 				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'tabbed')
 				cy.logout()
