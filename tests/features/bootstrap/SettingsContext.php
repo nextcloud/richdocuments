@@ -19,6 +19,9 @@ class SettingsContext implements Context {
 	/** @var ServerContext */
 	private $serverContext;
 
+	/** @var WopiContext */
+	private $wopiContext;
+
 	/** @var GuzzleHttp\Client */
 	private $http;
 
@@ -32,6 +35,7 @@ class SettingsContext implements Context {
 	#[BeforeScenario]
 	public function gatherContexts(BeforeScenarioScope $scope) {
 		$this->serverContext = $scope->getEnvironment()->getContext(ServerContext::class);
+		$this->wopiContext = $scope->getEnvironment()->getContext(WopiContext::class);
 
 		$this->http = new GuzzleHttp\Client([
 			'base_uri' => $this->serverContext->getBaseUrl() . 'index.php/apps/richdocuments/',
@@ -149,6 +153,43 @@ class SettingsContext implements Context {
 		});
 	}
 
+	#[When('user :user uploads a user configuration file')]
+	public function userUploadsUserConfigFile(string $user) {
+		$this->serverContext->actingAsUser($user);
+
+		$settingsAccessToken = $this->getSettingsAccessToken('user');
+		$postOptions = [
+			'query' => [
+				'access_token' => $settingsAccessToken,
+				'fileId' => '/settings/userconfig/wordbook/poc.dic',
+			],
+			'body' => 'fake dictionary',
+		];
+
+		$options = array_merge($this->serverContext->getWebOptions(), $postOptions);
+		$this->http->post('wopi/settings/upload', $options);
+	}
+
+	#[When('user :user requests their own user configuration file')]
+	public function userRequestsOwnUserConfigFile(string $user) {
+		$this->serverContext->actingAsUser($user);
+
+		$token = $this->getSettingsAccessToken('user');
+		$this->httpResponse = $this->http->get(
+			"settings/userconfig/$token/wordbook/poc.dic",
+			$this->serverContext->getWebOptions()
+		);
+	}
+
+	#[When('the guest uses the share token to request the user configuration file')]
+	public function guestRequestsUserConfigFileWithShareToken() {
+		$guestToken = $this->wopiContext->getWopiToken();
+
+		$this->httpResponse = $this->http->get(
+			"settings/userconfig/$guestToken/wordbook/poc.dic"
+		);
+	}
+
 	#[Then('the system configuration upload is forbidden')]
 	public function systemConfigUploadForbidden() {
 		Assert::assertEquals(403, $this->httpResponse->getStatusCode());
@@ -167,6 +208,16 @@ class SettingsContext implements Context {
 	#[Then('the system configuration deletion is allowed')]
 	public function systemConfigDeletionAllowed() {
 		Assert::assertEquals(200, $this->httpResponse->getStatusCode());
+	}
+
+	#[Then('the user configuration file is returned')]
+	public function userConfigFileRequestIsSuccessful() {
+		Assert::assertEquals(200, $this->httpResponse->getStatusCode());
+	}
+
+	#[Then('the user configuration file is forbidden')]
+	public function userConfigFileAccessIsForbidden() {
+		Assert::assertEquals(403, $this->httpResponse->getStatusCode());
 	}
 
 	private function getSettingsAccessToken(string $type) {
