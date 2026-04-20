@@ -34,6 +34,12 @@ class SecureViewService {
 		if ($tryOpen) {
 			// pity… fopen() does not document any possible Exceptions
 			$fp = $storage->fopen($path, 'r');
+			if ($fp === false) {
+				// File does not exist yet (e.g. rename target or version snapshot).
+				// Assume the target will be in a secure context so that rename/copy
+				// is not blocked by checkSourceAndTarget.
+				return true;
+			}
 			fclose($fp);
 		}
 
