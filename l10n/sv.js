@@ -9,7 +9,7 @@ OC.L10N.register(
     "New Document.docx" : "Nytt Dokument.docx",
     "New Spreadsheet.xlsx" : "Nytt Kalkylblad.xlsx",
     "New Presentation.pptx" : "Ny Presentation.pptx",
-    "File already exists" : "Filen existerar redan",
+    "File already exists" : "Filen finns redan",
     "Not allowed to create document" : "Inte tillåtet att skapa dokument",
     "Saved" : "Sparad",
     "Invalid config key" : "Ogiltig konfigureringsnyckel",
