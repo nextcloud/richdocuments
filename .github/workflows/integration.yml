@@ -289,8 +289,6 @@ jobs:
         # Provide passwords and other environment variables to container
         env:
           ORACLE_PASSWORD: rootpassword
-          APP_USER: autotest
-          APP_USER_PASSWORD: owncloud
 
         # Forward Oracle port
         ports:
@@ -343,7 +341,7 @@ jobs:
         run: |
           mkdir data
           echo '<?php $CONFIG=["memcache.local"=>"\OC\Memcache\APCu","hashing_default_password"=>true];' > config/config.php
-          ./occ maintenance:install --verbose --database=oci --database-name=XE --database-host=127.0.0.1 --database-port=1521 --database-user=autotest --database-pass=owncloud --admin-user admin --admin-pass password
+          ./occ maintenance:install --verbose --database=oci --database-name=XE --database-host=127.0.0.1 --database-port=1521 --database-user=system --database-pass=rootpassword --admin-user admin --admin-pass password
           php -f index.php
           ./occ app:enable --force ${{ env.APP_NAME }}
 
