@@ -288,7 +288,7 @@ jobs:
 
         # Provide passwords and other environment variables to container
         env:
-          ORACLE_RANDOM_PASSWORD: true
+          ORACLE_PASSWORD: rootpassword
           APP_USER: autotest
           APP_USER_PASSWORD: owncloud
 
