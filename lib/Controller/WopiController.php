@@ -107,7 +107,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/files/{fileId}')]
-	public function checkFileInfo(string $fileId, string $access_token): JSONResponse {
+	public function checkFileInfo(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		try {
 			[$fileId, , $version] = Helper::parseFileId($fileId);
 
@@ -328,7 +332,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/files/{fileId}/contents')]
-	public function getFile(string $fileId, string $access_token): JSONResponse|StreamResponse|Http\Response {
+	public function getFile(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse|StreamResponse|Http\Response {
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 
 		try {
@@ -409,7 +417,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/settings')]
-	public function getSettings(string $type, string $access_token): JSONResponse {
+	public function getSettings(
+		string $type,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		if (empty($type)) {
 			return new JSONResponse(['error' => 'Invalid type parameter'], Http::STATUS_BAD_REQUEST);
 		}
@@ -439,7 +451,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: 'wopi/settings/upload')]
-	public function uploadSettingsFile(string $fileId, string $access_token): JSONResponse {
+	public function uploadSettingsFile(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 			$userId = $wopi->getEditorUid();
@@ -487,7 +503,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'DELETE', url: 'wopi/settings')]
-	public function deleteSettingsFile(string $fileId, string $access_token): JSONResponse {
+	public function deleteSettingsFile(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
@@ -534,7 +554,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: 'wopi/files/{fileId}/contents')]
-	public function putFile(string $fileId, string $access_token): JSONResponse {
+	public function putFile(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		[$fileId, , ] = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 
@@ -660,7 +684,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: 'wopi/files/{fileId}')]
-	public function postFile(string $fileId, string $access_token): JSONResponse {
+	public function postFile(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		try {
 			$wopiOverride = $this->request->getHeader('X-WOPI-Override');
 			$wopiLock = $this->request->getHeader('X-WOPI-Lock');
