@@ -38,7 +38,17 @@ abstract class Office implements IProviderV2 {
 
 	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
-		if ($file->getSize() === 0) {
+		$fileSize = $file->getSize();
+		if ($fileSize === 0) {
+			return null;
+		}
+
+		$maxFileSize = $this->appConfig->getPreviewConversionMaxFileSize();
+		if ($fileSize > $maxFileSize) {
+			$this->logger->debug('Skipping preview conversion: file size {size} exceeds limit {limit}', [
+				'size' => $fileSize,
+				'limit' => $maxFileSize,
+			]);
 			return null;
 		}
 
