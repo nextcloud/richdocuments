@@ -88,7 +88,8 @@ class WOPIMiddleware extends Middleware {
 
 				if ($hasProofKey) {
 					$wopiTimestamp = $this->request->getHeader('X-WOPI-TimeStamp');
-					$wopiTimestampIsOld = $this->proofKeyService->isOldTimestamp((int)$wopiTimestamp);
+					$unixTimestamp = $this->proofKeyService->ticksToUnixTimestamp((int)$wopiTimestamp);
+					$wopiTimestampIsOld = $this->proofKeyService->isOldTimestamp($unixTimestamp);
 
 					if ($wopiTimestampIsOld) {
 						throw new WopiException('X-WOPI-TimeStamp header is older than 20 minutes');
