@@ -610,6 +610,7 @@ export default {
 	height: 100dvh;
 	top: -50px;
 	position: absolute;
+	z-index: 10001;
 }
 
 [data-handler="richdocuments"] .modal-header {
