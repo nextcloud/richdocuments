@@ -19,8 +19,9 @@
 					{{ t('richdocuments', 'Cancel') }}
 				</NcButton>
 				<NcButton type="primary"
+					:disabled="isChecking"
 					@click="close">
-					{{ t('richdocuments', 'Save') }}
+					{{ isChecking ? t('richdocuments', 'Checking…') : t('richdocuments', 'Save') }}
 				</NcButton>
 			</div>
 		</div>
@@ -29,11 +30,16 @@
 
 <script>
 import { translate as t } from '@nextcloud/l10n'
+import { showError } from '@nextcloud/dialogs'
+import { getCurrentUser } from '@nextcloud/auth'
+import { getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
+import { emit } from '@nextcloud/event-bus'
+import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-
+import Config from '../../services/config.tsx'
 export default {
 	name: 'SaveAs',
 	components: {
@@ -67,9 +73,16 @@ export default {
 	data() {
 		return {
 			selectedPath: '',
+			isChecking: false,
 		}
 	},
 	computed: {
+		rootPath() {
+			if (isPublicShare()) {
+				return `/files/${getSharingToken()}`
+			}
+			return `/files/${getCurrentUser()?.uid ?? Config.get('userId')}`
+		},
 		newFileName: {
 			get() {
 				if (this.selectedPath !== '') {
@@ -86,7 +99,6 @@ export default {
 		},
 	},
 	mounted() {
-		// prepare filename for having a separate picker for the path (.split('/').pop())
 		const filename = this.path
 		const extension = filename.split('.').pop()
 		const filenameWithoutExtension = filename.substring(0, filename.length - extension.length - 1)
@@ -98,8 +110,49 @@ export default {
 	},
 	methods: {
 		t,
-		close() {
-			this.$emit('close', this.newFileName)
+		async close() {
+			if (this.isChecking) {
+				return
+			}
+
+			this.isChecking = true
+
+			try {
+				const client = getClient()
+				const filename = this.newFileName
+
+				// In direct editing sessions there is no authenticated DAV session
+				// so we skip the existence check and let the backend handle conflicts.
+				// A future improvement could use a dedicated API endpoint that validates
+				// the WOPI token and checks file existence on behalf of the user.
+				if (!Config.get('direct')) {
+					try {
+						const result = await client.stat(`${this.rootPath}/${filename}`, {
+							details: true,
+							data: getDefaultPropfind(),
+						})
+
+						if (result) {
+							showError(t('richdocuments', 'A file with that name already exists.'))
+							const node = resultToNode(result.data)
+							emit('files:node:updated', node)
+							this.isChecking = false
+							return
+						}
+					} catch (error) {
+						if (error.response?.status !== 404) {
+							console.error('Error checking file existence:', error)
+							showError(t('richdocuments', 'Error checking if file exists.'))
+							this.isChecking = false
+							return
+						}
+					}
+				}
+
+				this.$emit('close', this.newFileName)
+			} finally {
+				this.isChecking = false
+			}
 		},
 		cancel() {
 			this.$emit('close', null)
