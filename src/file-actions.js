@@ -2,7 +2,8 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { registerFileAction, FileAction } from '@nextcloud/files'
+
+import { Permission, registerFileAction, FileAction } from '@nextcloud/files'
 import { getCapabilities } from './services/capabilities.ts'
 import { translate as t } from '@nextcloud/l10n'
 
@@ -28,7 +29,12 @@ const openPdf = new FileAction({
 			return false
 		}
 
+		if ((files[0].permissions & Permission.READ) === 0) {
+			return false
+		}
+
 		const isPdf = files[0].mime === 'application/pdf'
+
 		// Only enable the file action when files_pdfviewer is enabled
 		const optionalMimetypes = getCapabilities().mimetypesNoDefaultOpen
 		return isPdf && optionalMimetypes.includes('application/pdf')
