@@ -80,11 +80,6 @@
       <code><![CDATA[putContent]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/Helper.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$time]]></code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/PermissionManager.php">
     <RedundantCondition>
       <code><![CDATA[$share && method_exists($share, 'getAttributes')]]></code>
