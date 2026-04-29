@@ -21,6 +21,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -40,13 +41,19 @@ class TokenManager {
 		private PermissionManager $permissionManager,
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
+		private IRequest $request,
 	) {
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public function generateWopiToken(string $fileId, ?string $shareToken = null, ?string $editoruid = null, bool $direct = false): Wopi {
+	public function generateWopiToken(
+		string $fileId,
+		?string $shareToken = null,
+		?string $editoruid = null,
+		bool $direct = false,
+	): Wopi {
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
@@ -121,15 +128,45 @@ class TokenManager {
 		$this->eventDispatcher->dispatchTyped(new BeforeNodeReadEvent($file));
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
-		$guestName = $editoruid === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
-		return $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, $hideDownload, $direct, 0, $shareToken);
+
+		$guestName = $editoruid === null ? $this->prepareGuestName($this->getGuestNameFromCookie()) : null;
+
+		return $this->wopiMapper->generateFileToken(
+			$fileId,
+			$owneruid,
+			$editoruid,
+			$version,
+			$updatable,
+			$serverHost,
+			$guestName,
+			$hideDownload,
+			$direct,
+			0,
+			$shareToken
+		);
+	}
+
+	private function getGuestNameFromCookie(): ?string {
+		$guestUser = $this->request->getCookie('guestUser');
+
+		if ($guestUser === '' || $guestUser === null) {
+			return null;
+		}
+
+		return $guestUser;
 	}
 
 	/**
 	 * This method is receiving the results from the TOKEN_TYPE_FEDERATION generated on the opener server
 	 * that is created in {@link newInitiatorToken}
 	 */
-	public function upgradeToRemoteToken(Wopi $wopi, Wopi $remoteWopi, string $shareToken, string $remoteServer, string $remoteServerToken): Wopi {
+	public function upgradeToRemoteToken(
+		Wopi $wopi,
+		Wopi $remoteWopi,
+		string $shareToken,
+		string $remoteServer,
+		string $remoteServerToken,
+	): Wopi {
 		if ($remoteWopi->getTokenType() !== Wopi::TOKEN_TYPE_INITIATOR) {
 			return $wopi;
 		}
@@ -150,7 +187,7 @@ class TokenManager {
 		return $wopi;
 	}
 
-	public function upgradeFromDirectInitiator(Direct $direct, Wopi $wopi) {
+	public function upgradeFromDirectInitiator(Direct $direct, Wopi $wopi): Wopi {
 		$wopi->setTokenType(Wopi::TOKEN_TYPE_REMOTE_GUEST);
 		$wopi->setEditorUid(null);
 		$wopi->setRemoteServer($direct->getInitiatorHost());
@@ -207,7 +244,13 @@ class TokenManager {
 		);
 	}
 
-	public function newInitiatorToken($sourceServer, ?Node $node = null, $shareToken = null, bool $direct = false, $userId = null): Wopi {
+	public function newInitiatorToken(
+		string $sourceServer,
+		?Node $node = null,
+		?string $shareToken = null,
+		bool $direct = false,
+		?string $userId = null
+	): Wopi {
 		if ($node !== null) {
 			$wopi = $this->generateWopiToken((string)$node->getId(), $shareToken, $userId, $direct);
 			$wopi->setServerHost($sourceServer);
@@ -226,7 +269,7 @@ class TokenManager {
 		return $wopi;
 	}
 
-	public function prepareGuestName(?string $guestName = null) {
+	public function prepareGuestName(?string $guestName = null): string {
 		if (empty($guestName)) {
 			return $this->trans->t('Anonymous guest');
 		}
@@ -244,13 +287,10 @@ class TokenManager {
 	}
 
 	/**
-	 * @param string $accessToken
-	 * @param string $guestName
-	 * @return void
 	 * @throws Exceptions\ExpiredTokenException
 	 * @throws Exceptions\UnknownTokenException
 	 */
-	public function updateGuestName(string $accessToken, string $guestName) {
+	public function updateGuestName(string $accessToken, string $guestName): void {
 		$wopi = $this->wopiMapper->getWopiForToken($accessToken);
 		$wopi->setGuestDisplayname($this->prepareGuestName($guestName));
 		$this->wopiMapper->update($wopi);
