@@ -25,20 +25,18 @@ class Helper {
 	}
 
 	/**
-	 * Parse the WOPI/richdocuments file identifier string.
+	 * Parse a WOPI file identifier string into its components.
 	 *
-	 * Breaks the WOPI-encoded file identifier into Nextcloud fileId and optional instanceId, version, and template parts.
-	 *
-	 * Format examples:
+	 * Supports standard and template-based identifiers. Standard formats include:
 	 * - {fileId}
 	 * - {fileId}_{instanceId}
 	 * - {fileId}_{instanceId}_{version}
 	 *
-	 * For template-based documents, the file part contains a template marker and may be
+	 * For template-based documents, the file part contains a template marker and is expected to be
 	 * encoded as "{fileId}/{templateId}".
 	 *
-	 * @param string $fileId WOPI-encoded file identifier.
-	 * @return array{0: string, 1: string, 2: string, 3: string|null}
+	 * @param string $fileId The WOPI-encoded file identifier string to parse.
+	 * @return array{0: string, 1: string, 2: string, 3: string|null} [fileId, instanceId, version, templateId]
 	 * @throws \InvalidArgumentException If the identifier does not match the expected format.
 	 */
 	public static function parseFileId(string $fileId): array {
