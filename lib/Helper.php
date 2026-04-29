@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -66,6 +66,9 @@ class Helper {
 	 * @return string|false Formatted timestamp, or false if conversion fails.
 	 */
 	public static function toISO8601(int $time): string|false {
+		// TODO: Be more precise and don't ignore milli, micro seconds?
+		// 		 e.g. Accept float|DateTimeInterface to support sub-second precision
+		//		 (.u is always 000000 with int input).
 		$datetime = DateTime::createFromFormat('U', (string)$time, new DateTimeZone('UTC'));
 		if ($datetime) {
 			return $datetime->format('Y-m-d\TH:i:s.u\Z');
