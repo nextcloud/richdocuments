@@ -25,38 +25,40 @@ class Helper {
 	}
 
 	/**
-	 * Parse the WOPI file identifier string.
+	 * Parse the WOPI/richdocuments file identifier string.
+	 *
+	 * Breaks the WOPI-encoded file identifier into Nextcloud fileId and optional instanceId, version, and template parts.
+	 *
+	 * Format examples:
+	 * - {fileId}
+	 * - {fileId}_{instanceId}
+	 * - {fileId}_{instanceId}_{version}
+	 *
+	 * For template-based documents, the file part contains a template marker and may be
+	 * encoded as "{fileId}/{templateId}".
 	 *
 	 * @param string $fileId WOPI-encoded file identifier.
 	 * @return array{0: string, 1: string, 2: string, 3: string|null}
-	 * @throws \Exception If the identifier does not match the expected format.
+	 * @throws \InvalidArgumentException If the identifier does not match the expected format.
 	 */
 	public static function parseFileId(string $fileId): array {
-		$arr = explode('_', $fileId);
+		$parts = explode('_', $fileId);
+
+		if (count($parts) > 3) {
+			throw new \InvalidArgumentException('$fileId does not match the expected format');
+		}
+
+		$fileIdPart = $parts[0];
+		$instanceId = $parts[1] ?? '';
+		$version = $parts[2] ?? '0';
 		$templateId = null;
-		if (count($arr) === 1) {
-			$fileId = $arr[0];
-			$instanceId = '';
-			$version = '0';
-		} elseif (count($arr) === 2) {
-			[$fileId, $instanceId] = $arr;
-			$version = '0';
-		} elseif (count($arr) === 3) {
-			[$fileId, $instanceId, $version] = $arr;
-		} else {
-			throw new \Exception('$fileId has not the expected format');
+
+		$hasTemplateMarker = str_contains($fileIdPart, '-');
+		if ($hasTemplateMarker) {
+			[$fileIdPart, $templateId] = array_pad(explode('/', $fileIdPart, 2), 2, null);
 		}
 
-		if (str_contains($fileId, '-')) {
-			[$fileId, $templateId] = array_pad(explode('/', $fileId), 2, null);
-		}
-
-		return [
-			$fileId,
-			$instanceId,
-			$version,
-			$templateId,
-		];
+		return [$fileIdPart, $instanceId, $version, $templateId];
 	}
 
 	/**
