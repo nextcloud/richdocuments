@@ -81,13 +81,6 @@ class Helper {
 		return $filename;
 	}
 
-	public function getGuestNameFromCookie() {
-		if ($this->userId !== null || !isset($_COOKIE['guestUser']) || $_COOKIE['guestUser'] === '') {
-			return null;
-		}
-		return $_COOKIE['guestUser'];
-	}
-
 	public function getShareFromNode(Node $node): ?IShare {
 		try {
 			$storage = $node->getStorage();
