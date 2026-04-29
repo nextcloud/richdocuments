@@ -7,6 +7,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
@@ -489,6 +490,9 @@ class SettingsController extends Controller {
 	public function getSettingsFile(string $type, string $token, string $category, string $name) {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($token);
+			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
+				throw new NotPermittedException();
+			}
 			$userId = $wopi->getEditorUid() ?: $wopi->getOwnerUid();
 			if ($type === 'userconfig') {
 				$type = $type . '/' . $userId;
@@ -510,6 +514,8 @@ class SettingsController extends Controller {
 					'Content-Type' => $systemFile->getMimeType() ?: 'application/octet-stream'
 				]
 			);
+		} catch (NotPermittedException $e) {
+			return new DataDisplayResponse('Forbidden.', Http::STATUS_FORBIDDEN);
 		} catch (NotFoundException $e) {
 			return new DataDisplayResponse('File not found.', 404);
 		} catch (\Exception $e) {
