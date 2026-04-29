@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1)
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -147,6 +148,11 @@ class TokenManager {
 	}
 
 	private function getGuestNameFromCookie(): ?string {
+		// prevent a logged-in user from being treated as a guest via the cookie
+		if ($this->userId === null) {
+			return null;
+		}
+
 		$guestUser = $this->request->getCookie('guestUser');
 
 		if ($guestUser === '' || $guestUser === null) {
