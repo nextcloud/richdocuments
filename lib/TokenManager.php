@@ -102,7 +102,7 @@ class TokenManager {
 		}
 
 		/** @var File $file */
-		$file = $userFolder->getFirstNodeById($fileId);
+		$file = $userFolder->getFirstNodeById((int)$fileId);
 
 		// Check node readability (for storage wrapper overwrites like terms of services)
 		if ($file === null || !$file->isReadable()) {
@@ -133,7 +133,7 @@ class TokenManager {
 		$guestName = $editoruid === null ? $this->prepareGuestName($this->getGuestNameFromCookie()) : null;
 
 		return $this->wopiMapper->generateFileToken(
-			$fileId,
+			(int)$fileId,
 			$owneruid,
 			$editoruid,
 			$version,
