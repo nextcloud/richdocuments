@@ -376,3 +376,26 @@ Feature: WOPI
     And as "user1" the file "/SharedFolder/renamed_file.odt" exists
     And as "user1" the file "/SharedFolder/file.odt" does not exist
     And as "user1" the file "/renamed_file.odt" does not exist
+
+
+  Scenario: Public share cannot request a specific saved version
+    Given as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
+    And as "user1" create a share with
+      | path      | /file.odt |
+      | shareType | 3         |
+    Then Using web as guest
+    And a guest opens the share link
+    When Collabora fetches checkFileInfo for version "1"
+    Then the WOPI HTTP status code should be "403"
+
+  Scenario: Guest repeated checkFileInfo requests are rate-limited
+    Given as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
+    And as "user1" create a share with
+      | path      | /file.odt |
+      | shareType | 3         |
+    Then Using web as guest
+    And a guest opens the share link
+    When I perform "11" guest checkFileInfo requests
+    Then the WOPI HTTP status code should be "429"
