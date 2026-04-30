@@ -255,7 +255,7 @@ class TokenManager {
 		?Node $node = null,
 		?string $shareToken = null,
 		bool $direct = false,
-		?string $userId = null
+		?string $userId = null,
 	): Wopi {
 		if ($node !== null) {
 			$wopi = $this->generateWopiToken((string)$node->getId(), $shareToken, $userId, $direct);
