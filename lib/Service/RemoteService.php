@@ -101,7 +101,7 @@ class RemoteService {
 
 			return $body;
 		} catch (\Exception $e) {
-			$this->logger->error('Failed to convert preview: ' . $e->getMessage(), ['exception' => $e]);
+			$this->logger->info('Failed to convert preview: ' . $e->getMessage(), ['exception' => $e]);
 			throw $e;
 		}
 	}
