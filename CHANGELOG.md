@@ -4,6 +4,32 @@
 -->
 # Changelog
 
+## 10.1.3
+
+### Fixed
+- Rate limit wopi endpoints by @elzody in [#5616](https://github.com/nextcloud/richdocuments/pull/5616)
+- Only allow setting auth token types to request config access by @elzody in [#5612](https://github.com/nextcloud/richdocuments/pull/5612)
+- Properly validate old timestamp by @elzody in [#5609](https://github.com/nextcloud/richdocuments/pull/5609)
+- Allow server-side file reads in SecureViewWrapper by @chrip in [#5591](https://github.com/nextcloud/richdocuments/pull/5591)
+- Mark wopi token as sensitive also on controller level by @nickvergessen in [#5585](https://github.com/nextcloud/richdocuments/pull/5585)
+- Handle fopen() returning false for non-existent paths by @chrip in [#5583](https://github.com/nextcloud/richdocuments/pull/5583)
+- Use oci 18 container by @elzody in [#5580](https://github.com/nextcloud/richdocuments/pull/5580)
+- Check read permission before showing PDF edit action by @nfebe in [#5562](https://github.com/nextcloud/richdocuments/pull/5562)
+- Hide sidebar in edit mode by @elzody in [#5526](https://github.com/nextcloud/richdocuments/pull/5526)
+- Allow to leave edit mode by @mejo- in [#5518](https://github.com/nextcloud/richdocuments/pull/5518)
+- Remove unneeded action by @elzody in [#5410](https://github.com/nextcloud/richdocuments/pull/5410)
+- Stabilize save as test by @elzody in [#5313](https://github.com/nextcloud/richdocuments/pull/5313)
+- Fix overlapping buttons in header by @silverkszlo in [#5603](https://github.com/nextcloud/richdocuments/pull/5603)
+- Allow using regular document files as templates by @meven in [#5548](https://github.com/nextcloud/richdocuments/pull/5548)
+
+### Other
+- Update nextcloud/ocp dependency by @nextcloud-command in [#5593](https://github.com/nextcloud/richdocuments/pull/5593)
+- Bump phpseclib by @elzody in [#5581](https://github.com/nextcloud/richdocuments/pull/5581)
+- Update nextcloud/ocp dependency by @nextcloud-command in [#5569](https://github.com/nextcloud/richdocuments/pull/5569)
+- Bump ts-loader from 9.5.4 to 9.5.7 by @dependabot[bot] in [#5541](https://github.com/nextcloud/richdocuments/pull/5541)
+- Bump cypress-split from 1.24.28 to 1.24.31 by @dependabot[bot] in [#5505](https://github.com/nextcloud/richdocuments/pull/5505)
+- Update nextcloud/ocp dependency by @nextcloud-command in [#5488](https://github.com/nextcloud/richdocuments/pull/5488)
+
 ## 10.1.2
 
 ### Fixed
