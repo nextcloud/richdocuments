@@ -4,6 +4,14 @@
 -->
 # Changelog
 
+## 8.7.9
+
+### Fixed
+- Only allow setting auth token types to request config access by @elzody in [#5610](https://github.com/nextcloud/richdocuments/pull/5610)
+
+### Other
+- Update nextcloud/ocp dependency by @nextcloud-command in [#5433](https://github.com/nextcloud/richdocuments/pull/5433)
+
 ## 8.7.8
 
 ### Fixed
