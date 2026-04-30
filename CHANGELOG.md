@@ -4,6 +4,31 @@
 -->
 # Changelog
 
+## 9.0.6
+
+### Fixed
+- Rate limit wopi endpoints by @elzody in [#5615](https://github.com/nextcloud/richdocuments/pull/5615)
+- Only allow setting auth token types to request config access by @elzody in [#5611](https://github.com/nextcloud/richdocuments/pull/5611)
+- Properly validate old timestamp by @elzody in [#5608](https://github.com/nextcloud/richdocuments/pull/5608)
+- Allow server-side file reads in SecureViewWrapper by @chrip in [#5590](https://github.com/nextcloud/richdocuments/pull/5590)
+- Handle fopen() returning false for non-existent paths by @chrip in [#5584](https://github.com/nextcloud/richdocuments/pull/5584)
+- Check read permission before showing PDF edit action by @elzody in [#5563](https://github.com/nextcloud/richdocuments/pull/5563)
+- Hide sidebar in edit mode by @elzody in [#5525](https://github.com/nextcloud/richdocuments/pull/5525)
+- Allow to leave edit mode by @mejo- in [#5517](https://github.com/nextcloud/richdocuments/pull/5517)
+- Fix overlapping buttons in header by @silverkszlo in [#5604](https://github.com/nextcloud/richdocuments/pull/5604)
+- Allow using regular document files as templates by @meven in [#5547](https://github.com/nextcloud/richdocuments/pull/5547)
+
+### Other
+- Fix npm audit by @nextcloud-command in [#5596](https://github.com/nextcloud/richdocuments/pull/5596)
+- Update nextcloud/ocp dependency by @nextcloud-command in [#5595](https://github.com/nextcloud/richdocuments/pull/5595)
+- Update nextcloud/ocp dependency by @nextcloud-command in [#5570](https://github.com/nextcloud/richdocuments/pull/5570)
+- Update nextcloud/ocp dependency by @nextcloud-command in [#5560](https://github.com/nextcloud/richdocuments/pull/5560)
+- Bump ts-loader from 9.5.4 to 9.5.7 by @dependabot[bot] in [#5542](https://github.com/nextcloud/richdocuments/pull/5542)
+- Update nextcloud/ocp dependency by @nextcloud-command in [#5534](https://github.com/nextcloud/richdocuments/pull/5534)
+- Update nextcloud/ocp dependency by @nextcloud-command in [#5510](https://github.com/nextcloud/richdocuments/pull/5510)
+- Bump cypress-split from 1.24.28 to 1.24.31 by @dependabot[bot] in [#5507](https://github.com/nextcloud/richdocuments/pull/5507)
+- Fix npm audit by @nextcloud-command in [#5489](https://github.com/nextcloud/richdocuments/pull/5489)
+
 ## 9.0.5
 
 ### Fixed
