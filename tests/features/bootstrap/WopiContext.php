@@ -315,4 +315,43 @@ class WopiContext implements Context {
 			$this->response = $e->getResponse();
 		}
 	}
+
+	/**
+	 * @When /^Collabora fetches checkFileInfo for version "([^"]*)"$/
+	 */
+	public function collaboraFetchesCheckFileInfoForVersion($version) {
+		$client = new Client();
+		// Ensure we set the version as the third underscore-separated part
+		$arr = explode('_', $this->fileId);
+		if (count($arr) >= 3) {
+			$arr[2] = (string)$version;
+		} else {
+			$arr[] = (string)$version;
+		}
+		$fid = implode('_', $arr);
+		$options = [];
+		try {
+			$this->response = $client->get($this->getWopiEndpointBaseUrl() . 'index.php/apps/richdocuments/wopi/files/' . $fid . '?access_token=' . $this->wopiToken, $options);
+			$this->checkFileInfoResult = json_decode($this->response->getBody()->getContents(), true);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When /^I perform "(\d+)" guest checkFileInfo requests$/
+	 */
+	public function performGuestCheckFileInfoRequests($count) {
+		$client = new Client();
+		$last = null;
+		for ($i = 0; $i < intval($count); $i++) {
+			try {
+				$resp = $client->get($this->getWopiEndpointBaseUrl() . 'index.php/apps/richdocuments/wopi/files/' . $this->fileId . '?access_token=' . $this->wopiToken);
+				$last = $resp;
+			} catch (\GuzzleHttp\Exception\ClientException $e) {
+				$last = $e->getResponse();
+			}
+			$this->response = $last;
+		}
+	}
 }
