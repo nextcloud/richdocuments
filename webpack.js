@@ -17,6 +17,7 @@ webpackConfig.entry = {
 	personal: path.join(__dirname, 'src', 'personal.js'),
 	reference: path.join(__dirname, 'src', 'reference.js'),
 	public: path.join(__dirname, 'src', 'public.js'),
+	overview: path.join(__dirname, 'src', 'overview.js'),
 }
 
 webpackRules.RULE_JS.test = /\.m?js$/
