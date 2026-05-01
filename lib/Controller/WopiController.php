@@ -645,7 +645,7 @@ class WopiController extends Controller {
 			if ($isPutRelative) {
 				// the new file needs to be installed in the current user dir
 				$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
-				$file = $userFolder->getFirstNodeById($fileId);
+				$file = $userFolder->getFirstNodeById((int)$fileId);
 				if ($file === null) {
 					return new JSONResponse([], Http::STATUS_NOT_FOUND);
 				}
