@@ -597,10 +597,10 @@ class WopiController extends Controller {
 		}
 	}
 
-
 	/**
-	 * Given an access token and a fileId, replaces the files with the request body.
-	 * Expects a valid token in access_token parameter.
+	 * Implements WOPI File contents operation `PutFile`.
+	 *
+	 * https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/files/putfile
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
@@ -612,7 +612,6 @@ class WopiController extends Controller {
 		string $access_token,
 	): JSONResponse {
 		[$fileId, , ] = Helper::parseFileId($fileId);
-		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
@@ -634,7 +633,7 @@ class WopiController extends Controller {
 		if (!$this->encryptionManager->isEnabled() || $this->isMasterKeyEnabled()) {
 			// Set the user to register the change under his name
 			$this->userScopeService->setUserScope($wopi->getEditorUid());
-			$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getUserForFileAccess());
+			$this->userScopeService->setFilesystemScope($wopi->getUserForFileAccess());
 		} else {
 			// Per-user encryption is enabled so that collabora isn't able to store the file by using the
 			// user's private key. Because of that we have to use the incognito mode for writing the file.
@@ -642,52 +641,16 @@ class WopiController extends Controller {
 		}
 
 		try {
-			if ($isPutRelative) {
-				// the new file needs to be installed in the current user dir
-				$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
-				$file = $userFolder->getFirstNodeById($fileId);
-				if ($file === null) {
-					return new JSONResponse([], Http::STATUS_NOT_FOUND);
-				}
-				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
-				$suggested = (string)mb_convert_encoding($suggested, 'utf-8', 'utf-7');
+			$file = $this->getFileForWopiToken($wopi);
+			$wopiHeaderTime = $this->request->getHeader('X-COOL-WOPI-Timestamp');
 
-				if ($suggested[0] === '.') {
-					$path = dirname($file->getPath()) . '/New File' . $suggested;
-				} elseif ($suggested[0] !== '/') {
-					$path = dirname($file->getPath()) . '/' . $suggested;
-				} else {
-					$path = $userFolder->getPath() . $suggested;
-				}
-
-				if ($path === '') {
-					return new JSONResponse([
-						'status' => 'error',
-						'message' => 'Cannot create the file'
-					]);
-				}
-
-				// create the folder first
-				if (!$this->rootFolder->nodeExists(dirname($path))) {
-					$this->rootFolder->newFolder(dirname($path));
-				}
-
-				// create a unique new file
-				$path = $this->rootFolder->getNonExistingName($path);
-				$this->rootFolder->newFile($path);
-				$file = $this->rootFolder->get($path);
-			} else {
-				$file = $this->getFileForWopiToken($wopi);
-				$wopiHeaderTime = $this->request->getHeader('X-COOL-WOPI-Timestamp');
-
-				if (!empty($wopiHeaderTime) && $wopiHeaderTime !== Helper::toISO8601($file->getMTime() ?? 0)) {
-					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
-						'headerTime' => $wopiHeaderTime,
-						'storageTime' => Helper::toISO8601($file->getMTime() ?? 0)
-					]);
-					// Tell WOPI client about this conflict.
-					return new JSONResponse(['COOLStatusCode' => self::COOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
-				}
+			if (!empty($wopiHeaderTime) && $wopiHeaderTime !== Helper::toISO8601($file->getMTime() ?? 0)) {
+				$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
+					'headerTime' => $wopiHeaderTime,
+					'storageTime' => Helper::toISO8601($file->getMTime() ?? 0)
+				]);
+				// Tell WOPI client about this conflict.
+				return new JSONResponse(['COOLStatusCode' => self::COOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
 			}
 
 			$content = fopen('php://input', 'rb');
@@ -705,11 +668,6 @@ class WopiController extends Controller {
 				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
 
-			if ($isPutRelative) {
-				// generate a token for the new file (the user still has to be logged in)
-				$wopi = $this->tokenManager->generateWopiToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
-				return new JSONResponse(['Name' => $file->getName(), 'Url' => $this->getWopiUrlForFile($wopi, $file)], Http::STATUS_OK);
-			}
 			if ($wopi->hasTemplateId()) {
 				$wopi->setTemplateId(null);
 				$this->wopiMapper->update($wopi);
