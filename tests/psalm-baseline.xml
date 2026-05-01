@@ -77,7 +77,6 @@
     </UndefinedClass>
     <UndefinedInterfaceMethod>
       <code><![CDATA[putContent]]></code>
-      <code><![CDATA[putContent]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/Helper.php">

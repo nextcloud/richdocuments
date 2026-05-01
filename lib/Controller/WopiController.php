@@ -725,30 +725,194 @@ class WopiController extends Controller {
 	}
 
 	/**
-	 * Given an access token and a fileId, replaces the files with the request body.
-	 * Expects a valid token in access_token parameter.
-	 * Just actually routes to the PutFile, the implementation of PutFile
-	 * handles both saving and saving as.* Given an access token and a fileId, replaces the files with the request body.
+	 * Implements WOPI File operations:
+	 * - `Lock`
+	 * - `GetLock`
+	 * - `Unlock`
+	 * - `RefreshLock`
+	 * - `PutRelativeFile` ("save as")
+	 * - `RenameFile`
 	 *
-	 * FIXME Cleanup this code as is a lot of shared logic between putFile and putRelativeFile
+	 * Operation to execute is determined via `X-WOPI-Override` header value.
+	 *
+	 * https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/files/putrelativefile
+	 * https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/files/lock
+	 * https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/files/unlock
+	 * https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/files/refreshlock
+	 * https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/files/renamefile
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: 'wopi/files/{fileId}')]
-	public function postFile(
-		string $fileId,
-		#[\SensitiveParameter]
-		string $access_token,
-	): JSONResponse {
-		try {
-			$wopiOverride = $this->request->getHeader('X-WOPI-Override');
-			$wopiLock = $this->request->getHeader('X-WOPI-Lock');
-			[$fileId, , ] = Helper::parseFileId($fileId);
-			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-			if ((int)$fileId !== $wopi->getFileid()) {
-				return new JSONResponse([], Http::STATUS_FORBIDDEN);
+	public function postFile(string $fileId, #[\SensitiveParameter] string $access_token): JSONResponse {
+		$resolvedContext = $this->resolveWopiWriteContext($fileId, $access_token);
+		if ($resolvedContext instanceof JSONResponse) {
+			return $resolvedContext;
+		}
+
+		$wopi = $resolvedContext['wopi'];
+		$override = $this->request->getHeader('X-WOPI-Override');
+		$lock = $this->request->getHeader('X-WOPI-Lock');
+
+		// TODO: add guard against empty $lock value; required for all operations other than PutRelativeFile ("save as")
+		if (in_array($override, ['LOCK', 'UNLOCK', 'REFRESH_LOCK', 'GET_LOCK'], true)) {
+			switch ($override) {
+				case 'LOCK':
+					return $this->lock($wopi, $lock);
+				case 'UNLOCK':
+					return $this->unlock($wopi, $lock);
+				case 'REFRESH_LOCK':
+					return $this->refreshLock($wopi, $lock);
+				case 'GET_LOCK':
+					return $this->getLock($wopi, $lock);
 			}
+		}
+
+		try {
+			if ($override === 'RENAME_FILE') {
+				return $this->renameWopiFile($wopi);
+			} elseif ($override === 'PUT_RELATIVE') {
+				return $this->putRelativeWopiFile($wopi);
+			}
+
+			return new JSONResponse(['error' => 'Unsupported WOPI override'], Http::STATUS_BAD_REQUEST);
+		} catch (NotFoundException $e) {
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * Implements WOPI RenameFile.
+	 */
+	private function renameWopiFile(Wopi $wopi): JSONResponse {
+		$file = $this->getFileForWopiToken($wopi);
+		if (!($file instanceof File)) {
+			throw new NotFoundException('No valid file found');
+		}
+
+		$requestedName = $this->request->getHeader('X-WOPI-RequestedName');
+		$requestedName = mb_convert_encoding($requestedName, 'utf-8', 'utf-7') . '.' . $file->getExtension();
+
+		$basePath = dirname($file->getPath());
+		$targetPath = $this->normalizePath($requestedName, $basePath);
+
+		if ($targetPath === '') {
+			return new JSONResponse([
+				'status' => 'error',
+				'message' => 'Cannot rename the file',
+			], Http::STATUS_BAD_REQUEST);
+		}
+
+		if (!$this->rootFolder->nodeExists(dirname($targetPath))) {
+			$this->rootFolder->newFolder(dirname($targetPath));
+		}
+
+		$finalPath = $this->rootFolder->getNonExistingName($targetPath);
+
+		$this->lockManager->runInScope(new LockContext(
+			$file,
+			ILock::TYPE_APP,
+			Application::APPNAME
+		), function () use (&$file, $finalPath): void {
+			$file = $file->move($finalPath);
+		});
+
+		return new JSONResponse([
+			'Name' => pathinfo($file->getName(), PATHINFO_FILENAME),
+		], Http::STATUS_OK);
+	}
+
+	/**
+	 * Implements WOPI PutRelativeFile ("save as").
+	 */
+	private function putRelativeWopiFile(Wopi $wopi): JSONResponse {
+		$file = $this->getFileForWopiToken($wopi);
+		if (!($file instanceof File)) {
+			throw new NotFoundException('No valid file found');
+		}
+
+		$isPublic = false;
+		$editor = $wopi->getEditorUid();
+		if ($editor === null && !$wopi->isRemoteToken()) {
+			// Public links have no editor UID; use the owner so the file is created in the owner's space.
+			$editor = $wopi->getOwnerUid();
+			$isPublic = true; // tracked to determine appropriate parent path
+		}
+
+		// TODO: See encryption detection/handling in putFile() to see if it's applicable here too
+
+		$userFolder = $this->rootFolder->getUserFolder($editor);
+
+		$suggestedTarget = $this->request->getHeader('X-WOPI-SuggestedTarget');
+		$suggestedTarget = mb_convert_encoding($suggestedTarget, 'utf-8', 'utf-7');
+
+		$basePath = $isPublic ? dirname($file->getPath()) : $userFolder->getPath();
+		$targetPath = $this->normalizePath($suggestedTarget, $basePath);
+
+		if ($targetPath === '') {
+			return new JSONResponse([
+				'status' => 'error',
+				'message' => 'Cannot create the file',
+			], Http::STATUS_BAD_REQUEST);
+		}
+
+		if (!$this->rootFolder->nodeExists(dirname($targetPath))) {
+			$this->rootFolder->newFolder(dirname($targetPath));
+		}
+
+		$finalPath = $this->rootFolder->getNonExistingName($targetPath);
+		$file = $this->rootFolder->newFile($finalPath);
+
+		$content = fopen('php://input', 'rb');
+		$this->userScopeService->setUserScope($editor);
+		$this->userScopeService->setFilesystemScope($editor);
+
+		try {
+			$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
+		} catch (LockedException) {
+			// Should be rare because the target name is unique, but keep a defensive check.
+			return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		// EPUB can be uploaded, but not opened, so do not generate a WOPI URL.
+		if ($file->getMimeType() === 'application/epub+zip') {
+			return new JSONResponse(['Name' => $file->getName()], Http::STATUS_OK);
+		}
+
+		$newWopi = $this->tokenManager->generateWopiToken(
+			(string)$file->getId(),
+			$wopi->getShare(),
+			$wopi->getEditorUid(),
+			$wopi->getDirect()
+		);
+
+		return new JSONResponse([
+			'Name' => $file->getName(),
+			'Url' => $this->getWopiUrlForFile($newWopi, $file),
+		], Http::STATUS_OK);
+	}
+
+	/**
+	 * Validate and resolve the WOPI write-file context.
+	 *
+	 * @return array{
+	 *     fileId: int,
+	 *     instanceId: string,
+	 *     version: string,
+	 *     templateId: string,
+	 *     wopi: Wopi
+	 * }|JSONResponse
+	 */
+	private function resolveWopiWriteContext(string $fileId, #[\SensitiveParameter] string $token): array|JSONResponse {
+		try {
+			[$fileId, $instanceId, $version, $templateId] = Helper::parseFileId($fileId);
+			$fileId = (int)$fileId;
+			$wopi = $this->wopiMapper->getWopiForToken($token);
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
@@ -764,112 +928,17 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		switch ($wopiOverride) {
-			case 'LOCK':
-				return $this->lock($wopi, $wopiLock);
-			case 'UNLOCK':
-				return $this->unlock($wopi, $wopiLock);
-			case 'REFRESH_LOCK':
-				return $this->refreshLock($wopi, $wopiLock);
-			case 'GET_LOCK':
-				return $this->getLock($wopi, $wopiLock);
-			case 'RENAME_FILE':
-				break; //FIXME: Move to function
-			default:
-				break; //FIXME: Move to function and add error for unsupported method
+		if ($fileId !== $wopi->getFileid()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-
-		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
-
-		// Unless the editor is empty (public link) we modify the files as the current editor
-		$editor = $wopi->getEditorUid();
-		$isPublic = $editor === null && !$wopi->isRemoteToken();
-		if ($isPublic) {
-			$editor = $wopi->getOwnerUid();
-		}
-
-		try {
-			// the new file needs to be installed in the current user dir
-			$userFolder = $this->rootFolder->getUserFolder($editor);
-
-			if ($isRenameFile) {
-				// the new file needs to be installed in the current user dir
-				$file = $this->getFileForWopiToken($wopi);
-
-				$suggested = $this->request->getHeader('X-WOPI-RequestedName');
-				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7') . '.' . $file->getExtension();
-
-				$path = $this->normalizePath($suggested, dirname($file->getPath()));
-
-				if ($path === '') {
-					return new JSONResponse([
-						'status' => 'error',
-						'message' => 'Cannot rename the file'
-					]);
-				}
-
-				// create the folder first
-				if (!$this->rootFolder->nodeExists(dirname($path))) {
-					$this->rootFolder->newFolder(dirname($path));
-				}
-
-				// create a unique new file
-				$path = $this->rootFolder->getNonExistingName($path);
-				$this->lockManager->runInScope(new LockContext(
-					$this->getFileForWopiToken($wopi),
-					ILock::TYPE_APP,
-					Application::APPNAME
-				), function () use (&$file, $path): void {
-					$file = $file->move($path);
-				});
-			} else {
-				$file = $this->getFileForWopiToken($wopi);
-
-				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
-				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7');
-
-				$parent = $isPublic ? dirname($file->getPath()) : $userFolder->getPath();
-				$path = $this->normalizePath($suggested, $parent);
-
-				// create the folder first
-				if (!$this->rootFolder->nodeExists(dirname($path))) {
-					$this->rootFolder->newFolder(dirname($path));
-				}
-
-				// create a unique new file
-				$path = $this->rootFolder->getNonExistingName($path);
-				$file = $this->rootFolder->newFile($path);
-			}
-
-			$content = fopen('php://input', 'rb');
-			// Set the user to register the change under his name
-			$this->userScopeService->setUserScope($editor);
-			$this->userScopeService->setFilesystemScope($editor);
-
-			try {
-				$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
-			} catch (LockedException) {
-				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
-			}
-
-			// epub is exception (can be uploaded but not opened so don't try to get access token)
-			if ($file->getMimeType() == 'application/epub+zip') {
-				return new JSONResponse(['Name' => $file->getName()], Http::STATUS_OK);
-			}
-
-			// generate a token for the new file (the user still has to be
-			// logged in)
-			$wopi = $this->tokenManager->generateWopiToken((string)$file->getId(), $wopi->getShare(), $wopi->getEditorUid(), $wopi->getDirect());
-
-			return new JSONResponse(['Name' => $file->getName(), 'Url' => $this->getWopiUrlForFile($wopi, $file)], Http::STATUS_OK);
-		} catch (NotFoundException $e) {
-			$this->logger->warning($e->getMessage(), ['exception' => $e]);
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
+		return [
+			'fileId' => $fileId,
+			'instanceId' => $instanceId,
+			'version' => $version,
+			'templateId' => $templateId,
+			'wopi' => $wopi,
+		];
 	}
 
 	private function normalizePath(string $path, ?string $parent = null): string {
