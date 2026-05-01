@@ -754,7 +754,7 @@ class WopiController extends Controller {
 		$wopi = $resolvedContext['wopi'];
 		$override = $this->request->getHeader('X-WOPI-Override');
 		$lock = $this->request->getHeader('X-WOPI-Lock');
-		
+
 		// TODO: add guard against empty $lock value; required for all operations other than PutRelativeFile ("save as")
 		if (in_array($override, ['LOCK', 'UNLOCK', 'REFRESH_LOCK', 'GET_LOCK'], true)) {
 			switch ($override) {
@@ -924,7 +924,7 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		if ($!$wopi->getCanwrite()) {
+		if (!$wopi->getCanwrite()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
