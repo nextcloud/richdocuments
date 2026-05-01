@@ -22,6 +22,7 @@ default:
         - DirectContext
         - FederationContext
         - ApiContext
+        - SettingsContext
 
 
   extensions:

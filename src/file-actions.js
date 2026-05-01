@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { registerFileAction } from '@nextcloud/files'
+import { Permission, registerFileAction } from '@nextcloud/files'
 import { getCapabilities } from './services/capabilities.ts'
 import { translate as t } from '@nextcloud/l10n'
 
@@ -24,7 +24,15 @@ const openPdf = {
 	},
 
 	enabled: ({ nodes }) => {
-		return nodes.length === 1 && getCapabilities().mimetypesNoDefaultOpen.includes(nodes[0].mime)
+		if (nodes.length !== 1) {
+			return false
+		}
+
+		if ((nodes[0].permissions & Permission.READ) === 0) {
+			return false
+		}
+
+		return getCapabilities().mimetypesNoDefaultOpen.includes(nodes[0].mime)
 	},
 
 	exec: ({ nodes }) => {

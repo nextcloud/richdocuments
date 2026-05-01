@@ -33,8 +33,6 @@ trait DocumentTrait {
 		$featurePolicy = new FeaturePolicy();
 		$featurePolicy->addAllowedFullScreenDomain($collaboraHost);
 		$response->setFeaturePolicy($featurePolicy);
-
-		$response->addHeader('X-Frame-Options', 'ALLOW');
 	}
 
 	/**

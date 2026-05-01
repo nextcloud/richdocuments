@@ -31,10 +31,11 @@ class SecureViewService {
 	 * @throws NotFoundException
 	 */
 	public function shouldSecure(string $path, IStorage $storage, bool $tryOpen = true): bool {
-		if ($tryOpen) {
-			// pity… fopen() does not document any possible Exceptions
-			$fp = $storage->fopen($path, 'r');
-			fclose($fp);
+		if ($tryOpen && !$storage->file_exists($path)) {
+			// File does not exist yet (e.g. rename target or version snapshot).
+			// Assume the target will be in a secure context so that rename/copy
+			// is not blocked by checkSourceAndTarget.
+			return true;
 		}
 
 		$cacheEntry = $storage->getCache()->get($path);

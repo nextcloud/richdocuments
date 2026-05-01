@@ -57,8 +57,8 @@ jobs:
         code-image: [ 'release' ]
         php-versions: ['8.2']
         databases: ['sqlite']
-        server-versions: ['master']
-        scenarios: ['wopi', 'direct', 'federation', 'api']
+        server-versions: ['stable33']
+        scenarios: ['wopi', 'direct', 'federation', 'api', 'secure-view', 'admin-settings']
 
     name: integration-${{ matrix.code-image }}-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
@@ -125,8 +125,8 @@ jobs:
       matrix:
         php-versions: ['8.2']
         databases: ['mysql']
-        server-versions: ['master']
-        scenarios: ['wopi', 'direct', 'federation', 'api']
+        server-versions: ['stable33']
+        scenarios: ['wopi', 'direct', 'federation', 'api', 'secure-view', 'admin-settings']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
@@ -201,7 +201,7 @@ jobs:
         php-versions: ['8.2']
         databases: ['pgsql']
         server-versions: ['stable33']
-        scenarios: ['wopi', 'direct', 'federation', 'api']
+        scenarios: ['wopi', 'direct', 'federation', 'api', 'secure-view', 'admin-settings']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
@@ -277,20 +277,18 @@ jobs:
       matrix:
         php-versions: ['8.2']
         databases: ['oci']
-        server-versions: ['master']
-        scenarios: ['wopi', 'direct', 'federation', 'api']
+        server-versions: ['stable33']
+        scenarios: ['wopi', 'direct', 'federation', 'api', 'secure-view', 'admin-settings']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
     services:
       oracle:
-        image: ghcr.io/gvenzl/oracle-xe:11
+        image: ghcr.io/gvenzl/oracle-xe:18
 
         # Provide passwords and other environment variables to container
         env:
-          ORACLE_RANDOM_PASSWORD: true
-          APP_USER: autotest
-          APP_USER_PASSWORD: owncloud
+          ORACLE_PASSWORD: rootpassword
 
         # Forward Oracle port
         ports:
@@ -343,7 +341,7 @@ jobs:
         run: |
           mkdir data
           echo '<?php $CONFIG=["memcache.local"=>"\OC\Memcache\APCu","hashing_default_password"=>true];' > config/config.php
-          ./occ maintenance:install --verbose --database=oci --database-name=XE --database-host=127.0.0.1 --database-port=1521 --database-user=autotest --database-pass=owncloud --admin-user admin --admin-pass password
+          ./occ maintenance:install --verbose --database=oci --database-name=XE --database-host=127.0.0.1 --database-port=1521 --database-user=system --database-pass=rootpassword --admin-user admin --admin-pass password
           php -f index.php
           ./occ app:enable --force ${{ env.APP_NAME }}
 

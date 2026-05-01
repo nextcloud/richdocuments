@@ -276,18 +276,41 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) =>
 	return cy.get('@loleafletframe')
 })
 
-Cypress.Commands.add('waitForPostMessage', (messageId, values = undefined) => {
+Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefined) => {
+	const checkExpectedValues = (message, values) => {
+		for (const [key, value] of Object.entries(values)) {
+			if (!message.Values[key] || message.Values[key] !== value) {
+				return false
+			}
+		}
+
+		return true
+	}
+
 	cy.get('@postMessage', { timeout: 20000 }).should(spy => {
 		const calls = spy.getCalls()
-		const findMatchingCall = calls.find(call => call.args[0].indexOf('"MessageId":"' + messageId + '"') !== -1)
-		if (!findMatchingCall) {
-			return expect(findMatchingCall).to.not.be.undefined
+		const messagesMatchingId = []
+
+		// Find all messages matching the given ID
+		// We do it this way to avoid the shallow copy of Array.filter()
+		for (const call of calls) {
+			if (call.args[0].includes(`"MessageId":"${messageId}"`)) {
+				messagesMatchingId.push(JSON.parse(call.args[0]))
+			}
 		}
-		if (!values) {
-			const object = JSON.parse(findMatchingCall.args[0])
-			values.forEach(value => {
-				expect(object.Values).to.have.property(value, values[value])
-			})
+
+		expect(messagesMatchingId.length).to.be.greaterThan(0)
+
+		if (expectedValues) {
+			const messagesMatchingValues = []
+
+			for (const message of messagesMatchingId) {
+				if (checkExpectedValues(message, expectedValues)) {
+					messagesMatchingValues.push(message)
+				}
+			}
+
+			expect(messagesMatchingValues.length).to.be.greaterThan(0)
 		}
 	})
 })
@@ -403,7 +426,6 @@ Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
 					break
 				default:
 					expect.fail('Using a field type not yet supported')
-					break
 				}
 			}
 		})

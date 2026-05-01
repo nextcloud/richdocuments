@@ -1,7 +1,7 @@
 {
   "name": "richdocuments",
   "description": "Collabora online integration",
-  "version": "10.0.1",
+  "version": "10.1.3",
   "authors": [
     {
       "name": "Julius Härtl",
@@ -59,9 +59,9 @@
     "@nextcloud/webpack-vue-config": "^7.0.2",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "cypress": "^15.10.0",
-    "cypress-split": "^1.24.28",
+    "cypress-split": "^1.24.31",
     "eslint-plugin-cypress": "^3.5.0",
-    "ts-loader": "^9.5.4",
+    "ts-loader": "^9.5.7",
     "typescript": "^5.9.3"
   },
   "jest": {

@@ -68,12 +68,7 @@ export default {
 		return {
 			existingTemplates: [],
 			templatesAvailable: false,
-			templateExtensions: [
-				'.ott', '.otg', '.otp', '.ots',
-				'.dot', '.dotx',
-				'.xlt', '.xltx',
-				'.pot', '.potx',
-			],
+			templateExtensions: [],
 		}
 	},
 
@@ -84,15 +79,7 @@ export default {
 		description() {
 			return t(
 				'richdocuments',
-				'Accepted file types: {accepts}',
-				{
-					/*
-					 * TRANSLATORS
-					 * The file extensions will be displayed as
-					 *  .ott, .otg, .otp, .ots, and so on
-					 */
-					accepts: this.acceptedFileExtensions,
-				},
+				'Instance-wide templates that should be available to all users.',
 			)
 		},
 	},
@@ -101,6 +88,8 @@ export default {
 		// Later maybe we can retrieve these settings from AdminSettings.vue`
 		// and pass them in as props (once AdminSettings is cleaned up)
 		const settings = loadState('richdocuments', 'adminSettings', {})
+
+		this.templateExtensions = settings.acceptedTemplateTypes
 
 		this.templatesAvailable = settings.templatesAvailable
 		this.existingTemplates = settings.templates?.filter((template) => {

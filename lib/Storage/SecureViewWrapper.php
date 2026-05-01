@@ -15,6 +15,7 @@ use OCA\Richdocuments\Service\SecureViewService;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorage;
+use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Server;
 
@@ -24,6 +25,7 @@ class SecureViewWrapper extends Wrapper {
 	private IRootFolder $rootFolder;
 	private IUserSession $userSession;
 	private SecureViewService $secureViewService;
+	private IRequest $request;
 
 	private string $mountPoint;
 
@@ -35,6 +37,7 @@ class SecureViewWrapper extends Wrapper {
 		$this->rootFolder = Server::get(IRootFolder::class);
 		$this->userSession = Server::get(IUserSession::class);
 		$this->secureViewService = Server::get(SecureViewService::class);
+		$this->request = Server::get(IRequest::class);
 
 		$this->mountPoint = $parameters['mountPoint'];
 	}
@@ -85,7 +88,12 @@ class SecureViewWrapper extends Wrapper {
 	 * @throws ForbiddenException
 	 */
 	private function checkFileAccess(string $path): void {
-		if (!$this->wopiMiddleware->isWOPIRequest() && $this->secureViewService->shouldSecure($path, $this, false)) {
+		// Only block direct client-facing downloads (GET requests). Server-side operations
+		// such as template creation and background jobs are non-GET or have no HTTP context
+		// and must not be blocked even when secure view applies.
+		if (!$this->wopiMiddleware->isWOPIRequest()
+			&& $this->request->getMethod() === 'GET'
+			&& $this->secureViewService->shouldSecure($path, $this, false)) {
 			throw new ForbiddenException('Download blocked due the secure view policy', false);
 		}
 	}

@@ -20,6 +20,7 @@ use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\Service\UserScopeService;
+use OCA\Richdocuments\Service\WopiRateLimitService;
 use OCA\Richdocuments\TaskProcessingManager;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
@@ -58,6 +59,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
+use OCP\Security\RateLimiting\IRateLimitExceededException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
@@ -96,6 +98,7 @@ class WopiController extends Controller {
 		private SettingsService $settingsService,
 		private CapabilitiesService $capabilitiesService,
 		private Helper $helper,
+		private WopiRateLimitService $wopiRateLimitService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -107,7 +110,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/files/{fileId}')]
-	public function checkFileInfo(string $fileId, string $access_token): JSONResponse {
+	public function checkFileInfo(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		try {
 			[$fileId, , $version] = Helper::parseFileId($fileId);
 
@@ -127,11 +134,35 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		if ($wopi->isGuest()) {
+			try {
+				$this->wopiRateLimitService->registerRequest($wopi, 'checkFileInfo');
+			} catch (IRateLimitExceededException $e) {
+				$this->logger->warning('WOPI checkFileInfo rate limit exceeded for token {wopiId} from {remoteAddress}', [
+					'wopiId' => $wopi->getId(),
+					'remoteAddress' => $this->request->getRemoteAddress(),
+				]);
+				return new JSONResponse([], Http::STATUS_TOO_MANY_REQUESTS);
+			}
+		}
+
 		$isPublic = empty($wopi->getEditorUid());
+		$isVersion = $version !== '0';
+		if ($isPublic && $isVersion) {
+			$this->logger->debug(
+				'Version access with public link is not allowed',
+				[
+					'fileId' => $fileId,
+					'version' => $version
+				],
+			);
+
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		$guestUserId = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
 		$user = $this->userManager->get($wopi->getEditorUid());
 		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
-		$isVersion = $version !== '0';
 		$isSmartPickerEnabled = (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect();
 		$isTaskProcessingEnabled = $isSmartPickerEnabled && $this->taskProcessingManager->isTaskProcessingEnabled();
 
@@ -166,7 +197,7 @@ class WopiController extends Controller {
 			'UserCanRename' => !$isPublic && !$isVersion && !$wopi->isRemoteToken(),
 			'EnableInsertRemoteImage' => !$isPublic,
 			'EnableInsertRemoteFile' => !$isPublic,
-			'EnableShare' => $file->isShareable() && !$isVersion && !$isPublic,
+			'EnableShare' => !$isVersion && !$isPublic,
 			'HideUserList' => '',
 			'EnableOwnerTermination' => $wopi->getCanwrite() && !$isPublic,
 			'DisablePrint' => $wopi->getHideDownload() || $shouldUseSecureView,
@@ -328,7 +359,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/files/{fileId}/contents')]
-	public function getFile(string $fileId, string $access_token): JSONResponse|StreamResponse|Http\Response {
+	public function getFile(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse|StreamResponse|Http\Response {
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 
 		try {
@@ -344,6 +379,18 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		if ($wopi->isGuest()) {
+			try {
+				$this->wopiRateLimitService->registerRequest($wopi, 'getFile');
+			} catch (IRateLimitExceededException $e) {
+				$this->logger->warning('WOPI getFile rate limit exceeded for token {wopiId} from {remoteAddress}', [
+					'wopiId' => $wopi->getId(),
+					'remoteAddress' => $this->request->getRemoteAddress(),
+				]);
+				return new JSONResponse([], Http::STATUS_TOO_MANY_REQUESTS);
+			}
+		}
+
 		if ((int)$fileId !== $wopi->getFileid()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -353,6 +400,18 @@ class WopiController extends Controller {
 			$file = $this->getFileForWopiToken($wopi);
 			\OC_User::setIncognitoMode(true);
 			if ($version !== '0') {
+				if (empty($wopi->getEditorUid())) {
+					$this->logger->debug(
+						'Version access with public link is not allowed',
+						[
+							'fileId' => $fileId,
+							'version' => $version
+						],
+					);
+
+					return new JSONResponse([], Http::STATUS_FORBIDDEN);
+				}
+
 				$versionManager = \OCP\Server::get(IVersionManager::class);
 				$info = $versionManager->getVersionFile($this->userManager->get($wopi->getUserForFileAccess()), $file, $version);
 				if ($info->getSize() === 0) {
@@ -409,7 +468,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/settings')]
-	public function getSettings(string $type, string $access_token): JSONResponse {
+	public function getSettings(
+		string $type,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		if (empty($type)) {
 			return new JSONResponse(['error' => 'Invalid type parameter'], Http::STATUS_BAD_REQUEST);
 		}
@@ -439,14 +502,24 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: 'wopi/settings/upload')]
-	public function uploadSettingsFile(string $fileId, string $access_token): JSONResponse {
+	public function uploadSettingsFile(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-
 			$userId = $wopi->getEditorUid();
 
 			if (empty($userId)) {
 				throw new \Exception('UserID is empty');
+			}
+
+			$isUserAdmin = $this->groupManager->isAdmin($userId);
+			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
+			$settingsUrl = new SettingsUrl($fileId);
+			if ($settingsUrl->isSystemConfig() && !$isUserAdmin) {
+				throw new NotPermittedException();
 			}
 
 			$content = fopen('php://input', 'rb');
@@ -457,8 +530,7 @@ class WopiController extends Controller {
 			$fileContent = stream_get_contents($content);
 			fclose($content);
 
-			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
-			$settingsUrl = new SettingsUrl($fileId);
+
 			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $userId);
 
 			return new JSONResponse([
@@ -470,6 +542,8 @@ class WopiController extends Controller {
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Invalid token'], Http::STATUS_FORBIDDEN);
+		} catch (NotPermittedException $e) {
+			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -480,7 +554,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'DELETE', url: 'wopi/settings')]
-	public function deleteSettingsFile(string $fileId, string $access_token): JSONResponse {
+	public function deleteSettingsFile(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
@@ -493,6 +571,11 @@ class WopiController extends Controller {
 			$category = $settingsUrl->getCategory();
 			$fileName = $settingsUrl->getFileName();
 			$userId = $wopi->getEditorUid();
+			$isUserAdmin = $this->groupManager->isAdmin($userId);
+
+			if ($settingsUrl->isSystemConfig() && !$isUserAdmin) {
+				throw new NotPermittedException();
+			}
 
 			$this->settingsService->deleteSettingsFile($type, $category, $fileName, $userId);
 
@@ -522,7 +605,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: 'wopi/files/{fileId}/contents')]
-	public function putFile(string $fileId, string $access_token): JSONResponse {
+	public function putFile(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		[$fileId, , ] = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 
@@ -648,7 +735,11 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: 'wopi/files/{fileId}')]
-	public function postFile(string $fileId, string $access_token): JSONResponse {
+	public function postFile(
+		string $fileId,
+		#[\SensitiveParameter]
+		string $access_token,
+	): JSONResponse {
 		try {
 			$wopiOverride = $this->request->getHeader('X-WOPI-Override');
 			$wopiLock = $this->request->getHeader('X-WOPI-Lock');
@@ -665,6 +756,10 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		if (!$wopi->getCanwrite()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
@@ -685,10 +780,6 @@ class WopiController extends Controller {
 
 
 		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
-
-		if (!$wopi->getCanwrite()) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
-		}
 
 		// Unless the editor is empty (public link) we modify the files as the current editor
 		$editor = $wopi->getEditorUid();

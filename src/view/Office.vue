@@ -69,10 +69,11 @@
 			:src="iframeSrc"
 			:title="iframeTitle" />
 
-		<NcButton v-if="isEmbedded && !hasWidgetEditingEnabled" class="toggle-interactive" @click="toggleEdit">
-			{{ t('richdocuments', 'Edit') }}
+		<NcButton v-if="isEmbedded" class="toggle-interactive" @click="toggleEdit">
+			{{ toggleEditString }}
 			<template #icon>
-				<PencilIcon />
+				<EyeIcon v-if="hasWidgetEditingEnabled" />
+				<PencilIcon v-else />
 			</template>
 		</NcButton>
 		<ZoteroHint :show.sync="showZotero" @submit="reload" />
@@ -80,6 +81,7 @@
 </template>
 
 <script>
+import EyeIcon from 'vue-material-design-icons/EyeOutline.vue'
 import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
@@ -141,6 +143,7 @@ export default {
 		NcButton,
 		NcEmptyContent,
 		NcLoadingIcon,
+		EyeIcon,
 		PencilIcon,
 		ZoteroHint,
 	},
@@ -253,6 +256,11 @@ export default {
 		},
 		showAdminWebsocketFailure() {
 			return getCurrentUser()?.isAdmin && this.errorType === 'websocketconnectionfailed'
+		},
+		toggleEditString() {
+			return this.hasWidgetEditingEnabled
+				? t('richdocuments', 'Preview')
+				: t('richdocuments', 'Edit')
 		},
 	},
 	watch: {
@@ -407,8 +415,13 @@ export default {
 					        label: t('richdocuments', 'Open in local editor'),
 					        hint: t('richdocuments', 'Open in local editor'),
 					        insertBefore: 'print',
+					        accessKey: '2',
 				        })
 			        }
+
+					if (this.isEmbedded && this.hasWidgetEditingEnabled) {
+						this.sendPostMessage('Hide_Sidebar')
+					}
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
 					this.$emit('update:loaded', true)
@@ -547,7 +560,7 @@ export default {
 		},
 
 		toggleEdit() {
-			this.hasWidgetEditingEnabled = true
+			this.hasWidgetEditingEnabled = !this.hasWidgetEditingEnabled
 		},
 
 		getDocumentTypeIcon() {
@@ -610,7 +623,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .office-viewer {
-	z-index: 100000;
 	max-width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -640,15 +652,13 @@ export default {
 	}
 
 	&__embedding {
-		min-height: 400px;
+		min-height: min(50vh, 100vh - 120px) !important;
+		max-height: calc(100vh - 120px) !important;
 
 		.toggle-interactive {
-			position: sticky;
-			bottom: 12px;
-			right: 12px;
-			z-index: 1;
-			margin-left: auto;
-			margin-right: 0;
+			position: absolute;
+			bottom: calc(var(--default-grid-baseline) * 2);
+			right: calc(var(--default-grid-baseline) * 2);
 		}
 	}
 
@@ -666,6 +676,11 @@ export default {
 	height: 100dvh;
 	top: -50px;
 	position: absolute;
+	z-index: 10001;
+}
+
+[data-handler="richdocuments"] .modal-header {
+	display: none !important;
 }
 
 [data-handler="richdocuments"] .modal-container {
