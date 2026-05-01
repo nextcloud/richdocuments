@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcModal :name="t('richdocuments', 'Save as')">
+	<NcModal :name="t('richdocuments', 'Save as')" @close="cancel">
 		<div class="saveas-dialog">
 			<h1>{{ name }}</h1>
 			<p>{{ description }}</p>
@@ -102,6 +102,7 @@ export default {
 			this.$emit('close', this.newFileName)
 		},
 		cancel() {
+			emit('richdocuments:grab-focus')
 			this.$emit('close', null)
 		},
 	},
