@@ -47,6 +47,9 @@ PHPPIDA=$!
 PHP_CLI_SERVER_WORKERS=10 php -S localhost:$PORT_SERVERB -t $OC_PATH &
 PHPPIDB=$!
 
+if [ "$SCENARIO_TO_RUN" == "features/wopi.feature" ]; then
+	$OCC app:enable files_lock
+fi
 
 $OCC config:app:set richdocuments wopi_url --value="http://localhost:9980"
 $OCC config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
