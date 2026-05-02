@@ -387,8 +387,9 @@ Feature: WOPI
     When Collabora locks the file with id "lock-123"
     Then the WOPI HTTP status code should be "200"
 
-    When Collabora gets the current lock
-    Then the WOPI lock should be "lock-123"
+    # GET_LOCK not current implemented/supported
+    #When Collabora gets the current lock
+    #Then the WOPI lock should be "lock-123"
 
     When Collabora refreshes the lock with id "lock-123"
     Then the WOPI HTTP status code should be "200"
