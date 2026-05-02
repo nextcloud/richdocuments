@@ -879,6 +879,21 @@ class WopiController extends Controller {
 		return $parent . $path;
 	}
 
+	/**
+	 * Acquire a server-side lock for the current WOPI file.
+	 *
+	 * This method uses the file lock manager to enforce file-level exclusivity.
+	 * The client-provided WOPI lock token is currently ignored.
+	 *
+	 * If the file is already manually locked by the same editor user, the request
+	 * is still allowed so WOPI write flows can continue.
+	 *
+	 * Returns:
+	 * - 200 on success
+	 * - 400 if the lock provider is unavailable or the lock precondition fails
+	 * - 423 if another user owns a conflicting lock
+	 * - 500 for unexpected failures
+	 */
 	private function lock(Wopi $wopi, string $lock): JSONResponse {
 		try {
 			$lock = $this->lockManager->lock(new LockContext(
@@ -890,19 +905,36 @@ class WopiController extends Controller {
 		} catch (NoLockProviderException|PreConditionNotMetException) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		} catch (OwnerLockedException $e) {
-			// If a file is manually locked by a user we want to all this user to still perform a WOPI lock and write
+			// The file is already manually locked by this editor, so allow the WOPI lock request to continue.
 			if ($e->getLock()->getType() === ILock::TYPE_USER && $e->getLock()->getOwner() === $wopi->getEditorUid()) {
 				return new JSONResponse();
 			}
 
+			// Another user owns the lock, so reject this WOPI lock request.
 			return new JSONResponse([], Http::STATUS_LOCKED);
 		} catch (\Exception) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
+	/**
+	 * Release the server-side lock for the current WOPI file.
+	 *
+	 * This method uses the file lock manager to release the application lock
+	 * associated with the target file. The client-provided WOPI lock token is
+	 * currently ignored.
+	 *
+	 * If the file is already manually locked by the same editor user, the request
+	 * is still allowed so WOPI write flows can continue.
+	 *
+	 * Returns:
+	 * - 200 on success
+	 * - 400 if the lock provider is unavailable or the lock precondition fails
+	 * - 500 for unexpected failures
+	 */
 	private function unlock(Wopi $wopi, string $lock): JSONResponse {
 		try {
+			// Try to release the application lock for the current file.
 			$this->lockManager->unlock(new LockContext(
 				$this->getFileForWopiToken($wopi),
 				ILock::TYPE_APP,
@@ -911,19 +943,37 @@ class WopiController extends Controller {
 			return new JSONResponse();
 		} catch (NoLockProviderException|PreConditionNotMetException) {
 			$locks = $this->lockManager->getLocks($wopi->getFileid());
+			// Allow the request to succeed if manually locked unless the conflictinglock belongs to another editor.
 			$canWriteThroughLock = count($locks) > 0 && $locks[0]->getType() === ILock::TYPE_USER && $locks[0]->getOwner() !== $wopi->getEditorUid() ? false : true;
 			if ($canWriteThroughLock) {
 				return new JSONResponse();
 			}
+
+			// A conflicting lock is present, so this unlock request cannot be satisfied.
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		} catch (\Exception) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	// Note that Collabora just calls LOCK again to do a refresh; this is currently unused.
+	/**
+	 * Refresh the server-side lock for the current WOPI file.
+	 *
+	 * This method attempts to acquire the file lock again through the lock manager
+	 * rather than updating a stored WOPI lock token. The client-provided WOPI lock token
+	 * is currently ignored.
+	 *
+	 * Note that Collabora just calls LOCK again to do a refresh; this is currently unused.
+	 *
+	 * Returns:
+	 * - 200 on success
+	 * - 400 if the lock provider is unavailable or the lock precondition fails
+	 * - 423 if another user owns a conflicting lock
+	 * - 500 for unexpected failures
+	 */
 	private function refreshLock(Wopi $wopi, string $lock): JSONResponse {
 		try {
+			// Refresh the application lock by acquiring it again through the server-side lock manager.
 			$lock = $this->lockManager->lock(new LockContext(
 				$this->getFileForWopiToken($wopi),
 				ILock::TYPE_APP,
@@ -933,15 +983,26 @@ class WopiController extends Controller {
 		} catch (NoLockProviderException|PreConditionNotMetException) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		} catch (OwnerLockedException) {
+			// Another user owns the lock, so the refresh cannot proceed.
 			return new JSONResponse([], Http::STATUS_LOCKED);
 		} catch (\Exception) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	// Note that currently Collabora never calls GET_LOCK; this implementation is actually a no-op/does nothing
+	/**
+	 * Inspect the current lock state for the WOPI file.
+	 *
+	 * This method queries the file lock manager for the target file, but this implementation
+	 * is effectively a no-op currently: it does not return the lock information to the caller
+	 * nor do anything with the result. The client-provided WOPI lock token is also ignored.
+	 *
+	 * Note that Collabora currently never calls GET_LOCK; this is currently unused.
+	 */
 	private function getLock(Wopi $wopi, string $lock): JSONResponse {
+		// Query the current lock state from the server-side file lock manager.
 		$locks = $this->lockManager->getLocks($wopi->getFileid());
+		// The queried lock state is not returned to the caller.
 		return new JSONResponse();
 	}
 
