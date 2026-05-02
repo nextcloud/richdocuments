@@ -921,6 +921,7 @@ class WopiController extends Controller {
 		}
 	}
 
+	// Note that Collabora just calls LOCK again to do a refresh; this is currently unused.
 	private function refreshLock(Wopi $wopi, string $lock): JSONResponse {
 		try {
 			$lock = $this->lockManager->lock(new LockContext(
@@ -938,6 +939,7 @@ class WopiController extends Controller {
 		}
 	}
 
+	// Note that currently Collabora never calls GET_LOCK; this implementation is actually a no-op/does nothing
 	private function getLock(Wopi $wopi, string $lock): JSONResponse {
 		$locks = $this->lockManager->getLocks($wopi->getFileid());
 		return new JSONResponse();
