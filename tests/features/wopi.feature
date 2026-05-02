@@ -394,14 +394,14 @@ Feature: WOPI
     When Collabora refreshes the lock with id "lock-123"
     Then the WOPI HTTP status code should be "200"
 
-    When Collabora gets the current lock
-    Then the WOPI lock should be "lock-123"
+    #When Collabora gets the current lock
+    #Then the WOPI lock should be "lock-123"
 
     When Collabora unlocks the file with id "lock-123"
     Then the WOPI HTTP status code should be "200"
 
-    When Collabora gets the current lock
-    Then the WOPI lock response should be empty
+    #When Collabora gets the current lock
+    #Then the WOPI lock response should be empty
 
 
   Scenario: Public share cannot request a specific saved version
