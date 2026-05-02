@@ -408,6 +408,23 @@ class WopiContext implements Context {
 		Assert::assertSame('', trim($this->lockResponseBody ?? ''));
 	}
 
+	/**
+	 * @When /^Collabora unlocks the file with wrong id "([^"]*)"$/
+	 */
+	public function collaboraUnlocksTheFileWithWrongId(string $lockId): void {
+		$this->collaboraPostOverride('UNLOCK', [
+			'X-WOPI-Lock' => $lockId,
+		]);
+	}
+
+	/**
+	 * @Then /^the WOPI HTTP status code should be one of "([^"]*)"$/
+	 */
+	public function theWopiHttpStatusCodeShouldBeOneOf(string $codes): void {
+		$validCodes = array_map('trim', explode(',', $codes));
+		Assert::assertContains((string)$this->response->getStatusCode(), $validCodes);
+	}
+
 	private function collaboraPostOverride(string $override, array $headers = [], ?string $body = null): void {
 		$client = new Client();
 		$options = [
