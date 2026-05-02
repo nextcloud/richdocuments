@@ -31,6 +31,8 @@ class WopiContext implements Context {
 	private $fileIds = [];
 	private $wopiToken;
 	private $checkFileInfoResult;
+	private $wopiLock;
+	private $lockResponseBody;
 
 	public function __construct() {
 		$this->downloadedFile = tempnam(sys_get_temp_dir(), 'downloadedFile');
@@ -352,6 +354,97 @@ class WopiContext implements Context {
 				$last = $e->getResponse();
 			}
 			$this->response = $last;
+		}
+	}
+
+	/**
+	 * @When /^Collabora locks the file with id "([^"]*)"$/
+	 */
+	public function collaboraLocksTheFileWithId(string $lockId): void {
+		$this->wopiLock = $lockId;
+		$this->collaboraPostOverride('LOCK', [
+			'X-WOPI-Lock' => $lockId,
+		]);
+	}
+
+	/**
+	 * @When /^Collabora refreshes the lock with id "([^"]*)"$/
+	 */
+	public function collaboraRefreshesTheLockWithId(string $lockId): void {
+		$this->wopiLock = $lockId;
+		$this->collaboraPostOverride('REFRESH_LOCK', [
+			'X-WOPI-Lock' => $lockId,
+		]);
+	}
+
+	/**
+	 * @When /^Collabora unlocks the file with id "([^"]*)"$/
+	 */
+	public function collaboraUnlocksTheFileWithId(string $lockId): void {
+		$this->collaboraPostOverride('UNLOCK', [
+			'X-WOPI-Lock' => $lockId,
+		]);
+	}
+
+	/**
+	 * @When /^Collabora gets the current lock$/
+	 */
+	public function collaboraGetsTheCurrentLock(): void {
+		$this->collaboraPostOverride('GET_LOCK');
+		$this->lockResponseBody = (string)$this->response->getBody();
+	}
+
+	/**
+	 * @Then /^the WOPI lock should be "([^"]*)"$/
+	 */
+	public function theWopiLockShouldBe(string $expected): void {
+		Assert::assertEquals($expected, trim($this->lockResponseBody ?? ''));
+	}
+
+	/**
+	 * @Then /^the WOPI lock response should be empty$/
+	 */
+	public function theWopiLockResponseShouldBeEmpty(): void {
+		Assert::assertSame('', trim($this->lockResponseBody ?? ''));
+	}
+
+	/**
+	 * @When /^Collabora unlocks the file with wrong id "([^"]*)"$/
+	 */
+	public function collaboraUnlocksTheFileWithWrongId(string $lockId): void {
+		$this->collaboraPostOverride('UNLOCK', [
+			'X-WOPI-Lock' => $lockId,
+		]);
+	}
+
+	/**
+	 * @Then /^the WOPI HTTP status code should be one of "([^"]*)"$/
+	 */
+	public function theWopiHttpStatusCodeShouldBeOneOf(string $codes): void {
+		$validCodes = array_map('trim', explode(',', $codes));
+		Assert::assertContains((string)$this->response->getStatusCode(), $validCodes);
+	}
+
+	private function collaboraPostOverride(string $override, array $headers = [], ?string $body = null): void {
+		$client = new Client();
+		$options = [
+			'headers' => array_merge([
+				'X-COOL-WOPI-Timestamp' => $this->checkFileInfoResult['LastModifiedTime'] ?? null,
+				'X-WOPI-Override' => $override,
+			], $headers),
+		];
+
+		if ($body !== null) {
+			$options['body'] = $body;
+		}
+
+		try {
+			$this->response = $client->post(
+				$this->getWopiEndpointBaseUrl() . 'index.php/apps/richdocuments/wopi/files/' . $this->fileId . '?access_token=' . $this->wopiToken,
+				$options
+			);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
 		}
 	}
 }
