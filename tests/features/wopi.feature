@@ -378,6 +378,31 @@ Feature: WOPI
     And as "user1" the file "/renamed_file.odt" does not exist
 
 
+  Scenario: Lock, refresh, get and unlock a file
+    Given as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/locked.odt"
+    Then User "user1" opens "/locked.odt"
+    And Collabora fetches checkFileInfo
+
+    When Collabora locks the file with id "lock-123"
+    Then the WOPI HTTP status code should be "200"
+
+    When Collabora gets the current lock
+    Then the WOPI lock should be "lock-123"
+
+    When Collabora refreshes the lock with id "lock-123"
+    Then the WOPI HTTP status code should be "200"
+
+    When Collabora gets the current lock
+    Then the WOPI lock should be "lock-123"
+
+    When Collabora unlocks the file with id "lock-123"
+    Then the WOPI HTTP status code should be "200"
+
+    When Collabora gets the current lock
+    Then the WOPI lock response should be empty
+
+
   Scenario: Public share cannot request a specific saved version
     Given as user "user1"
     And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
