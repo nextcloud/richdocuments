@@ -403,6 +403,21 @@ Feature: WOPI
     #When Collabora gets the current lock
     #Then the WOPI lock response should be empty
 
+  Scenario: Unlock with wrong lock token fails
+    Given as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/wrong-unlock.odt"
+    Then User "user1" opens "/wrong-unlock.odt"
+    And Collabora fetches checkFileInfo
+
+    When Collabora locks the file with id "lock-123"
+    Then the WOPI HTTP status code should be "200"
+
+    When Collabora unlocks the file with wrong id "lock-456"
+    Then the WOPI HTTP status code should be "400"
+
+    #When Collabora gets the current lock
+    #Then the WOPI lock should be "lock-123"
+
 
   Scenario: Public share cannot request a specific saved version
     Given as user "user1"
