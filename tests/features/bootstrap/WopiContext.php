@@ -446,5 +446,5 @@ class WopiContext implements Context {
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
-	}	
+	}
 }
