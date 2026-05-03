@@ -59,7 +59,7 @@ const setProxyLoadingMessage = (message) => {
 const showProxyFallbackError = () => {
 	setProxyLoadingMessage(t(
 		'richdocuments',
-		'Error: The Collabora Online Built-in server is taking too long to start. Please try again or set up a standalone server.'
+		'Error: The Collabora Online Built-in server is taking too long to start. Please try again or set up a standalone server.',
 	))
 	checkingProxyStatus = false
 	proxyStatusTerminal = true
@@ -68,7 +68,7 @@ const showProxyFallbackError = () => {
 const showProxyTransportError = () => {
 	setProxyLoadingMessage(t(
 		'richdocuments',
-		'Error: Unable to contact the Collabora Online Built-in server. Please try again or set up a standalone server.'
+		'Error: Unable to contact the Collabora Online Built-in server. Please try again or set up a standalone server.',
 	))
 	checkingProxyStatus = false
 	proxyStatusTerminal = true
@@ -86,7 +86,7 @@ const scheduleProxyStatusRetry = () => {
 
 	const delay = Math.min(
 		PROXY_STATUS_INITIAL_DELAY_MS * Math.pow(2, proxyStatusAttempts),
-		PROXY_STATUS_MAX_DELAY_MS
+		PROXY_STATUS_MAX_DELAY_MS,
 	)
 
 	proxyStatusAttempts++
@@ -108,7 +108,7 @@ const scheduleProxyTransportRetry = () => {
 
 	const delay = Math.min(
 		PROXY_TRANSPORT_INITIAL_DELAY_MS * Math.pow(2, proxyTransportAttempts),
-		PROXY_TRANSPORT_MAX_DELAY_MS
+		PROXY_TRANSPORT_MAX_DELAY_MS,
 	)
 
 	proxyTransportAttempts++
@@ -124,7 +124,7 @@ const checkProxyStatus = () => {
 	}
 	checkingProxyStatus = true
 	const url = Config.get('urlsrc').slice(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
-	
+
 	$.ajax({
 		url: url + '?status',
 		method: 'GET',
