@@ -38,18 +38,110 @@ if (isDirectEditing()) {
 }
 
 let checkingProxyStatus = false
+let proxyStatusAttempts = 0
+let proxyTransportAttempts = 0
+let proxyStatusTimer = null
+let proxyStatusTerminal = false
+
+const PROXY_STATUS_MAX_ATTEMPTS = 8
+const PROXY_STATUS_INITIAL_DELAY_MS = 250
+const PROXY_STATUS_MAX_DELAY_MS = 4000
+
+const PROXY_TRANSPORT_MAX_ATTEMPTS = 3
+const PROXY_TRANSPORT_INITIAL_DELAY_MS = 500
+const PROXY_TRANSPORT_MAX_DELAY_MS = 2000
+
+const setProxyLoadingMessage = (message) => {
+	document.getElementById('proxyLoadingIcon').classList.add('icon-loading-small')
+	document.getElementById('proxyLoadingMessage').textContent = message
+}
+
+const showProxyFallbackError = () => {
+	setProxyLoadingMessage(t(
+		'richdocuments',
+		'Error: The Collabora Online Built-in server is taking too long to start. Please try again or set up a standalone server.',
+	))
+	checkingProxyStatus = false
+	proxyStatusTerminal = true
+}
+
+const showProxyTransportError = () => {
+	setProxyLoadingMessage(t(
+		'richdocuments',
+		'Error: Unable to contact the Collabora Online Built-in server. Please try again or set up a standalone server.',
+	))
+	checkingProxyStatus = false
+	proxyStatusTerminal = true
+}
+
+const scheduleProxyStatusRetry = () => {
+	if (proxyStatusTerminal) {
+		return
+	}
+
+	if (proxyStatusAttempts >= PROXY_STATUS_MAX_ATTEMPTS) {
+		showProxyFallbackError()
+		return
+	}
+
+	const delay = Math.min(
+		PROXY_STATUS_INITIAL_DELAY_MS * Math.pow(2, proxyStatusAttempts),
+		PROXY_STATUS_MAX_DELAY_MS,
+	)
+
+	proxyStatusAttempts++
+	clearTimeout(proxyStatusTimer)
+	proxyStatusTimer = setTimeout(function() {
+		checkProxyStatus()
+	}, delay)
+}
+
+const scheduleProxyTransportRetry = () => {
+	if (proxyStatusTerminal) {
+		return
+	}
+
+	if (proxyTransportAttempts >= PROXY_TRANSPORT_MAX_ATTEMPTS) {
+		showProxyTransportError()
+		return
+	}
+
+	const delay = Math.min(
+		PROXY_TRANSPORT_INITIAL_DELAY_MS * Math.pow(2, proxyTransportAttempts),
+		PROXY_TRANSPORT_MAX_DELAY_MS,
+	)
+
+	proxyTransportAttempts++
+	clearTimeout(proxyStatusTimer)
+	proxyStatusTimer = setTimeout(function() {
+		checkProxyStatus()
+	}, delay)
+}
 
 const checkProxyStatus = () => {
+	if (proxyStatusTerminal) {
+		return
+	}
 	checkingProxyStatus = true
 	const url = Config.get('urlsrc').slice(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
-	$.get(url + '?status').done(function(val) {
+
+	$.ajax({
+		url: url + '?status',
+		method: 'GET',
+		dataType: 'json',
+		timeout: 5000,
+	}).done(function(val) {
+		if (proxyStatusTerminal) {
+			return
+		}
+
+		proxyTransportAttempts = 0
+
 		if (val && val.status && val.status !== 'OK') {
 			if (val.status === 'starting' || val.status === 'stopped') {
-				document.getElementById('proxyLoadingIcon').classList.add('icon-loading-small')
-				document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Built-in CODE Server is starting up shortly, please wait.')
+				setProxyLoadingMessage(t('richdocuments', 'Built-in CODE Server is starting up shortly, please wait.'))
 			} else if (val.status === 'restarting') {
-				document.getElementById('proxyLoadingIcon').classList.add('icon-loading-small')
-				document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Built-in CODE Server is restarting, please wait.')
+				setProxyLoadingMessage(t('richdocuments', 'Built-in CODE Server is restarting, please wait.'))
 			} else if (val.status === 'error') {
 				if (val.error === 'appimage_missing') {
 					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Cannot find the AppImage, please reinstall the Collabora Online Built-in server.')
@@ -67,20 +159,34 @@ const checkProxyStatus = () => {
 					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Cannot start the Collabora Online Built-in server, please setup a standalone one.')
 				}
 
-				// probably not even worth re-trying
+				checkingProxyStatus = false
+				proxyStatusTerminal = true
 				return
 			}
 
-			// retry...
-			setTimeout(function() { checkProxyStatus() }, 100)
+			// retry while the server is starting/restarting
+			scheduleProxyStatusRetry()
 			return
 		}
 
 		checkingProxyStatus = false
+		proxyStatusTerminal = true
+		clearTimeout(proxyStatusTimer)
+	}).fail(function() {
+		if (proxyStatusTerminal) {
+			return
+		}
+
+		scheduleProxyTransportRetry()
 	})
 }
 
 const showLoadingIndicator = () => {
+	proxyStatusAttempts = 0
+	proxyTransportAttempts = 0
+	proxyStatusTerminal = false
+	clearTimeout(proxyStatusTimer)
+
 	if ((OC.appswebroots.richdocumentscode || OC.appswebroots.richdocumentscode_arm64) && Config.get('urlsrc').indexOf('proxy.php') >= 0) {
 		checkProxyStatus()
 	} else {
@@ -89,7 +195,7 @@ const showLoadingIndicator = () => {
 }
 
 const hideLoadingIndicator = () => {
-	if (checkingProxyStatus) {
+	if (checkingProxyStatus && !proxyStatusTerminal) {
 		setTimeout(function() { hideLoadingIndicator() }, 100)
 		return
 	}
