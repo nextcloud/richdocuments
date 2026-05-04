@@ -349,6 +349,68 @@ jobs:
         working-directory: apps/${{ env.APP_NAME }}
         run: cd tests && bash run-integration.sh features/${{ matrix.scenarios }}.feature
 
+  richdocumentscode:
+    runs-on: ubuntu-latest
+
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.2']
+        databases: ['sqlite']
+        server-versions: ['master']
+        scenarios: ['setup_features/richdocumentscode']
+
+    name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          repository: nextcloud/server
+          ref: ${{ matrix.server-versions }}
+          submodules: true
+
+      - name: Checkout app
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          path: apps/${{ env.APP_NAME }}
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit:8.5.14
+          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, gd, zip, apcu
+          ini-values:
+            apc.enable_cli=on
+          coverage: none
+
+      - name: Set up PHPUnit
+        working-directory: apps/${{ env.APP_NAME }}
+        run: composer install --no-dev
+
+      - name: Set up Nextcloud
+        env:
+          DB_PORT: 4444
+        run: |
+          mkdir data
+          echo '<?php $CONFIG=["memcache.local"=>"\OC\Memcache\APCu","hashing_default_password"=>true];' > config/config.php
+          ./occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          ./occ app:enable --force --force ${{ env.APP_NAME }}
+          ./occ app:enable --force richdocumentscode
+
+      - name: Run richdocumentscode integration tests
+        working-directory: apps/${{ env.APP_NAME }}
+        env:
+          CODE_PROVIDER: embedded
+          WOPI_URL: http://localhost/apps/richdocumentscode/proxy.php?req=
+        run: cd tests && bash run-integration.sh features/setup_features/richdocumentscode.feature
+
   summary:
     permissions:
       contents: none
