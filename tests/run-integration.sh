@@ -14,6 +14,16 @@ PORT_SERVERA=8080
 PORT_SERVERB=8081
 PORT_COOL=9980
 
+# Backend mode for the Collabora integration:
+# - external: use a standalone CODE/Collabora container (default)
+# - embedded: use richdocumentscode proxy.php flow
+CODE_PROVIDER=${CODE_PROVIDER:-external}
+
+# Default WOPI endpoint for the external Collabora container.
+# For the embedded richdocumentscode path, the workflow should set:
+#   WOPI_URL=http://localhost/apps/richdocumentscode/proxy.php?req=
+WOPI_URL=${WOPI_URL:-http://localhost:$PORT_COOL}
+
 INSTALLED=$($OCC status | grep installed: | cut -d " " -f 5)
 
 if [ "$INSTALLED" == "true" ]; then
@@ -28,29 +38,29 @@ fi
 composer install
 composer dump-autoload
 
-if curl --fail http://localhost:$PORT_COOL/hosting/capabilities; then
-	echo "Collabora server already running at port $PORT_COOL"
+if [ "$CODE_PROVIDER" = "embedded" ]; then
+	echo "Using embedded Collabora (richdocumentscode) via $WOPI_URL"
 else
-	if ! docker info >/dev/null 2>&1; then
-		echo "Docker does not seem to be running, so start the docker daemon or run a collabora server manually"
-		exit 1
+	if curl --fail "$WOPI_URL/hosting/capabilities"; then
+		echo "Collabora server already running at port $PORT_COOL"
+	else
+		if ! docker info >/dev/null 2>&1; then
+			echo "Docker does not seem to be running, so start the docker daemon or run a collabora server manually"
+			exit 1
+		fi
+		COOL_CONTAINER=$(docker run -t -d -p 9980:9980 -e "domain=localhost" -e "extra_params=--o:ssl.enable=false" collabora/code)
 	fi
-	COOL_CONTAINER=$(docker run -t -d -p 9980:9980 -e "domain=localhost" -e "extra_params=--o:ssl.enable=false" collabora/code)
-fi;
+fi
 
-curl --fail http://localhost:$PORT_COOL/hosting/capabilities
-
-
+curl --fail "$WOPI_URL/hosting/capabilities"
 
 PHP_CLI_SERVER_WORKERS=10 php -S localhost:$PORT_SERVERA -t $OC_PATH &
 PHPPIDA=$!
 PHP_CLI_SERVER_WORKERS=10 php -S localhost:$PORT_SERVERB -t $OC_PATH &
 PHPPIDB=$!
 
+$OCC richdocuments:setup --wopi_url="$WOPI_URL"
 
-$OCC config:app:set richdocuments wopi_url --value="http://localhost:9980"
-$OCC config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
-$OCC richdocuments:activate-config
 $OCC config:system:set allow_local_remote_servers --value true --type bool
 $OCC config:system:set gs.trustedHosts 0 --value="localhost:$PORT_SERVERA"
 $OCC config:system:set gs.trustedHosts 1 --value="localhost:$PORT_SERVERB"
@@ -61,7 +71,7 @@ RESULT=$?
 kill $PHPPIDA
 kill $PHPPIDB
 
-[[ -v COOL_CONTAINER ]] && docker stop $container_id
+[[ -v COOL_CONTAINER ]] && docker stop "$COOL_CONTAINER"
 
 echo "runsh: Exit code: $RESULT"
 exit $RESULT
