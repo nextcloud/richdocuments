@@ -40,6 +40,7 @@ composer dump-autoload
 
 if [ "$CODE_PROVIDER" = "embedded" ]; then
 	echo "Using embedded Collabora (richdocumentscode) via $WOPI_URL"
+	sleep 10
 else
 	if curl --fail "$WOPI_URL/hosting/capabilities"; then
 		echo "Collabora server already running at port $PORT_COOL"
