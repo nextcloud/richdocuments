@@ -34,41 +34,6 @@
 			</em>
 		</p>
 
-		<!-- Document signing -->
-		<div class="docsign-section">
-			<p class="doc_sign_head">
-				<strong>{{ t('richdocuments', 'Document signing') }}</strong>
-			</p>
-			<template v-if="hasDocumentSigningSupport">
-				<div class="input-wrapper">
-					<!-- Document Signing Cert -->
-					<DocSigningField v-model="documentSigningCert"
-						:label="t('richdocuments', 'Enter document signing cert (in PEM format)')"
-						@save="val => setDocumentSigningCert(val)"
-						@remove="() => setDocumentSigningCert('')" />
-					<!-- Document Signing Key -->
-					<DocSigningField v-model="documentSigningKey"
-						:label="t('richdocuments', 'Enter document signing key')"
-						@save="val => setDocumentSigningKey(val)"
-						@remove="() => setDocumentSigningKey('')" />
-					<!-- Document Signing CA -->
-					<DocSigningField v-model="documentSigningCa"
-						:label="t('richdocuments', 'Enter document signing CA chain')"
-						@save="val => setDocumentSigningCa(val)"
-						@remove="() => setDocumentSigningCa('')" />
-					<p>
-						<em>
-							{{ t('richdocuments', 'To use document signing, specify your signing certificate, key and CA chain here.') }}
-						</em>
-					</p>
-				</div>
-			</template>
-			<p v-else>
-				<em>
-					{{ t('richdocuments', 'This instance does not support document signing, because the feature is missing or disabled. Please contact the administrator.') }}
-				</em>
-			</p>
-		</div>
 		<!-- user settings iframe  -->
 		<CoolFrame v-if="tokenGenerated"
 			:iframe-type="'user'"
@@ -85,7 +50,6 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import DocSigningField from './DocSigningField.vue'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import FolderIcon from 'vue-material-design-icons/FolderOutline.vue'
 import axios from '@nextcloud/axios'
@@ -103,7 +67,6 @@ export default {
 		NcSettingsSection,
 		NcTextField,
 		NcButton,
-		DocSigningField,
 		FolderIcon,
 		DeleteIcon,
 		CoolFrame,
@@ -120,10 +83,6 @@ export default {
 			hasSettingIframeSupport: this.initial.hasSettingIframeSupport || false,
 			settingIframeUrl: this.initial.setting_iframe_url || '',
 			zoteroAPIKey: this.initial.zoteroAPIKey || '',
-			hasDocumentSigningSupport: this.initial.hasDocumentSigningSupport || false,
-			documentSigningCert: this.initial.documentSigningCert || '',
-			documentSigningKey: this.initial.documentSigningKey || '',
-			documentSigningCa: this.initial.documentSigningCa || '',
 			tokenGenerated: false,
 			accessToken: '',
 			accessTokenTTL: '',
@@ -181,24 +140,6 @@ export default {
 				this.templateFolder = ''
 			}
 		},
-		async setDocumentSigningCert(val) {
-			const success = await this.updateSetting({ documentSigningCertInput: val })
-			if (success) {
-				this.documentSigningCert = val
-			}
-		},
-		async setDocumentSigningKey(val) {
-			const success = await this.updateSetting({ documentSigningKeyInput: val })
-			if (success) {
-				this.documentSigningKey = val
-			}
-		},
-		async setDocumentSigningCa(val) {
-			const success = await this.updateSetting({ documentSigningCaInput: val })
-			if (success) {
-				this.documentSigningCa = val
-			}
-		},
 		async updateSetting(settings) {
 			try {
 				const response = await axios.post(
@@ -240,11 +181,6 @@ export default {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-}
-
-.doc_sign_head {
-	padding-top: 10px;
-	padding-bottom: 5px;
 }
 
 .msg {
