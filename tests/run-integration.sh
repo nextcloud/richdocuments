@@ -40,7 +40,7 @@ composer dump-autoload
 
 if [ "$CODE_PROVIDER" = "embedded" ]; then
 	echo "Using embedded Collabora (richdocumentscode) via $WOPI_URL"
-	sleep 10
+	sleep 20
 else
 	if curl --fail "$WOPI_URL/hosting/capabilities"; then
 		echo "Collabora server already running at port $PORT_COOL"
@@ -60,7 +60,7 @@ PHPPIDA=$!
 PHP_CLI_SERVER_WORKERS=10 php -S localhost:$PORT_SERVERB -t $OC_PATH &
 PHPPIDB=$!
 
-$OCC richdocuments:setup --wopi_url="$WOPI_URL"
+$OCC richdocuments:setup --wopi-url="$WOPI_URL"
 
 $OCC config:system:set allow_local_remote_servers --value true --type bool
 $OCC config:system:set gs.trustedHosts 0 --value="localhost:$PORT_SERVERA"
