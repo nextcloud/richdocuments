@@ -361,7 +361,7 @@ jobs:
         php-versions: ['8.2']
         databases: ['sqlite']
         server-versions: ['master']
-        scenarios: ['setup_features/richdocumentscode']
+        scenarios: ['wopi', 'direct', 'federation', 'api', 'secure-view', 'admin-settings']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
@@ -404,13 +404,13 @@ jobs:
           ./occ app:enable --force --force ${{ env.APP_NAME }}
           ./occ app:enable --force richdocumentscode
 
-      - name: Run richdocumentscode integration tests
+      - name: Run ${{ matrix.scenarios }} integration tests
         working-directory: apps/${{ env.APP_NAME }}
         env:
           CODE_PROVIDER: embedded
           WOPI_URL: http://localhost/apps/richdocumentscode/proxy.php?req=
-        run: cd tests && bash run-integration.sh features/setup_features/richdocumentscode.feature
-
+        run: cd tests && bash run-integration.sh features/${{ matrix.scenarios }}.feature
+  
   summary:
     permissions:
       contents: none
