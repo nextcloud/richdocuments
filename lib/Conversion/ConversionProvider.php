@@ -10,9 +10,11 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Conversion;
 
 use OCA\Richdocuments\Service\RemoteService;
+use OCA\Richdocuments\Service\SecureViewService;
 use OCP\Files\Conversion\ConversionMimeProvider;
 use OCP\Files\Conversion\IConversionProvider;
 use OCP\Files\File;
+use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
@@ -53,6 +55,7 @@ class ConversionProvider implements IConversionProvider {
 		private RemoteService $remoteService,
 		private LoggerInterface $logger,
 		IFactory $l10nFactory,
+		private SecureViewService $secureViewService,
 	) {
 		$this->l10n = $l10nFactory->get('richdocuments');
 	}
@@ -142,6 +145,23 @@ class ConversionProvider implements IConversionProvider {
 				'Unable to determine the proper file extension for %1$s',
 				[$targetMimeType]
 			));
+		}
+
+		if ($this->secureViewService->isEnabled()) {
+			try {
+				$secured = $this->secureViewService->shouldSecure(
+					$file->getInternalPath(),
+					$file->getStorage(),
+				);
+			} catch (NotFoundException $e) {
+				$this->logger->warning('Could not determine Secure View status for conversion target', ['exception' => $e]);
+				throw new \Exception($this->l10n->t('Conversion is unavailable for this file.'));
+			}
+			if ($secured) {
+				throw new \Exception($this->l10n->t(
+					'Conversion is blocked because the file is protected by Secure View.'
+				));
+			}
 		}
 
 		return $this->remoteService->convertFileTo($file, $targetFileExtension);
