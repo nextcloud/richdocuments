@@ -485,7 +485,7 @@ class WopiController extends Controller {
 			}
 
 			$isPublic = empty($wopi->getEditorUid());
-			$guestUserId = 'Guest-' . substr(hash('sha256', $wopi->getToken()), 0, 8);
+			$guestUserId = 'Guest-' . substr(hash('sha256', $wopi->getToken()), 0, 16);
 			$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
 
 			$userConfig = $this->settingsService->generateSettingsConfig($type, $userId);
