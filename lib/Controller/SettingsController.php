@@ -129,6 +129,7 @@ class SettingsController extends Controller {
 	public function setSettings(
 		?string $wopi_url,
 		?string $server_mode,
+		?bool $force, // skip connectivity checks
 		?string $wopi_allowlist,
 		?bool $disable_certificate_verification,
 		?string $edit_groups,
@@ -148,13 +149,48 @@ class SettingsController extends Controller {
 					'data'   => ['message' => 'Built-in CODE server is not installed or not supported on this platform.'],
 				], Http::STATUS_BAD_REQUEST);
 			}
-			// Store server_mode as authoritative; wopi_url stored for backward compatibility only.
-			// public_wopi_url is now derived dynamically in AppConfig::getCollaboraUrlPublic()
-			// so no stored value is needed.
-			$this->appConfig->setAppValue(AppConfig::WOPI_URL, $builtinUrl);
+
+			// Capture current state for rollback before writing anything
+			$previousMode    = $this->appConfig->getServerMode();
+			$previousWopiUrl = $this->config->getAppValue('richdocuments', 'wopi_url', '');
+
+			// Activate builtin mode: clear stored wopi_url and public_wopi_url so they
+			// are henceforth derived dynamically. server_mode is the only stored value.
+			$this->config->deleteAppValue('richdocuments', 'wopi_url');
+			$this->config->deleteAppValue('richdocuments', 'public_wopi_url');
 			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'builtin');
 			$this->appConfig->setAppValue('disable_certificate_verification', 'yes');
-		} elseif ($wopi_url !== null) {
+
+			if (!$force) {
+				try {
+					$output = new NullOutput();
+					$this->connectivityService->testDiscovery($output);
+					$this->connectivityService->testCapabilities($output);
+					$this->connectivityService->autoConfigurePublicUrl(); // no-op for builtin
+				} catch (\Throwable $e) {
+					// Rollback atomically — restore exactly what was there before
+					if ($previousWopiUrl !== '') {
+						$this->config->setAppValue('richdocuments', 'wopi_url', $previousWopiUrl);
+					}
+					if ($previousMode !== '') {
+						$this->appConfig->setAppValue(AppConfig::SERVER_MODE, $previousMode);
+					} else {
+						$this->config->deleteAppValue('richdocuments', 'server_mode');
+					}
+					return new JSONResponse([
+                		'status' => 'error',
+						'data'   => ['message' => 'Failed to connect to built-in CODE server: ' . $e->getMessage()],
+					], Http::STATUS_INTERNAL_SERVER_ERROR);
+				}
+			}
+
+			return new JSONResponse([
+				'status' => 'success',
+				'data'   => ['message' => $this->l10n->t('Saved'), 'settings' => $this->getSettingsData()],
+			]);
+		}
+
+		if ($wopi_url !== null) {
 			$this->appConfig->setAppValue(AppConfig::WOPI_URL, $wopi_url);
 			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'custom');
 		}
@@ -200,24 +236,23 @@ class SettingsController extends Controller {
 			$this->appConfig->setAppValue('esignature_secret', $esignature_secret);
 		}
 
-		try {
-			$output = new NullOutput();
-			$this->connectivityService->testDiscovery($output);
-			$this->connectivityService->testCapabilities($output);
-			$this->connectivityService->autoConfigurePublicUrl(); // no-op for builtin
-		} catch (\Throwable $e) {
-			return new JSONResponse([
-				'status' => 'error',
-				'data' => ['message' => 'Failed to connect to the remote server: ' . $e->getMessage()]
-			], 500);
+		if (!$force) {
+			try {
+				$output = new NullOutput();
+				$this->connectivityService->testDiscovery($output);
+				$this->connectivityService->testCapabilities($output);
+				$this->connectivityService->autoConfigurePublicUrl();
+			} catch (\Throwable $e) {
+				return new JSONResponse([
+					'status' => 'error',
+					'data' => ['message' => 'Failed to connect to the remote server: ' . $e->getMessage()]
+				], 500);
+			}
 		}
 
 		return new JSONResponse([
 			'status' => 'success',
-			'data' => [
-				'message' => $this->l10n->t('Saved'),
-				'settings' => $this->getSettingsData(),
-			]
+			'data' => ['message' => $this->l10n->t('Saved'), 'settings' => $this->getSettingsData()],
 		]);
 	}
 
