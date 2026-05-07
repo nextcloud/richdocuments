@@ -201,8 +201,7 @@ class AppConfig {
 	 */
 	public function getCollaboraUrlPublic(): string {
     	if ($this->isBuiltinServer()) {
-        	$nextcloudUrl = $this->urlGenerator->getAbsoluteURL('/');
-        	return rtrim($this->domainOnly($nextcloudUrl), '/');
+			return $this->deriveBuiltinPublicUrl();
     	}
     	return rtrim($this->config->getAppValue(Application::APPNAME, self::PUBLIC_WOPI_URL,
         	$this->getCollaboraUrlInternal()), '/');
