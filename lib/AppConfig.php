@@ -318,6 +318,15 @@ class AppConfig {
 	}
 
 	/**
+	 * Derives the public URL for the built-in CODE server directly from IURLGenerator,
+	 * without requiring server_mode to already be set. Used during initial setup/CLI
+	 * where we want to validate the URL before committing server_mode to config.
+	 */
+	public function deriveBuiltinPublicUrl(): string {
+		return rtrim($this->domainOnly($this->urlGenerator->getAbsoluteURL('/')), '/');
+	}
+
+	/**
 	 * Strips the path and query parameters from the URL.
 	 */
 	public function domainOnly(string $url): string {
