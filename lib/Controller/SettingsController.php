@@ -120,12 +120,15 @@ class SettingsController extends Controller {
 			'esignature_base_url' => $this->appConfig->getAppValue('esignature_base_url'),
 			'esignature_client_id' => $this->appConfig->getAppValue('esignature_client_id'),
 			'esignature_secret' => $this->appConfig->getAppValue('esignature_secret'),
-			'userId' => $this->userId
+			'userId' => $this->userId,
+			'server_mode' => $this->appConfig->getServerMode(),
+			'builtin_server_url' => $this->appConfig->getBuiltinServerUrl(),
 		];
 	}
 
 	public function setSettings(
 		?string $wopi_url,
+		?string $server_mode,
 		?string $wopi_allowlist,
 		?bool $disable_certificate_verification,
 		?string $edit_groups,
@@ -137,8 +140,23 @@ class SettingsController extends Controller {
 		?string $esignature_client_id,
 		?string $esignature_secret,
 	): JSONResponse {
-		if ($wopi_url !== null) {
-			$this->appConfig->setAppValue('wopi_url', $wopi_url);
+		if ($server_mode === 'builtin') {
+			$builtinUrl = $this->appConfig->getBuiltinServerUrl();
+			if ($builtinUrl === null) {
+				return new JSONResponse([
+					'status' => 'error',
+					'data'   => ['message' => 'Built-in CODE server is not installed or not supported on this platform.'],
+				], Http::STATUS_BAD_REQUEST);
+			}
+			// Store server_mode as authoritative; wopi_url stored for backward compatibility only.
+			// public_wopi_url is now derived dynamically in AppConfig::getCollaboraUrlPublic()
+			// so no stored value is needed.
+			$this->appConfig->setAppValue(AppConfig::WOPI_URL, $builtinUrl);
+			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'builtin');
+			$this->appConfig->setAppValue('disable_certificate_verification', 'yes');
+		} elseif ($wopi_url !== null) {
+			$this->appConfig->setAppValue(AppConfig::WOPI_URL, $wopi_url);
+			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'custom');
 		}
 
 		if ($wopi_allowlist !== null) {
@@ -146,10 +164,8 @@ class SettingsController extends Controller {
 		}
 
 		if ($disable_certificate_verification !== null) {
-			$this->appConfig->setAppValue(
-				'disable_certificate_verification',
-				$disable_certificate_verification ? 'yes' : ''
-			);
+			$this->appConfig->setAppValue('disable_certificate_verification',
+				$disable_certificate_verification ? 'yes' : '');
 		}
 
 		if ($edit_groups !== null) {
@@ -188,7 +204,7 @@ class SettingsController extends Controller {
 			$output = new NullOutput();
 			$this->connectivityService->testDiscovery($output);
 			$this->connectivityService->testCapabilities($output);
-			$this->connectivityService->autoConfigurePublicUrl();
+			$this->connectivityService->autoConfigurePublicUrl(); // no-op for builtin
 		} catch (\Throwable $e) {
 			return new JSONResponse([
 				'status' => 'error',
@@ -196,15 +212,13 @@ class SettingsController extends Controller {
 			], 500);
 		}
 
-		$response = [
+		return new JSONResponse([
 			'status' => 'success',
 			'data' => [
 				'message' => $this->l10n->t('Saved'),
 				'settings' => $this->getSettingsData(),
 			]
-		];
-
-		return new JSONResponse($response);
+		]);
 	}
 
 	public function updateWatermarkSettings($settings = []): JSONResponse {
