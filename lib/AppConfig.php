@@ -12,8 +12,10 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 
 class AppConfig {
+	public const SERVER_MODE = 'server_mode';
 	// URL that Nextcloud will use to connect to Collabora
 	public const WOPI_URL = 'wopi_url';
 	// URL that the browser will use to connect to Collabora (inherited from the discovery endpoint of Collabora,
@@ -61,6 +63,7 @@ class AppConfig {
 		private IAppConfig $appConfig,
 		private IAppManager $appManager,
 		private GlobalScaleConfig $globalScaleConfig,
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -134,6 +137,33 @@ class AppConfig {
 		return $result;
 	}
 
+	public function getServerMode(): string {
+    	return $this->config->getAppValue(Application::APPNAME, self::SERVER_MODE, '');
+	}
+
+	public function isBuiltinServer(): bool {
+    	return $this->getServerMode() === 'builtin';
+	}
+
+	/**
+	 * Returns the built-in CODE proxy URL derived at runtime from IURLGenerator.
+	 * Never stored - always fresh, so it survives Nextcloud URL/domain changes.
+	 * Returns null if CODE is not installed or not supported on this platform.
+	 */
+	public function getBuiltinServerUrl(): ?string {
+    	$arch = php_uname('m');
+    	$supportedArchs = ['x86_64', 'aarch64'];
+    	if (PHP_OS_FAMILY !== 'Linux' || !in_array($arch, $supportedArchs)) {
+       		return null;
+    	}
+    	$CODEAppID = ($arch === 'aarch64') ? 'richdocumentscode_arm64' : 'richdocumentscode';
+    	if (!$this->appManager->isInstalled($CODEAppID)) {
+        	return null;
+    	}
+    	$relativeUrl = $this->urlGenerator->linkTo($CODEAppID, '') . 'proxy.php';
+    	return $this->urlGenerator->getAbsoluteURL($relativeUrl) . '?req=';
+	}
+
 	/**
 	 * Returns a list of trusted domains from the gs.trustedHosts config
 	 */
@@ -148,12 +178,31 @@ class AppConfig {
 		return $this->config->getAppValue(Application::APPNAME, self::FEDERATION_USE_TRUSTED_DOMAINS, 'no') === 'yes';
 	}
 
+	/**
+	 * For builtin mode, public_wopi_url is always Nextcloud's own public origin —
+	 * CODE has no separate hostname. Derived from IURLGenerator so it is correct
+	 * in both HTTP and CLI contexts (the latter requires overwrite.cli.url to be set).
+	 * Falls back to stored value for custom/standalone servers.
+	 */
 	public function getCollaboraUrlPublic(): string {
-		return rtrim($this->config->getAppValue(Application::APPNAME, self::PUBLIC_WOPI_URL, $this->getCollaboraUrlInternal()), '/');
+    	if ($this->isBuiltinServer()) {
+        	$nextcloudUrl = $this->urlGenerator->getAbsoluteURL('/');
+        	return rtrim($this->domainOnly($nextcloudUrl), '/');
+    	}
+    	return rtrim($this->config->getAppValue(Application::APPNAME, self::PUBLIC_WOPI_URL,
+        	$this->getCollaboraUrlInternal()), '/');
 	}
 
+	/**
+	 * For builtin mode, wopi_url is derived at runtime rather than read from storage.
+	 * This ensures correctness after domain changes and avoids the CLI/browser
+	 * context mismatch that arises from storing an absolute URL at configuration time.
+	 */
 	public function getCollaboraUrlInternal(): string {
-		return rtrim($this->config->getAppValue(Application::APPNAME, self::WOPI_URL, ''), '/');
+    	if ($this->isBuiltinServer()) {
+        	return $this->getBuiltinServerUrl() ?? '';
+    	}
+    	return rtrim($this->config->getAppValue(Application::APPNAME, self::WOPI_URL, ''), '/');
 	}
 
 	public function getNextcloudUrl(): string {
