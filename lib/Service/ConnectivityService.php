@@ -50,19 +50,20 @@ class ConnectivityService {
 
 	/**
 	 * Test discovery and capabilities reachability against an explicit URL.
-	 * Used when the URL to test has not yet been committed to config — avoids
-	 * the need to transiently mutate server_mode just to resolve the right URL.
+	 *
+	 * This temporarily forces custom mode so AppConfig resolves the provided
+	 * wopi_url directly instead of builtin-mode derivation logic.
+	 * Previous config values are always restored afterwards.
 	 */
 	public function testUrl(string $wopiUrl, OutputInterface $output): void {
     	// Temporarily override the URL for the duration of this test by driving
     	// DiscoveryService and CapabilitiesService directly with the given URL,
     	// rather than going through AppConfig.
     	$previousUrl = $this->appConfig->getAppValue(AppConfig::WOPI_URL);
-    	$previousMode = $this->appConfig->getServerMode();
+    	$previousMode = $this->appConfig->getAppValue(AppConfig::SERVER_MODE);
 
-	    // Write only the raw wopi_url key — not server_mode — so AppConfig's
-    	// getCollaboraUrlInternal() custom path (builtin vs stored) is bypassed
-    	// and the explicit URL is used directly.
+		// Force explicit-URL resolution through the stored wopi_url path.
+		$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'custom');
     	$this->appConfig->setAppValue(AppConfig::WOPI_URL, $wopiUrl);
 
     	try {
@@ -70,7 +71,17 @@ class ConnectivityService {
         	$this->testCapabilities($output);
     	} finally {
         	// Always restore, whether the test passed or threw
-        	$this->appConfig->setAppValue(AppConfig::WOPI_URL, $previousUrl);
+			if ($previousMode !== '') {
+				$this->appConfig->setAppValue(AppConfig::SERVER_MODE, $previousMode);
+			} else {
+				$this->appConfig->deleteAppValue(AppConfig::SERVER_MODE);
+			}
+
+			if ($previousUrl !== '') {
+	        	$this->appConfig->setAppValue(AppConfig::WOPI_URL, $previousUrl);
+			} else {
+				$this->appConfig->deleteAppValue(AppConfig::WOPI_URL);
+			}
     	}
 	}
 
