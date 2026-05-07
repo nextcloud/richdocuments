@@ -49,14 +49,28 @@ class ConnectivityService {
 	}
 
 	/**
-	 * Detect public URL of the WOPI server for setting CSP on Nextcloud
+	 * Detect public URL of the WOPI server for setting CSP on Nextcloud.
 	 *
 	 * This value is not meant to be set manually. If this turns out to be the wrong URL
-	 * it is likely a misconfiguration on your WOPI server. Collabora will inherit the URL to use
-	 * form the request and the ssl.enable/ssl.termination settings and server_name (if configured)
+	 * it is likely a misconfiguration either of the Collabora (i.e. server_name) or
+	 * Nextcloud itself (i.e. overwrite.cli.url).
+	 *
+	 * Skipped for the built-in CODE server: public_wopi_url for builtin is always
+	 * Nextcloud's own public origin, derived directly from IURLGenerator in AppConfig.
+	 * Running discovery-based detection server-side would be redundant and would produce
+	 * incorrect results in CLI context where overwrite.cli.url may differ from the
+	 * public-facing URL that CODE's ProxyPrefix would return to a browser.
+	 *
+	 * For standalone Collabora, server_name in coolwsd.xml makes urlsrc deterministic
+	 * regardless of request context, so server-side detection remains appropriate.
 	 */
 	public function autoConfigurePublicUrl(): void {
-		$determinedUrl = $this->parser->getUrlSrcValue('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+		if ($this->appConfig->isBuiltinServer()) {
+			return;
+		}
+		$determinedUrl = $this->parser->getUrlSrcValue(
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+		);
 		$detectedUrl = $this->appConfig->domainOnly($determinedUrl);
 		$this->appConfig->setAppValue('public_wopi_url', $detectedUrl);
 	}
