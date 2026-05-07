@@ -4,6 +4,15 @@
 -->
 # Changelog
 
+## 11.0.0-beta.1
+
+### Fixed
+- Make preview timeout an info log instead of error by @CarlSchwan in [#5613](https://github.com/nextcloud/richdocuments/pull/5613)
+
+### Other
+- Temporarily revert pdf viewer assertion by @elzody in [#5578](https://github.com/nextcloud/richdocuments/pull/5578)
+- Enhance direct editing test with postMessage handling by @elzody in [#5555](https://github.com/nextcloud/richdocuments/pull/5555)
+
 ## 10.0.0-beta.1
 
 ### Added
