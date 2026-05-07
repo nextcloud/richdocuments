@@ -137,8 +137,21 @@ class AppConfig {
 		return $result;
 	}
 
+	/**
+	 * Returns the configured server mode ('builtin', 'custom', 'demo', or '').
+	 */
 	public function getServerMode(): string {
-    	return $this->config->getAppValue(Application::APPNAME, self::SERVER_MODE, '');
+    	$stored = $this->config->getAppValue(Application::APPNAME, self::SERVER_MODE, '');
+		if ($stored !== '') {
+			return $stored;
+		}
+		// Fallback for legacy builtin installs: if the migration step has not yet run (or was
+		// somehow skipped), detect builtin from the stored wopi_url.
+		$wopiUrl = $this->config->getAppValue(Application::APPNAME, self::WOPI_URL, '');
+		if ($wopiUrl !== '' && str_contains($wopiUrl, 'proxy.php?req=')) {
+			return 'builtin';
+		}
+		return '';	
 	}
 
 	public function isBuiltinServer(): bool {
@@ -181,8 +194,10 @@ class AppConfig {
 	/**
 	 * For builtin mode, public_wopi_url is always Nextcloud's own public origin —
 	 * CODE has no separate hostname. Derived from IURLGenerator so it is correct
-	 * in both HTTP and CLI contexts (the latter requires overwrite.cli.url to be set).
-	 * Falls back to stored value for custom/standalone servers.
+	 * in both HTTP and CLI contexts (the latter requires overwrite.cli.url to be set,
+	 * which is a standard Nextcloud prerequisite).
+	 * 
+	 * For custom/standalone servers, returns the stored public_wopi_url.
 	 */
 	public function getCollaboraUrlPublic(): string {
     	if ($this->isBuiltinServer()) {
@@ -193,13 +208,10 @@ class AppConfig {
         	$this->getCollaboraUrlInternal()), '/');
 	}
 
-	/**
-	 * For builtin mode, wopi_url is derived at runtime rather than read from storage.
-	 * This ensures correctness after domain changes and avoids the CLI/browser
-	 * context mismatch that arises from storing an absolute URL at configuration time.
-	 */
 	public function getCollaboraUrlInternal(): string {
     	if ($this->isBuiltinServer()) {
+			// Derives the internal URL at runtime from IURLGenerator.
+			// This avoids the CLI/browser context mismatch that otherwise arise since built-in uses ProxyPrefix not server_name/etc
         	return $this->getBuiltinServerUrl() ?? '';
     	}
     	return rtrim($this->config->getAppValue(Application::APPNAME, self::WOPI_URL, ''), '/');
