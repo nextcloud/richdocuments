@@ -34,6 +34,8 @@ class ActivateConfig extends Command {
 						'Configure the built-in CODE server (richdocumentscode app must be installed)')
 			->addOption('callback-url', 'c', InputOption::VALUE_REQUIRED,
 						'URL that is passed to Collabora to connect back to Nextcloud', null)
+			->addOption('force', null, InputOption::VALUE_NONE,
+						'Persist configuration even if connectivity or sanity checks fail')
 			->setDescription('Activate config changes');
 	}
 
@@ -42,69 +44,7 @@ class ActivateConfig extends Command {
 			if ($input->getOption('builtin')) {
 				return $this->executeBuiltin($input, $output);
 			}
-			
-			if ($input->getOption('wopi-url') !== null) {
-				$wopiUrl = $input->getOption('wopi-url');
-				$this->appConfig->setAppValue(AppConfig::WOPI_URL, $wopiUrl);
-				$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'custom');
-				$output->writeln('<info>✓ Set WOPI url to ' . $wopiUrl . '</info>');
-			}
-
-			if ($input->getOption('callback-url') !== null) {
-				$callbackUrl = $input->getOption('callback-url');
-				$this->appConfig->setAppValue(AppConfig::WOPI_CALLBACK_URL, $callbackUrl);
-				$output->writeln('<info>✓ Set callback url to ' . $callbackUrl . '</info>');
-			} else {
-				$this->appConfig->setAppValue(AppConfig::WOPI_CALLBACK_URL, '');
-				$output->writeln('<info>✓ Reset callback url autodetect</info>');
-			}
-
-			$output->writeln('Checking configuration');
-			$output->writeln('🛈 Configured WOPI URL: ' . $this->appConfig->getCollaboraUrlInternal());
-			$output->writeln('🛈 Configured public WOPI URL: ' . $this->appConfig->getCollaboraUrlPublic());
-			$output->writeln('🛈 Configured callback URL: ' . $this->appConfig->getNextcloudUrl());
-			$output->writeln('');
-
-			try {
-				$this->connectivityService->testDiscovery($output);
-			} catch (\Throwable $e) {
-				$output->writeln('<error>Failed to fetch discovery endpoint from ' . $this->appConfig->getCollaboraUrlInternal() . '</error>');
-				$output->writeln($e->getMessage());
-				return 1;
-			}
-
-			try {
-				$this->connectivityService->testCapabilities($output);
-			} catch (\Throwable $e) {
-				$output->writeln('<error>Failed to fetch capabilities endpoint from ' . $this->capabilitiesService->getCapabilitiesEndpoint() . '</error>');
-				$output->writeln($e->getMessage());
-				return 1;
-			}
-
-			try {
-				// For custom servers, derives public_wopi_url from discovery urlsrc
-				$this->connectivityService->autoConfigurePublicUrl();
-			} catch (\Throwable $e) {
-				$output->writeln('<error>Failed to determine public URL from discovery response</error>');
-				$output->writeln($e->getMessage());
-				return 1;
-			}
-
-			// Summarize URLs for easier debugging
-			$output->writeln('');
-			$output->writeln('Collabora URL (used for Nextcloud to contact the Collabora server):');
-			$output->writeln('  ' . $this->appConfig->getCollaboraUrlInternal());
-			$output->writeln('Collabora public URL (used in the browser to open Collabora):');
-			$output->writeln('  ' . $this->appConfig->getCollaboraUrlPublic());
-			$output->writeln('Callback URL (used by Collabora to connect back to Nextcloud):');
-			$callbackUrl = $this->appConfig->getNextcloudUrl();
-			if ($callbackUrl === '') {
-				$output->writeln('  autodetected (will use the same URL as your users for browsing Nextcloud)');
-			} else {
-				$output->writeln('  ' . $callbackUrl);
-			}
-
-			return 0;
+			return $this->executeCustom($input, $output);
 		} catch (\Exception $e) {
 			$output->writeln('<error>Failed to activate any config changes</error>');
 			$output->writeln($e->getMessage());
@@ -114,7 +54,9 @@ class ActivateConfig extends Command {
 	}
 
 	private function executeBuiltin(InputInterface $input, OutputInterface $output): int {
-		// getBuiltinServerUrl() already checks OS/arch/installed
+		$force = (bool)$input->getOption('force');
+
+		// Validate preconditions before writing anything: getBuiltinServerUrl() checks OS/arch/installed
 		$builtinUrl = $this->appConfig->getBuiltinServerUrl();
 		if ($builtinUrl === null) {
 			$output->writeln('<error>Built-in CODE server is not available.</error>');
@@ -123,71 +65,163 @@ class ActivateConfig extends Command {
 			return 1;
         }
 
-		$this->appConfig->setAppValue(AppConfig::WOPI_URL, $builtinUrl);
-		$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'builtin');
-		$this->appConfig->setAppValue('disable_certificate_verification', 'yes');
-		$output->writeln('<info>✓ Configured built-in CODE server</info>');
-
-		// Derive public_wopi_url from IURLGenerator -- same source, same result as HTTP context,
-		// provided overwrite.cli.url is correctly set (a standard Nextcloud requirement).
-		// For builtin, public_wopi_url is simply Nextcloud's own public origin.
-        $publicUrl = $this->appConfig->getCollaboraUrlPublic(); // delegates to IURLGenerator for builtin
+		// public_wopi_url for builtin is always Nextcloud's own public origin,
+		// derived from IURLGenerator. This requires overwrite.cli.url to be set -
+		// the same standard prerequisite as any occ command generating absolute URLs.
+		$publicUrl = $this->appConfig->getCollaboraUrlPublic(); // delegates to IURLGenerator for builtin
 
 		// Sanity check: if the derived URL looks internal, overwrite.cli.url is probably wrong.
 		// Fail fast with an actionable message rather than silently storing a broken value.
-		// Often be a false positive warning in test environments.
+		// Often will be a false positive warning in test environments, but can be forced if necessary still.
 		$host = parse_url($publicUrl, PHP_URL_HOST);
-		if ($host === 'localhost' || $host === '127.0.0.1' || str_ends_with($host, '.local')) {
+		$looksInternal = $host === 'localhost' || $host === '127.0.0.1' || str_ends_with($host, '.local');
+
+		if ($looksInternal && !$force) {
 			$output->writeln('<error>Derived public URL looks internal: ' . $publicUrl . '</error>');
-			$output->writeln('<error>Is "overwrite.cli.url" set correctly in config.php?</error>');
+			$output->writeln('<error>"overwrite.cli.url" in config.php must be set to your public Nextcloud URL.</error>');
 			$output->writeln('<error>This is required for any occ command that generates absolute URLs.</error>');
-			// TODO: Roll back unless forced: don't leave a broken server_mode=builtin with an internal public URL
-			// $this->appConfig->setAppValue(AppConfig::SERVER_MODE, '');
-			// return 1;
-		}
-
-		$output->writeln('');
-		$output->writeln('Built-in CODE URL (Nextcloud → CODE, server-side):');
-		$output->writeln('  ' . $builtinUrl);
-		$output->writeln('Public URL (browser → CODE, via Nextcloud proxy):');
-		$output->writeln('  ' . $publicUrl);
-
-		// Test internal connectivity (server-to-server via proxy.php — valid in CLI context)
-		try {
-			$this->connectivityService->testDiscovery($output);
-		} catch (\Throwable $e) {
-			$output->writeln('<error>Failed to reach built-in CODE server internally: '
-							 . $e->getMessage() . '</error>');
-			// TODO: don't rollback if forced
-			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, '');
+			$output->writeln('<error>(cron jobs, notifications, shares, etc.).</error>');
+			$output->writeln('<comment>To override and persist anyway: --force</comment>');
 			return 1;
 		}
 
-		try {
-			$this->connectivityService->testCapabilities($output);
-		} catch (\Throwable $e) {
-			$output->writeln('<error>Failed to fetch capabilities from built-in CODE server: '
-							 . $e->getMessage() . '</error>');
-			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, '');
-			return 1;
+		if ($looksInternal) {
+			$output->writeln('<comment>⚠ Warning: public URL looks internal (' . $publicUrl . ').'
+							 . ' Proceeding anyway due to --force.</comment>');
 		}
 
-		// autoConfigurePublicUrl() is intentionally not called here:
-		// it is a no-op for builtin (see ConnectivityService), and public_wopi_url
-		// is derived dynamically by AppConfig::getCollaboraUrlPublic() for builtin mode.
+        // Test connectivity against the (not-yet-saved) builtin URL.
+        // ConnectivityService uses AppConfig::getCollaboraUrlInternal(), which already
+        // returns the IURLGenerator-derived URL for builtin mode (via getServerMode()
+        // legacy fallback or the mode we're about to set — but since we haven't set
+        // server_mode yet, we temporarily pass the URL directly).
+        // To avoid this chicken-and-egg, set server_mode transiently for the test,
+        // capture previous state for clean rollback.
+        $previousMode    = $this->appConfig->getServerMode();
+        $previousWopiUrl = $this->appConfig->getAppValue(AppConfig::WOPI_URL);
 
-		if ($input->getOption('callback-url') !== null) {
-			$callbackUrl = $input->getOption('callback-url');
-			$this->appConfig->setAppValue(AppConfig::WOPI_CALLBACK_URL, $callbackUrl);
-			$output->writeln('<info>✓ Set callback url to ' . $callbackUrl . '</info>');
-		} else {
-			$this->appConfig->setAppValue(AppConfig::WOPI_CALLBACK_URL, '');
-			$output->writeln('<info>✓ Callback URL: autodetect</info>');
-		}
+        // Set mode now so ConnectivityService picks up the right internal URL
+        $this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'builtin');
 
-		$output->writeln('');
-		$output->writeln('<info>✓ Built-in CODE server configured successfully.</info>');
+        if (!$force) {
+            try {
+                $this->connectivityService->testDiscovery($output);
+                $this->connectivityService->testCapabilities($output);
+            } catch (\Throwable $e) {
+                // Rollback: nothing persisted except server_mode which we restore
+                if ($previousMode !== '') {
+                    $this->appConfig->setAppValue(AppConfig::SERVER_MODE, $previousMode);
+                } else {
+                    $this->appConfig->setAppValue(AppConfig::SERVER_MODE, '');
+                }
+                $output->writeln('<error>Failed to reach built-in CODE server: ' . $e->getMessage() . '</error>');
+                $output->writeln('<comment>To configure without connectivity: --force</comment>');
+                return 1;
+            }
+        }		
+
+        // Connectivity confirmed (or --force). Commit: clear stale stored URLs —
+        // they are now derived dynamically from IURLGenerator.
+        $this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'builtin');
+        $this->appConfig->setAppValue('disable_certificate_verification', 'yes');
+        // Explicitly delete any previously stored wopi_url and public_wopi_url
+        // so there is no ambiguity about which value is canonical.
+        $this->appConfig->setAppValue(AppConfig::WOPI_URL, '');
+        $this->appConfig->setAppValue(AppConfig::PUBLIC_WOPI_URL, '');
+
+       if ($input->getOption('callback-url') !== null) {
+            $callbackUrl = $input->getOption('callback-url');
+            $this->appConfig->setAppValue(AppConfig::WOPI_CALLBACK_URL, $callbackUrl);
+            $output->writeln('<info>✓ Set callback URL to ' . $callbackUrl . '</info>');
+        } else {
+            $this->appConfig->setAppValue(AppConfig::WOPI_CALLBACK_URL, '');
+        }
+
+        $output->writeln('');
+        $output->writeln('<info>✓ Built-in CODE server configured successfully.</info>');
+        $output->writeln('');
+        $output->writeln('Built-in CODE URL (Nextcloud → CODE, server-side):');
+        $output->writeln('  ' . $this->appConfig->getCollaboraUrlInternal());
+        $output->writeln('Public URL (browser → CODE, via Nextcloud proxy):');
+        $output->writeln('  ' . $this->appConfig->getCollaboraUrlPublic());
+        $output->writeln('Callback URL (Collabora → Nextcloud):');
+        $callbackUrl = $this->appConfig->getNextcloudUrl();
+        $output->writeln($callbackUrl === ''
+            ? '  autodetected (uses the same URL as the user\'s browser)'
+            : '  ' . $callbackUrl);
 
 		return 0;
 	}
+
+    private function executeCustom(InputInterface $input, OutputInterface $output): int {
+        $force = (bool)$input->getOption('force');
+
+        if ($input->getOption('wopi-url') !== null) {
+            $wopiUrl = $input->getOption('wopi-url');
+            $this->appConfig->setAppValue(AppConfig::WOPI_URL, $wopiUrl);
+            $this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'custom');
+            $output->writeln('<info>✓ Set WOPI url to ' . $wopiUrl . '</info>');
+        }
+
+        if ($input->getOption('callback-url') !== null) {
+            $callbackUrl = $input->getOption('callback-url');
+            $this->appConfig->setAppValue(AppConfig::WOPI_CALLBACK_URL, $callbackUrl);
+            $output->writeln('<info>✓ Set callback url to ' . $callbackUrl . '</info>');
+        } else {
+            $this->appConfig->setAppValue(AppConfig::WOPI_CALLBACK_URL, '');
+            $output->writeln('<info>✓ Reset callback url autodetect</info>');
+        }
+
+        $output->writeln('Checking configuration');
+        $output->writeln('🛈 Configured WOPI URL: ' . $this->appConfig->getCollaboraUrlInternal());
+        $output->writeln('🛈 Configured public WOPI URL: ' . $this->appConfig->getCollaboraUrlPublic());
+        $output->writeln('🛈 Configured callback URL: ' . $this->appConfig->getNextcloudUrl());
+        $output->writeln('');
+
+        if (!$force) {
+            try {
+                $this->connectivityService->testDiscovery($output);
+            } catch (\Throwable $e) {
+                $output->writeln('<error>Failed to fetch discovery endpoint from '
+                    . $this->appConfig->getCollaboraUrlInternal() . '</error>');
+                $output->writeln($e->getMessage());
+                $output->writeln('<comment>To configure without connectivity: --force</comment>');
+                return 1;
+            }
+
+            try {
+                $this->connectivityService->testCapabilities($output);
+            } catch (\Throwable $e) {
+                $output->writeln('<error>Failed to fetch capabilities from '
+                    . $this->capabilitiesService->getCapabilitiesEndpoint() . '</error>');
+                $output->writeln($e->getMessage());
+                $output->writeln('<comment>To configure without connectivity: --force</comment>');
+                return 1;
+            }
+
+            try {
+                $this->connectivityService->autoConfigurePublicUrl();
+            } catch (\Throwable $e) {
+                $output->writeln('<error>Failed to determine public URL from discovery response</error>');
+                $output->writeln($e->getMessage());
+                $output->writeln('<comment>To configure without connectivity: --force</comment>');
+                return 1;
+            }
+        } else {
+            $output->writeln('<comment>⚠ Skipping connectivity checks (--force).</comment>');
+        }
+
+        $output->writeln('');
+        $output->writeln('Collabora URL (used for Nextcloud to contact the Collabora server):');
+        $output->writeln('  ' . $this->appConfig->getCollaboraUrlInternal());
+        $output->writeln('Collabora public URL (used in the browser to open Collabora):');
+        $output->writeln('  ' . $this->appConfig->getCollaboraUrlPublic());
+        $output->writeln('Callback URL (used by Collabora to connect back to Nextcloud):');
+        $callbackUrl = $this->appConfig->getNextcloudUrl();
+        $output->writeln($callbackUrl === ''
+            ? '  autodetected (will use the same URL as your user for browsing Nextcloud)'
+            : '  ' . $callbackUrl);
+
+        return 0;
+    }
 }
