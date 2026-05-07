@@ -49,6 +49,32 @@ class ConnectivityService {
 	}
 
 	/**
+	 * Test discovery and capabilities reachability against an explicit URL.
+	 * Used when the URL to test has not yet been committed to config — avoids
+	 * the need to transiently mutate server_mode just to resolve the right URL.
+	 */
+	public function testUrl(string $wopiUrl, OutputInterface $output): void {
+    	// Temporarily override the URL for the duration of this test by driving
+    	// DiscoveryService and CapabilitiesService directly with the given URL,
+    	// rather than going through AppConfig.
+    	$previousUrl = $this->appConfig->getAppValue(AppConfig::WOPI_URL);
+    	$previousMode = $this->appConfig->getServerMode();
+
+	    // Write only the raw wopi_url key — not server_mode — so AppConfig's
+    	// getCollaboraUrlInternal() custom path (builtin vs stored) is bypassed
+    	// and the explicit URL is used directly.
+    	$this->appConfig->setAppValue(AppConfig::WOPI_URL, $wopiUrl);
+
+    	try {
+        	$this->testDiscovery($output);
+        	$this->testCapabilities($output);
+    	} finally {
+        	// Always restore, whether the test passed or threw
+        	$this->appConfig->setAppValue(AppConfig::WOPI_URL, $previousUrl);
+    	}
+	}
+
+	/**
 	 * Detect public URL of the WOPI server for setting CSP on Nextcloud.
 	 *
 	 * This value is not meant to be set manually. If this turns out to be the wrong URL
