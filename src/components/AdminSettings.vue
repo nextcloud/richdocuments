@@ -688,25 +688,16 @@ export default {
 		async checkFrontend() {
 			try {
 				// For builtin: proxy.php is same-origin so the discovery response is fully readable.
-				// CODE's ProxyPrefix rewrites urlsrc to reflect the browser's host/scheme --
-				// giving us the correct public_wopi_url as a self-healing side-effect on every load.
 				if (this.serverMode === 'builtin' && this.settings.wopi_url) {
+					// Full read (no mode: 'no-cors') because proxy.php is same-origin.
+					// We parse the response only to surface a clear error if CODE is
+					// unreachable or returning unexpected content; no writeback needed.
 					const discoveryRes = await fetch(
 						this.settings.wopi_url + '/hosting/discovery'
 					)
-					if (discoveryRes.ok) {
-						const xml = await discoveryRes.text()
-						const detectedOrigin = this.extractOriginFromDiscovery(xml)
-						if (detectedOrigin && detectedOrigin !== this.settings.public_wopi_url) {
-							// Persist corrected public_wopi_url back to the server.
-							// This self-heals after domain migrations without requiring
-							// manual reconfiguration.
-							await axios.post(
-								generateUrl('/apps/richdocuments/settings/admin'),
-								{ public_wopi_url: detectedOrigin }
-							)
-							this.settings.public_wopi_url = detectedOrigin
-						}
+					if (!discoveryRes.ok) {
+						this.serverError = SERVER_STATE_BROWSER_CONNECTION_ERROR
+						return
 					}
 					// Verify capabilities endpoint also reachable from browser
 					await fetch(
@@ -714,7 +705,6 @@ export default {
 						{ mode: 'no-cors' }
 					)
 				} else {
-					// For custom/standalone: public_wopi_url is set server-side; just verify reachability.
 					await fetch(
 						this.settings.public_wopi_url + '/hosting/discovery',
 						{ mode: 'no-cors' }
@@ -728,21 +718,6 @@ export default {
 				console.error(e)
 				this.serverError = SERVER_STATE_BROWSER_CONNECTION_ERROR
 			}
-		},
-		// Extract scheme+host from any urlsrc in the discovery XML.
-		// For builtin, ProxyPrefix ensures this reflects the browser's public origin.
-		extractOriginFromDiscovery(xmlString) {
-			try {
-				const xml = new DOMParser().parseFromString(xmlString, 'text/xml')
-				const action = xml.querySelector('action[urlsrc]')
-				if (action) {
-					const urlsrc = action.getAttribute('urlsrc')
-					return new URL(urlsrc).origin  // e.g. "https://cloud.example.com"
-				}
-			} catch (e) {
-				console.error('Failed to parse origin from discovery XML', e)
-			}
-			return null
 		},
 		async fetchDemoServers() {
 			try {
@@ -902,7 +877,7 @@ export default {
 		async setBuiltinServer() {
 			await this.updateSettings({
 				server_mode: 'builtin',
-				disable_certificate_verification: false,
+				//disable_certificate_verification: false,
 			})
 			// updateSettings() applies the returned settings (including server_mode,
 			// wopi_url, builtin_server_url) and calls checkFrontend(); no extra work needed.
