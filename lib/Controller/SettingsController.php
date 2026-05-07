@@ -150,32 +150,31 @@ class SettingsController extends Controller {
 				], Http::STATUS_BAD_REQUEST);
 			}
 
-			// Capture current state for rollback before writing anything
-			$previousMode    = $this->appConfig->getServerMode();
-			$previousWopiUrl = $this->config->getAppValue('richdocuments', 'wopi_url', '');
+			// Capture full previous state before any mutation for symmetric rollback
+		    $snapshot = [
+        		AppConfig::SERVER_MODE    => $this->appConfig->getServerMode(),
+        		AppConfig::WOPI_URL       => $this->config->getAppValue('richdocuments', AppConfig::WOPI_URL, ''),
+        		AppConfig::PUBLIC_WOPI_URL => $this->config->getAppValue('richdocuments', AppConfig::PUBLIC_WOPI_URL, ''),
+        		'disable_certificate_verification' => $this->config->getAppValue(
+            		'richdocuments', 'disable_certificate_verification', ''),
+    		];
 
-			// Activate builtin mode: clear stored wopi_url and public_wopi_url so they
-			// are henceforth derived dynamically. server_mode is the only stored value.
-			$this->config->deleteAppValue('richdocuments', 'wopi_url');
-			$this->config->deleteAppValue('richdocuments', 'public_wopi_url');
 			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'builtin');
 			$this->appConfig->setAppValue('disable_certificate_verification', 'yes');
+			$this->config->deleteAppValue('richdocuments', AppConfig::WOPI_URL);
+		    $this->config->deleteAppValue('richdocuments', AppConfig::PUBLIC_WOPI_URL);
 
 			if (!$force) {
 				try {
 					$output = new NullOutput();
-					$this->connectivityService->testDiscovery($output);
-					$this->connectivityService->testCapabilities($output);
-					$this->connectivityService->autoConfigurePublicUrl(); // no-op for builtin
+					$this->connectivityService->testUrl($builtinUrl, $output);
 				} catch (\Throwable $e) {
-					// Rollback atomically — restore exactly what was there before
-					if ($previousWopiUrl !== '') {
-						$this->config->setAppValue('richdocuments', 'wopi_url', $previousWopiUrl);
-					}
-					if ($previousMode !== '') {
-						$this->appConfig->setAppValue(AppConfig::SERVER_MODE, $previousMode);
-					} else {
-						$this->config->deleteAppValue('richdocuments', 'server_mode');
+            		foreach ($snapshot as $key => $value) {
+                		if ($value !== '') {
+                	    	$this->config->setAppValue('richdocuments', $key, $value);
+                		} else {
+                    		$this->config->deleteAppValue('richdocuments', $key);
+                		}
 					}
 					return new JSONResponse([
                 		'status' => 'error',
