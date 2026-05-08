@@ -13,6 +13,7 @@ webpackConfig.entry = {
 	'init-viewer': path.join(__dirname, 'src', 'init-viewer.js'),
 	fileActions: path.join(__dirname, 'src', 'file-actions.js'),
 	document: path.join(__dirname, 'src', 'document.js'),
+	overview: path.join(__dirname, 'src', 'overview.js'),
 	admin: path.join(__dirname, 'src', 'admin.js'),
 	personal: path.join(__dirname, 'src', 'personal.js'),
 	reference: path.join(__dirname, 'src', 'reference.js'),
