@@ -190,8 +190,10 @@ class SettingsController extends Controller {
 		}
 
 		if ($wopi_url !== null) {
-			$this->appConfig->setAppValue(AppConfig::WOPI_URL, $wopi_url);
-			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'custom');
+			$this->appConfig->setAppValue(AppConfig::WOPI_URL, $wopi_url);   
+			// Use the provided server_mode if given; default to 'custom' for
+			// backward-compatible callers that don't send it (e.g. direct API calls).
+			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, $server_mode ?? 'custom');
 		}
 
 		if ($wopi_allowlist !== null) {
