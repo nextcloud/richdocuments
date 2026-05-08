@@ -13,6 +13,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
+use OCP\Util;
 
 class OverviewController extends Controller {
 
@@ -29,6 +30,7 @@ class OverviewController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function index(): TemplateResponse {
+		Util::addScript('richdocuments', 'richdocuments-overview');
 		return new TemplateResponse('richdocuments', 'overview');
 	}
 }
