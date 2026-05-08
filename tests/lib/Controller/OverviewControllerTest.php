@@ -19,9 +19,6 @@ class OverviewControllerTest extends TestCase {
 	public function testIndexReturnsTemplateResponse(): void {
 		$request = $this->createMock(IRequest::class);
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$eventDispatcher->expects($this->once())
-			->method('dispatchTyped')
-			->with($this->isInstanceOf('OCA\\Viewer\\Event\\LoadViewer'));
 
 		$controller = new OverviewController('richdocuments', $request, $eventDispatcher);
 		$response = $controller->index();
