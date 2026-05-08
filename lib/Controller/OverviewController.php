@@ -35,7 +35,10 @@ class OverviewController extends Controller {
 	public function index(): TemplateResponse {
 		Util::addScript('richdocuments', 'richdocuments-overview');
 
-		$this->eventDispatcher->dispatchTyped(new LoadViewer());
+		// Viewer is pre-installed in production but may not be available in other environments
+		if (class_exists(LoadViewer::class)) {
+			$this->eventDispatcher->dispatchTyped(new LoadViewer());
+		}
 
 		return new TemplateResponse('richdocuments', 'overview', [
 			'id-app-content' => '#app-content-vue',
