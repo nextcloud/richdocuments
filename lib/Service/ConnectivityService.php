@@ -59,8 +59,8 @@ class ConnectivityService {
     	// Temporarily override the URL for the duration of this test by driving
     	// DiscoveryService and CapabilitiesService directly with the given URL,
     	// rather than going through AppConfig.
-    	$previousUrl = $this->appConfig->getAppValue(AppConfig::WOPI_URL);
-    	$previousMode = $this->appConfig->getAppValue(AppConfig::SERVER_MODE);
+    	$previousUrl = $this->appConfig->getAppValue(AppConfig::WOPI_URL, '');
+    	$previousMode = $this->appConfig->getAppValue(AppConfig::SERVER_MODE, '');
 
 		// Force explicit-URL resolution through the stored wopi_url path.
 		$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'custom');
@@ -74,13 +74,14 @@ class ConnectivityService {
 			if ($previousMode !== '') {
 				$this->appConfig->setAppValue(AppConfig::SERVER_MODE, $previousMode);
 			} else {
-				$this->appConfig->deleteAppValue(AppConfig::SERVER_MODE);
+				// TODO: rename "appConfig" (which isn't; it's not actually the Server AppFramework version I expected))
+				$this->appConfig->setAppValue(AppConfig::SERVER_MODE, '');
 			}
 
 			if ($previousUrl !== '') {
 	        	$this->appConfig->setAppValue(AppConfig::WOPI_URL, $previousUrl);
 			} else {
-				$this->appConfig->deleteAppValue(AppConfig::WOPI_URL);
+				$this->appConfig->setAppValue(AppConfig::WOPI_URL, '');
 			}
     	}
 	}
