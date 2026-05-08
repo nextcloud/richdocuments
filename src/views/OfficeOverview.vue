@@ -8,24 +8,21 @@
 			<template #list>
 				<NcAppNavigationItem
 					:name="t('richdocuments', 'Documents')"
+					icon="icon-filetype-document"
 					:active="currentView === 'documents'"
-					@click="setView('documents')">
-					<FileDocumentOutline slot="icon" :size="20" />
-				</NcAppNavigationItem>
+					@click="setView('documents')" />
 
 				<NcAppNavigationItem
 					:name="t('richdocuments', 'Presentations')"
+					icon="icon-filetype-presentation"
 					:active="currentView === 'presentations'"
-					@click="setView('presentations')">
-					<FilePowerpointOutline slot="icon" :size="20" />
-				</NcAppNavigationItem>
+					@click="setView('presentations')" />
 
 				<NcAppNavigationItem
 					:name="t('richdocuments', 'Spreadsheets')"
+					icon="icon-filetype-spreadsheet"
 					:active="currentView === 'spreadsheets'"
-					@click="setView('spreadsheets')">
-					<FileTableOutline slot="icon" :size="20" />
-				</NcAppNavigationItem>
+					@click="setView('spreadsheets')" />
 			</template>
 		</NcAppNavigation>
 
@@ -38,9 +35,6 @@ import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
-import FileDocumentOutline from 'vue-material-design-icons/FileDocumentOutline.vue'
-import FilePowerpointOutline from 'vue-material-design-icons/FilePowerpointOutline.vue'
-import FileTableOutline from 'vue-material-design-icons/FileTableOutline.vue'
 
 export default {
 	name: 'OfficeOverview',
@@ -50,9 +44,6 @@ export default {
 		NcAppNavigation,
 		NcAppNavigationItem,
 		NcContent,
-		FileDocumentOutline,
-		FilePowerpointOutline,
-		FileTableOutline,
 	},
 
 	data() {
