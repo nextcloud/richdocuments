@@ -871,7 +871,12 @@ export default {
 		async setDemoServer(server) {
 			this.settings.wopi_url = server.demo_url
 			this.settings.disable_certificate_verification = false
-			await this.updateServer()
+			await this.updateSettings({
+				server_mode: 'demo',
+				wopi_url: server.demo_url,
+				disable_certificate_verification: false,
+			})
+			this.checkIfDemoServerIsActive()		
 		},
 		// Tell the server to activate builtin mode; it derives wopi_url via IURLGenerator.
 		async setBuiltinServer() {
