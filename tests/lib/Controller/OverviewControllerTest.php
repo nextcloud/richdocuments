@@ -10,6 +10,7 @@ namespace Tests\Richdocuments\Controller;
 
 use OCA\Richdocuments\Controller\OverviewController;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use Test\TestCase;
 
@@ -17,7 +18,12 @@ class OverviewControllerTest extends TestCase {
 
 	public function testIndexReturnsTemplateResponse(): void {
 		$request = $this->createMock(IRequest::class);
-		$controller = new OverviewController('richdocuments', $request);
+		$eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->isInstanceOf('OCA\\Viewer\\Event\\LoadViewer'));
+
+		$controller = new OverviewController('richdocuments', $request, $eventDispatcher);
 		$response = $controller->index();
 
 		$this->assertInstanceOf(TemplateResponse::class, $response);

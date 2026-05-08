@@ -15,7 +15,6 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
-use OCP\Server;
 use OCP\Util;
 
 class OverviewController extends Controller {
@@ -23,6 +22,7 @@ class OverviewController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -35,8 +35,7 @@ class OverviewController extends Controller {
 	public function index(): TemplateResponse {
 		Util::addScript('richdocuments', 'richdocuments-overview');
 
-		Server::get(IEventDispatcher::class)
-			->dispatchTyped(new LoadViewer());
+		$this->eventDispatcher->dispatchTyped(new LoadViewer());
 
 		return new TemplateResponse('richdocuments', 'overview', [
 			'id-app-content' => '#app-content-vue',
