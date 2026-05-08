@@ -35,7 +35,7 @@
 			</NcEmptyContent>
 			<div v-else class="office-overview__grid">
 				<OfficeFileEntry v-for="file in files"
-					:key="file.fileid"
+					:key="file.id"
 					:source="file" />
 			</div>
 		</NcAppContent>
