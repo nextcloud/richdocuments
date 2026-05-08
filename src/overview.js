@@ -11,4 +11,4 @@ Vue.prototype.n = n
 
 new Vue({
 	render: h => h(OfficeOverview),
-}).$mount('#office-overview-vue')
+}).$mount('#content')
