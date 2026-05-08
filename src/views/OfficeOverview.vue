@@ -23,7 +23,22 @@
 			</template>
 		</NcAppNavigation>
 
-		<NcAppContent />
+		<NcAppContent>
+			<NcLoadingIcon v-if="loading" class="office-overview__loading" />
+			<NcEmptyContent v-else-if="error"
+				:name="error" />
+			<NcEmptyContent v-else-if="files.length === 0"
+				:name="emptyMessage">
+				<template #icon>
+					<FileDocumentOutline />
+				</template>
+			</NcEmptyContent>
+			<div v-else class="office-overview__grid">
+				<OfficeFileEntry v-for="file in files"
+					:key="file.fileid"
+					:source="file" />
+			</div>
+		</NcAppContent>
 	</NcContent>
 </template>
 
@@ -32,6 +47,11 @@ import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import FileDocumentOutline from 'vue-material-design-icons/FileDocumentOutline.vue'
+import OfficeFileEntry from '../components/OfficeFileEntry.vue'
+import { getAllOfficeFiles, filterByCategory } from '../services/officeFiles.js'
 
 export default {
 	name: 'OfficeOverview',
@@ -41,18 +61,72 @@ export default {
 		NcAppNavigation,
 		NcAppNavigationItem,
 		NcContent,
+		NcEmptyContent,
+		NcLoadingIcon,
+		FileDocumentOutline,
+		OfficeFileEntry,
 	},
 
 	data() {
 		return {
 			currentView: 'documents',
+			allFiles: [],
+			loading: false,
+			error: null,
 		}
+	},
+
+	computed: {
+		files() {
+			return filterByCategory(this.allFiles, this.currentView)
+		},
+
+		emptyMessage() {
+			const labels = {
+				documents: t('richdocuments', 'No documents found'),
+				presentations: t('richdocuments', 'No presentations found'),
+				spreadsheets: t('richdocuments', 'No spreadsheets found'),
+			}
+
+			return labels[this.currentView]
+		},
+	},
+
+	created() {
+		this.fetchFiles()
 	},
 
 	methods: {
 		setView(view) {
 			this.currentView = view
 		},
+
+		async fetchFiles() {
+			this.loading = true
+			this.error = null
+
+			try {
+				this.allFiles = await getAllOfficeFiles()
+			} catch (e) {
+				this.error = t('richdocuments', 'Failed to load files')
+				this.allFiles = []
+			} finally {
+				this.loading = false
+			}
+		},
 	},
 }
 </script>
+
+<style scoped>
+.office-overview__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: 4px;
+	padding: 8px;
+}
+
+.office-overview__loading {
+	margin: 32px auto;
+}
+</style>
