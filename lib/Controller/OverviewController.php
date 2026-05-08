@@ -31,6 +31,9 @@ class OverviewController extends Controller {
 	#[NoCSRFRequired]
 	public function index(): TemplateResponse {
 		Util::addScript('richdocuments', 'richdocuments-overview');
-		return new TemplateResponse('richdocuments', 'overview');
+		return new TemplateResponse('richdocuments', 'overview', [
+			'id-app-content' => '#app-content-vue',
+			'id-app-navigation' => '#app-navigation-vue',
+		]);
 	}
 }
