@@ -7,7 +7,9 @@
 		class="office-file-entry"
 		@click="openFile">
 		<template #icon>
-			<span :class="iconClass" class="office-file-entry__icon" />
+			<img :src="previewUrl"
+				:alt="source.basename"
+				class="office-file-entry__preview">
 		</template>
 		<template #subname>
 			<NcDateTime :timestamp="source.mtime" />
@@ -16,30 +18,9 @@
 </template>
 
 <script>
+import { generateUrl } from '@nextcloud/router'
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-
-import { OFFICE_MIME_FILTERS } from '../services/officeFiles.js'
-
-const CATEGORY_ICON = {
-	documents: 'icon-filetype-document',
-	presentations: 'icon-filetype-presentation',
-	spreadsheets: 'icon-filetype-spreadsheet',
-}
-
-/**
- *
- * @param mime
- */
-function mimeToIcon(mime) {
-	for (const [category, mimes] of Object.entries(OFFICE_MIME_FILTERS)) {
-		if (mimes.includes(mime)) {
-			return CATEGORY_ICON[category]
-		}
-	}
-
-	return 'icon-filetype-document'
-}
 
 export default {
 	name: 'OfficeFileEntry',
@@ -57,8 +38,12 @@ export default {
 	},
 
 	computed: {
-		iconClass() {
-			return mimeToIcon(this.source.mime)
+		previewUrl() {
+			return generateUrl('/core/preview?fileId={fileid}&x={x}&y={y}', {
+				fileid: this.source.fileid,
+				x: 300,
+				y: 300,
+			})
 		},
 	},
 
@@ -77,18 +62,23 @@ export default {
 	flex-direction: column !important;
 	align-items: center !important;
 	text-align: center;
-	padding: 12px 8px;
+	padding: 8px;
 	border-radius: var(--border-radius-element);
+	border: 1px solid var(--color-border);
+	transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .office-file-entry:hover {
 	background-color: var(--color-background-hover);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	transform: translateY(-2px);
 }
 
-.office-file-entry__icon {
-	display: block;
-	width: 32px;
-	height: 32px;
-	background-size: 32px;
+/* Preview image */
+.office-file-entry__preview {
+	width: 64px;
+	height: 64px;
+	object-fit: cover;
+	border-radius: var(--border-radius);
 }
 </style>
