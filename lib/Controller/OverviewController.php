@@ -12,7 +12,10 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
+use OCP\Server;
 use OCP\Util;
 
 class OverviewController extends Controller {
@@ -31,6 +34,10 @@ class OverviewController extends Controller {
 	#[NoCSRFRequired]
 	public function index(): TemplateResponse {
 		Util::addScript('richdocuments', 'richdocuments-overview');
+
+		Server::get(IEventDispatcher::class)
+			->dispatchTyped(new LoadAdditionalScriptsEvent());
+
 		return new TemplateResponse('richdocuments', 'overview', [
 			'id-app-content' => '#app-content-vue',
 			'id-app-navigation' => '#app-navigation-vue',
