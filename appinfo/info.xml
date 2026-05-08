@@ -55,4 +55,12 @@ You can also edit your documents off-line with the Collabora Office app from the
 		<personal>OCA\Richdocuments\Settings\Personal</personal>
 		<personal-section>OCA\Richdocuments\Settings\Section</personal-section>
 	</settings>
+	<navigations>
+		<navigation>
+			<name>Office</name>
+			<route>richdocuments.overview.index</route>
+			<icon>app.svg</icon>
+			<order>10</order>
+		</navigation>
+	</navigations>
 </info>
