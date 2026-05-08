@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\Server;
@@ -36,7 +36,7 @@ class OverviewController extends Controller {
 		Util::addScript('richdocuments', 'richdocuments-overview');
 
 		Server::get(IEventDispatcher::class)
-			->dispatchTyped(new LoadAdditionalScriptsEvent());
+			->dispatchTyped(new LoadViewer());
 
 		return new TemplateResponse('richdocuments', 'overview', [
 			'id-app-content' => '#app-content-vue',
