@@ -6,20 +6,17 @@
 	<NcContent app-name="richdocuments">
 		<NcAppNavigation>
 			<template #list>
-				<NcAppNavigationItem
-					:name="t('richdocuments', 'Documents')"
+				<NcAppNavigationItem :name="t('richdocuments', 'Documents')"
 					icon="icon-filetype-document"
 					:active="currentView === 'documents'"
 					@click="setView('documents')" />
 
-				<NcAppNavigationItem
-					:name="t('richdocuments', 'Presentations')"
+				<NcAppNavigationItem :name="t('richdocuments', 'Presentations')"
 					icon="icon-filetype-presentation"
 					:active="currentView === 'presentations'"
 					@click="setView('presentations')" />
 
-				<NcAppNavigationItem
-					:name="t('richdocuments', 'Spreadsheets')"
+				<NcAppNavigationItem :name="t('richdocuments', 'Spreadsheets')"
 					icon="icon-filetype-spreadsheet"
 					:active="currentView === 'spreadsheets'"
 					@click="setView('spreadsheets')" />
