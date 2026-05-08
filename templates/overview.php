@@ -5,4 +5,4 @@
  */
 
 ?>
-<div id="office-overview-vue"></div>
+<div id="content"></div>
