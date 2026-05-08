@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import './init-shared.js'
+import '../css/filetypes.scss'
 import Vue from 'vue'
 import OfficeOverview from './views/OfficeOverview.vue'
 
