@@ -114,7 +114,7 @@ abstract class CachedRequestService {
 	}
 
 	/**
-	 * Checks if the Collabora proxy (i.e. built-in CODE app) is in-use and, if so, whether it is currently 
+	 * Checks if the Collabora proxy (i.e. built-in CODE app) is in-use and, if so, whether it is currently
 	 * initializing ("starting" or "restarting").
 	 *
 	 * @return bool True if proxy is initializing; false otherwise.
