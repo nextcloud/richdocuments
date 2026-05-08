@@ -24,6 +24,9 @@ return [
 		// external api access
 		['name' => 'document#extAppGetData', 'url' => '/ajax/extapp/data/{fileId}', 'verb' => 'POST'],
 
+		// Office overview page
+		['name' => 'overview#index', 'url' => '/overview', 'verb' => 'GET'],
+
 		// Settings
 		['name' => 'settings#setPersonalSettings', 'url' => 'ajax/personal.php', 'verb' => 'POST'],
 		['name' => 'settings#setSettings', 'url' => 'ajax/admin.php', 'verb' => 'POST'],
