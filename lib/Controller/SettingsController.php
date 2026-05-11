@@ -120,12 +120,16 @@ class SettingsController extends Controller {
 			'esignature_base_url' => $this->appConfig->getAppValue('esignature_base_url'),
 			'esignature_client_id' => $this->appConfig->getAppValue('esignature_client_id'),
 			'esignature_secret' => $this->appConfig->getAppValue('esignature_secret'),
-			'userId' => $this->userId
+			'userId' => $this->userId,
+			'server_mode' => $this->appConfig->getServerMode(),
+			'builtin_server_url' => $this->appConfig->getBuiltinServerUrl(),
 		];
 	}
 
 	public function setSettings(
 		?string $wopi_url,
+		?string $server_mode,
+		?bool $force, // skip connectivity checks
 		?string $wopi_allowlist,
 		?bool $disable_certificate_verification,
 		?string $edit_groups,
@@ -137,8 +141,59 @@ class SettingsController extends Controller {
 		?string $esignature_client_id,
 		?string $esignature_secret,
 	): JSONResponse {
+		if ($server_mode === 'builtin') {
+			$builtinUrl = $this->appConfig->getBuiltinServerUrl();
+			if ($builtinUrl === null) {
+				return new JSONResponse([
+					'status' => 'error',
+					'data'   => ['message' => 'Built-in CODE server is not installed or not supported on this platform.'],
+				], Http::STATUS_BAD_REQUEST);
+			}
+
+			// Capture full previous state before any mutation for symmetric rollback
+		    $snapshot = [
+        		AppConfig::SERVER_MODE    => $this->appConfig->getServerMode(),
+        		AppConfig::WOPI_URL       => $this->config->getAppValue('richdocuments', AppConfig::WOPI_URL, ''),
+        		AppConfig::PUBLIC_WOPI_URL => $this->config->getAppValue('richdocuments', AppConfig::PUBLIC_WOPI_URL, ''),
+        		'disable_certificate_verification' => $this->config->getAppValue(
+            		'richdocuments', 'disable_certificate_verification', ''),
+    		];
+
+			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'builtin');
+			$this->appConfig->setAppValue('disable_certificate_verification', 'yes');
+			$this->config->deleteAppValue('richdocuments', AppConfig::WOPI_URL);
+		    $this->config->deleteAppValue('richdocuments', AppConfig::PUBLIC_WOPI_URL);
+
+			if (!$force) {
+				try {
+					$output = new NullOutput();
+					$this->connectivityService->testUrl($builtinUrl, $output);
+				} catch (\Throwable $e) {
+            		foreach ($snapshot as $key => $value) {
+                		if ($value !== '') {
+                	    	$this->config->setAppValue('richdocuments', $key, $value);
+                		} else {
+                    		$this->config->deleteAppValue('richdocuments', $key);
+                		}
+					}
+					return new JSONResponse([
+                		'status' => 'error',
+						'data'   => ['message' => 'Failed to connect to built-in CODE server: ' . $e->getMessage()],
+					], Http::STATUS_INTERNAL_SERVER_ERROR);
+				}
+			}
+
+			return new JSONResponse([
+				'status' => 'success',
+				'data'   => ['message' => $this->l10n->t('Saved'), 'settings' => $this->getSettingsData()],
+			]);
+		}
+
 		if ($wopi_url !== null) {
-			$this->appConfig->setAppValue('wopi_url', $wopi_url);
+			$this->appConfig->setAppValue(AppConfig::WOPI_URL, $wopi_url);   
+			// Use the provided server_mode if given; default to 'custom' for
+			// backward-compatible callers that don't send it (e.g. direct API calls).
+			$this->appConfig->setAppValue(AppConfig::SERVER_MODE, $server_mode ?? 'custom');
 		}
 
 		if ($wopi_allowlist !== null) {
@@ -146,10 +201,8 @@ class SettingsController extends Controller {
 		}
 
 		if ($disable_certificate_verification !== null) {
-			$this->appConfig->setAppValue(
-				'disable_certificate_verification',
-				$disable_certificate_verification ? 'yes' : ''
-			);
+			$this->appConfig->setAppValue('disable_certificate_verification',
+				$disable_certificate_verification ? 'yes' : '');
 		}
 
 		if ($edit_groups !== null) {
@@ -184,27 +237,24 @@ class SettingsController extends Controller {
 			$this->appConfig->setAppValue('esignature_secret', $esignature_secret);
 		}
 
-		try {
-			$output = new NullOutput();
-			$this->connectivityService->testDiscovery($output);
-			$this->connectivityService->testCapabilities($output);
-			$this->connectivityService->autoConfigurePublicUrl();
-		} catch (\Throwable $e) {
-			return new JSONResponse([
-				'status' => 'error',
-				'data' => ['message' => 'Failed to connect to the remote server: ' . $e->getMessage()]
-			], 500);
+		if (!$force) {
+			try {
+				$output = new NullOutput();
+				$this->connectivityService->testDiscovery($output);
+				$this->connectivityService->testCapabilities($output);
+				$this->connectivityService->autoConfigurePublicUrl();
+			} catch (\Throwable $e) {
+				return new JSONResponse([
+					'status' => 'error',
+					'data' => ['message' => 'Failed to connect to the remote server: ' . $e->getMessage()]
+				], 500);
+			}
 		}
 
-		$response = [
+		return new JSONResponse([
 			'status' => 'success',
-			'data' => [
-				'message' => $this->l10n->t('Saved'),
-				'settings' => $this->getSettingsData(),
-			]
-		];
-
-		return new JSONResponse($response);
+			'data' => ['message' => $this->l10n->t('Saved'), 'settings' => $this->getSettingsData()],
+		]);
 	}
 
 	public function updateWatermarkSettings($settings = []): JSONResponse {

@@ -12,8 +12,10 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 
 class AppConfig {
+	public const SERVER_MODE = 'server_mode';
 	// URL that Nextcloud will use to connect to Collabora
 	public const WOPI_URL = 'wopi_url';
 	// URL that the browser will use to connect to Collabora (inherited from the discovery endpoint of Collabora,
@@ -61,6 +63,7 @@ class AppConfig {
 		private IAppConfig $appConfig,
 		private IAppManager $appManager,
 		private GlobalScaleConfig $globalScaleConfig,
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -135,6 +138,46 @@ class AppConfig {
 	}
 
 	/**
+	 * Returns the configured server mode ('builtin', 'custom', 'demo', or '').
+	 */
+	public function getServerMode(): string {
+    	$stored = $this->config->getAppValue(Application::APPNAME, self::SERVER_MODE, '');
+		if ($stored !== '') {
+			return $stored;
+		}
+		// Fallback for legacy builtin installs: if the migration step has not yet run (or was
+		// somehow skipped), detect builtin from the stored wopi_url.
+		$wopiUrl = $this->config->getAppValue(Application::APPNAME, self::WOPI_URL, '');
+		if ($wopiUrl !== '' && str_contains($wopiUrl, 'proxy.php?req=')) {
+			return 'builtin';
+		}
+		return '';	
+	}
+
+	public function isBuiltinServer(): bool {
+    	return $this->getServerMode() === 'builtin';
+	}
+
+	/**
+	 * Returns the built-in CODE proxy URL derived at runtime from IURLGenerator.
+	 * Never stored - always fresh, so it survives Nextcloud URL/domain changes.
+	 * Returns null if CODE is not installed or not supported on this platform.
+	 */
+	public function getBuiltinServerUrl(): ?string {
+    	$arch = php_uname('m');
+    	$supportedArchs = ['x86_64', 'aarch64'];
+    	if (PHP_OS_FAMILY !== 'Linux' || !in_array($arch, $supportedArchs)) {
+       		return null;
+    	}
+    	$CODEAppID = ($arch === 'aarch64') ? 'richdocumentscode_arm64' : 'richdocumentscode';
+    	if (!$this->appManager->isInstalled($CODEAppID)) {
+        	return null;
+    	}
+    	$relativeUrl = $this->urlGenerator->linkTo($CODEAppID, '') . 'proxy.php';
+    	return $this->urlGenerator->getAbsoluteURL($relativeUrl) . '?req=';
+	}
+
+	/**
 	 * Returns a list of trusted domains from the gs.trustedHosts config
 	 */
 	public function getGlobalScaleTrustedHosts(): array {
@@ -148,12 +191,29 @@ class AppConfig {
 		return $this->config->getAppValue(Application::APPNAME, self::FEDERATION_USE_TRUSTED_DOMAINS, 'no') === 'yes';
 	}
 
+	/**
+	 * For builtin mode, public_wopi_url is always Nextcloud's own public origin —
+	 * CODE has no separate hostname. Derived from IURLGenerator so it is correct
+	 * in both HTTP and CLI contexts (the latter requires overwrite.cli.url to be set,
+	 * which is a standard Nextcloud prerequisite).
+	 * 
+	 * For custom/standalone servers, returns the stored public_wopi_url.
+	 */
 	public function getCollaboraUrlPublic(): string {
-		return rtrim($this->config->getAppValue(Application::APPNAME, self::PUBLIC_WOPI_URL, $this->getCollaboraUrlInternal()), '/');
+    	if ($this->isBuiltinServer()) {
+			return $this->deriveBuiltinPublicUrl();
+    	}
+    	return rtrim($this->config->getAppValue(Application::APPNAME, self::PUBLIC_WOPI_URL,
+        	$this->getCollaboraUrlInternal()), '/');
 	}
 
 	public function getCollaboraUrlInternal(): string {
-		return rtrim($this->config->getAppValue(Application::APPNAME, self::WOPI_URL, ''), '/');
+    	if ($this->isBuiltinServer()) {
+			// Derives the internal URL at runtime from IURLGenerator.
+			// This avoids the CLI/browser context mismatch that otherwise arise since built-in uses ProxyPrefix not server_name/etc
+        	return $this->getBuiltinServerUrl() ?? '';
+    	}
+    	return rtrim($this->config->getAppValue(Application::APPNAME, self::WOPI_URL, ''), '/');
 	}
 
 	public function getNextcloudUrl(): string {
@@ -254,6 +314,15 @@ class AppConfig {
 		}
 
 		return $this->getGlobalScaleTrustedHosts();
+	}
+
+	/**
+	 * Derives the public URL for the built-in CODE server directly from IURLGenerator,
+	 * without requiring server_mode to already be set. Used during initial setup/CLI
+	 * where we want to validate the URL before committing server_mode to config.
+	 */
+	public function deriveBuiltinPublicUrl(): string {
+		return rtrim($this->domainOnly($this->urlGenerator->getAbsoluteURL('/')), '/');
 	}
 
 	/**
