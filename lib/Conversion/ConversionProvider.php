@@ -152,6 +152,7 @@ class ConversionProvider implements IConversionProvider {
 				$secured = $this->secureViewService->shouldSecure(
 					$file->getInternalPath(),
 					$file->getStorage(),
+					false,
 				);
 			} catch (NotFoundException $e) {
 				$this->logger->warning('Could not determine Secure View status for conversion target', ['exception' => $e]);
