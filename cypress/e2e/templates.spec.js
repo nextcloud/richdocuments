@@ -52,7 +52,7 @@ describe('Global templates', function() {
 			.scrollIntoView()
 
 		cy.intercept('DELETE', '**/richdocuments/template/*').as('templateDeleteRequest')
-		cy.get('.template-btn[data-cy-template-btn-name="systemtemplate"]').click()
+		cy.get('.file-card[data-cy-template-btn-name="systemtemplate"]').click()
 
 		cy.wait('@templateDeleteRequest').then(({ response }) => {
 			expect(response.statusCode).to.equal(204)
