@@ -3,31 +3,33 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcListItem :name="source.basename"
-		class="office-file-entry"
-		@click="openFile">
-		<template #icon>
+	<FileCard @click="openFile">
+		<template #preview>
 			<img :src="previewUrl"
 				:alt="source.basename"
 				class="office-file-entry__preview">
 		</template>
+		<template #name>
+			{{ source.basename }}
+		</template>
 		<template #subname>
 			<NcDateTime :timestamp="source.mtime" />
 		</template>
-	</NcListItem>
+	</FileCard>
 </template>
 
 <script>
 import { generateUrl } from '@nextcloud/router'
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
+
+import FileCard from './FileCard.vue'
 
 export default {
 	name: 'OfficeFileEntry',
 
 	components: {
+		FileCard,
 		NcDateTime,
-		NcListItem,
 	},
 
 	props: {
@@ -58,27 +60,9 @@ export default {
 </script>
 
 <style scoped>
-.office-file-entry {
-	flex-direction: column !important;
-	align-items: center !important;
-	text-align: center;
-	padding: 8px;
-	border-radius: var(--border-radius-element);
-	border: 1px solid var(--color-border);
-	transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.office-file-entry:hover {
-	background-color: var(--color-background-hover);
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	transform: translateY(-2px);
-}
-
-/* Preview image */
 .office-file-entry__preview {
-	width: 64px;
-	height: 64px;
+	width: 100%;
+	height: 100%;
 	object-fit: cover;
-	border-radius: var(--border-radius);
 }
 </style>

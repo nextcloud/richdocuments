@@ -121,7 +121,7 @@ export default {
 <style scoped>
 .office-overview__grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 	gap: calc(var(--default-grid-baseline) * 3);
 	padding: calc(var(--default-grid-baseline) * 4);
 }
