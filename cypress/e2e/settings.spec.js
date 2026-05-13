@@ -20,10 +20,10 @@ describe('Office admin settings', function() {
 	})
 
 	it('Error for invalid url', function() {
-		cy.get('#app-content')
+		cy.get('#app-content-vue')
 			.scrollTo('topLeft')
 
-		cy.get('#app-content')
+		cy.get('#app-content-vue')
 			.scrollIntoView()
 			.should('be.visible')
 		cy.screenshot()
@@ -40,10 +40,10 @@ describe('Office admin settings', function() {
 	})
 
 	it('Opens settings and configure a valid url', function() {
-		cy.get('#app-content')
+		cy.get('#app-content-vue')
 			.scrollTo('topLeft')
 
-		cy.get('#app-content')
+		cy.get('#app-content-vue')
 			.scrollIntoView()
 			.should('be.visible')
 		cy.screenshot()
