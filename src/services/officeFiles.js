@@ -12,7 +12,6 @@ export const OFFICE_MIME_FILTERS = {
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
 		'application/msword',
-		'text/plain',
 	],
 	presentations: [
 		'application/vnd.oasis.opendocument.presentation',
