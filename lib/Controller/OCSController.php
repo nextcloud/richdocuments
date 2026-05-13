@@ -8,6 +8,7 @@ namespace OCA\Richdocuments\Controller;
 
 use Exception;
 use GuzzleHttp\Exception\BadResponseException;
+use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\DirectMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
@@ -21,6 +22,9 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
+use OCP\DirectEditing\IManager as IDirectEditingManager;
+use OCP\DirectEditing\RegisterDirectEditorEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -47,6 +51,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		private TokenManager $tokenManager,
 		private IManager $shareManager,
 		private FederationService $federationService,
+		private IDirectEditingManager $directEditingManager,
+		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
@@ -55,7 +61,13 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * Init a direct editing session
+	 * Init a direct editing session.
+	 *
+	 * @deprecated Use the server's direct editing API at
+	 *             POST /ocs/v2.php/apps/files/api/v1/directEditing/open with
+	 *             editorId=richdocuments. This endpoint is kept for
+	 *             backwards compatibility with older clients and now delegates
+	 *             to {@see \OCP\DirectEditing\IManager}.
 	 *
 	 * @param int $fileId
 	 * @return DataResponse
@@ -74,12 +86,16 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				throw new OCSBadRequestException('Cannot view folder');
 			}
 
-			$direct = $this->directMapper->newDirect($this->userId, $fileId);
+			$path = $userFolder->getRelativePath($node->getPath());
+
+			$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
+			/** @psalm-suppress UndefinedInterfaceMethod IManager does not expose open() but the concrete Manager does, same pattern as files-app DirectEditingController */
+			$token = $this->directEditingManager->open($path, Application::APPNAME, $node->getId());
 
 			return new DataResponse([
-				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
-					'token' => $direct->getToken()
-				])
+				'url' => $this->urlGenerator->linkToRouteAbsolute('files.DirectEditingView.edit', [
+					'token' => $token,
+				]),
 			]);
 		} catch (NotFoundException) {
 			throw new OCSNotFoundException();
@@ -246,6 +262,12 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @NoAdminRequired
 	 * @PublicPage
 	 *
+	 * @deprecated Use the server's direct editing API at
+	 *             GET /ocs/v2.php/apps/files/api/v1/directEditing/templates/richdocuments/{creatorId}.
+	 *             This endpoint is kept for backwards compatibility and reads
+	 *             from the same {@see \OCA\Richdocuments\TemplateManager} as
+	 *             the new flow.
+	 *
 	 * @param string $type The template type
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
@@ -260,6 +282,12 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * @deprecated Use the server's direct editing API at
+	 *             POST /ocs/v2.php/apps/files/api/v1/directEditing/create with
+	 *             editorId=richdocuments. This endpoint is kept for
+	 *             backwards compatibility with older clients and now delegates
+	 *             to {@see \OCP\DirectEditing\IManager}.
 	 *
 	 * @param string $path Where to create the document
 	 * @param int $template The template id
@@ -279,17 +307,29 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
 			$folder = isset($info['dirname']) ? $userFolder->get($info['dirname']) : $userFolder;
 			$name = $folder->getNonExistingName($info['basename']);
-			$file = $folder->newFile($name);
 
-			$direct = $this->directMapper->newDirect($this->userId, $file->getId(), $template);
+			$dirPath = isset($info['dirname']) ? rtrim($info['dirname'], '/') : '';
+			$targetPath = $dirPath === '' ? '/' . $name : $dirPath . '/' . $name;
+
+			$extension = $info['extension'] ?? '';
+			$creatorId = $this->manager->getTemplateTypeForExtension($extension);
+			if ($creatorId === null) {
+				throw new OCSBadRequestException('Unsupported file extension');
+			}
+
+			$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
+			/** @psalm-suppress InvalidArgument IManager::create accepts mixed templateId despite an outdated nullable docblock */
+			$token = $this->directEditingManager->create($targetPath, Application::APPNAME, $creatorId, (string)$template);
 
 			return new DataResponse([
-				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
-					'token' => $direct->getToken()
-				])
+				'url' => $this->urlGenerator->linkToRouteAbsolute('files.DirectEditingView.edit', [
+					'token' => $token,
+				]),
 			]);
 		} catch (NotFoundException) {
 			throw new OCSNotFoundException();
+		} catch (OCSBadRequestException $e) {
+			throw $e;
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSException('Failed to create new file from template.');
