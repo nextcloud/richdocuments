@@ -102,32 +102,18 @@ class Capabilities implements ICapability {
 	#[\Override]
 	public function getCapabilities() {
 		// Only expose capabilities for users with enabled office or guests (where it depends on the share owner if they have access)
-		if (!$this->permissionManager->isEnabledForUser() && $this->userId !== null) {
+		if (!$this->permissionManager->isEnabledForUser($this->userId) && $this->userId !== null) {
 			return [];
 		}
 
 		if (!$this->capabilities) {
 			$collaboraCapabilities = $this->capabilitiesService->getCapabilities();
 
-			$defaultMimetypes = self::MIMETYPES;
-			$optionalMimetypes = self::MIMETYPES_OPTIONAL;
-
-			if (!$this->capabilitiesService->hasOtherOOXMLApps()) {
-				array_push($defaultMimetypes, ...self::MIMETYPES_MSOFFICE);
-			} else {
-				array_push($optionalMimetypes, ...self::MIMETYPES_MSOFFICE);
-			}
-
-			if (!$this->appManager->isEnabledForUser('files_pdfviewer')) {
-				$defaultMimetypes[] = 'application/pdf';
-				$optionalMimetypes = array_diff($optionalMimetypes, ['application/pdf']);
-			}
-
 			$this->capabilities = [
 				'richdocuments' => [
 					'version' => $this->appManager->getAppVersion('richdocuments'),
-					'mimetypes' => $defaultMimetypes,
-					'mimetypesNoDefaultOpen' => array_values($optionalMimetypes),
+					'mimetypes' => $this->getDefaultMimetypes(),
+					'mimetypesNoDefaultOpen' => $this->getOptionalMimetypes(),
 					'mimetypesSecureView' => $this->config->useSecureViewAdditionalMimes() ? self::SECURE_VIEW_ADDITIONAL_MIMES : [],
 					'collabora' => $collaboraCapabilities,
 					'direct_editing' => ($collaboraCapabilities['hasMobileSupport'] ?? false) && $this->config->getAppValue('mobile_editing', 'yes') === 'yes',
@@ -149,5 +135,39 @@ class Capabilities implements ICapability {
 			];
 		}
 		return $this->capabilities;
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	public function getDefaultMimetypes(): array {
+		$defaultMimetypes = self::MIMETYPES;
+
+		if (!$this->capabilitiesService->hasOtherOOXMLApps()) {
+			array_push($defaultMimetypes, ...self::MIMETYPES_MSOFFICE);
+		}
+
+		if (!$this->appManager->isEnabledForUser('files_pdfviewer')) {
+			$defaultMimetypes[] = 'application/pdf';
+		}
+
+		return $defaultMimetypes;
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	public function getOptionalMimetypes(): array {
+		$optionalMimetypes = self::MIMETYPES_OPTIONAL;
+
+		if ($this->capabilitiesService->hasOtherOOXMLApps()) {
+			array_push($optionalMimetypes, ...self::MIMETYPES_MSOFFICE);
+		}
+
+		if (!$this->appManager->isEnabledForUser('files_pdfviewer')) {
+			$optionalMimetypes = array_diff($optionalMimetypes, ['application/pdf']);
+		}
+
+		return $optionalMimetypes;
 	}
 }

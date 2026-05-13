@@ -188,7 +188,7 @@ class FederationService {
 	 * @throws NotFoundException
 	 * @throws InvalidPathException
 	 */
-	public function getRemoteRedirectURL(File $item, ?Direct $direct = null, ?IShare $share = null) {
+	public function getRemoteRedirectURL(File $item, ?Direct $direct = null, ?IShare $share = null, ?string $userId = null) {
 		if (!$item->getStorage()->instanceOfStorage(SharingExternalStorage::class)) {
 			return null;
 		}
@@ -199,7 +199,8 @@ class FederationService {
 		if ($remoteCollabora !== '') {
 			$shareToken = $share ? $share->getToken() : null;
 
-			$wopi = $this->tokenManager->newInitiatorToken($remote, $item, $shareToken, ($direct !== null), ($direct ? $direct->getUid() : null));
+			$initiatorUid = $direct ? $direct->getUid() : $userId;
+			$wopi = $this->tokenManager->newInitiatorToken($remote, $item, $shareToken, ($direct !== null), $initiatorUid);
 			$initiatorServer = $this->urlGenerator->getAbsoluteURL('/');
 			$initiatorToken = $wopi->getToken();
 

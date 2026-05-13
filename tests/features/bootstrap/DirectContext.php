@@ -143,7 +143,10 @@ class DirectContext implements Context {
 			throw new \Exception('No existing direct editing link found to be checked');
 		}
 		$result = $this->openDirectEditingLink();
-		Assert::assertEquals(403, $result->getStatusCode());
+		// 403: legacy /apps/richdocuments/direct/<token> rejects the missing token.
+		// 404: server's /apps/files/directEditing/<token> returns NotFoundResponse
+		// once the token has been accessed.
+		Assert::assertContains($result->getStatusCode(), [403, 404]);
 	}
 
 	private function openDirectEditingLink() {
