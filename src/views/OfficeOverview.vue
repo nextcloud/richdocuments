@@ -25,46 +25,66 @@
 
 		<NcAppContent>
 			<NcLoadingIcon v-if="loading" class="office-overview__loading" />
+
 			<NcEmptyContent v-else-if="error"
 				:name="error" />
+
 			<NcEmptyContent v-else-if="files.length === 0"
 				:name="emptyMessage">
 				<template #icon>
 					<FileDocumentOutline />
 				</template>
 			</NcEmptyContent>
+
 			<div v-else class="office-overview__grid">
-				<OfficeFileEntry v-for="file in files"
+				<FileCard v-for="file in files"
 					:key="file.id"
-					:source="file" />
+					@click="openFile(file)">
+					<template #preview>
+						<img :src="getPreviewUrl(file)"
+							:alt="file.basename"
+							class="overview-file-preview">
+					</template>
+
+					<template #name>
+						{{ file.basename }}
+					</template>
+
+					<template #subname>
+						<NcDateTime :timestamp="file.mtime" />
+					</template>
+				</FileCard>
 			</div>
 		</NcAppContent>
 	</NcContent>
 </template>
 
 <script>
+import { generateUrl } from '@nextcloud/router'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import FileDocumentOutline from 'vue-material-design-icons/FileDocumentOutline.vue'
-import OfficeFileEntry from '../components/OfficeFileEntry.vue'
+import FileCard from '../components/FileCard.vue'
 import { getAllOfficeFiles, filterByCategory } from '../services/officeFiles.js'
 
 export default {
 	name: 'OfficeOverview',
 
 	components: {
+		FileCard,
 		NcAppContent,
 		NcAppNavigation,
 		NcAppNavigationItem,
 		NcContent,
+		NcDateTime,
 		NcEmptyContent,
 		NcLoadingIcon,
 		FileDocumentOutline,
-		OfficeFileEntry,
 	},
 
 	data() {
@@ -101,6 +121,20 @@ export default {
 			this.currentView = view
 		},
 
+		getPreviewUrl(file) {
+			return generateUrl('/core/preview?fileId={fileid}&x={x}&y={y}', {
+				fileid: file.fileid,
+				x: 300,
+				y: 300,
+			})
+		},
+
+		openFile(file) {
+			if (window.OCA?.Viewer) {
+				OCA.Viewer.open({ path: file.path })
+			}
+		},
+
 		async fetchFiles() {
 			this.loading = true
 			this.error = null
@@ -124,6 +158,12 @@ export default {
 	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 	gap: calc(var(--default-grid-baseline) * 3);
 	padding: calc(var(--default-grid-baseline) * 4);
+}
+
+.overview-file-preview {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .office-overview__loading {
