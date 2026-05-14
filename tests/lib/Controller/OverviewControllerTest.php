@@ -17,16 +17,29 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class OverviewControllerTest extends TestCase {
+	private IEventDispatcher $eventDispatcher;
+	private IInitialState $initialState;
+	private IPreview $preview;
+	private OverviewController $controller;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->preview = $this->createMock(IPreview::class);
+
+		$this->controller = new OverviewController(
+			'richdocuments',
+			$this->createMock(IRequest::class),
+			$this->eventDispatcher,
+			$this->initialState,
+			$this->preview,
+		);
+	}
 
 	public function testIndexReturnsTemplateResponse(): void {
-		$request = $this->createMock(IRequest::class);
-		$eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$initialState = $this->createMock(IInitialState::class);
-		$preview = $this->createMock(IPreview::class);
-		$preview->method('isMimeSupported')->willReturn(false);
-
-		$controller = new OverviewController('richdocuments', $request, $eventDispatcher, $initialState, $preview);
-		$response = $controller->index();
+		$response = $this->controller->index();
 
 		$this->assertInstanceOf(TemplateResponse::class, $response);
 		$this->assertSame('richdocuments', $response->getApp());
@@ -36,40 +49,28 @@ class OverviewControllerTest extends TestCase {
 	}
 
 	public function testIndexSetsPreviewEnabledTrue(): void {
-		$request = $this->createMock(IRequest::class);
-		$eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$initialState = $this->createMock(IInitialState::class);
-		$preview = $this->createMock(IPreview::class);
-
-		$preview->expects($this->once())
+		$this->preview->expects($this->once())
 			->method('isMimeSupported')
 			->with('application/vnd.oasis.opendocument.text')
 			->willReturn(true);
 
-		$initialState->expects($this->once())
+		$this->initialState->expects($this->once())
 			->method('provideInitialState')
 			->with('previewEnabled', true);
 
-		$controller = new OverviewController('richdocuments', $request, $eventDispatcher, $initialState, $preview);
-		$controller->index();
+		$this->controller->index();
 	}
 
 	public function testIndexSetsPreviewEnabledFalse(): void {
-		$request = $this->createMock(IRequest::class);
-		$eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$initialState = $this->createMock(IInitialState::class);
-		$preview = $this->createMock(IPreview::class);
-
-		$preview->expects($this->once())
+		$this->preview->expects($this->once())
 			->method('isMimeSupported')
 			->with('application/vnd.oasis.opendocument.text')
 			->willReturn(false);
 
-		$initialState->expects($this->once())
+		$this->initialState->expects($this->once())
 			->method('provideInitialState')
 			->with('previewEnabled', false);
 
-		$controller = new OverviewController('richdocuments', $request, $eventDispatcher, $initialState, $preview);
-		$controller->index();
+		$this->controller->index();
 	}
 }
