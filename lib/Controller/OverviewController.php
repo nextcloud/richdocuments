@@ -15,8 +15,8 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IRequest;
 use OCP\IPreview;
+use OCP\IRequest;
 use OCP\Util;
 
 class OverviewController extends Controller {
