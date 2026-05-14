@@ -57,7 +57,6 @@ export default {
 .file-card__content {
 	flex-shrink: 0;
 	overflow: hidden;
-	text-align: center;
 }
 
 .file-card__name {
