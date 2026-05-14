@@ -22,6 +22,12 @@ const CATEGORY_FILES = [
 		fixture: 'spreadsheet.ods',
 		mimeType: 'application/vnd.oasis.opendocument.spreadsheet',
 	},
+	{
+		category: 'Diagrams',
+		emptyMessage: 'No diagrams found',
+		fixture: 'drawing.odg',
+		mimeType: 'application/vnd.oasis.opendocument.graphics',
+	},
 ]
 
 describe('Office overview page', function() {

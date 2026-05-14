@@ -28,6 +28,12 @@ export const OFFICE_MIME_FILTERS = {
 		'application/vnd.ms-excel',
 		'text/csv',
 	],
+	diagrams: [
+		'application/vnd.oasis.opendocument.graphics',
+		'application/vnd.oasis.opendocument.graphics-template',
+		'application/vnd.visio',
+		'application/vnd.ms-visio.drawing',
+	],
 }
 
 const ALL_OFFICE_MIMES = Object.values(OFFICE_MIME_FILTERS).flat()
