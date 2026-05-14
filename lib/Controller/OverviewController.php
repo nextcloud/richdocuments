@@ -13,8 +13,10 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
+use OCP\IPreview;
 use OCP\Util;
 
 class OverviewController extends Controller {
@@ -23,6 +25,8 @@ class OverviewController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IEventDispatcher $eventDispatcher,
+		private IInitialState $initialState,
+		private IPreview $preview,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -34,6 +38,8 @@ class OverviewController extends Controller {
 	#[NoCSRFRequired]
 	public function index(): TemplateResponse {
 		Util::addScript('richdocuments', 'richdocuments-overview');
+
+		$this->initialState->provideInitialState('previewEnabled', $this->preview->isMimeSupported('application/vnd.oasis.opendocument.text'));
 
 		// Viewer is pre-installed in production but may not be available in other environments
 		if (class_exists(LoadViewer::class)) {

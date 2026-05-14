@@ -41,7 +41,8 @@
 					:key="file.id"
 					@click="openFile(file)">
 					<template #preview>
-						<img :src="getPreviewUrl(file)"
+						<img v-if="previewEnabled"
+							:src="getPreviewUrl(file)"
 							:alt="file.basename"
 							class="overview-file-preview">
 					</template>
@@ -60,6 +61,7 @@
 </template>
 
 <script>
+import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
@@ -93,6 +95,7 @@ export default {
 			allFiles: [],
 			loading: false,
 			error: null,
+			previewEnabled: loadState('richdocuments', 'previewEnabled', false),
 		}
 	},
 
