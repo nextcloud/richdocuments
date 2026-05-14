@@ -85,6 +85,9 @@ describe('Office overview page', function() {
 
 				cy.contains('.file-card__name', fixture)
 					.should('be.visible')
+
+				cy.get('.file-card__preview img')
+					.should('exist')
 			})
 
 			it(`Opens the viewer when clicking a ${category} file card`, function() {
