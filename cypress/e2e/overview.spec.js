@@ -94,6 +94,9 @@ describe('Office overview page', function() {
 
 				cy.get('.file-card__preview img')
 					.should('exist')
+
+				cy.get('.input-field__label')
+					.should('contain', `Search ${category.toLowerCase()}`)
 			})
 
 			it(`Opens the viewer when clicking a ${category} file card`, function() {
@@ -105,6 +108,37 @@ describe('Office overview page', function() {
 
 				cy.closeDocument()
 			})
+		})
+
+		it('Filters file cards by search query', function() {
+			const { category, fixture } = CATEGORY_FILES[0]
+			const stem = fixture.split('.')[0]
+
+			cy.contains('.app-navigation-entry', category).click()
+
+			cy.get('.office-overview__search [type="search"]').type(stem)
+			cy.contains('.file-card__name', fixture).should('be.visible')
+		})
+
+		it('Shows empty state when search matches nothing', function() {
+			const { category } = CATEGORY_FILES[0]
+
+			cy.contains('.app-navigation-entry', category).click()
+
+			cy.get('.office-overview__search [type="search"]').type('xyz123noresults')
+			cy.get('.empty-content').should('be.visible')
+		})
+
+		it('Resets search when switching categories', function() {
+			const [first, second] = CATEGORY_FILES
+
+			cy.contains('.app-navigation-entry', first.category).click()
+			cy.get('.office-overview__search [type="search"]').type('xyz123noresults')
+
+			cy.contains('.app-navigation-entry', second.category).click()
+
+			cy.get('.office-overview__search [type="search"]').should('have.value', '')
+			cy.contains('.file-card__name', second.fixture).should('be.visible')
 		})
 	})
 })
