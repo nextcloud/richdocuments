@@ -31,38 +31,46 @@
 		<NcAppContent>
 			<NcLoadingIcon v-if="loading" class="office-overview__loading" />
 
-			<NcEmptyContent v-else-if="error"
-				:name="error" />
+			<template v-else>
+				<div v-if="!error" class="office-overview__search">
+					<NcTextField v-model="searchQuery"
+						:label="searchLabel"
+						type="search" />
+				</div>
 
-			<NcEmptyContent v-else-if="files.length === 0"
-				:name="emptyMessage">
-				<template #icon>
-					<FileDocumentOutline />
-				</template>
-			</NcEmptyContent>
+				<NcEmptyContent v-if="error"
+					:name="error" />
 
-			<div v-else class="office-overview__grid">
-				<FileCard v-for="file in files"
-					:key="file.id"
-					@click="openFile(file)">
-					<template #preview>
-						<img v-if="previewEnabled"
-							:src="getPreviewUrl(file)"
-							:alt="file.basename"
-							class="overview-file-preview">
-						<span v-else
-							:class="['icon-filetype-' + fileTypeClass, 'overview-file-icon']" />
+				<NcEmptyContent v-else-if="files.length === 0"
+					:name="emptyMessage">
+					<template #icon>
+						<FileDocumentOutline />
 					</template>
+				</NcEmptyContent>
 
-					<template #name>
-						{{ file.basename }}
-					</template>
+				<div v-else class="office-overview__grid">
+					<FileCard v-for="file in files"
+						:key="file.id"
+						@click="openFile(file)">
+						<template #preview>
+							<img v-if="previewEnabled"
+								:src="getPreviewUrl(file)"
+								:alt="file.basename"
+								class="overview-file-preview">
+							<span v-else
+								:class="['icon-filetype-' + fileTypeClass, 'overview-file-icon']" />
+						</template>
 
-					<template #subname>
-						<NcDateTime :timestamp="file.mtime" />
-					</template>
-				</FileCard>
-			</div>
+						<template #name>
+							{{ file.basename }}
+						</template>
+
+						<template #subname>
+							<NcDateTime :timestamp="file.mtime" />
+						</template>
+					</FileCard>
+				</div>
+			</template>
 		</NcAppContent>
 	</NcContent>
 </template>
@@ -77,6 +85,7 @@ import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import FileDocumentOutline from 'vue-material-design-icons/FileDocumentOutline.vue'
 import FileCard from '../components/FileCard.vue'
 import { getAllOfficeFiles, filterByCategory } from '../services/officeFiles.js'
@@ -93,6 +102,7 @@ export default {
 		NcDateTime,
 		NcEmptyContent,
 		NcLoadingIcon,
+		NcTextField,
 		FileDocumentOutline,
 	},
 
@@ -103,12 +113,18 @@ export default {
 			loading: false,
 			error: null,
 			previewEnabled: loadState('richdocuments', 'previewEnabled', false),
+			searchQuery: '',
 		}
 	},
 
 	computed: {
 		files() {
-			return filterByCategory(this.allFiles, this.currentView)
+			const byCategory = filterByCategory(this.allFiles, this.currentView)
+			if (!this.searchQuery) {
+				return byCategory
+			}
+			const q = this.searchQuery.toLowerCase()
+			return byCategory.filter(f => f.basename.toLowerCase().includes(q))
 		},
 
 		emptyMessage() {
@@ -131,6 +147,23 @@ export default {
 			}
 
 			return map[this.currentView]
+		},
+
+		searchLabel() {
+			const labels = {
+				documents: t('richdocuments', 'Search documents'),
+				presentations: t('richdocuments', 'Search presentations'),
+				spreadsheets: t('richdocuments', 'Search spreadsheets'),
+				diagrams: t('richdocuments', 'Search diagrams'),
+			}
+
+			return labels[this.currentView]
+		},
+	},
+
+	watch: {
+		currentView() {
+			this.searchQuery = ''
 		},
 	},
 
@@ -200,5 +233,11 @@ export default {
 
 .office-overview__loading {
 	margin: 32px auto;
+}
+
+.office-overview__search {
+	padding: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
+	max-width: 400px;
+	margin: 0 auto;
 }
 </style>

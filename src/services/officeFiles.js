@@ -71,7 +71,7 @@ export async function getAllOfficeFiles() {
  * Filter a list of file nodes by an office category.
  *
  * @param {import('@nextcloud/files').Node[]} files
- * @param {string} category - One of 'documents', 'presentations', 'spreadsheets'
+ * @param {string} category - One of 'documents', 'presentations', 'spreadsheets', 'diagrams'
  * @return {import('@nextcloud/files').Node[]}
  */
 export function filterByCategory(files, category) {
