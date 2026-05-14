@@ -45,6 +45,8 @@
 							:src="getPreviewUrl(file)"
 							:alt="file.basename"
 							class="overview-file-preview">
+						<span v-else
+							:class="['icon-filetype-' + fileTypeClass, 'overview-file-icon']" />
 					</template>
 
 					<template #name>
@@ -113,6 +115,16 @@ export default {
 
 			return labels[this.currentView]
 		},
+
+		fileTypeClass() {
+			const map = {
+				documents: 'document',
+				presentations: 'presentation',
+				spreadsheets: 'spreadsheet',
+			}
+
+			return map[this.currentView]
+		},
 	},
 
 	created() {
@@ -167,6 +179,16 @@ export default {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+
+.overview-file-icon {
+	display: block;
+	width: 48px;
+	height: 48px;
+	margin: auto;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .office-overview__loading {
