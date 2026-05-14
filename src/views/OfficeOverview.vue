@@ -20,6 +20,11 @@
 					icon="icon-filetype-spreadsheet"
 					:active="currentView === 'spreadsheets'"
 					@click="setView('spreadsheets')" />
+
+				<NcAppNavigationItem :name="t('richdocuments', 'Diagrams')"
+					icon="icon-filetype-draw"
+					:active="currentView === 'diagrams'"
+					@click="setView('diagrams')" />
 			</template>
 		</NcAppNavigation>
 
@@ -111,6 +116,7 @@ export default {
 				documents: t('richdocuments', 'No documents found'),
 				presentations: t('richdocuments', 'No presentations found'),
 				spreadsheets: t('richdocuments', 'No spreadsheets found'),
+				diagrams: t('richdocuments', 'No diagrams found'),
 			}
 
 			return labels[this.currentView]
@@ -121,6 +127,7 @@ export default {
 				documents: 'document',
 				presentations: 'presentation',
 				spreadsheets: 'spreadsheet',
+				diagrams: 'draw',
 			}
 
 			return map[this.currentView]
