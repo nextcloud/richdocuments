@@ -10,12 +10,12 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Controller\DocumentTrait;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
@@ -38,6 +38,7 @@ class DirectEditingViewService {
 		private TemplateManager $templateManager,
 		private FederationService $federationService,
 		private InitialStateService $initialState,
+		private Capabilities $capabilities,
 		private IConfig $config,
 		private AppConfig $appConfig,
 		private IEventDispatcher $eventDispatcher,

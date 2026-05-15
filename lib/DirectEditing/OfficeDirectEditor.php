@@ -13,6 +13,7 @@ use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\DirectEditingViewService;
+use OCA\Richdocuments\Service\UserScopeService;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\DirectEditing\IEditor;
@@ -30,6 +31,7 @@ class OfficeDirectEditor implements IEditor {
 		private CreatePresentation $createPresentation,
 		private CreateDrawing $createDrawing,
 		private DirectEditingViewService $viewService,
+		private UserScopeService $userScopeService,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -72,10 +74,15 @@ class OfficeDirectEditor implements IEditor {
 	#[\Override]
 	public function open(IToken $token): Response {
 		$token->useTokenScope();
+		$userId = $token->getUser();
+		// useTokenScope() only sets OC_User; populate IUserSession + FS scope so
+		// downstream services (TokenManager, FederationService) see the user.
+		$this->userScopeService->setUserScope($userId);
+		$this->userScopeService->setFilesystemScope($userId);
 
 		try {
 			$file = $token->getFile();
-			return $this->viewService->render($file, $token->getUser());
+			return $this->viewService->render($file, $userId);
 		} catch (NotFoundException $e) {
 			$this->logger->error('Failed to open direct editing token: file not found', ['exception' => $e]);
 			return new NotFoundResponse();
