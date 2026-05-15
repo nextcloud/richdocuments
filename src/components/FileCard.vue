@@ -26,6 +26,14 @@ export default {
 </script>
 
 <style scoped>
+/* Nextcloud's global reset sets cursor:default on div, img and span explicitly,
+   which prevents inheritance. Override for all slotted content. */
+.file-card ::v-deep div,
+.file-card ::v-deep img,
+.file-card ::v-deep span {
+	cursor: pointer;
+}
+
 .file-card {
 	display: flex;
 	flex-direction: column;
