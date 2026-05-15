@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getClient, getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
+import { getClient, getDavNameSpaces, getDavProperties, getRootPath, resultToNode } from '@nextcloud/files/dav'
 
 export const OFFICE_MIME_FILTERS = {
 	documents: [
@@ -38,12 +38,48 @@ export const OFFICE_MIME_FILTERS = {
 
 const ALL_OFFICE_MIMES = Object.values(OFFICE_MIME_FILTERS).flat()
 
+// Pre-computed at module load time — ALL_OFFICE_MIMES is static so this never changes.
+const OFFICE_MIME_CONDITIONS = ALL_OFFICE_MIMES
+	.map(mime => `\t\t\t\t<d:eq><d:prop><d:getcontenttype/></d:prop><d:literal>${mime}</d:literal></d:eq>`)
+	.join('\n')
+
+/**
+ * Build a DAV SEARCH request body that matches files of any office MIME type
+ * across all subdirectories (depth: infinity).
+ *
+ * @return {string} XML string for the SEARCH request body
+ */
+function getOfficeMimeSearch() {
+	return `<?xml version="1.0" encoding="UTF-8"?>
+<d:searchrequest ${getDavNameSpaces()}>
+	<d:basicsearch>
+		<d:select>
+			<d:prop>
+				${getDavProperties()}
+			</d:prop>
+		</d:select>
+		<d:from>
+			<d:scope>
+				<d:href>${getRootPath()}/</d:href>
+				<d:depth>infinity</d:depth>
+			</d:scope>
+		</d:from>
+		<d:where>
+			<d:or>
+${OFFICE_MIME_CONDITIONS}
+			</d:or>
+		</d:where>
+	</d:basicsearch>
+</d:searchrequest>`
+}
+
 /** @type {import('@nextcloud/files').Node[]|null} */
 let cachedNodes = null
 
 /**
  * Fetch all office files once and cache the result.
  * Subsequent calls return the cached array.
+ * Uses DAV SEARCH to recursively find office files across all subdirectories.
  *
  * @return {Promise<import('@nextcloud/files').Node[]>}
  */
@@ -53,16 +89,15 @@ export async function getAllOfficeFiles() {
 	}
 
 	const client = getClient()
-	const propfindPayload = getDefaultPropfind()
 
-	const response = await client.getDirectoryContents(getRootPath(), {
+	const response = await client.search('/', {
 		details: true,
-		data: propfindPayload,
+		data: getOfficeMimeSearch(),
 	})
 
-	cachedNodes = response.data
+	cachedNodes = response.data.results
 		.map(item => resultToNode(item))
-		.filter(node => node.type === 'file' && ALL_OFFICE_MIMES.includes(node.mime))
+		.filter(node => node.type === 'file')
 
 	return cachedNodes
 }
