@@ -161,7 +161,7 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$guestUserId = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
+		$guestUserId = 'Guest-' . substr(hash('sha256', $wopi->getToken()), 0, 16);
 		$user = $this->userManager->get($wopi->getEditorUid());
 		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
 		$isSmartPickerEnabled = (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect();
@@ -293,7 +293,7 @@ class WopiController extends Controller {
 
 		if ($isPublic) {
 			$response['UserExtraInfo']['is_guest'] = true; // DEPRECATED
-			$response['IsAnonymousUser'] = true;
+			$response['IsAnonymousUser'] = empty($wopi->getGuestDisplayname());
 		} else {
 			$response['IsAnonymousUser'] = false;
 		}
@@ -485,7 +485,7 @@ class WopiController extends Controller {
 			}
 
 			$isPublic = empty($wopi->getEditorUid());
-			$guestUserId = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
+			$guestUserId = 'Guest-' . substr(hash('sha256', $wopi->getToken()), 0, 16);
 			$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
 
 			$userConfig = $this->settingsService->generateSettingsConfig($type, $userId);
