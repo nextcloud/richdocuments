@@ -70,8 +70,15 @@ describe('Office overview page', function() {
 			cy.createRandomUser().then(user => {
 				randUser = user
 				cy.login(user)
+
 				CATEGORY_FILES.forEach(({ fixture, mimeType }) => {
 					cy.uploadFile(user, fixture, mimeType, `/${fixture}`)
+				})
+
+				cy.createFolder(user, 'subfolder').then(() => {
+					CATEGORY_FILES.forEach(({ fixture, mimeType }) => {
+						cy.uploadFile(user, fixture, mimeType, `/subfolder/${fixture}`)
+					})
 				})
 			})
 		})
@@ -107,6 +114,13 @@ describe('Office overview page', function() {
 				cy.waitForCollabora()
 
 				cy.closeDocument()
+			})
+		})
+
+		it('Shows file cards for files in subdirectories', function() {
+			CATEGORY_FILES.forEach(({ category }) => {
+				cy.contains('.app-navigation-entry', category).click()
+				cy.get('.file-card').should('have.length.at.least', 2)
 			})
 		})
 
