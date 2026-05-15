@@ -65,7 +65,7 @@ class DirectEditingViewService {
 	}
 
 	public function render(File $file, string $userId, bool $isDirect = true): Response {
-		$federatedUrl = $this->federationService->getRemoteRedirectURL($file);
+		$federatedUrl = $this->federationService->getRemoteRedirectURL($file, null, null, $userId);
 		if ($federatedUrl !== null) {
 			return new RedirectResponse($federatedUrl);
 		}
