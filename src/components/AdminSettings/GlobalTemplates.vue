@@ -14,37 +14,37 @@
 			@change="selectFile">
 
 		<div class="template-buttons">
-			<NcButton type="tertiary-no-background" @click="newTemplate">
-				<div class="template-btn new-template-btn">
-					<div class="template-icon">
-						<NewTemplateIcon :size="38" />
-					</div>
-					<span>{{ t('richdocuments', 'New') }}</span>
-				</div>
-			</NcButton>
+			<FileCard class="new-template-btn" @click="newTemplate">
+				<template #preview>
+					<NewTemplateIcon :size="38" />
+				</template>
+				<template #name>
+					{{ t('richdocuments', 'New') }}
+				</template>
+			</FileCard>
 
-			<div v-for="template in existingTemplates" :key="template.id">
-				<NcButton type="tertiary-no-background"
-					@click="deleteTemplate(template.id)">
-					<div class="template-btn" :data-cy-template-btn-name="basename(template.name)">
-						<div class="template-icon"
-							:style="`background-image: url(${template.preview})`">
-							<div class="template-delete-overlay">
-								<DeleteIcon :size="38" />
-							</div>
+			<FileCard v-for="template in existingTemplates"
+				:key="template.id"
+				:data-cy-template-btn-name="basename(template.name)"
+				@click="deleteTemplate(template.id)">
+				<template #preview>
+					<div class="template-preview"
+						:style="`background-image: url(${template.preview})`">
+						<div class="template-delete-overlay">
+							<DeleteIcon :size="38" />
 						</div>
-						<span :title="template.name">
-							{{ basename(template.name) }}
-						</span>
 					</div>
-				</NcButton>
-			</div>
+				</template>
+				<template #name>
+					{{ basename(template.name) }}
+				</template>
+			</FileCard>
 		</div>
 	</NcSettingsSection>
 </template>
 
 <script lang="js">
-import { NcSettingsSection, NcButton } from '@nextcloud/vue'
+import { NcSettingsSection } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -54,12 +54,14 @@ import axios from '@nextcloud/axios'
 import NewTemplateIcon from 'vue-material-design-icons/FileDocumentPlusOutline.vue'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 
+import FileCard from '../FileCard.vue'
+
 export default {
 	name: 'GlobalTemplates',
 
 	components: {
 		NcSettingsSection,
-		NcButton,
+		FileCard,
 		NewTemplateIcon,
 		DeleteIcon,
 	},
@@ -170,48 +172,20 @@ $padding: calc(var(--default-grid-baseline) * 3);
 	display: grid;
 	gap: calc(var(--default-grid-baseline) * 4);
 	grid-template-columns: repeat(auto-fit, 175px);
-
-	button {
-		padding: 0 !important;
-	}
 }
 
-.template-btn {
-    display: flex;
-    flex-flow: column nowrap;
-    border:
-        var(--border-width-input)
-        solid
-        var(--color-border)
-    ;
-    border-radius: var(--border-radius-element);
-    width: 175px;
-    height: calc(175px * 1.5);
-    padding: $padding;
-
-	span {
-		text-align: start;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		font-weight: normal;
-		flex-basis: var(--default-line-height);
-	}
+.template-preview {
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	background-position: center;
+	display: flex;
 }
 
-.template-btn:hover .template-delete-overlay {
+.file-card:hover .template-delete-overlay {
 	background-color: var(--color-box-shadow);
 
 	svg { visibility: visible; }
-}
-
-.template-icon {
-	flex-basis: 100%;
-	display: flex;
-	border-radius: var(--border-radius-element);
-	background-size: cover;
-	margin-bottom: $padding;
-
-	svg { color: var(--color-text-lighter); }
 }
 
 .template-delete-overlay {
@@ -219,7 +193,7 @@ $padding: calc(var(--default-grid-baseline) * 3);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-basis: 100%;
+	flex: 1;
 
 	svg {
 		visibility: hidden;
@@ -227,12 +201,15 @@ $padding: calc(var(--default-grid-baseline) * 3);
 	}
 }
 
-.new-template-btn {
-	.template-icon { justify-content: center; }
+.new-template-btn .file-card__preview {
+	justify-content: center;
+	align-items: center;
 
-	span {
-		text-align: center;
-		font-weight: bold;
-	}
+	svg { color: var(--color-text-lighter); }
+}
+
+.new-template-btn .file-card__name {
+	text-align: center;
+	font-weight: bold;
 }
 </style>
