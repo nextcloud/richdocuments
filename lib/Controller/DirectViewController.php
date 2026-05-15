@@ -9,16 +9,17 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\Service\DirectEditingViewService;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\Service\UserScopeService;
-use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -44,8 +45,8 @@ class DirectViewController extends Controller {
 		private InitialStateService $initialState,
 		private IConfig $config,
 		private AppConfig $appConfig,
-		private TemplateManager $templateManager,
 		private FederationService $federationService,
+		private DirectEditingViewService $viewService,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
@@ -57,7 +58,7 @@ class DirectViewController extends Controller {
 	 * @PublicPage
 	 *
 	 * @param string $token
-	 * @return JSONResponse|RedirectResponse|TemplateResponse
+	 * @return JSONResponse|RedirectResponse|TemplateResponse|Response
 	 * @throws NotFoundException
 	 */
 	public function show($token) {
@@ -88,49 +89,17 @@ class DirectViewController extends Controller {
 				throw new \Exception();
 			}
 
-			/** Open file from remote collabora */
-			$federatedUrl = $this->federationService->getRemoteRedirectURL($item, $direct);
-			if ($federatedUrl !== null) {
-				$response = new RedirectResponse($federatedUrl);
-				return $response;
+			// Mirror the legacy "template-id carried on the direct token" flow:
+			// hand the association to the shared view service so the next render
+			// picks up the template via `richdocuments_template`.
+			if ($direct->getTemplateId()) {
+				$this->viewService->primeTemplateSource($item->getId(), $direct->getTemplateId(), $direct->getUid());
 			}
 
-			$wopi = null;
-			$template = $direct->getTemplateId() ? $this->templateManager->get($direct->getTemplateId()) : null;
-
-			if ($template !== null) {
-				$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $item->getId(), $direct->getUid(), false, true);
-			}
-
-			if ($wopi === null) {
-				$wopi = $this->tokenManager->generateWopiToken((string)$item->getId(), null, $direct->getUid(), true);
-			}
-
-			$urlSrc = $this->tokenManager->getUrlSrc($item);
+			return $this->viewService->render($item, $direct->getUid());
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to generate token for existing file on direct editing', ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
-		}
-
-		$relativePath = $folder->getRelativePath($item->getPath());
-
-		try {
-			$params = [
-				'permissions' => $item->getPermissions(),
-				'title' => basename($relativePath),
-				'fileId' => $wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid'),
-				'token' => $wopi->getToken(),
-				'token_ttl' => $wopi->getExpiry(),
-				'urlsrc' => $urlSrc,
-				'path' => $relativePath,
-				'direct' => true,
-				'userId' => $direct->getUid(),
-			];
-
-			return $this->documentTemplateResponse($wopi, $params);
-		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			return  $this->renderErrorPage('Failed to open the requested file.');
 		}
 	}
 
