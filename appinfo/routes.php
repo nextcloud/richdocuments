@@ -61,6 +61,17 @@ return [
 		['name' => 'templates#getPreview', 'url' => '/template/preview/{fileId}', 'verb' => 'GET'],
 		['name' => 'templates#add', 'url' => '/template', 'verb' => 'POST'],
 		['name' => 'templates#delete', 'url' => '/template/{fileId}', 'verb' => 'DELETE'],
+
+		// Overview SPA shell — a single route handles every overview path
+		// (Home, Recent, Shared, Templates) and delegates to Vue Router.
+		['name' => 'overview#index', 'url' => '/overview', 'verb' => 'GET'],
+		[
+			'name' => 'overview#index',
+			'url' => '/overview/{path}',
+			'verb' => 'GET',
+			'postfix' => 'subpath',
+			'requirements' => ['path' => '.+'],
+		],
 	],
 	'ocs' => [
 		// Public pages: new file creation
@@ -87,5 +98,12 @@ return [
 		['name' => 'TemplateField#fillFields', 'url' => '/api/v1/template/fields/fill/{fileId}', 'verb' => 'POST'],
 
 		['name' => 'Mention#mention', 'url' => '/api/v1/mention/{fileId}', 'verb' => 'POST'],
+
+		// Overview API
+		['name' => 'OverviewApi#recent', 'url' => '/api/v1/overview/recent', 'verb' => 'GET'],
+		['name' => 'OverviewApi#shared', 'url' => '/api/v1/overview/shared', 'verb' => 'GET'],
+		['name' => 'OverviewApi#templates', 'url' => '/api/v1/overview/templates', 'verb' => 'GET'],
+		['name' => 'OverviewApi#createFromTemplate', 'url' => '/api/v1/overview/create-from-template', 'verb' => 'POST'],
+		['name' => 'OverviewApi#favourite', 'url' => '/api/v1/overview/favourite', 'verb' => 'POST'],
 	],
 ];
