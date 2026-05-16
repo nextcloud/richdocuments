@@ -125,7 +125,10 @@
 						</p>
 						<p class="option-inline-emphasized">
 							{{ t('richdocuments', 'If the installation from the App Store fails, you can still do that manually using this command:') }}
-							<tt>php -d memory_limit=512M occ app:install {{ CODEAppID }}</tt>
+							<tt>{{ manualCODEInstallCommand }}</tt>
+							<br>
+							{{ t('richdocuments', 'For Nextcloud Snap installations, use:') }}
+							<tt>{{ snapCODEInstallCommand }}</tt>
 						</p>
 					</div>
 				</div>
@@ -571,6 +574,12 @@ export default {
 		},
 		callbackUrl() {
 			return this.settings.wopi_callback_url ? this.settings.wopi_callback_url : getCallbackBaseUrl()
+		},
+		manualCODEInstallCommand() {
+			return `php -d memory_limit=512M occ app:install ${this.CODEAppID}`
+		},
+		snapCODEInstallCommand() {
+			return `sudo nextcloud.occ app:install ${this.CODEAppID}`
 		},
 	},
 	watch: {
