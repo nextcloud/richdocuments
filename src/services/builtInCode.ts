@@ -6,7 +6,6 @@
 import { generateUrl } from '@nextcloud/router'
 import { getCapabilities, capabilitiesService } from './capabilities'
 import axios from '@nextcloud/axios'
-import { showError } from '@nextcloud/dialogs'
 
 const wopiUrl = getCapabilities()?.config?.wopi_url
 const isConfigured = wopiUrl !== ''
@@ -23,6 +22,7 @@ const autoSetupBuiltInCodeServerIfNeeded = async () => {
 	if (result?.data?.capabilities) {
 		capabilitiesService.setCapabilities(result?.data?.capabilities)
 	} else {
+		const { showError } = await import('@nextcloud/dialogs')
 		showError('Could not autoconfigure built-in CODE server, click to open the admin settings for further details: ' + result?.data?.message, {
 			onClick: () => {
 				window.location.href = generateUrl('settings/admin/richdocuments')
