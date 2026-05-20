@@ -28,7 +28,7 @@
 				<button class="template-card" @click="$emit('select', creator, template)">
 					<span class="template-card__preview" :style="previewStyle">
 						<img v-if="template.hasPreview"
-							:src="template.previewUrl"
+							:src="templatePreviewUrl(template)"
 							:alt="nameWithoutExt(template.basename)"
 							loading="lazy"
 							class="template-card__image">
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { generateUrl } from '@nextcloud/router'
+
 export default {
 	name: 'TemplateSection',
 
@@ -59,7 +61,6 @@ export default {
 			if (!this.creator.ratio) {
 				return {}
 			}
-			// ratio is width/height; convert to padding-bottom trick
 			return { paddingBottom: `${(1 / this.creator.ratio) * 100}%` }
 		},
 	},
@@ -68,6 +69,13 @@ export default {
 		nameWithoutExt(basename) {
 			const dot = basename.lastIndexOf('.')
 			return dot > 0 ? basename.slice(0, dot) : basename
+		},
+
+		templatePreviewUrl(template) {
+			if (template.previewUrl) {
+				return template.previewUrl
+			}
+			return generateUrl('/core/preview?fileId={fileid}&x=256&y=256&a=1', { fileid: template.fileid })
 		},
 	},
 }
@@ -129,11 +137,11 @@ export default {
 	box-sizing: border-box;
 }
 
-.template-card__preview--blank {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 120px;
+.template-card__preview--blank .template-card__icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .template-card__image {
