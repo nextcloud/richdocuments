@@ -8,9 +8,14 @@
 			<template #list>
 				<NcAppNavigationItem v-for="creator in creators"
 					:key="creator.app + '-' + creator.extension"
-					:name="creator.label"
+					:name="categoryName(creator)"
 					:active="activeCreator === creator"
-					@click="setCreator(creator)" />
+					@click="setCreator(creator)">
+					<template #icon>
+						<!-- eslint-disable-next-line vue/no-v-html -->
+						<span class="office-overview__nav-icon" v-html="creator.iconSvgInline" />
+					</template>
+				</NcAppNavigationItem>
 			</template>
 		</NcAppNavigation>
 
@@ -28,7 +33,7 @@
 				<template v-else>
 					<div class="office-overview__search">
 						<NcTextField v-model="searchQuery"
-							:label="t('richdocuments', 'Search {category}', { category: activeCreator.label })"
+							:label="t('richdocuments', 'Search {category}', { category: categoryName(activeCreator) })"
 							type="search" />
 					</div>
 
@@ -73,7 +78,7 @@
 
 				<!-- Create from template dialog -->
 				<NcDialog v-if="showCreateDialog"
-					:name="t('richdocuments', 'New {type}', { type: pendingCreator ? pendingCreator.label : '' })"
+					:name="pendingCreator ? pendingCreator.label : ''"
 					:open="showCreateDialog"
 					close-on-click-outside
 					@update:open="showCreateDialog = false">
@@ -86,6 +91,8 @@
 						<NcTextField ref="createInput"
 							v-model="newFileName"
 							:label="t('richdocuments', 'Filename')"
+							:error="!!createError"
+							:helper-text="createError"
 							:disabled="creating" />
 					</form>
 				</NcDialog>
@@ -138,6 +145,7 @@ export default {
 			pendingCreator: null,
 			pendingTemplate: null,
 			creating: false,
+			createError: '',
 		}
 	},
 
@@ -169,6 +177,12 @@ export default {
 	},
 
 	methods: {
+		categoryName(creator) {
+			const base = creator.label.replace(/^new\s+/i, '').trim()
+			const capitalized = base.charAt(0).toUpperCase() + base.slice(1)
+			return capitalized.endsWith('s') ? capitalized : capitalized + 's'
+		},
+
 		setCreator(creator) {
 			this.activeCreator = creator
 		},
@@ -191,6 +205,7 @@ export default {
 			this.pendingCreator = creator
 			this.pendingTemplate = template
 			this.newFileName = creator.label.replace(/^New\s+/i, '') + creator.extension
+			this.createError = ''
 			this.showCreateDialog = true
 			this.$nextTick(() => {
 				const input = this.$refs.createInput?.$el?.querySelector('input')
@@ -206,28 +221,33 @@ export default {
 				return
 			}
 			this.creating = true
+			this.createError = ''
 			try {
 				const filePath = '/' + this.newFileName.trim()
 				const templatePath = this.pendingTemplate?.filename ?? ''
 				const templateType = this.pendingTemplate ? 'user' : 'user_system'
 				await createFromTemplate(filePath, templatePath, templateType)
 				this.showCreateDialog = false
+				const previousCreator = this.activeCreator
 				invalidateOfficeFilesCache()
-				await this.fetchAll()
+				await this.fetchAll(previousCreator)
 			} catch (e) {
-				this.error = t('richdocuments', 'Failed to create file')
+				this.createError = t('richdocuments', 'A file with that name already exists')
 			} finally {
 				this.creating = false
 			}
 		},
 
-		async fetchAll() {
+		async fetchAll(restoreCreator = null) {
 			this.loading = true
 			this.error = null
 
 			try {
 				this.creators = await getTemplates()
-				this.activeCreator = this.creators[0] ?? null
+				const match = restoreCreator
+					? this.creators.find(c => c.app === restoreCreator.app && c.extension === restoreCreator.extension)
+					: null
+				this.activeCreator = match ?? this.creators[0] ?? null
 
 				if (this.creators.length > 0) {
 					const allMimes = this.creators.flatMap(c => c.mimetypes)
@@ -280,5 +300,16 @@ export default {
 
 .office-overview__create-form {
 	min-height: calc(2 * var(--default-clickable-area));
+}
+
+.office-overview__nav-icon {
+	display: flex;
+	width: 20px;
+	height: 20px;
+
+	:deep(svg) {
+		width: 100%;
+		height: 100%;
+	}
 }
 </style>
