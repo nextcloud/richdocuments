@@ -44,13 +44,6 @@
 					<NcEmptyContent v-if="error"
 						:name="error" />
 
-					<NcEmptyContent v-else-if="files.length === 0"
-						:name="t('richdocuments', 'No {category} found', { category: activeCreator.label })">
-						<template #icon>
-							<FileDocumentOutline />
-						</template>
-					</NcEmptyContent>
-
 					<section v-else class="office-overview__files" aria-labelledby="files-section-heading">
 						<div class="office-overview__files-header">
 							<h2 id="files-section-heading" class="office-overview__files-title">
@@ -66,7 +59,37 @@
 							</NcButton>
 						</div>
 
-						<div v-if="viewMode === 'grid'" class="office-overview__grid">
+						<div class="office-overview__filters"
+							role="group"
+							:aria-label="t('richdocuments', 'Filter files')">
+							<NcButton size="small"
+								:variant="activeFilter === 'all' ? 'primary' : 'tertiary'"
+								:aria-pressed="activeFilter === 'all'"
+								@click="activeFilter = 'all'">
+								{{ t('richdocuments', 'All') }}
+							</NcButton>
+							<NcButton size="small"
+								:variant="activeFilter === 'mine' ? 'primary' : 'tertiary'"
+								:aria-pressed="activeFilter === 'mine'"
+								@click="activeFilter = 'mine'">
+								{{ t('richdocuments', 'Mine') }}
+							</NcButton>
+							<NcButton size="small"
+								:variant="activeFilter === 'shared' ? 'primary' : 'tertiary'"
+								:aria-pressed="activeFilter === 'shared'"
+								@click="activeFilter = 'shared'">
+								{{ t('richdocuments', 'Shared with me') }}
+							</NcButton>
+						</div>
+
+						<NcEmptyContent v-if="files.length === 0"
+							:name="t('richdocuments', 'No {category} found', { category: categoryName(activeCreator) })">
+							<template #icon>
+								<FileDocumentOutline />
+							</template>
+						</NcEmptyContent>
+
+						<div v-else-if="viewMode === 'grid'" class="office-overview__grid">
 							<FileCard v-for="file in files"
 								:key="file.id"
 								@click="openFile(file)">
@@ -135,6 +158,7 @@
 </template>
 
 <script>
+import { getCurrentUser } from '@nextcloud/auth'
 import { sortNodes } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
@@ -181,6 +205,7 @@ export default {
 			error: null,
 			previewEnabled: loadState('richdocuments', 'previewEnabled', false),
 			viewMode: loadState('richdocuments', 'overview_config', {}).overview_grid_view ? 'grid' : 'list',
+			activeFilter: 'mine',
 			searchQuery: '',
 			showCreateDialog: false,
 			newFileName: '',
@@ -197,9 +222,26 @@ export default {
 				return []
 			}
 			const byCategory = filterByMimes(this.allFiles, this.activeCreator.mimetypes)
-			const filtered = this.searchQuery
-				? byCategory.filter(f => f.basename.toLowerCase().includes(this.searchQuery.toLowerCase()))
-				: byCategory
+
+			let filtered = byCategory
+			if (this.activeFilter === 'mine') {
+				const uid = getCurrentUser()?.uid
+				filtered = byCategory.filter(f =>
+					f.owner === uid
+					&& !['group', 'shared'].includes(f.attributes?.['nc:mount-type'])
+				)
+			} else if (this.activeFilter === 'shared') {
+				filtered = byCategory.filter(f =>
+					f.attributes?.['nc:mount-type'] === 'shared'
+				)
+			}
+
+			if (this.searchQuery) {
+				filtered = filtered.filter(f =>
+					f.basename.toLowerCase().includes(this.searchQuery.toLowerCase())
+				)
+			}
+
 			return sortNodes(filtered, {
 				sortFavoritesFirst: true,
 				sortingMode: 'mtime',
@@ -365,6 +407,12 @@ export default {
 	font-size: var(--default-font-size);
 	font-weight: 600;
 	color: var(--color-text-maxcontrast);
+}
+
+.office-overview__filters {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 1);
+	padding: 0 calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 2);
 }
 
 .office-overview__list {
