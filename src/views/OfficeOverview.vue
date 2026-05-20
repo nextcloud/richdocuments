@@ -207,6 +207,7 @@ export default {
 			allFiles: [],
 			loading: false,
 			error: null,
+			currentUid: getCurrentUser()?.uid,
 			previewEnabled: loadState('richdocuments', 'previewEnabled', false),
 			viewMode: loadState('richdocuments', 'overview_config', {}).overview_grid_view ? 'grid' : 'list',
 			activeFilter: 'mine',
@@ -222,6 +223,44 @@ export default {
 	},
 
 	computed: {
+		mimeCategories() {
+			return {
+				'application/vnd.oasis.opendocument.text': t('richdocuments', 'Documents'),
+				'application/vnd.oasis.opendocument.text-template': t('richdocuments', 'Documents'),
+				'application/msword': t('richdocuments', 'Documents'),
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document': t('richdocuments', 'Documents'),
+				'application/vnd.oasis.opendocument.spreadsheet': t('richdocuments', 'Spreadsheets'),
+				'application/vnd.oasis.opendocument.spreadsheet-template': t('richdocuments', 'Spreadsheets'),
+				'application/vnd.ms-excel': t('richdocuments', 'Spreadsheets'),
+				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': t('richdocuments', 'Spreadsheets'),
+				'application/vnd.oasis.opendocument.presentation': t('richdocuments', 'Presentations'),
+				'application/vnd.oasis.opendocument.presentation-template': t('richdocuments', 'Presentations'),
+				'application/vnd.ms-powerpoint': t('richdocuments', 'Presentations'),
+				'application/vnd.openxmlformats-officedocument.presentationml.presentation': t('richdocuments', 'Presentations'),
+				'application/vnd.oasis.opendocument.graphics': t('richdocuments', 'Diagrams'),
+				'application/vnd.oasis.opendocument.graphics-template': t('richdocuments', 'Diagrams'),
+			}
+		},
+
+		mimeBasenames() {
+			return {
+				'application/vnd.oasis.opendocument.text': t('richdocuments', 'Document'),
+				'application/vnd.oasis.opendocument.text-template': t('richdocuments', 'Document'),
+				'application/msword': t('richdocuments', 'Document'),
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document': t('richdocuments', 'Document'),
+				'application/vnd.oasis.opendocument.spreadsheet': t('richdocuments', 'Spreadsheet'),
+				'application/vnd.oasis.opendocument.spreadsheet-template': t('richdocuments', 'Spreadsheet'),
+				'application/vnd.ms-excel': t('richdocuments', 'Spreadsheet'),
+				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': t('richdocuments', 'Spreadsheet'),
+				'application/vnd.oasis.opendocument.presentation': t('richdocuments', 'Presentation'),
+				'application/vnd.oasis.opendocument.presentation-template': t('richdocuments', 'Presentation'),
+				'application/vnd.ms-powerpoint': t('richdocuments', 'Presentation'),
+				'application/vnd.openxmlformats-officedocument.presentationml.presentation': t('richdocuments', 'Presentation'),
+				'application/vnd.oasis.opendocument.graphics': t('richdocuments', 'Diagram'),
+				'application/vnd.oasis.opendocument.graphics-template': t('richdocuments', 'Diagram'),
+			}
+		},
+
 		files() {
 			if (!this.activeCreator) {
 				return []
@@ -230,9 +269,8 @@ export default {
 
 			let filtered = byCategory
 			if (this.activeFilter === 'mine') {
-				const uid = getCurrentUser()?.uid
 				filtered = byCategory.filter(f =>
-					f.owner === uid
+					f.owner === this.currentUid
 					&& !['group', 'shared'].includes(f.attributes?.['nc:mount-type'])
 				)
 			} else if (this.activeFilter === 'shared') {
@@ -250,7 +288,7 @@ export default {
 			return sortNodes(filtered, {
 				sortFavoritesFirst: true,
 				sortingMode: 'mtime',
-				sortingOrder: 'asc',
+				sortingOrder: 'desc',
 			})
 		},
 	},
@@ -267,26 +305,8 @@ export default {
 
 	methods: {
 		categoryName(creator) {
-			// Map by MIME type so the name stays correct in every locale.
-			// creator.label is localised server-side and cannot be parsed reliably.
-			const mimeNames = {
-				'application/vnd.oasis.opendocument.text': t('richdocuments', 'Documents'),
-				'application/vnd.oasis.opendocument.text-template': t('richdocuments', 'Documents'),
-				'application/msword': t('richdocuments', 'Documents'),
-				'application/vnd.openxmlformats-officedocument.wordprocessingml.document': t('richdocuments', 'Documents'),
-				'application/vnd.oasis.opendocument.spreadsheet': t('richdocuments', 'Spreadsheets'),
-				'application/vnd.oasis.opendocument.spreadsheet-template': t('richdocuments', 'Spreadsheets'),
-				'application/vnd.ms-excel': t('richdocuments', 'Spreadsheets'),
-				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': t('richdocuments', 'Spreadsheets'),
-				'application/vnd.oasis.opendocument.presentation': t('richdocuments', 'Presentations'),
-				'application/vnd.oasis.opendocument.presentation-template': t('richdocuments', 'Presentations'),
-				'application/vnd.ms-powerpoint': t('richdocuments', 'Presentations'),
-				'application/vnd.openxmlformats-officedocument.presentationml.presentation': t('richdocuments', 'Presentations'),
-				'application/vnd.oasis.opendocument.graphics': t('richdocuments', 'Diagrams'),
-				'application/vnd.oasis.opendocument.graphics-template': t('richdocuments', 'Diagrams'),
-			}
 			for (const mime of (creator.mimetypes ?? [])) {
-				if (mimeNames[mime]) return mimeNames[mime]
+				if (this.mimeCategories[mime]) return this.mimeCategories[mime]
 			}
 			return creator.label
 		},
@@ -318,7 +338,14 @@ export default {
 		onTemplateSelect(creator, template) {
 			this.pendingCreator = creator
 			this.pendingTemplate = template
-			this.newFileName = creator.label.replace(/^New\s+/i, '') + creator.extension
+			let basename = creator.label
+			for (const mime of (creator.mimetypes ?? [])) {
+				if (this.mimeBasenames[mime]) {
+					basename = this.mimeBasenames[mime]
+					break
+				}
+			}
+			this.newFileName = basename + creator.extension
 			this.createError = ''
 			this.showCreateDialog = true
 			this.$nextTick(() => {
