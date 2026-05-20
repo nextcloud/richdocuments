@@ -97,11 +97,12 @@
 								:key="file.id"
 								@click="openFile(file)">
 								<template #preview>
-									<img v-if="previewEnabled"
+									<img v-if="previewEnabled && !failedPreviews[file.fileid]"
 										:src="getPreviewUrl(file)"
 										:alt="file.basename"
 										loading="lazy"
-										class="overview-file-preview">
+										class="overview-file-preview"
+										@error="failedPreviews = { ...failedPreviews, [file.fileid]: true }">
 									<span v-else
 										class="overview-file-icon" />
 								</template>
@@ -215,6 +216,7 @@ export default {
 			pendingCreator: null,
 			pendingTemplate: null,
 			creating: false,
+			failedPreviews: {},
 			createError: '',
 		}
 	},
