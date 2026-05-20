@@ -288,9 +288,7 @@ export default {
 		},
 
 		openFile(file) {
-			if (window.OCA?.Viewer) {
-				OCA.Viewer.open({ path: file.path })
-			}
+			window.OCA?.Viewer?.open({ path: file.path })
 		},
 
 		onTemplateSelect(creator, template) {
