@@ -51,6 +51,7 @@ return [
 			],
 		],
 		['name' => 'settings#generateIframeToken', 'url' => 'settings/generateToken/{type}', 'verb' => 'GET'],
+		['name' => 'settings#setOverviewGridView', 'url' => 'settings/overview/grid_view', 'verb' => 'PUT'],
 
 		// Direct Editing: Webview
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],

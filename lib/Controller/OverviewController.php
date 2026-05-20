@@ -15,6 +15,7 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\Util;
@@ -27,6 +28,8 @@ class OverviewController extends Controller {
 		private IEventDispatcher $eventDispatcher,
 		private IInitialState $initialState,
 		private IPreview $preview,
+		private IConfig $config,
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -40,6 +43,9 @@ class OverviewController extends Controller {
 		Util::addScript('richdocuments', 'richdocuments-overview');
 
 		$this->initialState->provideInitialState('previewEnabled', $this->preview->isMimeSupported('application/vnd.oasis.opendocument.text'));
+		$this->initialState->provideInitialState('config', [
+			'overview_grid_view' => $this->config->getUserValue($this->userId ?? '', 'richdocuments', 'overview_grid_view', '0') === '1',
+		]);
 
 		// Viewer is pre-installed in production but may not be available in other environments
 		if (class_exists(LoadViewer::class)) {
