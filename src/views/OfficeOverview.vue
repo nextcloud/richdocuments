@@ -137,6 +137,15 @@
 								</template>
 							</NcListItem>
 						</div>
+
+						<div v-if="hasMoreFiles" class="office-overview__more">
+							<NcButton variant="tertiary" @click="openInFiles">
+								{{ t('richdocuments', 'Show all in Files') }}
+								<template #icon>
+									<OpenInNew :size="20" />
+								</template>
+							</NcButton>
+						</div>
 					</section>
 				</template>
 
@@ -172,6 +181,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcButton, NcContent, NcDateTime, NcDialog, NcEmptyContent, NcListItem, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import FileDocumentOutline from 'vue-material-design-icons/FileDocumentOutline.vue'
+import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
 import Star from 'vue-material-design-icons/Star.vue'
 import ViewGrid from 'vue-material-design-icons/ViewGrid.vue'
 import ViewList from 'vue-material-design-icons/ViewList.vue'
@@ -180,6 +190,8 @@ import TemplateSection from '../components/TemplateSection.vue'
 import { getAllOfficeFiles, filterByMimes, invalidateOfficeFilesCache } from '../services/officeFiles.js'
 import { getTemplates, createFromTemplate } from '../services/templates.js'
 import { setOverviewGridView } from '../services/config.js'
+
+const MAX_RECENT_FILES = 50
 
 export default {
 	name: 'OfficeOverview',
@@ -198,6 +210,7 @@ export default {
 		NcListItem,
 		NcLoadingIcon,
 		NcTextField,
+		OpenInNew,
 		Star,
 		TemplateSection,
 		ViewGrid,
@@ -265,7 +278,7 @@ export default {
 			}
 		},
 
-		files() {
+		filteredFiles() {
 			if (!this.activeCreator) {
 				return []
 			}
@@ -294,6 +307,14 @@ export default {
 				sortingMode: 'mtime',
 				sortingOrder: 'desc',
 			})
+		},
+
+		files() {
+			return this.filteredFiles.slice(0, MAX_RECENT_FILES)
+		},
+
+		hasMoreFiles() {
+			return this.filteredFiles.length > MAX_RECENT_FILES
 		},
 	},
 
@@ -341,6 +362,10 @@ export default {
 			} else {
 				window.location.href = generateUrl('/f/{fileid}', { fileid: file.fileid })
 			}
+		},
+
+		openInFiles() {
+			window.location.href = generateUrl('/apps/files/?view=recent')
 		},
 
 		onTemplateSelect(creator, template) {
@@ -478,6 +503,12 @@ export default {
 
 .office-overview__list {
 	padding: 0 calc(var(--default-grid-baseline) * 2);
+}
+
+.office-overview__more {
+	display: flex;
+	justify-content: center;
+	padding: calc(var(--default-grid-baseline) * 3) calc(var(--default-grid-baseline) * 4);
 }
 
 .office-overview__favourite-icon {
