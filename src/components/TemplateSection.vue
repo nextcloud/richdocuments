@@ -83,7 +83,7 @@ export default {
 .template-section {
 	padding: calc(var(--default-grid-baseline) * 4);
 	margin: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
-	background-color: var(--color-background-hover);
+	background-color: var(--color-main-background-blur);
 	border-radius: var(--border-radius-large);
 }
 
