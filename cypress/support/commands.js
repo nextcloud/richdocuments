@@ -509,7 +509,7 @@ Cypress.Commands.add('newFileFromMenu', (fileType = 'document', fileName = 'MyNe
 		.click()
 
 	cy.get('button[role="menuitem"]')
-		.contains('New ' + fileType)
+		.contains(fileType)
 		.should('be.visible')
 		.click()
 
