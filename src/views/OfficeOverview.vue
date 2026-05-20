@@ -32,6 +32,10 @@
 							type="search" />
 					</div>
 
+					<TemplateSection v-if="!searchQuery && activeCreator"
+						:creator="activeCreator"
+						@select="onTemplateSelect" />
+
 					<NcEmptyContent v-if="error"
 						:name="error" />
 
@@ -66,6 +70,25 @@
 						</FileCard>
 					</div>
 				</template>
+
+				<!-- Create from template dialog -->
+				<NcDialog v-if="showCreateDialog"
+					:name="t('richdocuments', 'New {type}', { type: pendingCreator ? pendingCreator.label : '' })"
+					:open="showCreateDialog"
+					close-on-click-outside
+					@update:open="showCreateDialog = false">
+					<template #actions>
+						<NcButton :disabled="creating || !newFileName.trim()" variant="primary" @click="doCreateFromTemplate">
+							{{ t('richdocuments', 'Create') }}
+						</NcButton>
+					</template>
+					<form class="office-overview__create-form" @submit.prevent="doCreateFromTemplate">
+						<NcTextField ref="createInput"
+							v-model="newFileName"
+							:label="t('richdocuments', 'Filename')"
+							:disabled="creating" />
+					</form>
+				</NcDialog>
 			</template>
 		</NcAppContent>
 	</NcContent>
@@ -75,26 +98,30 @@
 import { sortNodes } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
-import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcContent, NcDateTime, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcButton, NcContent, NcDateTime, NcDialog, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import FileDocumentOutline from 'vue-material-design-icons/FileDocumentOutline.vue'
 import FileCard from '../components/FileCard.vue'
-import { getAllOfficeFiles, filterByMimes } from '../services/officeFiles.js'
-import { getTemplates } from '../services/templates.js'
+import TemplateSection from '../components/TemplateSection.vue'
+import { getAllOfficeFiles, filterByMimes, invalidateOfficeFilesCache } from '../services/officeFiles.js'
+import { getTemplates, createFromTemplate } from '../services/templates.js'
 
 export default {
 	name: 'OfficeOverview',
 
 	components: {
 		FileCard,
+		FileDocumentOutline,
 		NcAppContent,
 		NcAppNavigation,
 		NcAppNavigationItem,
+		NcButton,
 		NcContent,
 		NcDateTime,
+		NcDialog,
 		NcEmptyContent,
 		NcLoadingIcon,
 		NcTextField,
-		FileDocumentOutline,
+		TemplateSection,
 	},
 
 	data() {
@@ -106,6 +133,11 @@ export default {
 			error: null,
 			previewEnabled: loadState('richdocuments', 'previewEnabled', false),
 			searchQuery: '',
+			showCreateDialog: false,
+			newFileName: '',
+			pendingCreator: null,
+			pendingTemplate: null,
+			creating: false,
 		}
 	},
 
@@ -152,6 +184,40 @@ export default {
 		openFile(file) {
 			if (window.OCA?.Viewer) {
 				OCA.Viewer.open({ path: file.path })
+			}
+		},
+
+		onTemplateSelect(creator, template) {
+			this.pendingCreator = creator
+			this.pendingTemplate = template
+			this.newFileName = creator.label.replace(/^New\s+/i, '') + creator.extension
+			this.showCreateDialog = true
+			this.$nextTick(() => {
+				const input = this.$refs.createInput?.$el?.querySelector('input')
+				if (input) {
+					input.focus()
+					input.setSelectionRange(0, this.newFileName.length - creator.extension.length)
+				}
+			})
+		},
+
+		async doCreateFromTemplate() {
+			if (!this.newFileName.trim() || this.creating) {
+				return
+			}
+			this.creating = true
+			try {
+				const filePath = '/' + this.newFileName.trim()
+				const templatePath = this.pendingTemplate?.filename ?? ''
+				const templateType = this.pendingTemplate ? 'user' : 'user_system'
+				await createFromTemplate(filePath, templatePath, templateType)
+				this.showCreateDialog = false
+				invalidateOfficeFilesCache()
+				await this.fetchAll()
+			} catch (e) {
+				this.error = t('richdocuments', 'Failed to create file')
+			} finally {
+				this.creating = false
 			}
 		},
 
@@ -210,5 +276,9 @@ export default {
 	padding: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
 	max-width: 400px;
 	margin: 0 auto;
+}
+
+.office-overview__create-form {
+	min-height: calc(2 * var(--default-clickable-area));
 }
 </style>
