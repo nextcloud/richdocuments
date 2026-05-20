@@ -48,6 +48,10 @@ let cachedNodes = null
  * Subsequent calls with the same set of MIMEs return the cached array.
  * Pass an empty array to invalidate and re-fetch.
  *
+ * TODO: This DAV SEARCH is unpaginated (depth: infinity). For users with very large
+ * file collections this can be slow and memory-intensive. A v2 should add LIMIT/OFFSET
+ * or switch to the Files API search endpoint once it supports MIME filtering.
+ *
  * @param {string[]} mimes MIME types to search for, derived from template creators
  * @return {Promise<import('@nextcloud/files').Node[]>}
  */
