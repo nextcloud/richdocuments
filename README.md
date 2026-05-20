@@ -19,6 +19,16 @@ Nextcloud Office supports dozens of document formats including DOC, DOCX, PPT, P
 
 Nextcloud Office is based on the Collabora Online Development Edition (CODE) and is available free and under heavy development, adding features and improvements all the time! Enterprise users have access to the more stable, scalable Collabora Online Enterprise based version through a Nextcloud support subscription.
 
+### Office Overview
+
+The app registers an **Office** entry in the Nextcloud navigation bar. The overview page gives you a single place to:
+
+- Browse recent documents, spreadsheets, presentations, and diagrams — with filter chips for *All*, *Mine* (owned by you), and *Shared with me*.
+- Search within the active category.
+- Create a new file from a blank document or from one of your personal templates.
+- Switch between grid and list view (preference is persisted per user).
+- Open any listed file directly in the editor with a single click.
+
 ## Installation
 
 Nextcloud Office is built on Collabora Online which requires a dedicated service running next to the Nextcloud webserver stack. There are several ways to run the coolwsd service. For full details, see the related section in the admin manual https://docs.nextcloud.com/server/latest/admin_manual/office/index.html
