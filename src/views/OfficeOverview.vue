@@ -365,7 +365,7 @@ export default {
 		},
 
 		openInFiles() {
-			window.location.href = generateUrl('/apps/files/?view=recent')
+			window.location.href = generateUrl('/apps/files/recent')
 		},
 
 		onTemplateSelect(creator, template) {
