@@ -12,8 +12,7 @@
 					:active="activeCreator === creator"
 					@click="setCreator(creator)">
 					<template #icon>
-						<!-- eslint-disable-next-line vue/no-v-html -->
-						<span class="office-overview__nav-icon" v-html="creator.iconSvgInline" />
+						<NcIconSvgWrapper :svg="creator.iconSvgInline" class="office-overview__nav-icon" />
 					</template>
 				</NcAppNavigationItem>
 			</template>
@@ -107,8 +106,9 @@
 										loading="lazy"
 										class="overview-file-preview"
 										@error="failedPreviews = { ...failedPreviews, [file.fileid]: true }">
-									<span v-else
-										class="overview-file-icon" />
+									<FileDocumentOutline v-else
+										class="overview-file-icon"
+										:size="48" />
 								</template>
 
 								<template #name>
@@ -179,7 +179,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { sortNodes } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
-import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcButton, NcContent, NcDateTime, NcDialog, NcEmptyContent, NcListItem, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcButton, NcContent, NcDateTime, NcDialog, NcEmptyContent, NcIconSvgWrapper, NcListItem, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import FileDocumentOutline from 'vue-material-design-icons/FileDocumentOutline.vue'
 import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
 import Star from 'vue-material-design-icons/Star.vue'
@@ -207,6 +207,7 @@ export default {
 		NcDateTime,
 		NcDialog,
 		NcEmptyContent,
+		NcIconSvgWrapper,
 		NcListItem,
 		NcLoadingIcon,
 		NcTextField,
@@ -431,13 +432,7 @@ export default {
 }
 
 .overview-file-icon {
-	display: block;
-	width: 48px;
-	height: 48px;
 	margin: auto;
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
 }
 
 .office-overview__loading {

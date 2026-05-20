@@ -13,8 +13,7 @@
 			<li class="template-section__item">
 				<button class="template-card" @click="$emit('select', creator, null)">
 					<span class="template-card__preview template-card__preview--blank">
-						<!-- eslint-disable-next-line vue/no-v-html -->
-						<span class="template-card__icon" v-html="creator.iconSvgInline" />
+						<NcIconSvgWrapper :svg="creator.iconSvgInline" class="template-card__icon" />
 					</span>
 					<span class="template-card__name">{{ t('richdocuments', 'Blank') }}</span>
 				</button>
@@ -32,8 +31,7 @@
 							loading="lazy"
 							class="template-card__image"
 							@error="failedPreviews = { ...failedPreviews, [template.fileid]: true }">
-						<!-- eslint-disable-next-line vue/no-v-html -->
-						<span v-else class="template-card__icon" v-html="creator.iconSvgInline" />
+						<NcIconSvgWrapper v-else :svg="creator.iconSvgInline" class="template-card__icon" />
 					</span>
 					<span class="template-card__name">{{ nameWithoutExt(template.basename) }}</span>
 				</button>
@@ -44,9 +42,14 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
+import { NcIconSvgWrapper } from '@nextcloud/vue'
 
 export default {
 	name: 'TemplateSection',
+
+	components: {
+		NcIconSvgWrapper,
+	},
 
 	props: {
 		creator: {
