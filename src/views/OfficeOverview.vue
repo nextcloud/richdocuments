@@ -413,6 +413,10 @@ export default {
 	display: flex;
 	gap: calc(var(--default-grid-baseline) * 1);
 	padding: 0 calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 2);
+
+	:deep(.button-vue) {
+		--button-radius: var(--border-radius-pill, 100px);
+	}
 }
 
 .office-overview__list {
