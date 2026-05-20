@@ -3,10 +3,10 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<section class="template-section">
-		<h3 class="template-section__heading">
+	<section class="template-section" aria-labelledby="template-section-heading">
+		<h2 id="template-section-heading" class="template-section__heading">
 			{{ t('richdocuments', 'Create new') }}
-		</h3>
+		</h2>
 
 		<ul class="template-section__list">
 			<!-- Blank file card -->
@@ -76,12 +76,16 @@ export default {
 <style scoped>
 .template-section {
 	padding: calc(var(--default-grid-baseline) * 4);
+	margin: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
+	background-color: var(--color-background-hover);
+	border-radius: var(--border-radius-large);
 }
 
 .template-section__heading {
 	margin: 0 0 calc(var(--default-grid-baseline) * 2);
 	font-size: var(--default-font-size);
 	font-weight: 600;
+	color: var(--color-text-maxcontrast);
 }
 
 .template-section__list {

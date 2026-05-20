@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div class="file-card" @click="$emit('click', $event)">
+	<button type="button" class="file-card" @click="$emit('click', $event)">
 		<div class="file-card__preview">
 			<slot name="preview" />
 		</div>
@@ -16,7 +16,7 @@
 				<slot name="subname" />
 			</div>
 		</div>
-	</div>
+	</button>
 </template>
 
 <script>
@@ -26,14 +26,6 @@ export default {
 </script>
 
 <style scoped>
-/* Nextcloud's global reset sets cursor:default on div, img and span explicitly,
-   which prevents inheritance. Override for all slotted content. */
-.file-card ::v-deep div,
-.file-card ::v-deep img,
-.file-card ::v-deep span {
-	cursor: pointer;
-}
-
 .file-card {
 	display: flex;
 	flex-direction: column;
@@ -44,7 +36,14 @@ export default {
 	padding: calc(var(--default-grid-baseline) * 3);
 	cursor: pointer;
 	box-sizing: border-box;
+	background: none;
+	text-align: left;
 	transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary-element);
+		outline-offset: 2px;
+	}
 }
 
 .file-card:hover {

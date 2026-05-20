@@ -31,28 +31,10 @@
 				</NcEmptyContent>
 
 				<template v-else>
-					<div class="office-overview__toolbar">
-						<div class="office-overview__search">
-							<NcTextField v-model="searchQuery"
-								:label="t('richdocuments', 'Search {category}', { category: categoryName(activeCreator) })"
-								type="search" />
-						</div>
-						<div class="office-overview__view-toggle">
-							<NcButton :aria-label="t('richdocuments', 'List view')"
-								:variant="viewMode === 'list' ? 'primary' : 'tertiary'"
-								@click="setViewMode('list')">
-								<template #icon>
-									<ViewList :size="20" />
-								</template>
-							</NcButton>
-							<NcButton :aria-label="t('richdocuments', 'Grid view')"
-								:variant="viewMode === 'grid' ? 'primary' : 'tertiary'"
-								@click="setViewMode('grid')">
-								<template #icon>
-									<ViewGrid :size="20" />
-								</template>
-							</NcButton>
-						</div>
+					<div class="office-overview__search">
+						<NcTextField v-model="searchQuery"
+							:label="t('richdocuments', 'Search {category}', { category: categoryName(activeCreator) })"
+							type="search" />
 					</div>
 
 					<TemplateSection v-if="!searchQuery && activeCreator"
@@ -69,7 +51,21 @@
 						</template>
 					</NcEmptyContent>
 
-					<template v-else>
+					<section v-else class="office-overview__files" aria-labelledby="files-section-heading">
+						<div class="office-overview__files-header">
+							<h2 id="files-section-heading" class="office-overview__files-title">
+								{{ t('richdocuments', 'Recent {category}', { category: categoryName(activeCreator) }) }}
+							</h2>
+							<NcButton :aria-label="viewMode === 'list' ? t('richdocuments', 'Switch to grid view') : t('richdocuments', 'Switch to list view')"
+								variant="tertiary"
+								@click="toggleViewMode">
+								<template #icon>
+									<ViewGrid v-if="viewMode === 'list'" :size="20" />
+									<ViewList v-else :size="20" />
+								</template>
+							</NcButton>
+						</div>
+
 						<div v-if="viewMode === 'grid'" class="office-overview__grid">
 							<FileCard v-for="file in files"
 								:key="file.id"
@@ -110,7 +106,7 @@
 								</template>
 							</NcListItem>
 						</div>
-					</template>
+					</section>
 				</template>
 
 				<!-- Create from template dialog -->
@@ -233,7 +229,8 @@ export default {
 			this.activeCreator = creator
 		},
 
-		setViewMode(mode) {
+		toggleViewMode() {
+			const mode = this.viewMode === 'list' ? 'grid' : 'list'
 			this.viewMode = mode
 			setOverviewGridView(mode === 'grid').catch(() => {})
 		},
@@ -343,26 +340,33 @@ export default {
 	margin: 32px auto;
 }
 
-.office-overview__toolbar {
+.office-overview__search {
+	display: flex;
+	justify-content: center;
+	padding: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
+
+	> * {
+		width: 100%;
+		max-width: 400px;
+	}
+}
+
+.office-overview__files-header {
 	display: flex;
 	align-items: center;
-	gap: calc(var(--default-grid-baseline) * 2);
-	padding: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
+	justify-content: space-between;
+	padding: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 2);
 }
 
-.office-overview__search {
-	flex: 1;
-	max-width: 400px;
-}
-
-.office-overview__view-toggle {
-	display: flex;
-	gap: calc(var(--default-grid-baseline));
-	flex-shrink: 0;
+.office-overview__files-title {
+	margin: 0;
+	font-size: var(--default-font-size);
+	font-weight: 600;
+	color: var(--color-text-maxcontrast);
 }
 
 .office-overview__list {
-	padding: calc(var(--default-grid-baseline) * 2) calc(var(--default-grid-baseline) * 2);
+	padding: 0 calc(var(--default-grid-baseline) * 2);
 }
 
 .office-overview__favourite-icon {
