@@ -83,7 +83,10 @@ export default {
 .template-section {
 	padding: calc(var(--default-grid-baseline) * 4);
 	margin: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
-	background-color: var(--color-main-background-blur);
+	/* Layer the frosted-glass colour over the same fixed background image the nav uses */
+	background:
+		linear-gradient(var(--color-main-background-blur), var(--color-main-background-blur)),
+		var(--image-background, none) center / cover fixed;
 	border-radius: var(--border-radius-large);
 }
 
