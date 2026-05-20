@@ -6,25 +6,11 @@
 	<NcContent app-name="richdocuments">
 		<NcAppNavigation>
 			<template #list>
-				<NcAppNavigationItem :name="t('richdocuments', 'Documents')"
-					icon="icon-filetype-document"
-					:active="currentView === 'documents'"
-					@click="setView('documents')" />
-
-				<NcAppNavigationItem :name="t('richdocuments', 'Presentations')"
-					icon="icon-filetype-presentation"
-					:active="currentView === 'presentations'"
-					@click="setView('presentations')" />
-
-				<NcAppNavigationItem :name="t('richdocuments', 'Spreadsheets')"
-					icon="icon-filetype-spreadsheet"
-					:active="currentView === 'spreadsheets'"
-					@click="setView('spreadsheets')" />
-
-				<NcAppNavigationItem :name="t('richdocuments', 'Diagrams')"
-					icon="icon-filetype-draw"
-					:active="currentView === 'diagrams'"
-					@click="setView('diagrams')" />
+				<NcAppNavigationItem v-for="creator in creators"
+					:key="creator.app + '-' + creator.extension"
+					:name="creator.label"
+					:active="activeCreator === creator"
+					@click="setCreator(creator)" />
 			</template>
 		</NcAppNavigation>
 
@@ -32,44 +18,54 @@
 			<NcLoadingIcon v-if="loading" class="office-overview__loading" />
 
 			<template v-else>
-				<div v-if="!error" class="office-overview__search">
-					<NcTextField v-model="searchQuery"
-						:label="searchLabel"
-						type="search" />
-				</div>
-
-				<NcEmptyContent v-if="error"
-					:name="error" />
-
-				<NcEmptyContent v-else-if="files.length === 0"
-					:name="emptyMessage">
+				<NcEmptyContent v-if="creators.length === 0"
+					:name="t('richdocuments', 'No office suite installed')">
 					<template #icon>
 						<FileDocumentOutline />
 					</template>
 				</NcEmptyContent>
 
-				<div v-else class="office-overview__grid">
-					<FileCard v-for="file in files"
-						:key="file.id"
-						@click="openFile(file)">
-						<template #preview>
-							<img v-if="previewEnabled"
-								:src="getPreviewUrl(file)"
-								:alt="file.basename"
-								class="overview-file-preview">
-							<span v-else
-								:class="['icon-filetype-' + fileTypeClass, 'overview-file-icon']" />
-						</template>
+				<template v-else>
+					<div class="office-overview__search">
+						<NcTextField v-model="searchQuery"
+							:label="t('richdocuments', 'Search {category}', { category: activeCreator.label })"
+							type="search" />
+					</div>
 
-						<template #name>
-							{{ file.basename }}
-						</template>
+					<NcEmptyContent v-if="error"
+						:name="error" />
 
-						<template #subname>
-							<NcDateTime :timestamp="file.mtime" />
+					<NcEmptyContent v-else-if="files.length === 0"
+						:name="t('richdocuments', 'No {category} found', { category: activeCreator.label })">
+						<template #icon>
+							<FileDocumentOutline />
 						</template>
-					</FileCard>
-				</div>
+					</NcEmptyContent>
+
+					<div v-else class="office-overview__grid">
+						<FileCard v-for="file in files"
+							:key="file.id"
+							@click="openFile(file)">
+							<template #preview>
+								<img v-if="previewEnabled"
+									:src="getPreviewUrl(file)"
+									:alt="file.basename"
+									loading="lazy"
+									class="overview-file-preview">
+								<span v-else
+									class="overview-file-icon" />
+							</template>
+
+							<template #name>
+								{{ file.basename }}
+							</template>
+
+							<template #subname>
+								<NcDateTime :timestamp="file.mtime" />
+							</template>
+						</FileCard>
+					</div>
+				</template>
 			</template>
 		</NcAppContent>
 	</NcContent>
@@ -79,17 +75,11 @@
 import { sortNodes } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcContent, NcDateTime, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import FileDocumentOutline from 'vue-material-design-icons/FileDocumentOutline.vue'
 import FileCard from '../components/FileCard.vue'
-import { getAllOfficeFiles, filterByCategory } from '../services/officeFiles.js'
+import { getAllOfficeFiles, filterByMimes } from '../services/officeFiles.js'
+import { getTemplates } from '../services/templates.js'
 
 export default {
 	name: 'OfficeOverview',
@@ -109,7 +99,8 @@ export default {
 
 	data() {
 		return {
-			currentView: 'documents',
+			creators: [],
+			activeCreator: null,
 			allFiles: [],
 			loading: false,
 			error: null,
@@ -120,7 +111,10 @@ export default {
 
 	computed: {
 		files() {
-			const byCategory = filterByCategory(this.allFiles, this.currentView)
+			if (!this.activeCreator) {
+				return []
+			}
+			const byCategory = filterByMimes(this.allFiles, this.activeCreator.mimetypes)
 			const filtered = this.searchQuery
 				? byCategory.filter(f => f.basename.toLowerCase().includes(this.searchQuery.toLowerCase()))
 				: byCategory
@@ -130,54 +124,21 @@ export default {
 				sortingOrder: 'asc',
 			})
 		},
-
-		emptyMessage() {
-			const labels = {
-				documents: t('richdocuments', 'No documents found'),
-				presentations: t('richdocuments', 'No presentations found'),
-				spreadsheets: t('richdocuments', 'No spreadsheets found'),
-				diagrams: t('richdocuments', 'No diagrams found'),
-			}
-
-			return labels[this.currentView]
-		},
-
-		fileTypeClass() {
-			const map = {
-				documents: 'document',
-				presentations: 'presentation',
-				spreadsheets: 'spreadsheet',
-				diagrams: 'draw',
-			}
-
-			return map[this.currentView]
-		},
-
-		searchLabel() {
-			const labels = {
-				documents: t('richdocuments', 'Search documents'),
-				presentations: t('richdocuments', 'Search presentations'),
-				spreadsheets: t('richdocuments', 'Search spreadsheets'),
-				diagrams: t('richdocuments', 'Search diagrams'),
-			}
-
-			return labels[this.currentView]
-		},
 	},
 
 	watch: {
-		currentView() {
+		activeCreator() {
 			this.searchQuery = ''
 		},
 	},
 
 	created() {
-		this.fetchFiles()
+		this.fetchAll()
 	},
 
 	methods: {
-		setView(view) {
-			this.currentView = view
+		setCreator(creator) {
+			this.activeCreator = creator
 		},
 
 		getPreviewUrl(file) {
@@ -194,12 +155,18 @@ export default {
 			}
 		},
 
-		async fetchFiles() {
+		async fetchAll() {
 			this.loading = true
 			this.error = null
 
 			try {
-				this.allFiles = await getAllOfficeFiles()
+				this.creators = await getTemplates()
+				this.activeCreator = this.creators[0] ?? null
+
+				if (this.creators.length > 0) {
+					const allMimes = this.creators.flatMap(c => c.mimetypes)
+					this.allFiles = await getAllOfficeFiles(allMimes)
+				}
 			} catch (e) {
 				this.error = t('richdocuments', 'Failed to load files')
 				this.allFiles = []
