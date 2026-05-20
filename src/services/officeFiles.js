@@ -13,8 +13,9 @@ import { getClient, getDavNameSpaces, getDavProperties, getRootPath, resultToNod
  * @return {string} XML string for the SEARCH request body
  */
 function buildOfficeMimeSearch(mimes) {
+	const escapeXml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 	const conditions = mimes
-		.map(mime => `\t\t\t\t<d:eq><d:prop><d:getcontenttype/></d:prop><d:literal>${mime}</d:literal></d:eq>`)
+		.map(mime => `\t\t\t\t<d:eq><d:prop><d:getcontenttype/></d:prop><d:literal>${escapeXml(mime)}</d:literal></d:eq>`)
 		.join('\n')
 
 	return `<?xml version="1.0" encoding="UTF-8"?>
