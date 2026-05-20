@@ -45,6 +45,10 @@
 						:name="error" />
 
 					<section v-else class="office-overview__files" aria-labelledby="files-section-heading">
+						<div role="status" class="sr-only">
+							{{ t('richdocuments', '{count} {category} found', { count: files.length, category: categoryName(activeCreator) }) }}
+						</div>
+
 						<div class="office-overview__files-header">
 							<h2 id="files-section-heading" class="office-overview__files-title">
 								{{ t('richdocuments', 'Recent {category}', { category: categoryName(activeCreator) }) }}
@@ -332,7 +336,11 @@ export default {
 		},
 
 		openFile(file) {
-			window.OCA?.Viewer?.open({ path: file.path })
+			if (window.OCA?.Viewer?.open) {
+				window.OCA.Viewer.open({ path: file.path })
+			} else {
+				window.location.href = generateUrl('/f/{fileid}', { fileid: file.fileid })
+			}
 		},
 
 		onTemplateSelect(creator, template) {
@@ -489,5 +497,17 @@ export default {
 		width: 100%;
 		height: 100%;
 	}
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
 }
 </style>
