@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import { sortNodes } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
@@ -120,11 +121,14 @@ export default {
 	computed: {
 		files() {
 			const byCategory = filterByCategory(this.allFiles, this.currentView)
-			if (!this.searchQuery) {
-				return byCategory
-			}
-			const q = this.searchQuery.toLowerCase()
-			return byCategory.filter(f => f.basename.toLowerCase().includes(q))
+			const filtered = this.searchQuery
+				? byCategory.filter(f => f.basename.toLowerCase().includes(this.searchQuery.toLowerCase()))
+				: byCategory
+			return sortNodes(filtered, {
+				sortFavoritesFirst: true,
+				sortingMode: 'mtime',
+				sortingOrder: 'asc',
+			})
 		},
 
 		emptyMessage() {
