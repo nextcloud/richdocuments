@@ -6,25 +6,25 @@
 const CATEGORY_FILES = [
 	{
 		category: 'Documents',
-		emptyMessage: 'No documents found',
+		emptyMessage: 'No Documents found',
 		fixture: 'document.odt',
 		mimeType: 'application/vnd.oasis.opendocument.text',
 	},
 	{
 		category: 'Presentations',
-		emptyMessage: 'No presentations found',
+		emptyMessage: 'No Presentations found',
 		fixture: 'presentation.odp',
 		mimeType: 'application/vnd.oasis.opendocument.presentation',
 	},
 	{
 		category: 'Spreadsheets',
-		emptyMessage: 'No spreadsheets found',
+		emptyMessage: 'No Spreadsheets found',
 		fixture: 'spreadsheet.ods',
 		mimeType: 'application/vnd.oasis.opendocument.spreadsheet',
 	},
 	{
 		category: 'Diagrams',
-		emptyMessage: 'No diagrams found',
+		emptyMessage: 'No Diagrams found',
 		fixture: 'drawing.odg',
 		mimeType: 'application/vnd.oasis.opendocument.graphics',
 	},
@@ -103,7 +103,7 @@ describe('Office overview page', function() {
 					.should('exist')
 
 				cy.get('.input-field__label')
-					.should('contain', `Search ${category.toLowerCase()}`)
+					.should('contain', `Search ${category}`)
 			})
 
 			it(`Opens the viewer when clicking a ${category} file card`, function() {
