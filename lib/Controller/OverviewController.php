@@ -43,8 +43,9 @@ class OverviewController extends Controller {
 		Util::addScript('richdocuments', 'richdocuments-overview');
 
 		$this->initialState->provideInitialState('previewEnabled', $this->preview->isMimeSupported('application/vnd.oasis.opendocument.text'));
-		$this->initialState->provideInitialState('config', [
-			'overview_grid_view' => $this->config->getUserValue($this->userId ?? '', 'richdocuments', 'overview_grid_view', '0') === '1',
+		$this->initialState->provideInitialState('overview_config', [
+			'overview_grid_view' => $this->userId !== null
+				&& $this->config->getUserValue($this->userId, 'richdocuments', 'overview_grid_view', '0') === '1',
 		]);
 
 		// Viewer is pre-installed in production but may not be available in other environments

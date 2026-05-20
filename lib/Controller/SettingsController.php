@@ -322,7 +322,10 @@ class SettingsController extends Controller {
 
 	#[NoAdminRequired]
 	public function setOverviewGridView(bool $value): JSONResponse {
-		$this->config->setUserValue($this->userId ?? '', 'richdocuments', 'overview_grid_view', $value ? '1' : '0');
+		if ($this->userId === null) {
+			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+		}
+		$this->config->setUserValue($this->userId, 'richdocuments', 'overview_grid_view', $value ? '1' : '0');
 		return new JSONResponse(['message' => 'ok']);
 	}
 
