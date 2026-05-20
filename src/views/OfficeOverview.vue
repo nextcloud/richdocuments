@@ -259,25 +259,6 @@ export default {
 			}
 		},
 
-		mimeBasenames() {
-			return {
-				'application/vnd.oasis.opendocument.text': t('richdocuments', 'Document'),
-				'application/vnd.oasis.opendocument.text-template': t('richdocuments', 'Document'),
-				'application/msword': t('richdocuments', 'Document'),
-				'application/vnd.openxmlformats-officedocument.wordprocessingml.document': t('richdocuments', 'Document'),
-				'application/vnd.oasis.opendocument.spreadsheet': t('richdocuments', 'Spreadsheet'),
-				'application/vnd.oasis.opendocument.spreadsheet-template': t('richdocuments', 'Spreadsheet'),
-				'application/vnd.ms-excel': t('richdocuments', 'Spreadsheet'),
-				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': t('richdocuments', 'Spreadsheet'),
-				'application/vnd.oasis.opendocument.presentation': t('richdocuments', 'Presentation'),
-				'application/vnd.oasis.opendocument.presentation-template': t('richdocuments', 'Presentation'),
-				'application/vnd.ms-powerpoint': t('richdocuments', 'Presentation'),
-				'application/vnd.openxmlformats-officedocument.presentationml.presentation': t('richdocuments', 'Presentation'),
-				'application/vnd.oasis.opendocument.graphics': t('richdocuments', 'Diagram'),
-				'application/vnd.oasis.opendocument.graphics-template': t('richdocuments', 'Diagram'),
-			}
-		},
-
 		filteredFiles() {
 			if (!this.activeCreator) {
 				return []
@@ -375,14 +356,7 @@ export default {
 		onTemplateSelect(creator, template) {
 			this.pendingCreator = creator
 			this.pendingTemplate = template
-			let basename = creator.label
-			for (const mime of (creator.mimetypes ?? [])) {
-				if (this.mimeBasenames[mime]) {
-					basename = this.mimeBasenames[mime]
-					break
-				}
-			}
-			this.newFileName = basename + creator.extension
+			this.newFileName = creator.label + creator.extension
 			this.createError = ''
 			this.showCreateDialog = true
 			this.$nextTick(() => {
