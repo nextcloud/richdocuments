@@ -140,7 +140,7 @@
 
 						<div v-if="hasMoreFiles" class="office-overview__more">
 							<NcButton variant="tertiary" @click="openInFiles">
-								{{ t('richdocuments', 'Show all in Files') }}
+								{{ searchQuery ? t('richdocuments', 'Search all in Files') : t('richdocuments', 'Show all in Files') }}
 								<template #icon>
 									<OpenInNew :size="20" />
 								</template>
@@ -365,7 +365,11 @@ export default {
 		},
 
 		openInFiles() {
-			window.location.href = generateUrl('/apps/files/recent')
+			if (this.searchQuery) {
+				window.location.href = generateUrl('/apps/files/search') + '?query=' + encodeURIComponent(this.searchQuery)
+			} else {
+				window.location.href = generateUrl('/apps/files/recent')
+			}
 		},
 
 		onTemplateSelect(creator, template) {
