@@ -63,19 +63,19 @@
 							role="group"
 							:aria-label="t('richdocuments', 'Filter files')">
 							<NcButton size="small"
-								:variant="activeFilter === 'all' ? 'primary' : 'tertiary'"
+								:variant="activeFilter === 'all' ? 'primary' : 'secondary'"
 								:aria-pressed="activeFilter === 'all'"
 								@click="activeFilter = 'all'">
 								{{ t('richdocuments', 'All') }}
 							</NcButton>
 							<NcButton size="small"
-								:variant="activeFilter === 'mine' ? 'primary' : 'tertiary'"
+								:variant="activeFilter === 'mine' ? 'primary' : 'secondary'"
 								:aria-pressed="activeFilter === 'mine'"
 								@click="activeFilter = 'mine'">
 								{{ t('richdocuments', 'Mine') }}
 							</NcButton>
 							<NcButton size="small"
-								:variant="activeFilter === 'shared' ? 'primary' : 'tertiary'"
+								:variant="activeFilter === 'shared' ? 'primary' : 'secondary'"
 								:aria-pressed="activeFilter === 'shared'"
 								@click="activeFilter = 'shared'">
 								{{ t('richdocuments', 'Shared with me') }}
@@ -86,6 +86,9 @@
 							:name="t('richdocuments', 'No {category} found', { category: categoryName(activeCreator) })">
 							<template #icon>
 								<FileDocumentOutline />
+							</template>
+							<template v-if="activeFilter !== 'all'" #description>
+								{{ t('richdocuments', 'Switch to All to see every file you have access to') }}
 							</template>
 						</NcEmptyContent>
 
@@ -262,9 +265,28 @@ export default {
 
 	methods: {
 		categoryName(creator) {
-			const base = creator.label.replace(/^new\s+/i, '').trim()
-			const capitalized = base.charAt(0).toUpperCase() + base.slice(1)
-			return capitalized.endsWith('s') ? capitalized : capitalized + 's'
+			// Map by MIME type so the name stays correct in every locale.
+			// creator.label is localised server-side and cannot be parsed reliably.
+			const mimeNames = {
+				'application/vnd.oasis.opendocument.text': t('richdocuments', 'Documents'),
+				'application/vnd.oasis.opendocument.text-template': t('richdocuments', 'Documents'),
+				'application/msword': t('richdocuments', 'Documents'),
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document': t('richdocuments', 'Documents'),
+				'application/vnd.oasis.opendocument.spreadsheet': t('richdocuments', 'Spreadsheets'),
+				'application/vnd.oasis.opendocument.spreadsheet-template': t('richdocuments', 'Spreadsheets'),
+				'application/vnd.ms-excel': t('richdocuments', 'Spreadsheets'),
+				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': t('richdocuments', 'Spreadsheets'),
+				'application/vnd.oasis.opendocument.presentation': t('richdocuments', 'Presentations'),
+				'application/vnd.oasis.opendocument.presentation-template': t('richdocuments', 'Presentations'),
+				'application/vnd.ms-powerpoint': t('richdocuments', 'Presentations'),
+				'application/vnd.openxmlformats-officedocument.presentationml.presentation': t('richdocuments', 'Presentations'),
+				'application/vnd.oasis.opendocument.graphics': t('richdocuments', 'Diagrams'),
+				'application/vnd.oasis.opendocument.graphics-template': t('richdocuments', 'Diagrams'),
+			}
+			for (const mime of (creator.mimetypes ?? [])) {
+				if (mimeNames[mime]) return mimeNames[mime]
+			}
+			return creator.label
 		},
 
 		setCreator(creator) {
