@@ -236,10 +236,12 @@ export default {
 		},
 
 		getPreviewUrl(file) {
-			return generateUrl('/core/preview?fileId={fileid}&x={x}&y={y}', {
+			const etag = (file.attributes?.etag || '').slice(0, 6)
+			return generateUrl('/core/preview?fileId={fileid}&x={x}&y={y}&v={v}&a=1&mimeFallback=1', {
 				fileid: file.fileid,
 				x: 300,
 				y: 300,
+				v: etag,
 			})
 		},
 
