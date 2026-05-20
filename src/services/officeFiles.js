@@ -5,51 +5,18 @@
 
 import { getClient, getDavNameSpaces, getDavProperties, getRootPath, resultToNode } from '@nextcloud/files/dav'
 
-export const OFFICE_MIME_FILTERS = {
-	documents: [
-		'application/vnd.oasis.opendocument.text',
-		'application/vnd.oasis.opendocument.text-template',
-		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-		'application/msword',
-	],
-	presentations: [
-		'application/vnd.oasis.opendocument.presentation',
-		'application/vnd.oasis.opendocument.presentation-template',
-		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-		'application/vnd.openxmlformats-officedocument.presentationml.template',
-		'application/vnd.ms-powerpoint',
-	],
-	spreadsheets: [
-		'application/vnd.oasis.opendocument.spreadsheet',
-		'application/vnd.oasis.opendocument.spreadsheet-template',
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-		'application/vnd.ms-excel',
-		'text/csv',
-	],
-	diagrams: [
-		'application/vnd.oasis.opendocument.graphics',
-		'application/vnd.oasis.opendocument.graphics-template',
-		'application/vnd.visio',
-		'application/vnd.ms-visio.drawing',
-	],
-}
-
-const ALL_OFFICE_MIMES = Object.values(OFFICE_MIME_FILTERS).flat()
-
-// Pre-computed at module load time — ALL_OFFICE_MIMES is static so this never changes.
-const OFFICE_MIME_CONDITIONS = ALL_OFFICE_MIMES
-	.map(mime => `\t\t\t\t<d:eq><d:prop><d:getcontenttype/></d:prop><d:literal>${mime}</d:literal></d:eq>`)
-	.join('\n')
-
 /**
- * Build a DAV SEARCH request body that matches files of any office MIME type
+ * Build a DAV SEARCH request body that matches files of any of the given MIME types
  * across all subdirectories (depth: infinity).
  *
+ * @param {string[]} mimes List of MIME type strings to search for
  * @return {string} XML string for the SEARCH request body
  */
-function getOfficeMimeSearch() {
+function buildOfficeMimeSearch(mimes) {
+	const conditions = mimes
+		.map(mime => `\t\t\t\t<d:eq><d:prop><d:getcontenttype/></d:prop><d:literal>${mime}</d:literal></d:eq>`)
+		.join('\n')
+
 	return `<?xml version="1.0" encoding="UTF-8"?>
 <d:searchrequest ${getDavNameSpaces()}>
 	<d:basicsearch>
@@ -66,7 +33,7 @@ function getOfficeMimeSearch() {
 		</d:from>
 		<d:where>
 			<d:or>
-${OFFICE_MIME_CONDITIONS}
+${conditions}
 			</d:or>
 		</d:where>
 	</d:basicsearch>
@@ -77,13 +44,14 @@ ${OFFICE_MIME_CONDITIONS}
 let cachedNodes = null
 
 /**
- * Fetch all office files once and cache the result.
- * Subsequent calls return the cached array.
- * Uses DAV SEARCH to recursively find office files across all subdirectories.
+ * Fetch all office files matching the given MIME types and cache the result.
+ * Subsequent calls with the same set of MIMEs return the cached array.
+ * Pass an empty array to invalidate and re-fetch.
  *
+ * @param {string[]} mimes MIME types to search for, derived from template creators
  * @return {Promise<import('@nextcloud/files').Node[]>}
  */
-export async function getAllOfficeFiles() {
+export async function getAllOfficeFiles(mimes) {
 	if (cachedNodes) {
 		return cachedNodes
 	}
@@ -92,7 +60,7 @@ export async function getAllOfficeFiles() {
 
 	const response = await client.search('/', {
 		details: true,
-		data: getOfficeMimeSearch(),
+		data: buildOfficeMimeSearch(mimes),
 	})
 
 	cachedNodes = response.data.results
@@ -103,13 +71,19 @@ export async function getAllOfficeFiles() {
 }
 
 /**
- * Filter a list of file nodes by an office category.
+ * Discard the cached file list so the next getAllOfficeFiles() call re-fetches.
+ */
+export function invalidateOfficeFilesCache() {
+	cachedNodes = null
+}
+
+/**
+ * Filter a list of file nodes to those whose MIME type is in the given set.
  *
  * @param {import('@nextcloud/files').Node[]} files
- * @param {string} category - One of 'documents', 'presentations', 'spreadsheets', 'diagrams'
+ * @param {string[]} mimes MIME types for the active category
  * @return {import('@nextcloud/files').Node[]}
  */
-export function filterByCategory(files, category) {
-	const mimes = OFFICE_MIME_FILTERS[category]
+export function filterByMimes(files, mimes) {
 	return files.filter(file => mimes.includes(file.mime))
 }
