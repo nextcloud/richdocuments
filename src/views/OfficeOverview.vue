@@ -31,10 +31,28 @@
 				</NcEmptyContent>
 
 				<template v-else>
-					<div class="office-overview__search">
-						<NcTextField v-model="searchQuery"
-							:label="t('richdocuments', 'Search {category}', { category: categoryName(activeCreator) })"
-							type="search" />
+					<div class="office-overview__toolbar">
+						<div class="office-overview__search">
+							<NcTextField v-model="searchQuery"
+								:label="t('richdocuments', 'Search {category}', { category: categoryName(activeCreator) })"
+								type="search" />
+						</div>
+						<div class="office-overview__view-toggle">
+							<NcButton :aria-label="t('richdocuments', 'List view')"
+								:variant="viewMode === 'list' ? 'primary' : 'tertiary'"
+								@click="setViewMode('list')">
+								<template #icon>
+									<ViewList :size="20" />
+								</template>
+							</NcButton>
+							<NcButton :aria-label="t('richdocuments', 'Grid view')"
+								:variant="viewMode === 'grid' ? 'primary' : 'tertiary'"
+								@click="setViewMode('grid')">
+								<template #icon>
+									<ViewGrid :size="20" />
+								</template>
+							</NcButton>
+						</div>
 					</div>
 
 					<TemplateSection v-if="!searchQuery && activeCreator"
@@ -51,29 +69,48 @@
 						</template>
 					</NcEmptyContent>
 
-					<div v-else class="office-overview__grid">
-						<FileCard v-for="file in files"
-							:key="file.id"
-							@click="openFile(file)">
-							<template #preview>
-								<img v-if="previewEnabled"
-									:src="getPreviewUrl(file)"
-									:alt="file.basename"
-									loading="lazy"
-									class="overview-file-preview">
-								<span v-else
-									class="overview-file-icon" />
-							</template>
+					<template v-else>
+						<div v-if="viewMode === 'grid'" class="office-overview__grid">
+							<FileCard v-for="file in files"
+								:key="file.id"
+								@click="openFile(file)">
+								<template #preview>
+									<img v-if="previewEnabled"
+										:src="getPreviewUrl(file)"
+										:alt="file.basename"
+										loading="lazy"
+										class="overview-file-preview">
+									<span v-else
+										class="overview-file-icon" />
+								</template>
 
-							<template #name>
-								{{ file.basename }}
-							</template>
+								<template #name>
+									{{ file.basename }}
+								</template>
 
-							<template #subname>
-								<NcDateTime :timestamp="file.mtime" />
-							</template>
-						</FileCard>
-					</div>
+								<template #subname>
+									<NcDateTime :timestamp="file.mtime" />
+								</template>
+							</FileCard>
+						</div>
+
+						<div v-else class="office-overview__list">
+							<NcListItem v-for="file in files"
+								:key="file.id"
+								:name="file.basename"
+								:active="false"
+								@click="openFile(file)">
+								<template #indicator>
+									<Star v-if="file.attributes.favorite === 1"
+										:size="16"
+										class="office-overview__favourite-icon" />
+								</template>
+								<template #subname>
+									<NcDateTime :timestamp="file.mtime" />
+								</template>
+							</NcListItem>
+						</div>
+					</template>
 				</template>
 
 				<!-- Create from template dialog -->
@@ -105,12 +142,16 @@
 import { sortNodes } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
-import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcButton, NcContent, NcDateTime, NcDialog, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcButton, NcContent, NcDateTime, NcDialog, NcEmptyContent, NcListItem, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import FileDocumentOutline from 'vue-material-design-icons/FileDocumentOutline.vue'
+import Star from 'vue-material-design-icons/Star.vue'
+import ViewGrid from 'vue-material-design-icons/ViewGrid.vue'
+import ViewList from 'vue-material-design-icons/ViewList.vue'
 import FileCard from '../components/FileCard.vue'
 import TemplateSection from '../components/TemplateSection.vue'
 import { getAllOfficeFiles, filterByMimes, invalidateOfficeFilesCache } from '../services/officeFiles.js'
 import { getTemplates, createFromTemplate } from '../services/templates.js'
+import { setOverviewGridView } from '../services/config.js'
 
 export default {
 	name: 'OfficeOverview',
@@ -126,9 +167,13 @@ export default {
 		NcDateTime,
 		NcDialog,
 		NcEmptyContent,
+		NcListItem,
 		NcLoadingIcon,
 		NcTextField,
+		Star,
 		TemplateSection,
+		ViewGrid,
+		ViewList,
 	},
 
 	data() {
@@ -139,6 +184,7 @@ export default {
 			loading: false,
 			error: null,
 			previewEnabled: loadState('richdocuments', 'previewEnabled', false),
+			viewMode: loadState('richdocuments', 'config', {}).overview_grid_view ? 'grid' : 'list',
 			searchQuery: '',
 			showCreateDialog: false,
 			newFileName: '',
@@ -185,6 +231,11 @@ export default {
 
 		setCreator(creator) {
 			this.activeCreator = creator
+		},
+
+		setViewMode(mode) {
+			this.viewMode = mode
+			setOverviewGridView(mode === 'grid').catch(() => {})
 		},
 
 		getPreviewUrl(file) {
@@ -292,10 +343,30 @@ export default {
 	margin: 32px auto;
 }
 
-.office-overview__search {
+.office-overview__toolbar {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 2);
 	padding: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
+}
+
+.office-overview__search {
+	flex: 1;
 	max-width: 400px;
-	margin: 0 auto;
+}
+
+.office-overview__view-toggle {
+	display: flex;
+	gap: calc(var(--default-grid-baseline));
+	flex-shrink: 0;
+}
+
+.office-overview__list {
+	padding: calc(var(--default-grid-baseline) * 2) calc(var(--default-grid-baseline) * 2);
+}
+
+.office-overview__favourite-icon {
+	color: var(--color-warning);
 }
 
 .office-overview__create-form {
