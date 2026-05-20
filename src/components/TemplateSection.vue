@@ -12,8 +12,7 @@
 			<!-- Blank file card -->
 			<li class="template-section__item">
 				<button class="template-card" @click="$emit('select', creator, null)">
-					<span class="template-card__preview template-card__preview--blank"
-						:style="previewStyle">
+					<span class="template-card__preview template-card__preview--blank">
 						<!-- eslint-disable-next-line vue/no-v-html -->
 						<span class="template-card__icon" v-html="creator.iconSvgInline" />
 					</span>
@@ -26,12 +25,14 @@
 				:key="template.fileid"
 				class="template-section__item">
 				<button class="template-card" @click="$emit('select', creator, template)">
-					<span class="template-card__preview" :style="previewStyle">
-						<img v-if="template.hasPreview"
+					<span class="template-card__preview">
+						<img v-if="template.hasPreview && !failedPreviews[template.fileid]"
 							:src="templatePreviewUrl(template)"
 							:alt="nameWithoutExt(template.basename)"
 							loading="lazy"
-							class="template-card__image">
+							class="template-card__image"
+							@error="failedPreviews = { ...failedPreviews, [template.fileid]: true }">
+						<!-- eslint-disable-next-line vue/no-v-html -->
 						<span v-else class="template-card__icon" v-html="creator.iconSvgInline" />
 					</span>
 					<span class="template-card__name">{{ nameWithoutExt(template.basename) }}</span>
@@ -56,13 +57,10 @@ export default {
 
 	emits: ['select'],
 
-	computed: {
-		previewStyle() {
-			if (!this.creator.ratio) {
-				return {}
-			}
-			return { paddingBottom: `${(1 / this.creator.ratio) * 100}%` }
-		},
+	data() {
+		return {
+			failedPreviews: {},
+		}
 	},
 
 	methods: {
@@ -130,18 +128,15 @@ export default {
 .template-card__preview {
 	position: relative;
 	width: 100%;
+	aspect-ratio: 2 / 3;
 	overflow: hidden;
 	border: 2px solid var(--color-border);
 	border-radius: var(--border-radius-large);
 	background-color: var(--color-main-background);
 	box-sizing: border-box;
-}
-
-.template-card__preview--blank .template-card__icon {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .template-card__image {

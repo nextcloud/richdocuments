@@ -180,7 +180,7 @@ export default {
 			loading: false,
 			error: null,
 			previewEnabled: loadState('richdocuments', 'previewEnabled', false),
-			viewMode: loadState('richdocuments', 'config', {}).overview_grid_view ? 'grid' : 'list',
+			viewMode: loadState('richdocuments', 'overview_config', {}).overview_grid_view ? 'grid' : 'list',
 			searchQuery: '',
 			showCreateDialog: false,
 			newFileName: '',
@@ -237,7 +237,7 @@ export default {
 
 		getPreviewUrl(file) {
 			const etag = (file.attributes?.etag || '').slice(0, 6)
-			return generateUrl('/core/preview?fileId={fileid}&x={x}&y={y}&v={v}&a=1&mimeFallback=1', {
+			return generateUrl('/core/preview?fileId={fileid}&x={x}&y={y}&v={v}&a=1&mimeFallback=true', {
 				fileid: file.fileid,
 				x: 300,
 				y: 300,
