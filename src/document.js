@@ -476,10 +476,14 @@ const documentsMain = {
 					}
 
 					if (msgId === 'UI_SaveAs') {
+						let docPath = documentsMain.fileName
+						if (documentsMain.fullPath && documentsMain.fullPath !== '/') {
+							docPath = documentsMain.fullPath
+						}
 						spawnDialog(
 							SaveAs,
 							{
-								path: documentsMain.fileName,
+								path: docPath,
 								format: args.format,
 							},
 							(value) => value && PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { Filename: value, Notify: true }),
