@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Listener;
 
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\InitialStateService;
@@ -27,6 +28,7 @@ class LoadViewerListener implements IEventListener {
 		private PermissionManager $permissionManager,
 		private InitialStateService $initialStateService,
 		private IEventDispatcher $eventDispatcher,
+		private AppConfig $appConfig,
 		private ?string $userId,
 	) {
 	}
@@ -36,7 +38,9 @@ class LoadViewerListener implements IEventListener {
 		if (!$event instanceof LoadViewer) {
 			return;
 		}
-		if ($this->permissionManager->isEnabledForUser() && $this->userId !== null) {
+		if ($this->permissionManager->isEnabledForUser()
+			&& $this->userId !== null
+			&& $this->appConfig->getCollaboraUrlInternal() !== '') {
 			$this->initialStateService->provideCapabilities();
 			Util::addInitScript(Application::APPNAME, Application::APPNAME . '-init-viewer');
 			Util::addScript(Application::APPNAME, Application::APPNAME . '-viewer', 'viewer');
