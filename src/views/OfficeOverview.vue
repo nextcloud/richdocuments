@@ -270,17 +270,17 @@ export default {
 			if (this.activeFilter === 'mine') {
 				filtered = byCategory.filter(f =>
 					f.owner === this.currentUid
-					&& !['group', 'shared'].includes(f.attributes?.['nc:mount-type'])
+					&& !['group', 'shared'].includes(f.attributes?.['nc:mount-type']),
 				)
 			} else if (this.activeFilter === 'shared') {
 				filtered = byCategory.filter(f =>
-					f.attributes?.['nc:mount-type'] === 'shared'
+					f.attributes?.['nc:mount-type'] === 'shared',
 				)
 			}
 
 			if (this.searchQuery) {
 				filtered = filtered.filter(f =>
-					f.basename.toLowerCase().includes(this.searchQuery.toLowerCase())
+					f.basename.toLowerCase().includes(this.searchQuery.toLowerCase()),
 				)
 			}
 
