@@ -12,7 +12,7 @@
 			<!-- Blank file card -->
 			<li class="template-section__item">
 				<button class="template-card" @click="$emit('select', creator, null)">
-					<span class="template-card__preview template-card__preview--blank">
+					<span class="template-card__preview template-card__preview--blank" :style="previewStyle">
 						<NcIconSvgWrapper :svg="creator.iconSvgInline" class="template-card__icon" />
 					</span>
 					<span class="template-card__name">{{ t('richdocuments', 'Blank') }}</span>
@@ -24,7 +24,7 @@
 				:key="template.fileid"
 				class="template-section__item">
 				<button class="template-card" @click="$emit('select', creator, template)">
-					<span class="template-card__preview">
+					<span class="template-card__preview" :style="previewStyle">
 						<img v-if="template.hasPreview && !failedPreviews[template.fileid]"
 							:src="templatePreviewUrl(template)"
 							:alt="nameWithoutExt(template.basename)"
@@ -59,6 +59,19 @@ export default {
 	},
 
 	emits: ['select'],
+
+	computed: {
+		previewStyle() {
+			const presentationMimes = [
+				'application/vnd.oasis.opendocument.presentation',
+				'application/vnd.oasis.opendocument.presentation-template',
+				'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+			]
+			return this.creator.mimetypes?.some(m => presentationMimes.includes(m))
+				? { 'aspect-ratio': '16 / 9' }
+				: {}
+		},
+	},
 
 	data() {
 		return {
