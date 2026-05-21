@@ -19,6 +19,7 @@
 					{{ t('richdocuments', 'Cancel') }}
 				</NcButton>
 				<NcButton type="primary"
+					:disabled="!isValidName"
 					@click="close">
 					{{ t('richdocuments', 'Save') }}
 				</NcButton>
@@ -66,13 +67,13 @@ export default {
 	emits: ['close'],
 	data() {
 		return {
-			selectedPath: '',
+			selectedPath: null,
 		}
 	},
 	computed: {
 		newFileName: {
 			get() {
-				if (this.selectedPath !== '') {
+				if (this.selectedPath !== null) {
 					return this.selectedPath
 				}
 				const filename = this.path
@@ -83,6 +84,20 @@ export default {
 			set(value) {
 				this.selectedPath = value
 			},
+		},
+		isValidName() {
+			const value = this.newFileName.trim()
+			if (value === '') {
+				return false
+			}
+			const base = value.split('/').pop()
+			const parts = base.split('.')
+			let valid = true
+			// filename is non-empty
+			valid &&= base !== ''
+			// filename has both a name part and an extension
+			valid &&= parts.length >= 2 && parts.at(-2).length > 0 && parts.at(-1).length > 0
+			return valid
 		},
 	},
 	mounted() {
