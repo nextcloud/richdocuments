@@ -8,7 +8,7 @@ import './init-shared.js'
 import Vue from 'vue'
 import { translate as t } from '@nextcloud/l10n'
 
-import { registerCustomPickerElement, NcCustomPickerRenderResult } from '@nextcloud/vue/dist/Components/NcRichText.js'
+import { registerCustomPickerElement, NcCustomPickerRenderResult } from '@nextcloud/vue/dist/Functions/registerReference.js'
 
 import DocumentTargetPicker from './view/DocumentTargetPicker.vue'
 
