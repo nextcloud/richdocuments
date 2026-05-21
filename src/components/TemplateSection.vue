@@ -107,7 +107,7 @@ export default {
 	padding-bottom: calc(var(--default-grid-baseline) * 2);
 	list-style: none;
 	margin: 0;
-	padding-left: 0;
+	padding-inline-start: 0;
 }
 
 .template-section__item {

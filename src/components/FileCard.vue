@@ -37,7 +37,7 @@ export default {
 	cursor: pointer;
 	box-sizing: border-box;
 	background: none;
-	text-align: left;
+	text-align: start;
 	transition: box-shadow 0.2s ease, transform 0.2s ease;
 
 	&:focus-visible {
