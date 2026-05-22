@@ -377,13 +377,12 @@ export default {
 			this.createError = ''
 			try {
 				const filePath = '/' + this.newFileName.trim()
-				const templatePath = this.pendingTemplate?.filename ?? ''
-				const templateType = this.pendingTemplate ? 'user' : 'user_system'
-				await createFromTemplate(filePath, templatePath, templateType)
+				const templatePath = this.pendingTemplate?.templateId ?? ''
+				const templateType = this.pendingTemplate?.templateType ?? 'user_system'
+				const newFile = await createFromTemplate(filePath, templatePath, templateType)
 				this.showCreateDialog = false
-				const previousCreator = this.activeCreator
 				invalidateOfficeFilesCache()
-				await this.fetchAll(previousCreator)
+				window.location.href = generateUrl('/f/{fileid}', { fileid: newFile.fileid })
 			} catch (e) {
 				this.createError = t('richdocuments', 'A file with that name already exists')
 			} finally {
