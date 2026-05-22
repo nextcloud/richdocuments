@@ -67,6 +67,7 @@ describe('Office overview page', function() {
 		let randUser
 
 		before(function() {
+			cy.nextcloudTestingAppConfigSet('richdocuments', 'doc_format', '')
 			cy.createRandomUser().then(user => {
 				randUser = user
 				cy.login(user)
