@@ -104,8 +104,8 @@ describe('Office overview page', function() {
 				cy.get('.file-card__preview img')
 					.should('exist')
 
-				cy.get('.input-field__label')
-					.should('contain', `Search ${category}`)
+				cy.get('.app-navigation-search input[type="search"]')
+					.should('have.attr', 'aria-label', `Search ${category}`)
 			})
 
 			it(`Opens the viewer when clicking a ${category} file card`, function() {
@@ -132,7 +132,7 @@ describe('Office overview page', function() {
 
 			cy.contains('.app-navigation-entry', category).click()
 
-			cy.get('.office-overview__search [type="search"]').type(stem)
+			cy.get('.app-navigation-search input[type="search"]').type(stem)
 			cy.contains('.file-card__name', fixture).should('be.visible')
 		})
 
@@ -141,7 +141,7 @@ describe('Office overview page', function() {
 
 			cy.contains('.app-navigation-entry', category).click()
 
-			cy.get('.office-overview__search [type="search"]').type('xyz123noresults')
+			cy.get('.app-navigation-search input[type="search"]').type('xyz123noresults')
 			cy.get('.empty-content').should('be.visible')
 		})
 
@@ -149,11 +149,11 @@ describe('Office overview page', function() {
 			const [first, second] = CATEGORY_FILES
 
 			cy.contains('.app-navigation-entry', first.category).click()
-			cy.get('.office-overview__search [type="search"]').type('xyz123noresults')
+			cy.get('.app-navigation-search input[type="search"]').type('xyz123noresults')
 
 			cy.contains('.app-navigation-entry', second.category).click()
 
-			cy.get('.office-overview__search [type="search"]').should('have.value', '')
+			cy.get('.app-navigation-search input[type="search"]').should('have.value', '')
 			cy.contains('.file-card__name', second.fixture).should('be.visible')
 		})
 	})
