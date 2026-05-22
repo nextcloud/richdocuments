@@ -157,4 +157,98 @@ describe('Office overview page', function() {
 			cy.contains('.file-card__name', second.fixture).should('be.visible')
 		})
 	})
+
+	describe('create from template', function() {
+		let randUser
+
+		before(function() {
+			cy.createRandomUser().then(user => {
+				randUser = user
+			})
+		})
+
+		beforeEach(function() {
+			cy.login(randUser)
+			cy.visit('/apps/richdocuments/overview')
+			cy.contains('.app-navigation-entry', 'Documents').click()
+		})
+
+		it('Opens the create dialog with pre-filled filename when clicking Blank', function() {
+			cy.contains('.template-card__name', 'Blank')
+				.closest('.template-card')
+				.click()
+
+			cy.get('[role="dialog"]').should('be.visible')
+			cy.get('[role="dialog"] input[type="text"]').invoke('val').should('match', /\.\w+$/)
+		})
+
+		it('Creates a blank file and navigates to it', function() {
+			cy.intercept('POST', /templates\/create/).as('createFile')
+
+			cy.contains('.template-card__name', 'Blank')
+				.closest('.template-card')
+				.click()
+
+			cy.get('[role="dialog"]').within(() => {
+				cy.contains('button', 'Create').click()
+			})
+
+			cy.wait('@createFile').then(({ request, response }) => {
+				expect(request.body).to.have.property('templatePath', '')
+				expect(response.statusCode).to.equal(200)
+			})
+
+			// After successful creation the page navigates away from the overview
+			cy.location('pathname').should('not.include', 'overview')
+		})
+
+		it('Shows an error message when creation fails', function() {
+			cy.intercept('POST', /templates\/create/, {
+				statusCode: 403,
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					ocs: {
+						meta: { status: 'failure', statuscode: 403, message: 'File already exists' },
+						data: {},
+					},
+				}),
+			}).as('createFail')
+
+			cy.contains('.template-card__name', 'Blank')
+				.closest('.template-card')
+				.click()
+
+			cy.get('[role="dialog"]').within(() => {
+				cy.contains('button', 'Create').click()
+			})
+
+			cy.wait('@createFail')
+
+			// Dialog stays open and shows the server error message
+			cy.get('[role="dialog"]', { timeout: 8000 }).should('contain.text', 'exists')
+		})
+
+		it('Uses templateId and templateType from the template when clicking a non-blank template', function() {
+			cy.get('.template-section__list .template-card').then($cards => {
+				const nonBlank = $cards.filter((_, el) => !el.querySelector('.template-card__name')?.textContent.includes('Blank'))
+				if (nonBlank.length === 0) {
+					this.skip()
+					return
+				}
+
+				cy.intercept('POST', /templates\/create/).as('createFromTemplate')
+
+				cy.wrap(nonBlank.first()).click()
+
+				cy.get('[role="dialog"]').within(() => {
+					cy.contains('button', 'Create').click()
+				})
+
+				cy.wait('@createFromTemplate').then(({ request }) => {
+					expect(request.body.templatePath).to.not.equal('')
+					expect(request.body.templateType).to.not.equal('user_system')
+				})
+			})
+		})
+	})
 })
