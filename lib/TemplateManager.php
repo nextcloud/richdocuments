@@ -32,18 +32,21 @@ class TemplateManager {
 		'application/vnd.oasis.opendocument.text-template',
 		'application/vnd.oasis.opendocument.text',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'application/msword'
 	];
 	public const MIMES_SHEETS = [
 		'application/vnd.oasis.opendocument.spreadsheet-template',
 		'application/vnd.oasis.opendocument.spreadsheet',
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 		'application/vnd.ms-excel'
 	];
 	public const MIMES_PRESENTATIONS = [
 		'application/vnd.oasis.opendocument.presentation-template',
 		'application/vnd.oasis.opendocument.presentation',
 		'application/vnd.openxmlformats-officedocument.presentationml.template',
+		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 		'application/vnd.ms-powerpoint'
 	];
 	public const MIMES_DRAWINGS = [
