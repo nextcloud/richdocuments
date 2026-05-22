@@ -8,7 +8,7 @@
 		<div class="section">
 			<h2>{{ productName }}</h2>
 			<p v-if="hasNextcloudBranding" class="description">
-				{{ t('richdocuments', 'Nextcloud Office is a powerful Collabora Online based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
+				{{ t('richdocuments', 'Nextcloud Office (powered by Collabora Online) is a powerful online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
 			</p>
 			<p v-else class="description">
 				{{ t('richdocuments', 'Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
@@ -77,7 +77,7 @@
 						:disabled="updating">
 					<label for="customserver">{{ t('richdocuments', 'Use your own server') }}</label><br>
 					<p class="option-inline">
-						<em>{{ t('richdocuments', 'Nextcloud Office requires a separate server running Collabora Online to provide editing capabilities.') }}</em>
+						<em>{{ t('richdocuments', 'Nextcloud Office (Collabora) requires a separate server running Collabora Online to provide editing capabilities.') }}</em>
 						<em>{{ t('richdocuments', 'Collabora Online requires a separate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
 					</p>
 					<div v-if="serverMode === 'custom'" class="option-inline">
@@ -312,9 +312,9 @@
 			<h2>{{ t('richdocuments', 'Secure View') }}</h2>
 			<p>{{ t('richdocuments', 'Secure view enables you to secure office documents by blocking downloads, previews and showing a watermark') }}</p>
 			<ul>
-				<li>{{ t('richdocuments', 'The settings only apply to compatible office files that are opened in Nextcloud Office') }}</li>
+				<li>{{ t('richdocuments', 'The settings only apply to compatible office files that are opened in Nextcloud Office (Collabora)') }}</li>
 				<li>{{ t('richdocuments', 'Downloading the file through WebDAV will be blocked') }}</li>
-				<li>{{ t('richdocuments', 'The following options within Nextcloud Office will be disabled: Copy, Download, Export, Print') }}</li>
+				<li>{{ t('richdocuments', 'The following options within Nextcloud Office (Collabora) will be disabled: Copy, Download, Export, Print') }}</li>
 				<li>{{ t('richdocuments', 'Files may still be downloadable via WOPI requests if WOPI settings are not correctly configured') }}</li>
 				<li>{{ t('richdocuments', 'Previews will be blocked') }}</li>
 			</ul>
@@ -483,7 +483,7 @@ export default {
 	},
 	data() {
 		return {
-			productName: loadState('richdocuments', 'productName', 'Nextcloud Office'),
+			productName: loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)'),
 			hasNextcloudBranding: loadState('richdocuments', 'hasNextcloudBranding', true),
 
 			serverMode: '',

@@ -6,7 +6,7 @@
 
 ### Configuration
 
-The Nextcloud Office configuration for creating new files with their mimetype and extension per file type is exposed to `OCA.RichDocuments.config.create`.
+The Nextcloud Office (Collabora) configuration for creating new files with their mimetype and extension per file type is exposed to `OCA.RichDocuments.config.create`.
 
 ```json
 {
@@ -30,7 +30,7 @@ The Nextcloud Office configuration for creating new files with their mimetype an
 ### Open viewer
 
 
-The following two methods are exposed in order to manually trigger the Nextcloud Office viewer opening a file:
+The following two methods are exposed in order to manually trigger the Nextcloud Office (Collabora) viewer opening a file:
 
 #### Open an existing file
 
@@ -247,7 +247,7 @@ Example failed event data:
 
 ### WOPI PostMessages
 
-Collabora Online emits various post messages which are catched and handled by the Nextcloud Office
+Collabora Online emits various post messages which are catched and handled by the Nextcloud Office (Collabora)
 Integration app. Postmessages which are sent from the WOPI host (Collabora) to the editor (
 Nextcloud) are also exposed through the Nextcloud event bus under the `richdocuments:wopi-post`
 event name. For details on the post messages see
