@@ -5,6 +5,9 @@
 <template>
 	<NcContent app-name="richdocuments">
 		<NcAppNavigation>
+			<template #search>
+				<NcAppNavigationSearch v-model="searchQuery" :label="searchLabel" />
+			</template>
 			<template #list>
 				<NcAppNavigationItem v-for="creator in creators"
 					:key="creator.app + '-' + creator.extension"
@@ -18,7 +21,7 @@
 			</template>
 		</NcAppNavigation>
 
-		<NcAppContent>
+		<NcAppContent class="office-overview__content">
 			<NcLoadingIcon v-if="loading" class="office-overview__loading" />
 
 			<template v-else>
@@ -30,12 +33,6 @@
 				</NcEmptyContent>
 
 				<template v-else>
-					<div class="office-overview__search">
-						<NcTextField v-model="searchQuery"
-							:label="t('richdocuments', 'Search {category}', { category: categoryName(activeCreator) })"
-							type="search" />
-					</div>
-
 					<TemplateSection v-if="!searchQuery && activeCreator"
 						:creator="activeCreator"
 						@select="onTemplateSelect" />
@@ -52,6 +49,32 @@
 							<h2 id="files-section-heading" class="office-overview__files-title">
 								{{ t('richdocuments', 'Recent {category}', { category: categoryName(activeCreator) }) }}
 							</h2>
+						</div>
+
+						<div class="office-overview__controls">
+							<div class="office-overview__filters"
+								role="group"
+								:aria-label="t('richdocuments', 'Filter files')">
+								<NcButton size="small"
+									:variant="activeFilter === 'all' ? 'primary' : 'secondary'"
+									:aria-pressed="activeFilter === 'all'"
+									@click="activeFilter = 'all'">
+									{{ t('richdocuments', 'All') }}
+								</NcButton>
+								<NcButton size="small"
+									:variant="activeFilter === 'mine' ? 'primary' : 'secondary'"
+									:aria-pressed="activeFilter === 'mine'"
+									@click="activeFilter = 'mine'">
+									{{ t('richdocuments', 'Mine') }}
+								</NcButton>
+								<NcButton size="small"
+									:variant="activeFilter === 'shared' ? 'primary' : 'secondary'"
+									:aria-pressed="activeFilter === 'shared'"
+									@click="activeFilter = 'shared'">
+									{{ t('richdocuments', 'Shared with me') }}
+								</NcButton>
+							</div>
+
 							<NcButton :aria-label="viewMode === 'list' ? t('richdocuments', 'Switch to grid view') : t('richdocuments', 'Switch to list view')"
 								variant="tertiary"
 								@click="toggleViewMode">
@@ -59,29 +82,6 @@
 									<ViewGrid v-if="viewMode === 'list'" :size="20" />
 									<ViewList v-else :size="20" />
 								</template>
-							</NcButton>
-						</div>
-
-						<div class="office-overview__filters"
-							role="group"
-							:aria-label="t('richdocuments', 'Filter files')">
-							<NcButton size="small"
-								:variant="activeFilter === 'all' ? 'primary' : 'secondary'"
-								:aria-pressed="activeFilter === 'all'"
-								@click="activeFilter = 'all'">
-								{{ t('richdocuments', 'All') }}
-							</NcButton>
-							<NcButton size="small"
-								:variant="activeFilter === 'mine' ? 'primary' : 'secondary'"
-								:aria-pressed="activeFilter === 'mine'"
-								@click="activeFilter = 'mine'">
-								{{ t('richdocuments', 'Mine') }}
-							</NcButton>
-							<NcButton size="small"
-								:variant="activeFilter === 'shared' ? 'primary' : 'secondary'"
-								:aria-pressed="activeFilter === 'shared'"
-								@click="activeFilter = 'shared'">
-								{{ t('richdocuments', 'Shared with me') }}
 							</NcButton>
 						</div>
 
@@ -179,7 +179,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { sortNodes } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
-import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcButton, NcContent, NcDateTime, NcDialog, NcEmptyContent, NcIconSvgWrapper, NcListItem, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcAppNavigationSearch, NcButton, NcContent, NcDateTime, NcDialog, NcEmptyContent, NcIconSvgWrapper, NcListItem, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import FileDocumentOutline from 'vue-material-design-icons/FileDocumentOutline.vue'
 import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
 import Star from 'vue-material-design-icons/Star.vue'
@@ -202,6 +202,7 @@ export default {
 		NcAppContent,
 		NcAppNavigation,
 		NcAppNavigationItem,
+		NcAppNavigationSearch,
 		NcButton,
 		NcContent,
 		NcDateTime,
@@ -258,6 +259,12 @@ export default {
 				'application/vnd.oasis.opendocument.graphics': t('richdocuments', 'Diagrams'),
 				'application/vnd.oasis.opendocument.graphics-template': t('richdocuments', 'Diagrams'),
 			}
+		},
+
+		searchLabel() {
+			return this.activeCreator
+				? t('richdocuments', 'Search {category}', { category: this.categoryName(this.activeCreator) })
+				: t('richdocuments', 'Search')
 		},
 
 		filteredFiles() {
@@ -435,19 +442,21 @@ export default {
 	margin: auto;
 }
 
-.office-overview__loading {
-	margin: 32px auto;
+.office-overview__content {
+	/* Safe area so content never sits under the app navigation toggle. */
+	padding-top: var(--default-clickable-area);
 }
 
-.office-overview__search {
-	display: flex;
-	justify-content: center;
-	padding: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
+/* NcAppNavigationSearch always renders its clear button; hide it while the
+   field is empty (input showing its placeholder).
+   TODO: fix this in the NcAppNavigationSearch component itself — the trailing
+   clear button should only show when the field has a value. */
+:deep(.app-navigation-search .input-field__input:placeholder-shown ~ .input-field__trailing-button) {
+	display: none;
+}
 
-	> * {
-		width: 100%;
-		max-width: 400px;
-	}
+.office-overview__loading {
+	margin: 32px auto;
 }
 
 .office-overview__files-header {
@@ -459,15 +468,22 @@ export default {
 
 .office-overview__files-title {
 	margin: 0;
-	font-size: var(--default-font-size);
+	font-size: 24px;
 	font-weight: 600;
-	color: var(--color-text-maxcontrast);
+	color: var(--color-main-text);
+}
+
+.office-overview__controls {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: calc(var(--default-grid-baseline) * 2);
+	padding: 0 calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 2);
 }
 
 .office-overview__filters {
 	display: flex;
 	gap: calc(var(--default-grid-baseline) * 1);
-	padding: 0 calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 2);
 
 	:deep(.button-vue) {
 		--button-radius: var(--border-radius-pill, 100px);
