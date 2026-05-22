@@ -3,7 +3,9 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<section class="template-section" aria-labelledby="template-section-heading">
+	<section class="template-section"
+		:style="sectionStyle"
+		aria-labelledby="template-section-heading">
 		<div class="template-section__header">
 			<h2 id="template-section-heading" class="template-section__heading">
 				{{ t('richdocuments', 'Create new') }}
@@ -66,6 +68,13 @@ import { NcButton, NcIconSvgWrapper } from '@nextcloud/vue'
 import ChevronLeft from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
 
+const THEME_PALETTES = {
+	document: ['hsl(203 79% 78%)', 'hsl(203 79% 60%)', 'hsl(203 70% 42%)', 'hsl(203 65% 26%)'],
+	spreadsheet: ['hsl(79 46% 70%)', 'hsl(79 46% 52%)', 'hsl(79 50% 38%)', 'hsl(79 55% 24%)'],
+	presentation: ['hsl(23 83% 80%)', 'hsl(23 83% 66%)', 'hsl(23 75% 48%)', 'hsl(23 70% 32%)'],
+	drawing: ['hsl(47 80% 62%)', 'hsl(47 80% 39%)', 'hsl(47 82% 28%)', 'hsl(47 85% 18%)'],
+}
+
 // Card width and inter-card gap (calc(baseline * 3), baseline = 4px), used to
 // size the scroll step so a card of context stays visible after each jump.
 const CARD_WIDTH = 160
@@ -100,15 +109,28 @@ export default {
 	},
 
 	computed: {
+		themeType() {
+			const mimes = (this.creator.mimetypes ?? []).join(' ')
+			if (/presentation|powerpoint/.test(mimes)) return 'presentation'
+			if (/spreadsheet|ms-excel/.test(mimes)) return 'spreadsheet'
+			if (/graphics|drawing/.test(mimes)) return 'drawing'
+			return 'document'
+		},
+
 		previewStyle() {
-			const presentationMimes = [
-				'application/vnd.oasis.opendocument.presentation',
-				'application/vnd.oasis.opendocument.presentation-template',
-				'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-			]
-			return this.creator.mimetypes?.some(m => presentationMimes.includes(m))
+			return this.themeType === 'presentation'
 				? { 'aspect-ratio': '16 / 9' }
 				: {}
+		},
+
+		sectionStyle() {
+			const [glow1, glow2, glow3, glow4] = THEME_PALETTES[this.themeType]
+			return {
+				'--tpl-glow-1': glow1,
+				'--tpl-glow-2': glow2,
+				'--tpl-glow-3': glow3,
+				'--tpl-glow-4': glow4,
+			}
 		},
 
 		// True when the row overflows in either direction — the scroll arrows
@@ -187,10 +209,16 @@ export default {
 .template-section {
 	padding: calc(var(--default-grid-baseline) * 4);
 	margin: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
-	/* Layer the frosted-glass colour over the same fixed background image the nav uses */
 	background:
-		linear-gradient(var(--color-main-background-blur), var(--color-main-background-blur)),
-		var(--image-background, none) center / cover fixed;
+		radial-gradient(78% 82% at 14% 2%,
+			color-mix(in srgb, var(--tpl-glow-1) 28%, transparent), transparent 66%),
+		radial-gradient(72% 76% at 102% -2%,
+			color-mix(in srgb, var(--tpl-glow-2) 24%, transparent), transparent 64%),
+		radial-gradient(82% 88% at 20% 114%,
+			color-mix(in srgb, var(--tpl-glow-3) 22%, transparent), transparent 68%),
+		radial-gradient(88% 94% at 98% 104%,
+			color-mix(in srgb, var(--tpl-glow-4) 26%, transparent), transparent 70%),
+		color-mix(in srgb, var(--tpl-glow-2) 8%, var(--color-main-background));
 	border-radius: var(--border-radius-large);
 }
 
