@@ -395,7 +395,8 @@ export default {
 				invalidateOfficeFilesCache()
 				window.location.href = generateUrl('/f/{fileid}', { fileid: newFile.fileid })
 			} catch (e) {
-				this.createError = t('richdocuments', 'A file with that name already exists')
+				this.createError = e.response?.data?.ocs?.meta?.message
+					|| t('richdocuments', 'Failed to create file')
 			} finally {
 				this.creating = false
 			}
