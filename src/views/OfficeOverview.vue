@@ -111,6 +111,10 @@
 										:size="48" />
 								</template>
 
+								<template v-if="activeCreator" #icon>
+									<NcIconSvgWrapper :svg="activeCreator.iconSvgInline" :size="20" />
+								</template>
+
 								<template #name>
 									{{ file.basename }}
 								</template>
