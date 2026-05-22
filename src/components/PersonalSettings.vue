@@ -4,8 +4,8 @@
 -->
 
 <template>
-	<NcSettingsSection :name="t('richdocuments', 'Nextcloud Office')"
-		:description="t('richdocuments', 'Personal Settings for Nextcloud Office')"
+	<NcSettingsSection :name="t('richdocuments', 'Nextcloud Office (Collabora)')"
+		:description="t('richdocuments', 'Personal Settings for Nextcloud Office (Collabora)')"
 		:limit-width="true">
 		<!-- Template folder selection -->
 		<div class="template-folder-settings">
@@ -30,7 +30,7 @@
 		</div>
 		<p>
 			<em>
-				{{ t('richdocuments', 'Templates inside of this directory will be added to the template selector of Nextcloud Office.') }}
+				{{ t('richdocuments', 'Templates inside of this directory will be added to the template selector of Nextcloud Office (Collabora).') }}
 			</em>
 		</p>
 

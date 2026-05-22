@@ -6,7 +6,7 @@
 -->
 <info>
 	<id>richdocuments</id>
-	<name>Nextcloud Office</name>
+	<name>Nextcloud Office (Collabora)</name>
 	<summary>Edit office documents directly in your browser.</summary>
 	<description><![CDATA[This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.
 

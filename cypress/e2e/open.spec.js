@@ -125,14 +125,14 @@ describe('Open PDF with richdocuments', () => {
 		cy.get('@pdfViewer').find('.pdfViewer').should('exist')
 	})
 
-	// Verify that using the file action 'Edit with Nextcloud Office'
+	// Verify that using the file action 'Edit with Nextcloud Office (Collabora)'
 	// opens the file using richdocuments
 	it('Open PDF with richdocuments', () => {
 		cy.get('[data-cy-files-list-row-name="document.pdf"]').as('pdf')
 		cy.get('@pdf').find('.action-items').as('actions')
 
 		cy.get('@actions').find('.action-item__menutoggle').click()
-		cy.get('.action-button__longtext').contains('Edit with Nextcloud Office').click()
+		cy.get('.action-button__longtext').contains('Edit with Nextcloud Office (Collabora)').click()
 
 		// Wait for Collabora to open
 		cy.waitForViewer()
