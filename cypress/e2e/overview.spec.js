@@ -98,6 +98,7 @@ describe('Office overview page', function() {
 				cy.contains('.app-navigation-entry', category).click()
 
 				cy.contains('.file-card__name', fixture)
+					.scrollIntoView()
 					.should('be.visible')
 
 				cy.get('.file-card__preview img')
