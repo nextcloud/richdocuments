@@ -186,7 +186,7 @@ class WopiController extends Controller {
 			'UserExtraInfo' => [],
 			'UserPrivateInfo' => [],
 			'UserCanWrite' => $canWriteThroughLock && (bool)$wopi->getCanwrite(),
-			'UserCanNotWriteRelative' => $isPublic || $this->encryptionManager->isEnabled() || $wopi->getHideDownload() || $wopi->isRemoteToken() || $shouldUseSecureView,
+			'UserCanNotWriteRelative' => $isPublic || $wopi->getHideDownload() || $wopi->isRemoteToken() || $shouldUseSecureView,
 			'PostMessageOrigin' => $wopi->getServerHost(),
 			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
 			'SupportsRename' => !$isVersion && !$wopi->isRemoteToken(),
