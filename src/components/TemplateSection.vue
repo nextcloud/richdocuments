@@ -36,23 +36,29 @@
 				:key="item.blank ? 'blank' : item.fileid"
 				class="template-section__item">
 				<!-- Blank file card -->
-				<button v-if="item.blank" class="template-card" @click="$emit('select', creator, null)">
-					<span class="template-card__preview template-card__preview--blank" :style="previewStyle">
-						<NcIconSvgWrapper :svg="creator.iconSvgInline" class="template-card__icon" />
+				<button v-if="item.blank"
+					class="template-card"
+					:style="cardStyle"
+					@click="$emit('select', creator, null)">
+					<span class="template-card__preview">
+						<NcIconSvgWrapper :svg="creator.iconSvgInline" :size="32" />
 					</span>
 					<span class="template-card__name">{{ t('richdocuments', 'Blank') }}</span>
 				</button>
 
 				<!-- Template card -->
-				<button v-else class="template-card" @click="$emit('select', creator, item)">
-					<span class="template-card__preview" :style="previewStyle">
+				<button v-else
+					class="template-card"
+					:style="cardStyle"
+					@click="$emit('select', creator, item)">
+					<span class="template-card__preview">
 						<img v-if="item.hasPreview && !failedPreviews[item.fileid]"
 							:src="templatePreviewUrl(item)"
 							:alt="nameWithoutExt(item.basename)"
 							loading="lazy"
 							class="template-card__image"
 							@error="failedPreviews = { ...failedPreviews, [item.fileid]: true }">
-						<NcIconSvgWrapper v-else :svg="creator.iconSvgInline" class="template-card__icon" />
+						<NcIconSvgWrapper v-else :svg="creator.iconSvgInline" :size="48" />
 					</span>
 					<span class="template-card__name">{{ nameWithoutExt(item.basename) }}</span>
 				</button>
@@ -75,8 +81,8 @@ const THEME_PALETTES = {
 	drawing: ['hsl(47 80% 62%)', 'hsl(47 80% 39%)', 'hsl(47 82% 28%)', 'hsl(47 85% 18%)'],
 }
 
-// Card width and inter-card gap (calc(baseline * 3), baseline = 4px), used to
-// size the scroll step so a card of context stays visible after each jump.
+// Inter-card gap (calc(baseline * 3), baseline = 4px) and a representative card
+// width, used to size the scroll step so a card of context stays visible.
 const CARD_WIDTH = 160
 const CARD_GAP = 12
 
@@ -117,10 +123,16 @@ export default {
 			return 'document'
 		},
 
-		previewStyle() {
-			return this.themeType === 'presentation'
-				? { 'aspect-ratio': '16 / 9' }
-				: {}
+		// Preview tiles have a per-type height; the width follows the type's
+		// aspect ratio so each thumbnail scales without distortion.
+		cardStyle() {
+			const isPresentation = this.themeType === 'presentation'
+			const height = isPresentation ? 150 : 200
+			const ratio = isPresentation ? 16 / 9 : 2 / 3
+			return {
+				width: `${Math.round(height * ratio)}px`,
+				'--tpl-preview-height': `${height}px`,
+			}
 		},
 
 		sectionStyle() {
@@ -207,7 +219,7 @@ export default {
 
 <style scoped>
 .template-section {
-	padding: calc(var(--default-grid-baseline) * 4);
+	padding: calc(var(--default-grid-baseline) * 4) 0;
 	margin: calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4) 0;
 	background:
 		radial-gradient(78% 82% at 14% 2%,
@@ -228,13 +240,15 @@ export default {
 	justify-content: space-between;
 	gap: calc(var(--default-grid-baseline) * 2);
 	margin-bottom: calc(var(--default-grid-baseline) * 2);
+	padding-inline: calc(var(--default-grid-baseline) * 4);
 }
 
 .template-section__heading {
-	margin: 0 0 calc(var(--default-grid-baseline) * 2);
-	font-size: var(--default-font-size);
+	/* !important overrides the global heading top margin from server styles. */
+	margin: 0 !important;
+	font-size: 24px;
 	font-weight: 600;
-	color: var(--color-text-maxcontrast);
+	color: var(--color-main-text);
 }
 
 .template-section__nav {
@@ -246,11 +260,10 @@ export default {
 .template-section__list {
 	display: flex;
 	gap: calc(var(--default-grid-baseline) * 3);
-	overflow-x: auto;
-	padding-bottom: calc(var(--default-grid-baseline) * 2);
 	list-style: none;
+	padding: calc(var(--default-grid-baseline) * 1) 0 0;
 	margin: 0;
-	padding-inline-start: 0;
+	overflow-x: auto;
 	/* The arrow buttons are the scroll affordance — hide the native scrollbar. */
 	scrollbar-width: none;
 
@@ -263,35 +276,52 @@ export default {
 	flex: 0 0 auto;
 }
 
+.template-section__item:first-child {
+	margin-inline-start: calc(var(--default-grid-baseline) * 4);
+}
+
+.template-section__item:last-child {
+	margin-inline-end: calc(var(--default-grid-baseline) * 4);
+}
+
 .template-card {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 160px;
+	/* Width is set inline (cardStyle) from the type's aspect ratio. */
 	padding: 0;
 	border: none;
 	background: none;
 	cursor: pointer;
 	border-radius: var(--border-radius-large);
 
+	&:hover,
+	&:focus-visible {
+		background: none;
+	}
+
 	&:hover .template-card__preview,
 	&:focus-visible .template-card__preview {
-		border-color: var(--color-primary-element);
+		/* Inset-style ring replaces the resting border on hover. */
+		box-shadow:
+			0 0 0 2px var(--color-primary-element),
+			0 4px 6px rgba(0, 0, 0, 0.28);
 	}
 }
 
 .template-card__preview {
 	position: relative;
 	width: 100%;
-	aspect-ratio: 2 / 3;
+	height: var(--tpl-preview-height);
 	overflow: hidden;
-	border: 2px solid var(--color-border);
 	border-radius: var(--border-radius-large);
 	background-color: var(--color-main-background);
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transition: box-shadow var(--animation-quick) ease;
 }
 
 .template-card__image {
@@ -302,22 +332,10 @@ export default {
 	object-fit: cover;
 }
 
-.template-card__icon {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 48px;
-	height: 48px;
-
-	:deep(svg) {
-		width: 100%;
-		height: 100%;
-	}
-}
-
 .template-card__name {
-	margin-top: calc(var(--default-grid-baseline) * 1);
-	font-size: var(--font-size-small, 12px);
+	margin-top: calc(var(--default-grid-baseline) * 2);
+	font-size: var(--font-size-small, 13px);
+	color: var(--color-main-text);
 	text-align: center;
 	max-width: 100%;
 	overflow: hidden;
