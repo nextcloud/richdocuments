@@ -125,7 +125,7 @@
 						</p>
 						<p class="option-inline-emphasized">
 							{{ t('richdocuments', 'If the installation from the App Store fails, you can still do that manually using this command:') }}
-							<tt>php -d memory_limit=512M occ app:install {{ CODEAppID }}</tt>
+							<tt>{{ CODEInstallCommand }}</tt>
 						</p>
 					</div>
 				</div>
@@ -491,6 +491,7 @@ export default {
 			errorMessage: null,
 			hostErrors: [window.location.host === 'localhost' || window.location.host === '127.0.0.1', window.location.protocol !== 'https:', false],
 			demoServers: null,
+			isSnap: false,
 			CODEInstalled: 'richdocumentscode' in OC.appswebroots,
 			CODECompatible: true,
 			CODEAppID: 'richdocumentscode',
@@ -572,6 +573,15 @@ export default {
 		callbackUrl() {
 			return this.settings.wopi_callback_url ? this.settings.wopi_callback_url : getCallbackBaseUrl()
 		},
+		CODEInstallCommand() {
+			return this.isSnap ? this.snapCODEInstallCommand : this.manualCODEInstallCommand
+		},
+		manualCODEInstallCommand() {
+			return `php -d memory_limit=512M occ app:install ${this.CODEAppID}`
+		},
+		snapCODEInstallCommand() {
+			return `sudo nextcloud.occ app:install ${this.CODEAppID}`
+		},
 	},
 	watch: {
 		'settings.public_wopi_url'(newVal, oldVal) {
@@ -623,6 +633,7 @@ export default {
 		this.uiVisible.external_apps = !!(this.settings.external_apps && this.settings.external_apps !== '')
 
 		this.demoServers = this.initial.demo_servers
+		this.isSnap = this.initial.is_snap === true
 
 		if (this.initial.web_server && this.initial.web_server.length > 0) {
 			this.isNginx = this.initial.web_server.indexOf('nginx') !== -1
