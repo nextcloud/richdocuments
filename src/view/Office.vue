@@ -100,7 +100,12 @@ import {
 } from '../helpers/url.js'
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration.js'
-import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora.js'
+import {
+	LOADING_ERROR,
+	checkCollaboraConfiguration,
+	checkProxyStatus,
+	isBuiltinCodeServerUsed,
+} from '../services/collabora.js'
 import { enableScrollLock, disableScrollLock } from '../helpers/mobileFixer.js'
 import axios from '@nextcloud/axios'
 import {
@@ -277,7 +282,11 @@ export default {
 		})
 		try {
 			await checkCollaboraConfiguration()
+			if (isBuiltinCodeServerUsed()) {
+				this.loadingMsg = t('richdocuments', 'Starting the built-in CODE server …')
+			}
 			await checkProxyStatus()
+			this.loadingMsg = null
 		} catch (e) {
 			this.error = e.message
 			this.loading = LOADING_STATE.FAILED
@@ -408,16 +417,16 @@ export default {
 					this.documentReady()
 
 					if (loadState('richdocuments', 'open_local_editor', true) && !this.isEmbedded) {
-				        this.sendPostMessage('Insert_Button', {
-					        id: 'Open_Local_Editor',
-					        imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
-					        mobile: false,
-					        label: t('richdocuments', 'Open in local editor'),
-					        hint: t('richdocuments', 'Open in local editor'),
-					        insertBefore: 'print',
-					        accessKey: '2',
-				        })
-			        }
+						this.sendPostMessage('Insert_Button', {
+							id: 'Open_Local_Editor',
+							imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
+							mobile: false,
+							label: t('richdocuments', 'Open in local editor'),
+							hint: t('richdocuments', 'Open in local editor'),
+							insertBefore: 'print',
+							accessKey: '2',
+						})
+					}
 
 					if (this.isEmbedded && this.hasWidgetEditingEnabled) {
 						this.sendPostMessage('Hide_Sidebar')
