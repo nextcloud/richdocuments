@@ -56,6 +56,7 @@ class Admin implements ISettings {
 					'web_server' => strtolower($_SERVER['SERVER_SOFTWARE']),
 					'os_family' => PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS,
 					'platform' => php_uname('m'),
+					'is_snap' => $this->isSnapInstallation(),
 					'fonts' => $this->fontService->getFontFileNames(),
 					'esignature_base_url' => $this->config->getAppValue('richdocuments', 'esignature_base_url'),
 					'esignature_client_id' => $this->config->getAppValue('richdocuments', 'esignature_client_id'),
@@ -76,5 +77,14 @@ class Admin implements ISettings {
 	#[\Override]
 	public function getPriority(): int {
 		return 0;
+	}
+
+	private function isSnapInstallation(): bool {
+		$snap = getenv('SNAP');
+		if ($snap !== false && $snap !== '') {
+			return true;
+		}
+
+		return str_starts_with((string)$this->config->getSystemValue('datadirectory', ''), '/var/snap/nextcloud/');
 	}
 }
