@@ -7,7 +7,6 @@
 
 declare(strict_types=1);
 
-
 namespace OCA\Richdocuments\Template;
 
 use OCA\Richdocuments\TemplateManager;

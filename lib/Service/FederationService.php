@@ -193,7 +193,6 @@ class FederationService {
 			return null;
 		}
 
-
 		$remote = $item->getStorage()->getRemote();
 		$remoteCollabora = $this->getRemoteCollaboraURL($remote);
 		if ($remoteCollabora !== '') {

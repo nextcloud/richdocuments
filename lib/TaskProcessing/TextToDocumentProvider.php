@@ -117,7 +117,6 @@ class TextToDocumentProvider implements ISynchronousWatermarkingProvider {
 			$targetFormat = $input['target_format'];
 		}
 
-
 		$fileContent = $this->documentGenerationService->generateTextDocument(
 			$userId,
 			$input['text'],

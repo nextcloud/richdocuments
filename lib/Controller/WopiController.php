@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Richdocuments\Controller;
 
 use OCA\Files_Versions\Versions\IVersionManager;
@@ -180,7 +181,6 @@ class WopiController extends Controller {
 
 		$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
 
-
 		$response = [
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
@@ -311,7 +311,6 @@ class WopiController extends Controller {
 
 		return new JSONResponse($response);
 	}
-
 
 	private function setFederationFileInfo(Wopi $wopi, $response) {
 		$response['UserId'] = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
@@ -531,7 +530,6 @@ class WopiController extends Controller {
 			$fileContent = stream_get_contents($content);
 			fclose($content);
 
-
 			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $userId);
 
 			return new JSONResponse([
@@ -736,7 +734,6 @@ class WopiController extends Controller {
 			default:
 				break; //FIXME: Move to function and add error for unsupported method
 		}
-
 
 		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
 

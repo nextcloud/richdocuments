@@ -7,8 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
-
 namespace OCA\Richdocuments\Listener;
 
 use OCP\Collaboration\Reference\RenderReferenceEvent;
