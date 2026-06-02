@@ -3,7 +3,7 @@
   - SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
-# Nextcloud Office
+# Nextcloud Office (powered by Collabora Online)
 
 [![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/richdocuments)](https://api.reuse.software/info/github.com/nextcloud/richdocuments)
 
@@ -11,17 +11,17 @@
 
 ![](https://raw.githubusercontent.com/nextcloud/richdocuments/main/screenshots/Nextcloud-writer.png)
 
-Nextcloud Office supports editing your documents in real time with multiple other editors, showing high fidelity, WYSIWYG rendering and preserving the layout and formatting of your documents.
+Nextcloud Office (Collabora) supports editing your documents in real time with multiple other editors, showing high fidelity, WYSIWYG rendering and preserving the layout and formatting of your documents.
 
 Users can insert and reply to comments and invite others without a Nextcloud account for anonymous editing of files with a public link shared folder.
 
-Nextcloud Office supports dozens of document formats including DOC, DOCX, PPT, PPTX, XLS, XLSX + ODF, Import/View Visio, Publisher and many more…
+Nextcloud Office (Collabora) supports dozens of document formats including DOC, DOCX, PPT, PPTX, XLS, XLSX + ODF, Import/View Visio, Publisher and many more…
 
-Nextcloud Office is based on the Collabora Online Development Edition (CODE) and is available free and under heavy development, adding features and improvements all the time! Enterprise users have access to the more stable, scalable Collabora Online Enterprise based version through a Nextcloud support subscription.
+Nextcloud Office (Collabora) is based on the Collabora Online Development Edition (CODE) and is available free and under heavy development, adding features and improvements all the time! Enterprise users have access to the more stable, scalable Collabora Online Enterprise based version through a Nextcloud support subscription.
 
 ## Installation
 
-Nextcloud Office is built on Collabora Online which requires a dedicated service running next to the Nextcloud webserver stack. There are several ways to run the coolwsd service. For full details, see the related section in the admin manual https://docs.nextcloud.com/server/latest/admin_manual/office/index.html
+Nextcloud Office (Collabora) is built on Collabora Online which requires a dedicated service running next to the Nextcloud webserver stack. There are several ways to run the coolwsd service. For full details, see the related section in the admin manual https://docs.nextcloud.com/server/latest/admin_manual/office/index.html
 
 This repository covers only the Nextcloud integration app which requires a Collabora Online server to connect to.
 

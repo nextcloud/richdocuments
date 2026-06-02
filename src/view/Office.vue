@@ -220,7 +220,7 @@ export default {
 			return this.loading >= LOADING_STATE.FRAME_READY || this.debug
 		},
 		iframeTitle() {
-			return loadState('richdocuments', 'productName', 'Nextcloud Office')
+			return loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)')
 		},
 		showLoadingIndicator() {
 			return this.loading < LOADING_STATE.FRAME_READY
@@ -228,7 +228,7 @@ export default {
 		errorMessage() {
 			switch (parseInt(this.error)) {
 			case LOADING_ERROR.COLLABORA_UNCONFIGURED:
-				return t('richdocuments', '{productName} is not configured', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') })
+				return t('richdocuments', '{productName} is not configured', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)') })
 			case LOADING_ERROR.PROXY_FAILED:
 				return t('richdocuments', 'Starting the built-in CODE server failed')
 			default:
@@ -362,7 +362,7 @@ export default {
 			this.loadingTimeout = setTimeout(() => {
 				console.error('Document loading failed due to timeout: Please check for failing network requests')
 				this.loading = LOADING_STATE.FAILED
-				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') })
+				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)') })
 			}, (getCapabilities().config.timeout * 1000 || 15000))
 		},
 		sendPostMessage(msgId, values = {}) {
