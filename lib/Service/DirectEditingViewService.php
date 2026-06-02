@@ -47,13 +47,6 @@ class DirectEditingViewService {
 	}
 
 	/**
-	 * Render the editor for a file owned by $userId. Caller is responsible for
-	 * having set the user/filesystem scope.
-	 *
-	 * Returns a {@see RedirectResponse} when the file lives on a federated
-	 * mount that has its own collabora instance.
-	 */
-	/**
 	 * Associate a template source with a target file id so the next call to
 	 * {@see self::render()} generates a template-aware WOPI token. Used by
 	 * the legacy direct token flow where the template id is carried on the
@@ -64,6 +57,13 @@ class DirectEditingViewService {
 		$this->templateManager->setTemplateSource($targetFileId, $templateFileId);
 	}
 
+	/**
+	 * Render the editor for a file owned by $userId. Caller is responsible for
+	 * having set the user/filesystem scope.
+	 *
+	 * Returns a {@see RedirectResponse} when the file lives on a federated
+	 * mount that has its own collabora instance.
+	 */
 	public function render(File $file, string $userId, bool $isDirect = true): Response {
 		$federatedUrl = $this->federationService->getRemoteRedirectURL($file, null, null, $userId);
 		if ($federatedUrl !== null) {
