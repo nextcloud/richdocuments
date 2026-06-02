@@ -170,6 +170,15 @@ class TemplateManager {
 		};
 	}
 
+	/**
+	 * Resolve the template "type" (document/spreadsheet/presentation/drawing)
+	 * from the template's mimetype. Returns null when the mimetype is not a
+	 * recognised template format.
+	 */
+	public function getTemplateTypeForMime(string $mime): ?string {
+		return $this->flipTypes()[$mime] ?? null;
+	}
+
 	public function getEmpty($type = null) {
 		$folder = $this->getEmptyTemplateDir();
 
