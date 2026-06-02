@@ -164,7 +164,9 @@ class Capabilities implements ICapability {
 		}
 
 		if (!$this->appManager->isEnabledForUser('files_pdfviewer')) {
-			$optionalMimetypes = array_diff($optionalMimetypes, ['application/pdf']);
+			// array_diff keeps the original keys; reindex so the capability
+			// serializes as a JSON list rather than an object.
+			$optionalMimetypes = array_values(array_diff($optionalMimetypes, ['application/pdf']));
 		}
 
 		return $optionalMimetypes;
