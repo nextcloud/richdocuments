@@ -314,10 +314,14 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			$dirPath = isset($info['dirname']) ? rtrim($info['dirname'], '/') : '';
 			$targetPath = $dirPath === '' ? '/' . $name : $dirPath . '/' . $name;
 
-			$extension = $info['extension'] ?? '';
-			$creatorId = $this->manager->getTemplateTypeForExtension($extension);
+			// Derive the creator from the selected template's mimetype rather
+			// than the target filename: the latter is optional and can
+			// disagree with the template, which would route the request to
+			// the wrong creator and fail.
+			$templateFile = $this->manager->get($template);
+			$creatorId = $this->manager->getTemplateTypeForMime($templateFile->getMimeType());
 			if ($creatorId === null) {
-				throw new OCSBadRequestException('Unsupported file extension');
+				throw new OCSBadRequestException('Unsupported template type');
 			}
 
 			$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
