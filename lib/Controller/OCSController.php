@@ -87,7 +87,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				throw new OCSBadRequestException('Cannot view folder');
 			}
 
-			$path = $userFolder->getRelativePath($node->getPath());
+			// getRelativePath() can return null for nodes outside the user
+			// folder; Manager::open() requires a string, so fall back to the
+			// filename which is enough for the manager to resolve by fileId.
+			$path = $userFolder->getRelativePath($node->getPath()) ?? $node->getName();
 
 			$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 			/** @psalm-suppress UndefinedInterfaceMethod IManager does not expose open() but the concrete Manager does, same pattern as files-app DirectEditingController */
