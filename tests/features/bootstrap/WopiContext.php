@@ -125,7 +125,6 @@ class WopiContext implements Context {
 		Assert::assertEquals($statusCode, $this->response->getStatusCode());
 	}
 
-
 	/**
 	 * @Given /^Collabora fetches and receives the following in the checkFileInfo response$/
 	 */
@@ -145,7 +144,6 @@ class WopiContext implements Context {
 	public function checkfileinfoIs($key, $value) {
 		\PHPUnit\Framework\Assert::assertEquals($value, $this->checkFileInfoResult[$key]);
 	}
-
 
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" matches "([^"]*)"$/
@@ -209,7 +207,6 @@ class WopiContext implements Context {
 		\PHPUnit\Framework\Assert::assertFalse($this->compareFiles($fp1, $fp2));
 	}
 
-
 	private function compareFiles($fp1, $fp2) {
 		$result = true;
 		while (!feof($fp1)) {
@@ -251,7 +248,6 @@ class WopiContext implements Context {
 		$this->theFileIsNotEqual($arg1);
 	}
 
-
 	/**
 	 * @Then /^both Collabora files used the same file id$/
 	 */
@@ -276,7 +272,6 @@ class WopiContext implements Context {
 		[$previous] = explode('_', $this->fileIds[count($this->fileIds) - 2]);
 		Assert::assertNotEquals($current, $previous);
 	}
-
 
 	/**
 	 * @Given /^Collabora saves the content of "([^"]*)" as "([^"]*)"$/

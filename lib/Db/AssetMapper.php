@@ -41,7 +41,6 @@ class AssetMapper extends QBMapper {
 		return $this->insert($asset);
 	}
 
-
 	/**
 	 * @throws DoesNotExistException
 	 */

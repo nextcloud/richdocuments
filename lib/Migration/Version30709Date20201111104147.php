@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Richdocuments\Migration;
 
 use Closure;
@@ -29,8 +30,6 @@ class Version30709Date20201111104147 extends SimpleMigrationStep {
 
 		$result = $this->ensureColumnIsNullable($schema, 'richdocuments_direct', 'timestamp') || $result;
 		$result = $this->ensureColumnIsNullable($schema, 'richdocuments_assets', 'timestamp') || $result;
-
-
 
 		return $result ? $schema : null;
 	}

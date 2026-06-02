@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Tests\Richdocuments;
 
 use OCA\Richdocuments\AppConfig;
@@ -126,7 +127,6 @@ class PermissionManagerTest extends TestCase {
 		// Users with edit permission should never be locked
 		$this->assertFalse($isLocked && $canEdit);
 	}
-
 
 	public static function dataWatermarkTagIds(): array {
 		return [

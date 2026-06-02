@@ -134,7 +134,6 @@ class DirectContext implements Context {
 		Assert::assertEquals(200, $response->getStatusCode());
 	}
 
-
 	/**
 	 * @Given /^the direct editing link is only valid once$/
 	 */

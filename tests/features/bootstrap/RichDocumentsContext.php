@@ -139,7 +139,6 @@ class RichDocumentsContext implements Context {
 		Assert::assertNotEmpty($this->wopiToken);
 	}
 
-
 	/**
 	 * @Then a guest opens the share link
 	 */
@@ -244,7 +243,6 @@ class RichDocumentsContext implements Context {
 		Assert::assertNotEmpty($this->fileId);
 		Assert::assertNotEmpty($this->wopiToken);
 	}
-
 
 	/**
 	 * @Given /^TemplateSource is set$/

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Richdocuments\Controller;
 
 use Exception;
@@ -307,7 +308,6 @@ class DocumentController extends Controller {
 		return $this->remote($shareToken, $remoteServer, $remoteServerToken, $filePath);
 	}
 
-
 	private function renderErrorPage(string $message, int $status = Http::STATUS_INTERNAL_SERVER_ERROR): TemplateResponse {
 		$params = [
 			'errors' => [['error' => $message]]
@@ -510,7 +510,6 @@ class DocumentController extends Controller {
 			$this->tokenManager->setShareToken($wopiToken, $share?->getToken());
 			return $wopiToken;
 		}
-
 
 		return $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId);
 	}

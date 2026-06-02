@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Richdocuments\Migration;
 
 use Closure;
@@ -78,7 +79,6 @@ class Version30704Date20200626072306 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 		}
-
 
 		return $schema;
 	}
