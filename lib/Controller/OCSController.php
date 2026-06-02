@@ -10,6 +10,7 @@ use Exception;
 use GuzzleHttp\Exception\BadResponseException;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\DirectEditing\OfficeDirectEditor;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Service\FederationService;
@@ -23,8 +24,6 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
 use OCP\DirectEditing\IManager as IDirectEditingManager;
-use OCP\DirectEditing\RegisterDirectEditorEvent;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -52,7 +51,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		private IManager $shareManager,
 		private FederationService $federationService,
 		private IDirectEditingManager $directEditingManager,
-		private IEventDispatcher $eventDispatcher,
+		private OfficeDirectEditor $officeDirectEditor,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
@@ -91,7 +90,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			// filename which is enough for the manager to resolve by fileId.
 			$path = $userFolder->getRelativePath($node->getPath()) ?? $node->getName();
 
-			$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
+			// Register directly so the legacy endpoint keeps working for
+			// older mobile clients where RegisterDirectEditorListener gates
+			// out the editor from OCP\DirectEditing discovery.
+			$this->directEditingManager->registerDirectEditor($this->officeDirectEditor);
 			/** @psalm-suppress UndefinedInterfaceMethod IManager does not expose open() but the concrete Manager does, same pattern as files-app DirectEditingController */
 			$token = $this->directEditingManager->open($path, Application::APPNAME, $node->getId());
 
@@ -324,7 +326,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				throw new OCSBadRequestException('Unsupported template type');
 			}
 
-			$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
+			$this->directEditingManager->registerDirectEditor($this->officeDirectEditor);
 			/** @psalm-suppress InvalidArgument IManager::create accepts mixed templateId despite an outdated nullable docblock */
 			$token = $this->directEditingManager->create($targetPath, Application::APPNAME, $creatorId, (string)$template);
 
