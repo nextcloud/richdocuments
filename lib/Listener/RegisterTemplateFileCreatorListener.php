@@ -89,13 +89,13 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 			return $odpType;
 		});
 
-		$templateManager->registerTemplateFileCreator(function () use ($ooxml, $appPath) {
-			$odpType = new TemplateFileCreator('richdocuments', $this->l10n->t('Diagram'), '.odg');
-			$odpType->addMimetype('application/vnd.oasis.opendocument.graphics');
-			$odpType->addMimetype('application/vnd.oasis.opendocument.graphics-template');
-			$odpType->setIconSvgInline(file_get_contents($appPath . '/img/x-office-drawing.svg'));
-			$odpType->setRatio(1);
-			return $odpType;
+		$templateManager->registerTemplateFileCreator(function () use ($appPath) {
+			$odgType = new TemplateFileCreator('richdocuments', $this->l10n->t('Diagram'), '.odg');
+			$odgType->addMimetype('application/vnd.oasis.opendocument.graphics');
+			$odgType->addMimetype('application/vnd.oasis.opendocument.graphics-template');
+			$odgType->setIconSvgInline(file_get_contents($appPath . '/img/x-office-drawing.svg'));
+			$odgType->setRatio(1);
+			return $odgType;
 		});
 	}
 }
