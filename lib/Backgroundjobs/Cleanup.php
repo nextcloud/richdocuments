@@ -6,17 +6,17 @@
 
 namespace OCA\Richdocuments\Backgroundjobs;
 
-use OCA\Richdocuments\Db\WopiMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class Cleanup extends TimedJob {
+	private const EXPIRY_GRACE_PERIOD_SECONDS = 60;
+
 	public function __construct(
 		ITimeFactory $time,
 		private IDBConnection $db,
-		private WopiMapper $wopiMapper,
 	) {
 		parent::__construct($time);
 
@@ -27,7 +27,7 @@ class Cleanup extends TimedJob {
 		// Expire template mappings for file creation
 		$query = $this->db->getQueryBuilder();
 		$query->delete('richdocuments_template')
-			->where($query->expr()->lte('timestamp', $query->createNamedParameter(time() - 60, IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->lte('timestamp', $query->createNamedParameter(time() - self::EXPIRY_GRACE_PERIOD_SECONDS, IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
 
 		// Expired WOPI access tokens
@@ -35,10 +35,9 @@ class Cleanup extends TimedJob {
 	}
 
 	private function cleanUpWopiTokens() {
-		$tokenIds = $this->wopiMapper->getExpiredTokenIds(1000);
 		$query = $this->db->getQueryBuilder();
 		$query->delete('richdocuments_wopi')
-			->where($query->expr()->in('id', $query->createNamedParameter($tokenIds, IQueryBuilder::PARAM_INT_ARRAY)));
+			->where($query->expr()->lt('expiry', $query->createNamedParameter(time() - self::EXPIRY_GRACE_PERIOD_SECONDS, IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
 	}
 }
