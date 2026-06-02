@@ -2,16 +2,16 @@
   - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
-## Nextcloud Office App Settings
+## Nextcloud Office (Collabora) App Settings
 
 ### Collabora Online Server
 URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client. Collabora Online should use the same protocol (http:// or https://) as the server installation. Naturally, https:// is recommended.
 
 ### Restrict usage to specific groups
-By default the app is enabled for all. When this setting is active, only members of specified groups can use Nextcloud Office.
+By default the app is enabled for all. When this setting is active, only members of specified groups can use Nextcloud Office (Collabora).
 
 ### Restrict edit to specific groups
-By default all users can edit documents with Nextcloud Office. When this setting is active, only the members of specified groups can edit, others can only view documents.
+By default all users can edit documents with Nextcloud Office (Collabora). When this setting is active, only the members of specified groups can edit, others can only view documents.
 
 ### Use OOXML by default for new files
 By default new files created by users are in OpenDocument Format (ODF). When this setting is active, new files will be created in Office Open XML (OOXML) format.
@@ -27,7 +27,7 @@ Canonical webroot, in case there are multiple, for Collabora Online to use. Prov
 
 ### Theme
 
-By default Nextcloud Office comes with Nextcloud theme (monochrome icons following Nextcloud style), to change to a more traditional office look:
+By default Nextcloud Office (Collabora) comes with Nextcloud theme (monochrome icons following Nextcloud style), to change to a more traditional office look:
 
 	occ config:app:set richdocuments theme --value="collabora"
 

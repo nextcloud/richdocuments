@@ -33,7 +33,7 @@ class TextToDocumentProvider implements ISynchronousWatermarkingProvider {
 
 	#[\Override]
 	public function getName(): string {
-		return $this->l->t('Nextcloud Office text document generator');
+		return $this->l->t('Nextcloud Office (Collabora) text document generator');
 	}
 
 	#[\Override]
