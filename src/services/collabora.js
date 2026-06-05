@@ -10,6 +10,12 @@ export const LOADING_ERROR = {
 	PROXY_FAILED: 2,
 }
 
+const PROXY_STARTING_STATES = new Set(['starting', 'stopped', 'restarting'])
+const PROXY_POLL_INTERVAL_MS = 1500
+const PROXY_POLL_TIMEOUT_MS = 30000
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export const isCollaboraConfigured = () => {
 	const collaboraCapabilities = getCapabilities()?.collabora
 	return isBuiltinCodeServerUsed() || collaboraCapabilities.length !== 0
@@ -26,8 +32,7 @@ export const checkCollaboraConfiguration = async () => {
 	}
 }
 
-let proxyStatusCheckRetry = 0
-export const checkProxyStatus = async (_resolve, _reject) => {
+export const checkProxyStatus = async () => {
 	const wopiUrl = getCapabilities()?.config?.wopi_url
 	if (wopiUrl.indexOf('proxy.php') === -1) {
 		return true
@@ -35,34 +40,38 @@ export const checkProxyStatus = async (_resolve, _reject) => {
 
 	const url = wopiUrl.slice(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
 	const proxyStatusUrl = url + '?status'
+	const deadline = Date.now() + PROXY_POLL_TIMEOUT_MS
 
-	const checkProxyStatusCallback = async (resolve, reject) => {
-		const result = await axios.get(proxyStatusUrl)
-		if (!result || !result?.data?.status) {
-			reject('Failed to contact status endpoint')
+	while (Date.now() < deadline) {
+		let result
+		try {
+			result = await axios.get(proxyStatusUrl)
+		} catch (e) {
+			await sleep(PROXY_POLL_INTERVAL_MS)
+			continue
 		}
 
-		if (result.data.status === 'OK') {
-			return resolve(true)
-		}
-		if (result.data.status === 'error') {
-			return reject(t('richdocuments', 'Built-in CODE server failed to start'))
-		}
-
-		if (proxyStatusCheckRetry < 3 && (result.data.status === 'starting' || result.data.status === 'stopped' || result.data.status === 'restarting')) {
-			setTimeout(() => {
-				proxyStatusCheckRetry++
-				checkProxyStatus(resolve, reject)
-			})
-		} else {
-			reject('Maximum retries reached')
+		const status = result?.data?.status
+		if (!status) {
+			await sleep(PROXY_POLL_INTERVAL_MS)
+			continue
 		}
 
+		if (status === 'OK') {
+			return true
+		}
+
+		if (status === 'error') {
+			throw Error(LOADING_ERROR.PROXY_FAILED)
+		}
+
+		if (PROXY_STARTING_STATES.has(status)) {
+			await sleep(PROXY_POLL_INTERVAL_MS)
+			continue
+		}
+
+		await sleep(PROXY_POLL_INTERVAL_MS)
 	}
 
-	if (_reject && _resolve) {
-		return checkProxyStatusCallback(_reject, _resolve)
-	} else {
-		return new Promise(checkProxyStatusCallback)
-	}
+	throw Error(t('richdocuments', 'Starting the built-in CODE server is taking longer than expected'))
 }
