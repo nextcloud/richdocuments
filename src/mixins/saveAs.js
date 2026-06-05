@@ -13,7 +13,7 @@ export default {
 			spawnDialog(
 				SaveAs,
 				{
-					path: this.filename,
+					path: this.activeFilename,
 					format,
 					description: t('richdocuments', 'Save a copy of the file under a new name and continue editing the new file'),
 				},
