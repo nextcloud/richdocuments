@@ -195,6 +195,11 @@ export default {
 			// Track the last requested save-as filename for export operations
 			lastSaveAsFilename: null,
 
+			// Active document identity. The filename/fileid props only carry the
+			// initially opened document; these are updated when a save-as moves
+			// the editor session to a new file.
+			activeFileid: this.fileid,
+			activeFilename: this.filename,
 			formData: {
 				action: null,
 				accessToken: null,
@@ -232,7 +237,7 @@ export default {
 				return this.loadingMsg
 			}
 
-			return t('richdocuments', 'Loading {filename} …', { filename: basename(this.filename) }, 1, { escape: false })
+			return t('richdocuments', 'Loading {filename} …', { filename: basename(this.activeFilename) }, 1, { escape: false })
 		},
 		debug() {
 			return !!window.TESTING
@@ -268,14 +273,14 @@ export default {
 			return
 		}
 
-		if (this.fileid) {
+		if (this.activeFileid) {
 			const fileList = OCA?.Files?.App?.getCurrentFileList?.()
 			FilesAppIntegration.init({
-				fileName: basename(this.filename),
-				fileId: this.fileid,
-				filePath: dirname(this.filename),
+				fileName: basename(this.activeFilename),
+				fileId: this.activeFileid,
+				filePath: dirname(this.activeFilename),
 				fileList,
-				fileModel: fileList?.getModelForFile(basename(this.filename)),
+				fileModel: fileList?.getModelForFile(basename(this.activeFilename)),
 				sendPostMessage: (msgId, values) => {
 					this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 				},
@@ -305,8 +310,8 @@ export default {
 	},
 	methods: {
 		async load() {
-			const fileid = this.fileid ?? basename(dirname(this.source))
-			const version = this.fileid ? '0' : basename(this.source)
+			const fileid = this.activeFileid ?? basename(dirname(this.source))
+			const version = this.activeFileid ? '0' : basename(this.source)
 
 			enableScrollLock()
 
@@ -372,6 +377,32 @@ export default {
 			this.load()
 			this.$refs.documentFrame.contentWindow.location.replace(this.iframeSrc)
 		},
+		async switchToSavedAsFile(newBasename) {
+			const node = await FilesAppIntegration.createNodeForNewFile(newBasename)
+			if (!node) {
+				// New file could not be resolved, avoid reloading into a bad state
+				return
+			}
+			this.activeFilename = node.path
+			this.activeFileid = node.fileid
+
+			// FilesAppIntegration keeps its own copy of the file identity
+			const fileList = OCA?.Files?.App?.getCurrentFileList?.()
+			FilesAppIntegration.init({
+				fileName: node.basename,
+				fileId: node.fileid,
+				filePath: node.dirname,
+				fileList,
+				fileModel: fileList?.getModelForFile(node.basename),
+				sendPostMessage: (msgId, values) => {
+					this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
+				},
+			})
+			FilesAppIntegration.changeFilesRoute(node.fileid)
+
+			this.loading = LOADING_STATE.LOADING
+			await this.load()
+		},
 		postMessageHandler({ parsed }) {
 			const { msgId, args, deprecated } = parsed
 			console.debug('[viewer] Received post message', msgId, args, deprecated)
@@ -436,16 +467,21 @@ export default {
 					if (!newFileName && args.result === 'exportas' && this.lastSaveAsFilename) {
 						newFileName = this.lastSaveAsFilename
 					}
+					this.lastSaveAsFilename = null
 
-					if (newFileName && newFileName !== this.filename) {
-						// When exporting (e.g., DOCX -> PDF), a new file is created
-						// Fetch its metadata and emit files:node:created to show it in the files list
+					if (newFileName && args.result === 'exportas') {
+						// Exporting (e.g. DOCX -> PDF) creates a new file but the
+						// editor keeps editing the original, so only surface the
+						// new file in the files list.
 						FilesAppIntegration.createNodeForNewFile(newFileName)
+					} else if (newFileName && newFileName !== basename(this.activeFilename)) {
+						// A real save-as: Collabora has switched to a new file, so
+						// the editor session has to be re-initialised for it.
+						this.switchToSavedAsFile(newFileName)
 					} else {
 						// When saving the current file, update its modification time
 						FilesAppIntegration.updateFileInfo(undefined, Date.now())
 					}
-					this.lastSaveAsFilename = null
 				}
 				break
 			case 'UI_InsertGraphic':
