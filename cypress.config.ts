@@ -5,7 +5,9 @@
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
-  collaboraUrl: 'https://localhost:9980/',
+  env: {
+    collaboraUrl: process.env.CYPRESS_collaboraUrl ?? 'https://localhost:9980/',
+  },
   projectId: 'fef71b',
   viewportWidth: 1280,
   viewportHeight: 720,
