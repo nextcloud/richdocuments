@@ -4,12 +4,11 @@
  */
 import { basename } from 'path'
 import axios from '@nextcloud/axios'
-import { User, addCommands } from '@nextcloud/cypress'
+import { User, addCommands } from '@nextcloud/e2e-test-server/cypress'
 
 addCommands()
 
 const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
-Cypress.env('baseUrl', url)
 
 Cypress.Commands.add('logout', (route = '/') => {
 	cy.session('_guest', function() {
@@ -18,7 +17,7 @@ Cypress.Commands.add('logout', (route = '/') => {
 
 Cypress.Commands.add('createFolder', (user, target) => {
 	cy.login(user)
-	const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
+	const rootPath = `${url}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
 	const dirPath = target.split('/').map(encodeURIComponent).join('/')
 
 	return cy.request('/csrftoken')
@@ -52,7 +51,7 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 		const blob = Cypress.Blob.base64StringToBlob(file, mimeType)
 
 		// Process paths
-		const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
+		const rootPath = `${url}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
 		const filePath = target.split('/').map(encodeURIComponent).join('/')
 		try {
 			const file = new File([blob], fileName, { type: mimeType })
@@ -189,7 +188,7 @@ Cypress.Commands.add('nextcloudEnableApp', (appId) => {
 	cy.login(new User('admin', 'admin'))
 	cy.request({
 		method: 'POST',
-		url: `${Cypress.env('baseUrl')}/ocs/v1.php/cloud/apps/${appId}?format=json`,
+		url: `${url}/ocs/v1.php/cloud/apps/${appId}?format=json`,
 		form: true,
 		auth: { user: 'admin', pass: 'admin' },
 		headers: {
@@ -209,7 +208,7 @@ Cypress.Commands.add('setPersonalTemplateFolder', (user, templateFolder) => {
 		.then(({ body }) => body.token)
 		.then(requesttoken => {
 			return cy.request({
-				url: `${Cypress.env('baseUrl')}/index.php/apps/richdocuments/ajax/personal.php`,
+				url: `${url}/index.php/apps/richdocuments/ajax/personal.php`,
 				method: 'POST',
 				headers: {
 					requesttoken,
@@ -224,7 +223,7 @@ Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configVa
 	cy.login(new User('admin', 'admin'))
 	cy.request({
 		method: 'POST',
-		url: `${Cypress.env('baseUrl')}/ocs/v1.php/apps/testing/api/v1/app/${appId}/${configKey}?format=json`,
+		url: `${url}/ocs/v1.php/apps/testing/api/v1/app/${appId}/${configKey}?format=json`,
 		auth: { user: 'admin', pass: 'admin' },
 		headers: {
 			'OCS-ApiRequest': 'true',
@@ -404,7 +403,7 @@ Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
 	cy.get('@requestToken').then(requesttoken => {
 		cy.request({
 			method: 'GET',
-			url: Cypress.env('baseUrl') + apiEndpoint + fileId + '?format=json',
+			url: url + apiEndpoint + fileId + '?format=json',
 			headers: {
 				requesttoken,
 			},

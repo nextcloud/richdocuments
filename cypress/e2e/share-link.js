@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Julius Härtl <jus@bitgrid.net>
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { User } from '@nextcloud/cypress'
+import { User } from '@nextcloud/e2e-test-server/cypress'
 import { randHash } from '../utils/index.js'
 
 const shareOwner = new User(randHash(), randHash())
