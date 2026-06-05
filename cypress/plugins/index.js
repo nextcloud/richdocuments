@@ -16,15 +16,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 const cypressSplit = require('cypress-split')
-const browserify = require('@cypress/browserify-preprocessor')
-const webpack = require('@cypress/webpack-preprocessor')
-const webpackOptions = require('@nextcloud/webpack-vue-config')
+const webpackPreprocessor = require('@cypress/webpack-batteries-included-preprocessor')
 
 module.exports = (on, config) => {
 	cypressSplit(on, config)
 
-	on('file:preprocessor', browserify())
-	on('file:preprocessor', webpack({ webpackOptions }))
+	on('file:preprocessor', webpackPreprocessor())
 
 	return config
 }
