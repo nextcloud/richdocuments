@@ -57,23 +57,28 @@ class RemoteService {
 	/**
 	 * @return resource|string
 	 */
-	public function convertFileTo(File $file, string $format) {
+	public function convertFileTo(File $file, string $format, int $timeout = RemoteOptionsService::REMOTE_TIMEOUT_DEFAULT) {
 		$fileName = $file->getStorage()->getLocalFile($file->getInternalPath());
 		$stream = fopen($fileName, 'rb');
 
 		if ($stream === false) {
 			throw new Exception('Failed to open stream');
 		}
-		return $this->convertTo($file->getName(), $stream, $format);
+
+		try {
+			return $this->convertTo($file->getName(), $stream, $format, [], $timeout);
+		} finally {
+			fclose($stream);
+		}
 	}
 
 	/**
 	 * @param resource $stream
 	 * @return resource|string
 	 */
-	public function convertTo(string $filename, $stream, string $format) {
+	public function convertTo(string $filename, $stream, string $format, ?array $conversionOptions = [], int $timeout = RemoteOptionsService::REMOTE_TIMEOUT_DEFAULT) {
 		$client = $this->clientService->newClient();
-		$options = RemoteOptionsService::getDefaultOptions();
+		$options = RemoteOptionsService::getDefaultOptions($timeout);
 		// FIXME: can be removed once https://github.com/CollaboraOnline/online/issues/6983 is fixed upstream
 		$options['expect'] = false;
 

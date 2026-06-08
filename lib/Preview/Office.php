@@ -5,6 +5,7 @@
  */
 namespace OCA\Richdocuments\Preview;
 
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Service\RemoteService;
 use OCP\Files\File;
@@ -20,6 +21,7 @@ abstract class Office implements IProviderV2 {
 	public function __construct(
 		private RemoteService $remoteService,
 		private LoggerInterface $logger,
+		private AppConfig $appConfig,
 		Capabilities $capabilities,
 	) {
 		$this->capabilities = $capabilities->getCapabilities()['richdocuments'] ?? [];
@@ -33,12 +35,22 @@ abstract class Office implements IProviderV2 {
 	}
 
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
-		if ($file->getSize() === 0) {
+		$fileSize = $file->getSize();
+		if ($fileSize === 0) {
+			return null;
+		}
+
+		$maxFileSize = $this->appConfig->getPreviewConversionMaxFileSize();
+		if ($fileSize > $maxFileSize) {
+			$this->logger->debug('Skipping preview conversion: file size {size} exceeds limit {limit}', [
+				'size' => $fileSize,
+				'limit' => $maxFileSize,
+			]);
 			return null;
 		}
 
 		try {
-			$response = $this->remoteService->convertFileTo($file, 'png');
+			$response = $this->remoteService->convertFileTo($file, 'png', $this->appConfig->getPreviewConversionTimeout());
 			$image = new Image();
 			$image->loadFromData($response);
 

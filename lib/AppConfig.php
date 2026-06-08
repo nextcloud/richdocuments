@@ -30,9 +30,14 @@ class AppConfig {
 	// Default: 'no', set to 'yes' to enable
 	public const USE_SECURE_VIEW_ADDITIONAL_MIMES = 'use_secure_view_additional_mimes';
 
+	public const PREVIEW_CONVERSION_TIMEOUT = 'preview_conversion_timeout';
+	public const PREVIEW_CONVERSION_MAX_FILESIZE = 'preview_conversion_max_filesize';
+
 	private array $defaults = [
 		'wopi_url' => '',
 		'timeout' => 15,
+		'preview_conversion_timeout' => 5,
+		'preview_conversion_max_filesize' => 104857600, // 100 MB
 		'watermark_text' => '{userId}',
 		'watermark_allGroupsList' => [],
 		'watermark_allTagsList' => [],
@@ -238,6 +243,25 @@ class AppConfig {
 		}, $trustedNextcloudDomains));
 
 		return array_map(fn ($url) => $this->domainOnly($url), array_merge($trustedNextcloudDomains, $trustedCollaboraDomains));
+	}
+
+	public function isPreviewGenerationEnabled(): bool {
+		return $this->config->getAppValue(Application::APPNAME, 'preview_generation', 'true') !== 'false';
+	}
+
+	/**
+	 * Returns the timeout in seconds for preview conversion requests to Collabora.
+	 */
+	public function getPreviewConversionTimeout(): int {
+		return (int)$this->getAppValue(self::PREVIEW_CONVERSION_TIMEOUT);
+	}
+
+	/**
+	 * Returns the maximum file size in bytes for which preview conversion is attempted.
+	 * Files larger than this limit will be skipped and return no preview.
+	 */
+	public function getPreviewConversionMaxFileSize(): int {
+		return (int)$this->getAppValue(self::PREVIEW_CONVERSION_MAX_FILESIZE);
 	}
 
 	private function getGSDomains(): array {
