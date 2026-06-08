@@ -508,8 +508,11 @@ Cypress.Commands.add('newFileFromMenu', (fileType = 'document', fileName = 'MyNe
 		.should('be.visible')
 		.click()
 
+	// UI labels are capitalised ('Document', 'Spreadsheet', …); callers
+	// historically pass them lowercased, so normalise before matching.
+	const label = fileType.charAt(0).toUpperCase() + fileType.slice(1).toLowerCase()
 	cy.get('button[role="menuitem"]')
-		.contains('New ' + fileType)
+		.contains(label)
 		.should('be.visible')
 		.click()
 

@@ -284,6 +284,11 @@ const documentsMain = {
 						documentsMain.isFrameReady = true
 						documentsMain.wopiClientFeatures = args.Features
 						callMobileMessage('documentLoaded')
+						// Mirror the generic message used by other editors
+						// (e.g. text) so mobile clients integrating via the
+						// shared OCP\DirectEditing API receive a consistent
+						// signal regardless of editor.
+						callMobileMessage('loaded')
 						break
 					case 'Document_Loaded':
 						PostMessages.unregisterPostMessageHandler(editorInitListener)

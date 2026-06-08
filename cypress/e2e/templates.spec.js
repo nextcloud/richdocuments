@@ -74,7 +74,7 @@ describe('Global templates', function() {
 			.as('newFileMenu')
 
 		cy.get('@newFileMenu').click()
-		cy.get('button[role="menuitem"]').contains('New presentation').click()
+		cy.get('button[role="menuitem"]').contains('Presentation').click()
 
 		cy.get('input[data-cy-files-new-node-dialog-input=""]').type('FileFromSystemTemplate')
 		cy.get('button[data-cy-files-new-node-dialog-submit=""]').click()
@@ -115,7 +115,7 @@ describe('Global templates', function() {
 				.click()
 
 			cy.get('button[role="menuitem"]')
-				.contains('New presentation')
+				.contains('Presentation')
 				.should('be.visible')
 				.click()
 			cy.get('.input-field__input')
@@ -145,7 +145,7 @@ describe('User templates', function() {
 			.as('newFileMenu')
 
 		cy.get('@newFileMenu').click()
-		cy.get('button[role="menuitem"]').contains('New presentation').click()
+		cy.get('button[role="menuitem"]').contains('Presentation').click()
 
 		cy.get('input[data-cy-files-new-node-dialog-input=""]').type('FileFromTemplate')
 		cy.get('button[data-cy-files-new-node-dialog-submit=""]').click()
@@ -218,7 +218,7 @@ describe('User templates', function() {
 				.as('newFileMenu')
 
 			cy.get('@newFileMenu').click()
-			cy.get('button[role="menuitem"]').contains('New document').click()
+			cy.get('button[role="menuitem"]').contains('Document').click()
 
 			cy.get('input[data-cy-files-new-node-dialog-input=""]').type('FileFromTemplateWithFields')
 			cy.get('button[data-cy-files-new-node-dialog-submit=""]').click()
