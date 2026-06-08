@@ -109,8 +109,7 @@ describe('Open PDF with richdocuments', () => {
 
 	// Verify that clicking on the file uses the files PDF viewer
 	// and NOT richdocuments
-	// TODO: Revert once https://github.com/nextcloud/files_pdfviewer/issues/1451 is resolved
-	it.skip('Open PDF with files PDF viewer', () => {
+	it('Open PDF with files PDF viewer', () => {
 		cy.get('[data-cy-files-list-row-name="document.pdf"]').click()
 		cy.waitForViewer()
 
