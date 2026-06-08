@@ -246,7 +246,7 @@ class AppConfig {
 	}
 
 	public function isPreviewGenerationEnabled(): bool {
-		return $this->appConfig->getAppValueBool('preview_generation', true);
+		return $this->config->getAppValue(Application::APPNAME, 'preview_generation', 'true') !== 'false';
 	}
 
 	/**
