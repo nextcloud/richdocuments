@@ -4,6 +4,21 @@
 -->
 # Changelog
 
+## 9.1.0
+
+### Added
+- Make preview conversion timeout and max file size configurable by @juliusknorr in [#5736](https://github.com/nextcloud/richdocuments/pull/5736)
+
+### Fixed
+- Remove expired WOPI tokens with a single query by @juliusknorr in [#5713](https://github.com/nextcloud/richdocuments/pull/5713)
+- Save As works with encryption by @juliusknorr in [#5704](https://github.com/nextcloud/richdocuments/pull/5704)
+- Remove hardcoded language from document template by @juliusknorr in [#5659](https://github.com/nextcloud/richdocuments/pull/5659)
+- Make preview timeout an info log instead of error by @CarlSchwan in [#5642](https://github.com/nextcloud/richdocuments/pull/5642)
+
+### Other
+- Dependency updates
+- NPM audits
+
 ## 9.0.6
 
 ### Fixed
