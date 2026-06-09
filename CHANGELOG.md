@@ -4,6 +4,26 @@
 -->
 # Changelog
 
+## 11.0.0
+
+### Added
+- Integrate with Direct Editing API by @juliusknorr in [#5734](https://github.com/nextcloud/richdocuments/pull/5734)
+- Make preview conversion timeout and max file size configurable by @juliusknorr in [#5733](https://github.com/nextcloud/richdocuments/pull/5733)
+
+### Fixed
+- Make preview timeout an info log instead of error by @CarlSchwan in [#5613](https://github.com/nextcloud/richdocuments/pull/5613)
+- Retry built-in CODE cold starts and show startup status by @joshtrichards in [#5722](https://github.com/nextcloud/richdocuments/pull/5722)
+- Remove expired WOPI tokens with a single query by @juliusknorr in [#5715](https://github.com/nextcloud/richdocuments/pull/5715)
+- Adjust naming to Nextcloud Office (Collabora) by @juliusknorr in [#5710](https://github.com/nextcloud/richdocuments/pull/5710)
+- Save As works with encryption by @juliusknorr in [#5702](https://github.com/nextcloud/richdocuments/pull/5702)
+- Smaller JS bundles by @max-nextcloud in [#5673](https://github.com/nextcloud/richdocuments/pull/5673)
+
+### Other
+- Temporarily revert pdf viewer assertion by @elzody in [#5578](https://github.com/nextcloud/richdocuments/pull/5578)
+- Enhance direct editing test with postMessage handling by @elzody in [#5555](https://github.com/nextcloud/richdocuments/pull/5555)
+- Skip PDF viewer test by @elzody in [#5730](https://github.com/nextcloud/richdocuments/pull/5730)
+- Dependency updates
+
 ## 11.0.0-beta.1
 
 ### Fixed
