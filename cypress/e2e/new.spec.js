@@ -23,7 +23,7 @@ describe('New file menu', function() {
 			.click()
 
 		cy.get('button[role="menuitem"]')
-			.contains('New document')
+			.contains('Document')
 			.should('be.visible')
 
 		cy.get('form[data-cy-upload-picker=""]')

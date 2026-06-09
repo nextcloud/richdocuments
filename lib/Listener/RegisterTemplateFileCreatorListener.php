@@ -50,7 +50,7 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 		$appPath = $this->appManager->getAppPath('richdocuments');
 
 		$templateManager->registerTemplateFileCreator(function () use ($ooxml, $appPath) {
-			$odtType = new TemplateFileCreator('richdocuments', $this->l10n->t('New document'), ($ooxml ? '.docx' : '.odt'));
+			$odtType = new TemplateFileCreator('richdocuments', $this->l10n->t('Document'), ($ooxml ? '.docx' : '.odt'));
 			if ($ooxml) {
 				$odtType->addMimetype('application/msword');
 				$odtType->addMimetype('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
@@ -63,7 +63,7 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 			return $odtType;
 		});
 		$templateManager->registerTemplateFileCreator(function () use ($ooxml, $appPath) {
-			$odsType = new TemplateFileCreator('richdocuments', $this->l10n->t('New spreadsheet'), ($ooxml ? '.xlsx' : '.ods'));
+			$odsType = new TemplateFileCreator('richdocuments', $this->l10n->t('Spreadsheet'), ($ooxml ? '.xlsx' : '.ods'));
 			if ($ooxml) {
 				$odsType->addMimetype('application/vnd.ms-excel');
 				$odsType->addMimetype('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -76,7 +76,7 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 			return $odsType;
 		});
 		$templateManager->registerTemplateFileCreator(function () use ($ooxml, $appPath) {
-			$odpType = new TemplateFileCreator('richdocuments', $this->l10n->t('New presentation'), ($ooxml ? '.pptx' : '.odp'));
+			$odpType = new TemplateFileCreator('richdocuments', $this->l10n->t('Presentation'), ($ooxml ? '.pptx' : '.odp'));
 			if ($ooxml) {
 				$odpType->addMimetype('application/vnd.ms-powerpoint');
 				$odpType->addMimetype('application/vnd.openxmlformats-officedocument.presentationml.presentation');
@@ -89,13 +89,13 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 			return $odpType;
 		});
 
-		$templateManager->registerTemplateFileCreator(function () use ($ooxml, $appPath) {
-			$odpType = new TemplateFileCreator('richdocuments', $this->l10n->t('New diagram'), '.odg');
-			$odpType->addMimetype('application/vnd.oasis.opendocument.graphics');
-			$odpType->addMimetype('application/vnd.oasis.opendocument.graphics-template');
-			$odpType->setIconSvgInline(file_get_contents($appPath . '/img/x-office-drawing.svg'));
-			$odpType->setRatio(1);
-			return $odpType;
+		$templateManager->registerTemplateFileCreator(function () use ($appPath) {
+			$odgType = new TemplateFileCreator('richdocuments', $this->l10n->t('Diagram'), '.odg');
+			$odgType->addMimetype('application/vnd.oasis.opendocument.graphics');
+			$odgType->addMimetype('application/vnd.oasis.opendocument.graphics-template');
+			$odgType->setIconSvgInline(file_get_contents($appPath . '/img/x-office-drawing.svg'));
+			$odgType->setRatio(1);
+			return $odgType;
 		});
 	}
 }
