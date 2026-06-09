@@ -4,6 +4,18 @@
 -->
 # Changelog
 
+## 8.8.0
+
+### Added
+- Make preview conversion timeout and max file size configurable by @juliusknorr in [#5717](https://github.com/nextcloud/richdocuments/pull/5717)
+
+### Fixed
+- Remove expired WOPI tokens with a single query by @juliusknorr in [#5712](https://github.com/nextcloud/richdocuments/pull/5712)
+
+### Other
+- Dependency updates
+- NPM audits
+
 ## 8.7.9
 
 ### Fixed
