@@ -136,6 +136,7 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['token'], 'rd_wopi_token_idx');
+			$table->addIndex(['expiry'], 'rd_wopi_expiry_idx');
 		}
 
 		if (!$schema->hasTable('richdocuments_direct')) {
