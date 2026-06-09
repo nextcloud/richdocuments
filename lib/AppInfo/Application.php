@@ -16,6 +16,7 @@ use OCA\Richdocuments\Conversion\ConversionProvider;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Listener\AddContentSecurityPolicyListener;
 use OCA\Richdocuments\Listener\AddFeaturePolicyListener;
+use OCA\Richdocuments\Listener\AddMissingIndicesListener;
 use OCA\Richdocuments\Listener\AddSabrePluginListener;
 use OCA\Richdocuments\Listener\BeforeFetchPreviewListener;
 use OCA\Richdocuments\Listener\BeforeGetTemplatesListener;
@@ -54,6 +55,7 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
+use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Template\BeforeGetTemplatesEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
@@ -92,6 +94,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(OverwritePublicSharePropertiesEvent::class, OverwritePublicSharePropertiesListener::class);
 		$context->registerEventListener(SabrePluginAddEvent::class, AddSabrePluginListener::class);
 		$context->registerEventListener(BeforeSabrePubliclyLoadedEvent::class, AddSabrePluginListener::class);
+		$context->registerEventListener(AddMissingIndicesEvent::class, AddMissingIndicesListener::class);
 		$context->registerReferenceProvider(OfficeTargetReferenceProvider::class);
 		$context->registerSensitiveMethods(WopiMapper::class, [
 			'getPathForToken',
