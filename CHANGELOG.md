@@ -4,6 +4,11 @@
 -->
 # Changelog
 
+## 8.5.15
+
+### Fixed
+- Improve file name validation by @emberfiend in [#5718](https://github.com/nextcloud/richdocuments/pull/5718)
+
 ## 8.5.14
 
 ### Fixed
