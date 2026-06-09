@@ -4,6 +4,23 @@
 -->
 # Changelog
 
+## 10.2.0
+
+### Added
+- Make preview conversion timeout and max file size configurable by @juliusknorr in [#5735](https://github.com/nextcloud/richdocuments/pull/5735)
+
+### Fixed
+- Retry built-in CODE cold starts and show startup status by @joshtrichards in [#5721](https://github.com/nextcloud/richdocuments/pull/5721)
+- Remove expired WOPI tokens with a single query by @juliusknorr in [#5714](https://github.com/nextcloud/richdocuments/pull/5714)
+- Save As works with encryption by @juliusknorr in [#5703](https://github.com/nextcloud/richdocuments/pull/5703)
+- Smaller JS bundles by @max-nextcloud in [#5674](https://github.com/nextcloud/richdocuments/pull/5674)
+- Remove hardcoded language from document template by @juliusknorr in [#5660](https://github.com/nextcloud/richdocuments/pull/5660)
+- Make preview timeout an info log instead of error by @CarlSchwan in [#5641](https://github.com/nextcloud/richdocuments/pull/5641)
+- Check file existence before using Save As by @juliusknorr in [#5443](https://github.com/nextcloud/richdocuments/pull/5443)
+
+### Other
+- Dependency updates
+
 ## 10.1.3
 
 ### Fixed
