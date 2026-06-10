@@ -99,7 +99,6 @@ class DiscoveryService extends CachedRequestService {
 	 * @return ProofKey|null ProofKey (if present and complete), otherwise null.
 	 */
 	public function getProofKey(): ?ProofKey {
-		// consider adding success debug level logging
 		return $this->extractProofKey(
 			self::KEY_ATTR_VALUE,
 			self::KEY_ATTR_MODULUS,
@@ -113,7 +112,6 @@ class DiscoveryService extends CachedRequestService {
 	 * @return ProofKey|null ProofKey (if present and complete), otherwise null.
 	 */
 	public function getProofKeyOld(): ?ProofKey {
-		// consider adding success debug level logging
 		return $this->extractProofKey(
 			self::KEY_ATTR_OLDVALUE,
 			self::KEY_ATTR_OLDMODULUS,
@@ -137,7 +135,6 @@ class DiscoveryService extends CachedRequestService {
 		try {
 			$xml = $this->get();
 			$this->parsedDiscovery = new SimpleXMLElement($xml);
-			// @todo: Consider registering namespace
 			return $this->parsedDiscovery;
 		} catch (\Exception $e) {
 			$this->logger->error('Could not parse discovery XML: ' . $e->getMessage());
