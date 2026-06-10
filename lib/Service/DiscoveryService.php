@@ -16,7 +16,6 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 
@@ -39,7 +38,6 @@ class DiscoveryService extends CachedRequestService {
 		private IAppDataFactory $appDataFactory,
 		private IAppConfig $appConfig,
 		private LoggerInterface $logger,
-		private IConfig $config,
 	) {
 		parent::__construct(
 			$this->clientService,
@@ -64,8 +62,7 @@ class DiscoveryService extends CachedRequestService {
 	 * @throws \RuntimeException if wopi_url is not configured.
 	 */
 	private function getDiscoveryEndpoint(): string {
-		// @todo: any virtue to the use of IConfig vs IAppConfig here?
-		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
+		$remoteHost = $this->appConfig->getValueString('richdocuments', 'wopi_url');
 
 		if (empty($remoteHost)) {
 			$this->logger->error('WOPI server URL (wopi_url) is not configured.');
