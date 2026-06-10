@@ -15,9 +15,7 @@ use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Theming\ImageManager;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\Defaults;
 use OCP\IConfig;
-use OCP\IURLGenerator;
 
 class InitialStateService {
 	private bool $hasProvidedCapabilities = false;
@@ -29,8 +27,6 @@ class InitialStateService {
 		private ImageManager $imageManager,
 		private TemplateManager $templateManager,
 		private CapabilitiesService $capabilitiesService,
-		private IURLGenerator $urlGenerator,
-		private Defaults $themingDefaults,
 		private IConfig $config,
 		private ?string $userId,
 	) {
