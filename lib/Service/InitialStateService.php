@@ -75,7 +75,7 @@ class InitialStateService {
 	 *                      - userId: User identifier (may include remote server for federation)
 	 * @return void
 	 * @throws \InvalidArgumentException if critical parameters are missing
-	 */	
+	 */
 	public function provideDocument(Wopi $wopi, array $params): void {
 		$this->provideCapabilities();
 
