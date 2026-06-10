@@ -64,6 +64,7 @@ class Capabilities implements ICapability {
 	public const MIMETYPES_OPTIONAL = [
 		'image/svg+xml',
 		'application/pdf',
+		'application/epub+zip',
 		'text/plain',
 		'text/spreadsheet',
 	];
