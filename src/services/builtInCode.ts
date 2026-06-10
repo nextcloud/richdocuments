@@ -9,12 +9,12 @@ import axios from '@nextcloud/axios'
 
 const wopiUrl = getCapabilities()?.config?.wopi_url
 const isConfigured = wopiUrl !== ''
-const appWebRoots = window._oc_appswebroots
+const appWebRoots = OC.appswebroots
 const isCodeInstalled = appWebRoots?.richdocumentscode !== undefined || appWebRoots?.richdocumentscode_arm64 !== undefined
 const shouldAutoSetupCode = !isConfigured && isCodeInstalled
 
 const autoSetupBuiltInCodeServerIfNeeded = async () => {
-	if (!isCodeInstalled || !shouldAutoSetupCode || !window.oc_isadmin) {
+	if (!isCodeInstalled || !shouldAutoSetupCode || !OC.isUserAdmin()) {
 		return
 	}
 

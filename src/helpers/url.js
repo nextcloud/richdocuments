@@ -31,7 +31,7 @@ const getWopiSrc = (fileId) => {
 
 const getWopiUrl = ({ fileId, readOnly, closeButton, revisionHistory, target = undefined, startPresentation = false }) => {
 	// Only set the revision history parameter if the versions app is enabled
-	revisionHistory = revisionHistory && window?.oc_appswebroots?.files_versions
+	revisionHistory = revisionHistory && OC.appswebroots?.files_versions
 
 	// urlsrc - the URL from discovery xml that we access for the particular
 	// document; we add various parameters to that.

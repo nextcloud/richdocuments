@@ -6,11 +6,13 @@
 export {}
 
 declare global {
-    interface Window {
-		oc_isadmin: boolean;
-        _oc_appswebroots: {
-            richdocumentscode: string|undefined;
-            richdocumentscode_arm64: string|undefined;
-        }
+	interface OC {
+		appswebroots: {
+			richdocumentscode?: string;
+			richdocumentscode_arm64?: string;
+		};
+		isUserAdmin(): boolean;
 	}
+
+	const OC: OC
 }
