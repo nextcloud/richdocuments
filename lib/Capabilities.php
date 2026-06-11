@@ -153,7 +153,7 @@ class Capabilities implements ICapability {
 			$defaultMimetypes[] = 'application/pdf';
 		}
 
-		return array_unique($defaultMimetypes);
+		return array_values(array_unique($defaultMimetypes));
 	}
 
 	/**

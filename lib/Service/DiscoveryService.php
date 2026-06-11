@@ -156,6 +156,6 @@ class DiscoveryService extends CachedRequestService {
             $mimeTypes[] = $mimeTypeName;
         }
 
-        return array_unique($mimeTypes);
+        return array_values(array_unique($mimeTypes));
     }
 }
