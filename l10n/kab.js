@@ -18,6 +18,7 @@ OC.L10N.register(
     "Cancel" : "Sefsex",
     "Select template" : "Fren tamudemt",
     "Create" : "Snulfu-d",
+    "Submit" : "Azen",
     "Description" : "Aglam",
     "No results" : "Ulac igmad",
     "Edit" : "Ẓreg",
