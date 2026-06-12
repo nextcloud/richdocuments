@@ -71,7 +71,9 @@ class RemoteService {
 		try {
 			return $this->convertTo($file->getName(), $stream, $format, [], $timeout);
 		} finally {
-			fclose($stream);
+			if (is_resource($stream)) {
+				fclose($stream);
+			}
 		}
 	}
 
