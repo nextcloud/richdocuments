@@ -152,3 +152,57 @@ describe('Open PDF with richdocuments', () => {
 		cy.closeDocument()
 	})
 })
+
+describe('PostMessage origin security', function() {
+	let randUser
+
+	before(function() {
+		cy.createRandomUser().then(user => {
+			randUser = user
+			cy.login(user)
+			cy.uploadFile(user, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
+		})
+	})
+
+	beforeEach(function() {
+		cy.login(randUser)
+	})
+
+	it('rejects messages from an unexpected origin', function() {
+		cy.visit('/apps/files', {
+			onBeforeLoad(win) {
+				cy.spy(win, 'postMessage').as('postMessage')
+			},
+		})
+		cy.openFile('document.odt')
+		cy.waitForViewer()
+		cy.waitForCollabora()
+		cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+
+		cy.window().then(win => {
+			cy.spy(win.console, 'warn').as('consoleWarn')
+		})
+		cy.dispatchMessageFromOrigin('https://evil.example.com', { MessageId: 'Action_Save', Values: {} })
+		cy.get('@consoleWarn').should('have.been.calledWith',
+			'PostMessageService: rejected message from unexpected origin',
+			'https://evil.example.com'
+		)
+		cy.closeDocument()
+	})
+
+	it('sends messages with the Collabora targetOrigin', function() {
+		const collaboraOrigin = new URL(Cypress.env('collaboraUrl') || 'https://localhost:9980').origin
+
+		cy.visit('/apps/files')
+		cy.openFile('document.odt')
+		cy.waitForViewer()
+		cy.waitForCollabora()
+		cy.get('[data-cy="coolframe"]').then($iframe => {
+			cy.spy($iframe[0].contentWindow, 'postMessage').as('postMessage')
+		})
+		cy.dispatchMessageFromOrigin(collaboraOrigin, { MessageId: 'App_LoadingStatus', Values: { Status: 'Document_Loaded' } })
+		cy.waitForPostMessage('Host_PostmessageReady', undefined, { targetOrigin: collaboraOrigin })
+
+		cy.closeDocument()
+	})
+})
