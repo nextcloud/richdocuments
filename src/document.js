@@ -567,7 +567,20 @@ const documentsMain = {
 	initSession() {
 		PostMessages.sendPostMessage('parent', 'loading')
 
-		documentsMain.urlsrc = Config.get('urlsrc')
+		const urlsrc = Config.get('urlsrc')
+		if (urlsrc) {
+			try {
+				PostMessages.setAllowedOrigins([
+					new URL(urlsrc).origin,
+					window.location.origin,
+				])
+				PostMessages.setTargetOrigins({
+					loolframe: new URL(urlsrc).origin,
+					parent: window.location.origin,
+				})
+			} catch (e) {}
+		}
+		documentsMain.urlsrc = urlsrc
 		documentsMain.fullPath = Config.get('path')
 		documentsMain.token = Config.get('token')
 		documentsMain.tokenTtl = Config.get('token_ttl') * 1000
@@ -613,7 +626,7 @@ const documentsMain = {
 		documentsMain.UI.hideEditor()
 		documentsMain.openLocally()
 
-		PostMessages.sendPostMessage('parent', 'close', '*')
+		PostMessages.sendPostMessage('parent', 'close')
 	},
 
 	onCloseViewer() {
