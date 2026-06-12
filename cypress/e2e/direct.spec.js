@@ -196,3 +196,45 @@ describe('Direct editing (legacy)', function() {
 	})
 
 })
+
+describe('PostMessage origin security', function() {
+	it('rejects messages from an unexpected origin', function() {
+		createDirectEditingLink(randUser, this.fileId)
+			.then((token) => {
+				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
+				cy.logout()
+				cy.visit(token, {
+					onBeforeLoad(win) {
+						cy.spy(win, 'postMessage').as('postMessage')
+					},
+				})
+				cy.waitForCollabora(false)
+				cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+
+				cy.window().then(win => {
+					cy.spy(win.console, 'warn').as('consoleWarn')
+				})
+				cy.dispatchMessageFromOrigin('https://evil.example.com', { MessageId: 'Action_Save', Values: {} })
+				cy.get('@consoleWarn').should('have.been.calledWith',
+					'PostMessageService: rejected message from unexpected origin',
+					'https://evil.example.com'
+				)
+			})
+	})
+
+	it('sends messages with the Collabora targetOrigin', function() {
+		createDirectEditingLink(randUser, this.fileId)
+			.then((token) => {
+				const collaboraOrigin = new URL(Cypress.env('collaboraUrl') || 'https://localhost:9980').origin
+				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
+				cy.logout()
+				cy.visit(token)
+				cy.waitForCollabora(false)
+				cy.get('[data-cy="coolframe"]').then($iframe => {
+					cy.spy($iframe[0].contentWindow, 'postMessage').as('postMessage')
+				})
+				cy.dispatchMessageFromOrigin(collaboraOrigin, { MessageId: 'App_LoadingStatus', Values: { Status: 'Document_Loaded' } })
+				cy.waitForPostMessage('Host_PostmessageReady', undefined, { targetOrigin: collaboraOrigin })
+			})
+	})
+})
