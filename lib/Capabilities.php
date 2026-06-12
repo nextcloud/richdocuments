@@ -98,7 +98,7 @@ class Capabilities implements ICapability {
 		private IAppManager $appManager,
 		private ?string $userId,
 		private IURLGenerator $urlGenerator,
-        private DiscoveryService $discoveryService,
+		private DiscoveryService $discoveryService,
 	) {
 	}
 
