@@ -69,7 +69,7 @@ export default {
 		this.postMessage = new PostMessageService({
 			parent: window.parent,
 		})
-
+		this.postMessage.setTargetOrigins({ parent: window.location.origin })
 		window.addEventListener('message', this.handlePostMessage)
 
 		if (this.iframeUrl.length > 0) {
@@ -94,6 +94,9 @@ export default {
 	methods: {
 		handlePostMessage(event) {
 			try {
+				if (this.iframeUrl && event.origin !== new URL(this.iframeUrl).origin) {
+					return
+				}
 				const data = event.data
 				if (data.MessageId === 'Iframe_Height') {
 					document.getElementById(this.iframeName).height = data.Values.ContentHeight
