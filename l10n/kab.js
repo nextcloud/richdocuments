@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saved" : "Yettwasekles",
     "The file was uploaded" : "Ulac afaylu yettwaznen",
     "The file was only partially uploaded" : "Afaylu, cwiṭ kan i yettwaznen segs",
     "No file was uploaded" : "Ulac afaylu i d-yettwasulin",
@@ -10,17 +11,24 @@ OC.L10N.register(
     "New presentation" : "Tanekda tamaynut",
     "New spreadsheet" : "Ambellez amaynut ",
     "Document" : "Isemli",
+    "Presentation" : "Tasmuli",
     "Images" : "Tugniwin",
+    "Office" : "Tanarit",
+    "Empty" : "Ilem",
     "New" : "Amaynut",
     "Save" : "Sekles",
     "Remove" : "Kkes",
     "Confirm" : "Serggeg",
     "Cancel" : "Sefsex",
+    "Save as" : "Sekles s yisem",
     "Select template" : "Fren tamudemt",
+    "File name" : "Isem n ufaylu",
     "Create" : "Snulfu-d",
     "Submit" : "Azen",
     "Description" : "Aglam",
     "No results" : "Ulac igmad",
+    "Select file" : "Fren afaylu",
+    "Preview" : "Pre-timeẓriwt",
     "Edit" : "Ẓreg",
     "Close" : "Mdel",
     "Remove from favorites" : "Kkes-it seg ismal",
@@ -30,6 +38,9 @@ OC.L10N.register(
     "Guest" : "Inebgi",
     "New file" : "Rnu afaylu",
     "Error" : "Erreur",
-    "Set" : "Sbadu"
+    "An error occurred" : "Teḍra-d tuccḍa",
+    "Nickname" : "Tasaẓlut",
+    "Set" : "Sbadu",
+    "Saving…" : "Asekles…"
 },
 "nplurals=2; plural=(n != 1);");
