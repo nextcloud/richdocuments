@@ -32,6 +32,7 @@ You can also edit your documents off-line with the Collabora Office app from the
 	<screenshot>https://github.com/nextcloud/richdocuments/raw/main/screenshots/Nextcloud-spreadsheet.png</screenshot>
 	<screenshot>https://github.com/nextcloud/richdocuments/raw/main/screenshots/Nextcloud-presentation.png</screenshot>
 	<dependencies>
+		<php min-version="8.3"/>
 		<nextcloud min-version="35" max-version="35"/>
 	</dependencies>
 	<background-jobs>
