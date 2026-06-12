@@ -128,34 +128,33 @@ class DiscoveryService extends CachedRequestService {
 		}
 	}
 
-    /**
-     * Dynamically get all supported mime types out of the discovery XML
-     * @todo Currently no categories given from endpoint
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function getSupportedMimeTypes(): array
-    {
-        $mimeTypes = [];
+	/**
+	 * Dynamically get all supported mime types out of the discovery XML
+	 * @todo Currently no categories given from endpoint
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	public function getSupportedMimeTypes(): array {
+		$mimeTypes = [];
 
-        try {
-            $parsed = $this->getParsed();
-        } catch (\Exception $e) {
-            // @todo fallback to a default set instead of empty array
-            return $mimeTypes;
-        }
+		try {
+			$parsed = $this->getParsed();
+		} catch (\Exception $e) {
+			// @todo fallback to a default set instead of empty array
+			return $mimeTypes;
+		}
 
-        foreach ($parsed->xpath('//net-zone/app') as $app) {
-            $mimeTypeName = (string)$app['name']; // (e.g. "application/pdf")
+		foreach ($parsed->xpath('//net-zone/app') as $app) {
+			$mimeTypeName = (string)$app['name']; // (e.g. "application/pdf")
 
-            // Filter (Settings, Capabilities, etc.)
-            if (!str_contains($mimeTypeName, '/')) {
-                continue;
-            }
-            $mimeTypes[] = $mimeTypeName;
-        }
+			// Filter (Settings, Capabilities, etc.)
+			if (!str_contains($mimeTypeName, '/')) {
+				continue;
+			}
+			$mimeTypes[] = $mimeTypeName;
+		}
 
-        return array_values(array_unique($mimeTypes));
-    }
+		return array_values(array_unique($mimeTypes));
+	}
 }
