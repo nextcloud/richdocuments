@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86dff13b7d430f2d8d165c89aa72cbc4",
+    "content-hash": "975144b82ec403845cd102db02374bf1",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -1352,16 +1352,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-deps/ocp.git",
-                "reference": "34432f7bb9c424159211d7e2e5d886b9590cf693"
+                "reference": "40842eb82f4972ef0fe465e9c03832275bb85533"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/34432f7bb9c424159211d7e2e5d886b9590cf693",
-                "reference": "34432f7bb9c424159211d7e2e5d886b9590cf693",
+                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/40842eb82f4972ef0fe465e9c03832275bb85533",
+                "reference": "40842eb82f4972ef0fe465e9c03832275bb85533",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.1 || ~8.2 || ~8.3 || ~8.4 || ~8.5",
+                "php": "~8.3 || ~8.4 || ~8.5",
                 "psr/clock": "^1.0",
                 "psr/container": "^2.0.2",
                 "psr/event-dispatcher": "^1.0",
@@ -1394,7 +1394,7 @@
                 "issues": "https://github.com/nextcloud-deps/ocp/issues",
                 "source": "https://github.com/nextcloud-deps/ocp/tree/master"
             },
-            "time": "2026-06-10T02:12:25+00:00"
+            "time": "2026-06-13T09:58:31+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -4245,7 +4245,7 @@
     },
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.2"
+        "php": "8.3"
     },
     "plugin-api-version": "2.9.0"
 }
