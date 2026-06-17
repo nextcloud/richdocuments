@@ -48,6 +48,7 @@ OC.L10N.register(
     "Document" : "Document",
     "Spreadsheet" : "Werkblad",
     "Presentation" : "Presentatie",
+    "Diagram" : "Diagram",
     "{user} has mentioned you in {node}" : "{user} heeft u genoemd in {node}",
     "Link to office document section" : "Link naar sectie kantoordocumenten",
     "Headings" : "Kopstijlen",
