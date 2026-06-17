@@ -310,7 +310,7 @@
     "Please enter the filename to store the document as." : "Įveskite failo pavadinimą, kuriuo bus saugomas dokumentas.",
     "New filename" : "Naujas failo pavadinimas",
     "Collabora Online is not setup yet. Please contact your administrator." : "„Collabora Online“ dar nėra sukonfigūruota. Kreipkitės į savo administratorių.",
-    "Opening the file is not supported, since the credentials for the external storage are not available without a session" : "Failo atidarymas nepalaikomas, nes be sesijos nėra prieigos duomenų prie išorinės saugyklos",
+    "Opening the file is not supported, since the credentials for the external storage are not available without a session" : "Failo atidarymas nepalaikomas, nes be sesijos nėra prisijungimo duomenų prie išorinės saugyklos",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nepavyko prisijungti prie {productName}. Vėliau bandykite dar kartą arba susisiekite su savo serverio administratoriumi.",
     "Saving…" : "Įrašoma…",
     "Built-in CODE server failed to start" : "Nepavyko paleisti integruoto CODE serverio",
