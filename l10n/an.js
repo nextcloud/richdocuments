@@ -12,6 +12,7 @@ OC.L10N.register(
     "File is too big" : "O fichero ye masiau gran",
     "Invalid file provided" : "Fichero proporcionau no valiu",
     "New" : "Nuevo",
+    "Save" : "Save",
     "Cancel" : "Cancelar",
     "Create" : "Crear",
     "Close" : "Zarrar",
