@@ -68,11 +68,7 @@ class RemoteService {
 			throw new Exception('Failed to open stream');
 		}
 
-		try {
-			return $this->convertTo($file->getName(), $stream, $format, [], $timeout);
-		} finally {
-			fclose($stream);
-		}
+		return $this->convertTo($file->getName(), $stream, $format, [], $timeout);
 	}
 
 	/**
