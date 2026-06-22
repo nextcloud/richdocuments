@@ -231,7 +231,7 @@ OC.L10N.register(
     "To use document signing, specify your signing certificate, key and CA chain here." : "Norėdami naudoti dokumentų pasirašymą, čia nurodykite savo pasirašymo sertifikatą, raktą ir CA grandinę.",
     "This instance does not support document signing, because the feature is missing or disabled. Please contact the administrator." : "Šis egzempliorius nepalaiko dokumentų pasirašymo, nes funkcijos nėra arba ji išjungta. Susisiekite su administratoriumi.",
     "Description" : "Aprašas",
-    "Add new token" : "Pridėti naują žymą",
+    "Add new token" : "Pridėti naują žymenį",
     "No font overview" : "Nėra šriftų apžvalgos",
     "Delete this font" : "Ištrinti šį šriftą",
     "No results" : "Rezultatų nėra",
