@@ -1,0 +1,114 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: WOPI validator tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - stable*
+
+env:
+  APP_NAME: richdocuments
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - 'appinfo/**'
+              - 'lib/**'
+              - 'templates/**'
+              - 'tests/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+
+  sqlite:
+    runs-on: ubuntu-latest
+
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+
+    strategy:
+      # do not stop on another job's failure
+      fail-fast: false
+      matrix:
+        php-versions: ['8.1']
+        server-versions: ['master']
+
+    name: wopi-${{ matrix.php-versions }}-${{ matrix.server-versions }}
+
+    services:
+      collabora:
+        image: collabora/code:latest
+        env:
+          extra_params: '--o:ssl.enable=false'
+          aliasgroup1: 'http://nextcloud'
+        ports:
+          - "9980:9980"
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@v2
+        with:
+          repository: nextcloud/server
+          ref: ${{ matrix.server-versions }}
+
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
+      - name: Checkout app
+        uses: actions/checkout@v2
+        with:
+          path: apps/${{ env.APP_NAME }}
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit:8.5.14
+          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, gd, zip, apcu
+          ini-values:
+            apc.enable_cli=on
+          coverage: none
+
+      - name: Set up Nextcloud
+        env:
+          DB_PORT: 4444
+        run: |
+          mkdir data
+          echo '<?php $CONFIG=["memcache.local"=>"\OC\Memcache\APCu","hashing_default_password"=>true];' > config/config.php
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          ./occ config:system:set trusted_domains 1 --value=172.17.0.1
+          ./occ app:enable --force ${{ env.APP_NAME }}
+
+          # For now we require a some wopi server to be setup to generate a token
+          ./occ config:app:set richdocuments wopi_url --value="http://localhost:9980"
+          ./occ config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
+          ./occ config:system:set allow_local_remote_servers --value true --type bool
+          ./occ richdocuments:activate-config
+
+
+      - name: Run WOPI validator tests
+        working-directory: apps/${{ env.APP_NAME }}
+        run: |
+          PHP_CLI_SERVER_WORKERS=10 php -S 172.17.0.1:8080 -t ../../ &
+          NEXTCLOUD_URL=http://172.17.0.1:8080 ./tests/wopi-test.sh
