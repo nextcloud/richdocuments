@@ -176,7 +176,8 @@ export default {
 		getFilePickerBuilder(t('richdocuments', 'Insert file from {name}', { name: OC.theme.name }))
 			.setMimeTypeFilter(mimeTypeFilter)
 			.setFilter((node) => {
-				const downloadShareAttribute = JSON.parse(node.attributes['share-attributes']).find((shareAttribute) => shareAttribute.key === 'download')
+				const shareAttributes = node.attributes['share-attributes'] ? JSON.parse(node.attributes['share-attributes']) : []
+				const downloadShareAttribute = shareAttributes.find((shareAttribute) => shareAttribute.key === 'download')
 				const downloadPermissions = downloadShareAttribute !== undefined ? (downloadShareAttribute.enabled || downloadShareAttribute.value) : true
 				return (node.permissions & OC.PERMISSION_READ) && downloadPermissions
 			})
