@@ -145,6 +145,8 @@ Cypress.Commands.add('shareFileToRemoteUser', (user, path, targetUser, shareData
 			url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending?format=json`,
 		})
 	}).then(({ body }) => {
+		cy.wrap(body.ocs.data).should('have.length.greaterThan', 0,
+			'No pending federated shares found for recipient — federation setup likely failed')
 		for (const index in body.ocs.data) {
 			cy.ocsRequest(targetUser, {
 				method: 'POST',
