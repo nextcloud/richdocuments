@@ -66,6 +66,7 @@ OC.L10N.register(
     "Description" : "Descrição",
     "No results" : "Sem resultados",
     "Select file" : "Selecione o ficheiro",
+    "Select file or folder to link to" : "Selecione um arquivo ou pasta para vincular",
     "Preview" : "Pré-visualizar",
     "Edit" : "Editar",
     "Close" : "Fechar",
