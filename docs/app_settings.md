@@ -41,6 +41,14 @@ By default Nextcloud will generate previews of Office files using the Collabora 
 
 	occ config:app:set richdocuments preview_generation --type boolean --lazy --value false
 
+The timeout for preview conversion requests (in seconds) can be configured. The default is 5 seconds:
+
+	occ config:app:set richdocuments preview_conversion_timeout --type integer --value 10
+
+Files larger than the configured maximum file size will be skipped and no preview will be generated. The default limit is 100 MB (104857600 bytes):
+
+	occ config:app:set richdocuments preview_conversion_max_filesize --type integer --value 52428800
+
 ### Electronic signature
 From a shell running in the Nextcloud root directory, run the following `occ`
 command to configure a non-default base URL for eID Easy. For example:
