@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Richdocuments;
 
 use OCA\Richdocuments\Service\CapabilitiesService;
+use OCA\Richdocuments\Service\DiscoveryService;
 use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use OCP\IURLGenerator;
@@ -97,6 +98,7 @@ class Capabilities implements ICapability {
 		private IAppManager $appManager,
 		private ?string $userId,
 		private IURLGenerator $urlGenerator,
+		private DiscoveryService $discoveryService,
 	) {
 	}
 
@@ -141,7 +143,7 @@ class Capabilities implements ICapability {
 	 * @return list<string>
 	 */
 	public function getDefaultMimetypes(): array {
-		$defaultMimetypes = self::MIMETYPES;
+		$defaultMimetypes = $this->discoveryService->getSupportedMimeTypes() ?: self::MIMETYPES;
 
 		if (!$this->capabilitiesService->hasOtherOOXMLApps()) {
 			array_push($defaultMimetypes, ...self::MIMETYPES_MSOFFICE);
@@ -151,7 +153,7 @@ class Capabilities implements ICapability {
 			$defaultMimetypes[] = 'application/pdf';
 		}
 
-		return $defaultMimetypes;
+		return array_values(array_unique($defaultMimetypes));
 	}
 
 	/**
