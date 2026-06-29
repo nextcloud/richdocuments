@@ -24,7 +24,7 @@ final class RegisterDirectEditorListener implements IEventListener {
 	 * legacy /apps/richdocuments/api/v1/document endpoint and should not
 	 * see the editor in OCP\DirectEditing discovery responses.
 	 */
-	private const MIN_MOBILE_CLIENT_VERSION = 34;
+	public const MIN_MOBILE_CLIENT_VERSION = 34;
 
 	public function __construct(
 		private OfficeDirectEditor $editor,
