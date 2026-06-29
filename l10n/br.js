@@ -9,6 +9,7 @@ OC.L10N.register(
     "New document" : "Teul nevez",
     "New presentation" : "Kinnig nevez",
     "New spreadsheet" : "Taolenner nevez",
+    "Presentation" : "Kinnigadenn",
     "Images" : "Skeudenn",
     "Office" : "Burev",
     "New" : "Nevez",
