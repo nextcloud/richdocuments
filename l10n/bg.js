@@ -32,6 +32,7 @@ OC.L10N.register(
     "New presentation" : "Нова презентация",
     "New spreadsheet" : "Нова електронна таблица",
     "Document" : "Документ",
+    "Presentation" : "Презентация",
     "Headings" : "Заглавия",
     "Images" : "Изображения",
     "Office" : "Офис",
