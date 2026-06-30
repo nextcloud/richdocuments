@@ -206,6 +206,7 @@ OC.L10N.register(
     "Add to favorites" : "Føj til favoritter",
     "Details" : "Detaljer",
     "Download" : "Download",
+    "Remove user" : "Fjern bruger",
     "Guest" : "Gæst",
     "New file" : "Ny fil",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gemt med fejl: Collabora Online skal bruge samme protokol som server installationen.",
