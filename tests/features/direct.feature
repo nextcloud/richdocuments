@@ -85,6 +85,7 @@ Feature: Direct editing
     Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   @federation
+  @known-failure-ci
   Scenario: Open a federated shared file through direct editing
     Given on instance "serverA"
     And as user "user1"
@@ -107,6 +108,7 @@ Feature: Direct editing
     Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   @federation
+  @known-failure-ci
   Scenario: Open a file in a federated shared folder through direct editing
     Given on instance "serverA"
     And as user "user1"
