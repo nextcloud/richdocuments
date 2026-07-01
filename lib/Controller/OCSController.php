@@ -14,6 +14,7 @@ use OCA\Richdocuments\Db\DirectMapper;
 use OCA\Richdocuments\DirectEditing\OfficeDirectEditor;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
+use OCA\Richdocuments\Listener\RegisterDirectEditorListener;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
@@ -86,26 +87,44 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				throw new OCSBadRequestException('Cannot view folder');
 			}
 
-			// getRelativePath() can return null for nodes outside the user
-			// folder; Manager::open() requires a string, so fall back to the
-			// filename which is enough for the manager to resolve by fileId.
-			$path = $userFolder->getRelativePath($node->getPath()) ?? $node->getName();
+			if ($this->isAndroidV34OrAbove()) {
+				// Android v34+ uses the server's OCP\DirectEditing API natively
+				// (via /ocs/v2.php/apps/files/directEditing/open) but may fall back
+				// to this legacy endpoint — serve the server-managed URL so the
+				// TextEditorWebView flow works end-to-end.
+				$path = $userFolder->getRelativePath($node->getPath()) ?? $node->getName();
+				$this->directEditingManager->registerDirectEditor($this->officeDirectEditor);
+				/** @psalm-suppress UndefinedInterfaceMethod IManager does not expose open() but the concrete Manager does, same pattern as files-app DirectEditingController */
+				$token = $this->directEditingManager->open($path, Application::APPNAME, $node->getId());
+				return new DataResponse([
+					'url' => $this->urlGenerator->linkToRouteAbsolute('files.DirectEditingView.edit', [
+						'token' => $token,
+					]),
+				]);
+			}
 
-			// Register directly so the legacy endpoint keeps working for
-			// older mobile clients where RegisterDirectEditorListener gates
-			// out the editor from OCP\DirectEditing discovery.
-			$this->directEditingManager->registerDirectEditor($this->officeDirectEditor);
-			/** @psalm-suppress UndefinedInterfaceMethod IManager does not expose open() but the concrete Manager does, same pattern as files-app DirectEditingController */
-			$token = $this->directEditingManager->open($path, Application::APPNAME, $node->getId());
-
+			// iOS (all versions) and Android < 34: use the legacy richdocuments direct
+			// token. These clients open the URL in RichDocumentsEditorWebView which
+			// injects window.RichDocumentsMobileInterface. The server's generic
+			// TextEditorWebView (used for Android v34+) injects a different interface
+			// and these older clients cannot drive it.
+			$direct = $this->directMapper->newDirect($this->userId, $node->getId());
 			return new DataResponse([
-				'url' => $this->urlGenerator->linkToRouteAbsolute('files.DirectEditingView.edit', [
-					'token' => $token,
+				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
+					'token' => $direct->getToken(),
 				]),
 			]);
 		} catch (NotFoundException) {
 			throw new OCSNotFoundException();
 		}
+	}
+
+	private function isAndroidV34OrAbove(): bool {
+		$userAgent = $this->request->getHeader('User-Agent');
+		if (preg_match(IRequest::USER_AGENT_CLIENT_ANDROID, $userAgent, $matches) !== 1) {
+			return false;
+		}
+		return (int)explode('.', $matches[1] ?? '0')[0] >= RegisterDirectEditorListener::MIN_MOBILE_CLIENT_VERSION;
 	}
 
 	/**
