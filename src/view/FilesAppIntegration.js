@@ -561,11 +561,13 @@ export default {
 			if (nodes[0]) {
 				console.debug('[FilesAppIntegration] Emitting files:node:created for', basename)
 				emit('files:node:created', nodes[0])
-			} else {
-				console.warn('[FilesAppIntegration] New file not found:', basename)
+				return nodes[0]
 			}
+			console.warn('[FilesAppIntegration] New file not found:', basename)
+			return null
 		} catch (e) {
 			console.error('Failed to fetch new file metadata from webdav', e)
+			return null
 		}
 	},
 
