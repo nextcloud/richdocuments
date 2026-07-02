@@ -406,9 +406,11 @@ export default {
 			this.$refs.documentFrame.contentWindow.location.replace(this.iframeSrc)
 		},
 		async switchToSavedAsFile(newBasename) {
+			this.loading = LOADING_STATE.LOADING
 			const node = await FilesAppIntegration.createNodeForNewFile(newBasename)
 			if (!node) {
 				// New file could not be resolved, avoid reloading into a bad state
+				this.loading = LOADING_STATE.DOCUMENT_READY
 				return
 			}
 			this.activeFilename = node.path
@@ -428,7 +430,6 @@ export default {
 			})
 			FilesAppIntegration.changeFilesRoute(node.fileid)
 
-			this.loading = LOADING_STATE.LOADING
 			await this.load()
 		},
 		postMessageHandler({ parsed }) {
