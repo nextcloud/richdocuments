@@ -250,7 +250,7 @@ class AppConfig {
 	}
 
 	public function isPreviewGenerationEnabled(): bool {
-		return $this->appConfig->getAppValueBool('preview_generation', true);
+		return $this->appConfig->getAppValueBool('preview_generation', true, lazy: true);
 	}
 
 	/**
