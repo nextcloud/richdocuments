@@ -74,7 +74,7 @@
     "OpenDocument (odt)" : "OpenDocument (odt)",
     "Portable Document Format (pdf)" : "Portable Document Format (pdf)",
     "Generate Office text document" : "Sukurti „Biuro“ teksto dokumentą",
-    "Generate an Office text document from a prompt" : "Sukurti „Biuro“ teksto dokumentą pagal įvestį",
+    "Generate an Office text document from a prompt" : "Sukurti „Biuro“ teksto dokumentą pagal užklausą",
     "Instructions" : "Instrukcija",
     "Describe the document you want the assistant to generate" : "Aprašykite dokumentą, kurį norite, kad asistentas parengtų",
     "Generated Office document" : "Sukurti „Biuro“ dokumentą",
