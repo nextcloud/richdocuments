@@ -85,21 +85,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				throw new OCSBadRequestException('Cannot view folder');
 			}
 
-			// getRelativePath() can return null for nodes outside the user
-			// folder; Manager::open() requires a string, so fall back to the
-			// filename which is enough for the manager to resolve by fileId.
-			$path = $userFolder->getRelativePath($node->getPath()) ?? $node->getName();
-
-			// Register directly so the legacy endpoint keeps working for
-			// older mobile clients where RegisterDirectEditorListener gates
-			// out the editor from OCP\DirectEditing discovery.
-			$this->directEditingManager->registerDirectEditor($this->officeDirectEditor);
-			/** @psalm-suppress UndefinedInterfaceMethod IManager does not expose open() but the concrete Manager does, same pattern as files-app DirectEditingController */
-			$token = $this->directEditingManager->open($path, Application::APPNAME, $node->getId());
-
+			$direct = $this->directMapper->newDirect($this->userId, $node->getId());
 			return new DataResponse([
-				'url' => $this->urlGenerator->linkToRouteAbsolute('files.DirectEditingView.edit', [
-					'token' => $token,
+				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
+					'token' => $direct->getToken(),
 				]),
 			]);
 		} catch (NotFoundException) {
