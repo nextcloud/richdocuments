@@ -128,6 +128,28 @@ describe('Direct editing (legacy)', function() {
 			})
 	})
 
+	it('Signals DirectEditingMobileInterface on document load', function() {
+		createDirectEditingLink(randUser, this.fileId)
+			.then((token) => {
+				cy.logout()
+				cy.visit(token, {
+					onBeforeLoad(win) {
+						win.DirectEditingMobileInterface = {
+							loaded: cy.stub().as('directEditingLoaded'),
+							documentLoaded: cy.stub().as('directEditingDocumentLoaded'),
+							close: cy.stub().callsFake(() => win.documentsMain.onClose()),
+						}
+						cy.spy(win, 'postMessage').as('postMessage')
+					},
+				})
+				cy.waitForCollabora(false)
+				cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+				cy.get('@directEditingLoaded').should('have.been.called')
+				cy.get('@directEditingDocumentLoaded').should('have.been.called')
+				cy.closeDirectDocument()
+			})
+	})
+
 	it('Open an new file', function() {
 		getTemplates(randUser, 'document')
 			.then((templates) => {

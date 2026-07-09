@@ -18,12 +18,6 @@ use OCP\IRequest;
 /** @template-implements IEventListener<Event|RegisterDirectEditorEvent> */
 final class RegisterDirectEditorListener implements IEventListener {
 
-	/**
-	 * Minimum iOS/Android client major version that knows how to drive the
-	 * server-managed Direct Editing flow. Older clients keep using the
-	 * legacy /apps/richdocuments/api/v1/document endpoint and should not
-	 * see the editor in OCP\DirectEditing discovery responses.
-	 */
 	private const MIN_MOBILE_CLIENT_VERSION = 34;
 
 	public function __construct(
