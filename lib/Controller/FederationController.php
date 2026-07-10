@@ -8,10 +8,13 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
+use OCA\Richdocuments\Service\FederationService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -27,6 +30,8 @@ class FederationController extends OCSController {
 		private WopiMapper $wopiMapper,
 		private IUserManager $userManager,
 		private IURLGenerator $urlGenerator,
+		private IClientService $clientService,
+		private FederationService $federationService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -62,7 +67,11 @@ class FederationController extends OCSController {
 		try {
 			$initiatorWopi = $this->wopiMapper->getWopiForToken($token);
 			if (empty($initiatorWopi->getEditorUid()) && !empty($initiatorWopi->getRemoteServer()) && !empty($initiatorWopi->getRemoteServerToken())) {
-				$client = \OC::$server->getHTTPClientService()->newClient();
+				if (!$this->federationService->isTrustedRemote($initiatorWopi->getRemoteServer())) {
+					throw new OCSForbiddenException();
+				}
+
+				$client = $this->clientService->newClient();
 				$response = $client->post(
 					rtrim($initiatorWopi->getRemoteServer(), '/') . '/ocs/v2.php/apps/richdocuments/api/v1/federation/user?format=json',
 					[ 'body' => [ 'token' => $initiatorWopi->getRemoteServerToken() ], 'timeout' => 10 ]
