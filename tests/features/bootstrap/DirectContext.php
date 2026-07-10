@@ -123,6 +123,34 @@ class DirectContext implements Context {
 		$this->handleDirectEditingLink();
 	}
 
+	/**
+	 * @When /^User "([^"]*)" cannot open the last share link through direct editing initiator from server "([^"]*)"$/
+	 */
+	public function userCannotOpenTheLastShareLinkThroughDirectEditingInitiatorFromServer($user, $initiatorServer) {
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$this->serverContext->usingWebAsUser($user);
+		$this->requestInitiatorDirectEditingLink($shareToken, $initiatorServer);
+		$this->serverContext->assertHttpStatusCode(403);
+	}
+
+	/**
+	 * @When /^User "([^"]*)" opens the last share link through direct editing initiator from server "([^"]*)"$/
+	 */
+	public function userOpensTheLastShareLinkThroughDirectEditingInitiatorFromServer($user, $server) {
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$this->serverContext->usingWebAsUser($user);
+		$this->requestInitiatorDirectEditingLink($shareToken, $this->serverContext->getServer($server));
+		$this->handleDirectEditingLink();
+	}
+
+	private function requestInitiatorDirectEditingLink(string $shareToken, string $initiatorServer): void {
+		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/direct/share/initiator', [
+			'shareToken' => $shareToken,
+			'initiatorServer' => $initiatorServer,
+			'initiatorToken' => 'test-token',
+		], ['auth' => null]);
+	}
+
 	private function handleDirectEditingLink() {
 		$this->serverContext->assertHttpStatusCode(200);
 		$data = $this->serverContext->getOCSResponseData();
