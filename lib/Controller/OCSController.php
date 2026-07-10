@@ -241,6 +241,12 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		if (!$this->federationService->isTrustedRemote($initiatorServer)) {
+			$response = new DataResponse([], Http::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
+		}
+
 		$direct = $this->directMapper->newDirect(null, $node->getId(), null, $shareToken, $initiatorServer, $initiatorToken);
 
 		return new DataResponse([
