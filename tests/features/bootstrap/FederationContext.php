@@ -35,12 +35,29 @@ class FederationContext implements Context {
 	private $serverContext;
 	/** @var SharingContext */
 	private $sharingContext;
+	/** @var WopiContext */
+	private $wopiContext;
+	/** @var RichDocumentsContext */
+	private $richDocumentsContext;
 
 	/** @BeforeScenario */
 	public function gatherContexts(BeforeScenarioScope $scope) {
 		$environment = $scope->getEnvironment();
 		$this->serverContext = $environment->getContext(ServerContext::class);
 		$this->sharingContext = $environment->getContext(SharingContext::class);
+		$this->wopiContext = $environment->getContext(WopiContext::class);
+		$this->richDocumentsContext = $environment->getContext(RichDocumentsContext::class);
+	}
+
+	/**
+	 * @When I POST the WOPI access token to the federation endpoint
+	 */
+	public function iPostWopiAccessTokenToFederationEndpoint(): void {
+		$this->serverContext->sendOCSRequest(
+			'POST',
+			'apps/richdocuments/api/v1/federation',
+			['token' => $this->wopiContext->getWopiToken()]
+		);
 	}
 
 	/**
@@ -72,5 +89,19 @@ class FederationContext implements Context {
 			$this->serverContext->getAuth()[0],
 			$table
 		);
+	}
+
+	/**
+	 * @When I POST the initiator token to the federation endpoint
+	 */
+	public function iPostInitiatorTokenToFederationEndpoint(): void {
+		foreach ($this->richDocumentsContext->getRedirectHistory() as $url) {
+			if (str_contains($url, '/richdocuments/remote')) {
+				parse_str(parse_url($url, PHP_URL_QUERY), $params);
+				$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/federation', ['token' => $params['remoteServerToken']]);
+				return;
+			}
+		}
+		throw new \RuntimeException('No federation redirect found in redirect history');
 	}
 }

@@ -420,7 +420,7 @@ class DocumentController extends Controller {
 
 			return new DataResponse(array_merge(
 				$params,
-				$wopi->jsonSerialize(),
+				['token' => $wopi->getToken()],
 			));
 		} catch (Exception $e) {
 			$this->logger->error('Failed to generate token for file', [ 'exception' => $e ]);
