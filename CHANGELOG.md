@@ -4,6 +4,22 @@
 -->
 # Changelog
 
+## 11.0.1
+
+### Fixed
+- Verify initiator token type by @elzody in [#5856](https://github.com/nextcloud/richdocuments/pull/5856)
+- Ensure initiator server is trusted by @elzody in [#5847](https://github.com/nextcloud/richdocuments/pull/5847)
+- Correctly load via direct editing by @elzody in [#5838](https://github.com/nextcloud/richdocuments/pull/5838)
+- Properly read from lazy cache by @elzody in [#5837](https://github.com/nextcloud/richdocuments/pull/5837)
+- Allow multiple save as operations to work by @emberfiend in [#5815](https://github.com/nextcloud/richdocuments/pull/5815)
+- Guard share attribute parse by @rikled in [#5812](https://github.com/nextcloud/richdocuments/pull/5812)
+- Remove redundant stream cleanup in convertFileTo() by @nicfab in [#5780](https://github.com/nextcloud/richdocuments/pull/5780)
+- Add index for wopi expiry column by @elzody in [#5750](https://github.com/nextcloud/richdocuments/pull/5750)
+
+### Other
+- Dependency updates
+- More tests
+
 ## 11.0.0
 
 ### Added
