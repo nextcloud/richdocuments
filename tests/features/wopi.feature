@@ -389,6 +389,13 @@ Feature: WOPI
     When Collabora fetches checkFileInfo for version "1"
     Then the WOPI HTTP status code should be "403"
 
+  Scenario: Federation endpoint rejects non-initiator tokens
+    Given as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/federation-reject-test.odt"
+    When User "user1" opens "/federation-reject-test.odt"
+    And I POST the WOPI access token to the federation endpoint
+    Then the HTTP status code should be "404"
+
   Scenario: Guest repeated checkFileInfo requests are rate-limited
     Given as user "user1"
     And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
