@@ -29,6 +29,7 @@ class RichDocumentsContext implements Context {
 	public $wopiToken;
 	/** @var array List of opened file ids in order to compare opening accross instances */
 	private $fileIds = [];
+	private array $redirectHistory = [];
 	/** @var array List of templates fetched for a given file type */
 	private $templates = [];
 	private array $directoryListing = [];
@@ -64,8 +65,8 @@ class RichDocumentsContext implements Context {
 				]
 			)
 		);
-		$redirects = $result->getHeader('X-Guzzle-Redirect-History');
-		$lastServer = array_pop($redirects);
+		$this->redirectHistory = $result->getHeader('X-Guzzle-Redirect-History');
+		$lastServer = end($this->redirectHistory) ?: null;
 		if ($lastServer) {
 			$this->currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://' . parse_url($lastServer, PHP_URL_HOST) . (
 				parse_url($lastServer, PHP_URL_PORT) ? ':' . parse_url($lastServer, PHP_URL_PORT) : ''
@@ -75,6 +76,10 @@ class RichDocumentsContext implements Context {
 
 		Assert::assertNotEmpty($this->fileId);
 		Assert::assertNotEmpty($this->wopiToken);
+	}
+
+	public function getRedirectHistory(): array {
+		return $this->redirectHistory;
 	}
 
 	/**
