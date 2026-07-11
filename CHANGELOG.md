@@ -4,6 +4,12 @@
 -->
 # Changelog
 
+## 8.5.16
+
+### Fixed
+- Verify initiator token type by @elzody in [#5852](https://github.com/nextcloud/richdocuments/pull/5852)
+- Ensure initiator server is trusted by @elzody in [#5843](https://github.com/nextcloud/richdocuments/pull/5843)
+
 ## 8.5.15
 
 ### Fixed
