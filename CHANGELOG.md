@@ -4,6 +4,14 @@
 -->
 # Changelog
 
+## 8.8.1
+
+### Fixed
+- Verify initiator token type by @elzody in [#5853](https://github.com/nextcloud/richdocuments/pull/5853)
+- Ensure initiator server is trusted by @elzody in [#5844](https://github.com/nextcloud/richdocuments/pull/5844)
+- Allow multiple save as operations to work by @emberfiend in [#5820](https://github.com/nextcloud/richdocuments/pull/5820)
+- Add index for wopi expiry column by @elzody in [#5747](https://github.com/nextcloud/richdocuments/pull/5747)
+
 ## 8.8.0
 
 ### Added
