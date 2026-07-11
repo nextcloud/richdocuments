@@ -4,6 +4,19 @@
 -->
 # Changelog
 
+## 9.1.2
+
+### Fixed
+- Verify initiator token type by @elzody in [#5854](https://github.com/nextcloud/richdocuments/pull/5854)
+- Ensure initiator server is trusted by @elzody in [#5845](https://github.com/nextcloud/richdocuments/pull/5845)
+- Properly read from lazy cache by @elzody in [#5835](https://github.com/nextcloud/richdocuments/pull/5835)
+- Guard share attribute parse by @rikled in [#5817](https://github.com/nextcloud/richdocuments/pull/5817)
+- Allow multiple save as operations to work by @emberfiend in [#5816](https://github.com/nextcloud/richdocuments/pull/5816)
+- Add index for wopi expiry column by @elzody in [#5748](https://github.com/nextcloud/richdocuments/pull/5748)
+
+### Other
+- Dependency updates
+
 ## 9.1.0
 
 ### Added
