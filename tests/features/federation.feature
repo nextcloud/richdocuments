@@ -5,6 +5,19 @@ Background:
 	And user "user2" exists
   And user "user3" exists
 
+  Scenario: Federation endpoint accepts initiator tokens
+    Given on instance "serverA"
+    And as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/fed-api-positive.odt"
+    And share the file "/fed-api-positive.odt" as a federated share to "user2" on "serverB"
+
+    Given on instance "serverB"
+    And as user "user2"
+    And user "user2" accepts last share
+    When User "user2" opens "/fed-api-positive.odt"
+    And I POST the initiator token to the federation endpoint
+    Then the HTTP status code should be "200"
+
   Scenario: Share a file by federation and open it
     Given on instance "serverA"
     And as user "user1"

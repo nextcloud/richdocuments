@@ -22,6 +22,7 @@
  */
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
@@ -111,6 +112,9 @@ class FederationController extends OCSController {
 	public function remoteWopiToken($token): DataResponse {
 		try {
 			$initiatorWopi = $this->wopiMapper->getWopiForToken($token);
+			if ($initiatorWopi->getTokenType() !== Wopi::TOKEN_TYPE_INITIATOR) {
+				throw new OCSNotFoundException();
+			}
 			if (empty($initiatorWopi->getEditorUid()) && !empty($initiatorWopi->getRemoteServer()) && !empty($initiatorWopi->getRemoteServerToken())) {
 				if (!$this->federationService->isTrustedRemote($initiatorWopi->getRemoteServer())) {
 					throw new OCSForbiddenException();
@@ -130,7 +134,13 @@ class FederationController extends OCSController {
 				}
 			}
 			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . ' returned');
-			return new DataResponse($initiatorWopi);
+			return new DataResponse([
+				'tokenType' => $initiatorWopi->getTokenType(),
+				'editorUid' => $initiatorWopi->getEditorUid(),
+				'guestDisplayname' => $initiatorWopi->getGuestDisplayname(),
+				'canwrite' => $initiatorWopi->getCanwrite(),
+				'hideDownload' => $initiatorWopi->getHideDownload(),
+			]);
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . 'not found');
 			throw new OCSNotFoundException();
