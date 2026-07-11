@@ -376,3 +376,10 @@ Feature: WOPI
     And as "user1" the file "/SharedFolder/renamed_file.odt" exists
     And as "user1" the file "/SharedFolder/file.odt" does not exist
     And as "user1" the file "/renamed_file.odt" does not exist
+
+  Scenario: Federation endpoint rejects non-initiator tokens
+    Given as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/federation-reject-test.odt"
+    When User "user1" opens "/federation-reject-test.odt"
+    And I POST the WOPI access token to the federation endpoint
+    Then the HTTP status code should be "404"
