@@ -278,6 +278,27 @@ Feature: Direct editing
     And as user "user2"
     When User "user2" cannot open the file "/document-share-link.odt" in the last share link through direct editing from server "serverA" with password "wrongpassword"
 
+  Scenario: Direct share initiator endpoint rejects untrusted server
+    Given on instance "serverA"
+    And as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/document-initiator-untrusted.odt"
+    And as "user1" create a share with
+      | path      | /document-initiator-untrusted.odt |
+      | shareType | 3                                 |
+    When User "user1" cannot open the last share link through direct editing initiator from server "http://untrusted.example.com/"
+
+  @federation @known-failure-ci
+  Scenario: Direct share initiator endpoint accepts trusted server
+    Given on instance "serverA"
+    And as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/document-initiator-trusted.odt"
+    And as "user1" create a share with
+      | path      | /document-initiator-trusted.odt |
+      | shareType | 3                               |
+    When User "user1" opens the last share link through direct editing initiator from server "serverB"
+    And Collabora fetches checkFileInfo
+    Then checkFileInfo "BaseFileName" is "document-initiator-trusted.odt"
+
   @federation @known-failure-ci
   Scenario: Open a link that originates on a federated share through direct editing
     Given user "user3" exists
