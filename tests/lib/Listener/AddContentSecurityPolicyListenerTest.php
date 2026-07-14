@@ -18,6 +18,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -36,6 +37,7 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 	private $gsConfig;
 	/** @var FederationService|MockObject */
 	private $federationService;
+	private IURLGenerator|MockObject $urlGenerator;
 	private CapabilitiesService|MockObject $capabilitiesService;
 	private AddContentSecurityPolicyListener $listener;
 
@@ -45,6 +47,7 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->gsConfig = $this->createMock(GlobalScaleConfig::class);
 		$this->federationService = $this->createMock(FederationService::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->overwriteService(FederationService::class, $this->federationService);
 
@@ -58,6 +61,7 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 				$this->createMock(IAppConfig::class),
 				$this->appManager,
 				$this->gsConfig,
+				$this->urlGenerator,
 			])
 			->onlyMethods(['getCollaboraUrlPublic', 'getGlobalScaleTrustedHosts'])
 			->getMock();
