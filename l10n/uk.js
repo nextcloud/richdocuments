@@ -26,7 +26,7 @@ OC.L10N.register(
     "Failed to upload the file" : "Не вдалося завантажити файл",
     "File is too big" : "Файл занадто великий",
     "Only template files can be uploaded" : "Можна завантажити лише шаблони файлів",
-    "Invalid file provided" : "Надано невірний файл",
+    "Invalid file provided" : "Надано недійсний файл",
     "Template not found" : "Шаблон не знайдено",
     "Unable to determine the proper file extension for %1$s" : "Не вдалося визначити потрібне розширення файлу для %1$s",
     "Unable to fetch information on %1$s" : "Не вдалося отримати інформацію для %1$s",
