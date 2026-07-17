@@ -65,6 +65,7 @@ class Capabilities implements ICapability {
 		'image/svg+xml',
 		'application/pdf',
 		'text/plain',
+		'text/markdown',
 		'text/spreadsheet',
 	];
 
