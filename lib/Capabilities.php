@@ -32,6 +32,7 @@ class Capabilities implements ICapability {
 		'application/vnd.oasis.opendocument.spreadsheet-template',
 		'application/vnd.oasis.opendocument.presentation-template',
 		'text/rtf',
+		'text/markdown',
 		'application/x-iwork-pages-sffpages',
 		'application/x-iwork-numbers-sffnumbers',
 		'application/x-iwork-keynote-sffkey',
