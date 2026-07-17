@@ -66,6 +66,7 @@ class Capabilities implements ICapability {
 		'application/pdf',
 		'application/epub+zip',
 		'text/plain',
+		'text/markdown',
 		'text/spreadsheet',
 	];
 
