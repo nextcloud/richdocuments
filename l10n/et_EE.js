@@ -102,6 +102,8 @@ OC.L10N.register(
     "Nextcloud Office (powered by Collabora Online) is a powerful online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Nextcloudi kontorirakendus (mille taustal töötab Collabora Online) on võimas kontorirakendus, mis leidub ühistöös faili muutmise võimalus, mis toetab kõiki levinud dokumentide, arvutustabelite ja esitlusfailide vorminguid ja toimib ilusti kõikides tänapäevastes veebibrauserites.",
     "Could not establish connection to the Collabora Online server." : "Ühendamine Collabora Online serveriga ei õnnestunud.",
     "Setting up a new server" : "Uue serveri seadistamine",
+    "Collabora Online should use the same protocol as the server installation." : "Collabora Online peaks kasutama sama protokolli, nagu server.",
+    "Your browser has been unable to connect to the Collabora server:" : "Collabora serveriga ühendamine ei õnnestunud:",
     "Collabora Online server is reachable." : "Collabora Online server on kättesaadav.",
     "URL used by the browser:" : "Võrguaadress, mida kasutatakse veebibrauseris:",
     "Nextcloud URL used by Collabora:" : "Nextcloudi võrguaadress, mida kasutab Collabora:",
