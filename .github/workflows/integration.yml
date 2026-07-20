@@ -67,7 +67,7 @@ jobs:
         image: ${{ matrix.code-image == 'release' && 'collabora/code:latest' || 'ghcr.io/juliusknorr/code-nightly:latest' }} # zizmor: ignore[unpinned-images]
         env:
           extra_params: '--o:ssl.enable=false'
-          aliasgroup1: 'http://nextcloud'
+          aliasgroup1: 'http://localhost'
         ports:
           - "9980:9980"
 
@@ -142,7 +142,7 @@ jobs:
         image: ghcr.io/juliusknorr/nextcloud-dev-code:latest # zizmor: ignore[unpinned-images]
         env:
           extra_params: '--o:ssl.enable=false'
-          aliasgroup1: 'http://nextcloud'
+          aliasgroup1: 'http://localhost'
         ports:
           - "9980:9980"
 
@@ -219,7 +219,7 @@ jobs:
         image: ghcr.io/juliusknorr/nextcloud-dev-code:latest # zizmor: ignore[unpinned-images]
         env:
           extra_params: '--o:ssl.enable=false'
-          aliasgroup1: 'http://nextcloud'
+          aliasgroup1: 'http://localhost'
         ports:
           - "9980:9980"
 
@@ -304,7 +304,7 @@ jobs:
         image: ghcr.io/juliusknorr/nextcloud-dev-code:latest # zizmor: ignore[unpinned-images]
         env:
           extra_params: '--o:ssl.enable=false'
-          aliasgroup1: 'http://nextcloud'
+          aliasgroup1: 'http://localhost'
         ports:
           - "9980:9980"
 
