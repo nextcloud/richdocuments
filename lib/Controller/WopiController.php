@@ -641,14 +641,18 @@ class WopiController extends Controller {
 		try {
 			$file = $this->getFileForWopiToken($wopi);
 			$wopiHeaderTime = $this->request->getHeader('X-COOL-WOPI-Timestamp');
+			$storageMtime = $file->getStorage()->filemtime($file->getInternalPath());
 
-			if (!empty($wopiHeaderTime) && $wopiHeaderTime !== Helper::toISO8601($file->getMTime() ?? 0)) {
+			if (!empty($wopiHeaderTime) && $wopiHeaderTime !== Helper::toISO8601($storageMtime ?: 0)) {
 				$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
 					'headerTime' => $wopiHeaderTime,
-					'storageTime' => Helper::toISO8601($file->getMTime() ?? 0)
+					'storageTime' => Helper::toISO8601($storageMtime ?: 0)
 				]);
 				// Tell WOPI client about this conflict.
-				return new JSONResponse(['COOLStatusCode' => self::COOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
+				return new JSONResponse([
+					'COOLStatusCode' => self::COOL_STATUS_DOC_CHANGED,
+					'LastModifiedTime' => Helper::toISO8601($storageMtime ?: 0),
+				], Http::STATUS_CONFLICT);
 			}
 
 			$content = fopen('php://input', 'rb');
@@ -670,7 +674,8 @@ class WopiController extends Controller {
 				$wopi->setTemplateId(null);
 				$this->wopiMapper->update($wopi);
 			}
-			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
+			$storageMtime = $file->getStorage()->filemtime($file->getInternalPath());
+			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($storageMtime ?: $file->getMTime())]);
 		} catch (NotFoundException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
