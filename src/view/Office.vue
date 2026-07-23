@@ -311,6 +311,12 @@ export default {
 			})
 
 			if (data.federatedUrl) {
+				try {
+					this.postMessage.setAllowedOrigins([new URL(data.federatedUrl).origin, window.location.origin])
+					this.postMessage.setTargetOrigins({ FRAME_DOCUMENT: new URL(data.federatedUrl).origin })
+				} catch (e) {
+					console.warn('[richdocuments] Could not derive origin from federatedUrl', e)
+				}
 				this.$set(this.formData, 'action', data.federatedUrl)
 				this.$nextTick(() => this.$refs.form.submit())
 				this.loading = LOADING_STATE.DOCUMENT_READY
@@ -318,6 +324,12 @@ export default {
 			}
 
 			Config.update('urlsrc', data.urlSrc)
+			try {
+				this.postMessage.setAllowedOrigins([new URL(data.urlSrc).origin, window.location.origin])
+				this.postMessage.setTargetOrigins({ FRAME_DOCUMENT: new URL(data.urlSrc).origin })
+			} catch (e) {
+				console.warn('[richdocuments] Could not derive Collabora origin from urlsrc', e)
+			}
 			Config.update('wopi_callback_url', loadState('richdocuments', 'wopi_callback_url', ''))
 
 			const forceReadOnly = this.isEmbedded && !this.hasWidgetEditingEnabled
