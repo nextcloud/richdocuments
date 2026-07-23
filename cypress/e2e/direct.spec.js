@@ -150,7 +150,7 @@ describe('Direct editing (legacy)', function() {
 
 	describe('PostMessage origin security', function() {
 		it('rejects messages from an unexpected origin', function() {
-			createDirectEditingLink(randUser, this.fileId)
+			createDirectEditingLink(randUser, fileId)
 				.then((token) => {
 					cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
 					cy.logout()
@@ -174,7 +174,7 @@ describe('Direct editing (legacy)', function() {
 		})
 
 		it('sends messages with the Collabora targetOrigin', function() {
-			createDirectEditingLink(randUser, this.fileId)
+			createDirectEditingLink(randUser, fileId)
 				.then((token) => {
 					cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
 					cy.logout()
