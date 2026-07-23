@@ -187,17 +187,16 @@ describe('PostMessage origin security', function() {
 	})
 
 	it('sends messages with the Collabora targetOrigin', function() {
-		const collaboraOrigin = new URL(Cypress.env('collaboraUrl') || 'https://localhost:9980').origin
-
 		cy.visit('/apps/files')
 		cy.openFile('document.odt')
 		cy.waitForViewer()
 		cy.waitForCollabora()
 		cy.get('[data-cy="coolframe"]').then($iframe => {
+			const collaboraOrigin = $iframe[0].contentWindow.location.origin
 			cy.spy($iframe[0].contentWindow, 'postMessage').as('postMessage')
+			cy.dispatchMessageFromOrigin(collaboraOrigin, { MessageId: 'App_LoadingStatus', Values: { Status: 'Document_Loaded' } })
+			cy.waitForPostMessage('Host_PostmessageReady', undefined, { targetOrigin: collaboraOrigin })
 		})
-		cy.dispatchMessageFromOrigin(collaboraOrigin, { MessageId: 'App_LoadingStatus', Values: { Status: 'Document_Loaded' } })
-		cy.waitForPostMessage('Host_PostmessageReady', undefined, { targetOrigin: collaboraOrigin })
 
 		cy.closeDocument()
 	})
