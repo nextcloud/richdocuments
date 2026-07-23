@@ -32,10 +32,7 @@ const openPdf = {
 			return false
 		}
 
-		const isPdf = nodes[0].mime === 'application/pdf'
-		// Only enable the file action when files_pdfviewer is enabled
-		const optionalMimetypes = getCapabilities().mimetypesNoDefaultOpen
-		return isPdf && optionalMimetypes.includes('application/pdf')
+		return getCapabilities().mimetypesNoDefaultOpen.includes(nodes[0].mime)
 	},
 
 	exec: ({ nodes }) => {
