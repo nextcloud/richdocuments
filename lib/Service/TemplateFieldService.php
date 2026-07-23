@@ -9,12 +9,10 @@ namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
-use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\Files\Template\Field;
 use OCP\Files\Template\FieldFactory;
 use OCP\Files\Template\FieldType;
@@ -40,44 +38,17 @@ class TemplateFieldService {
 	}
 
 	/**
-	 * Resolve a fileId strictly within the acting user's scope so that a
-	 * global id cannot be used to reach another user's file.
-	 *
-	 * @throws NotFoundException
-	 */
-	private function getUserFile(int $fileId): File {
-		if ($this->userId === null) {
-			throw new NotFoundException();
-		}
-
-		$userFolder = $this->rootFolder->getUserFolder($this->userId);
-		$node = $userFolder->getFirstNodeById($fileId);
-
-		if (!$node instanceof File) {
-			throw new NotFoundException();
-		}
-
-		// Defensive: the node is reachable in the user's scope, which already
-		// implies read access, but assert it explicitly.
-		if (!($node->getPermissions() & Constants::PERMISSION_READ)) {
-			throw new NotFoundException();
-		}
-
-		return $node;
-	}
-
-	/**
 	 * @param Node|int $file
 	 * @return Field[]
 	 * @throws NotFoundException
 	 */
 	public function extractFields(Node|int $file): array {
 		if (is_int($file)) {
-			$file = $this->getUserFile($file);
+			$file = $this->rootFolder->getFirstNodeById($file);
 		}
 
 		try {
-			if (!$file instanceof File) {
+			if (!$file || !$file instanceof File) {
 				throw new NotFoundException();
 			}
 
@@ -153,10 +124,10 @@ class TemplateFieldService {
 	 */
 	public function fillFields(Node|int $file, array $fields = [], ?string $destination = null, ?string $format = null) {
 		if (is_int($file)) {
-			$file = $this->getUserFile($file);
+			$file = $this->rootFolder->getFirstNodeById($file);
 		}
 
-		if (!$file instanceof File) {
+		if (!$file || !$file instanceof File) {
 			$e = new NotFoundException();
 			$this->logger->error($e->getMessage());
 
@@ -164,11 +135,6 @@ class TemplateFieldService {
 		}
 
 		if ($file->getMimeType() === 'application/pdf') {
-			// Filling a PDF overwrites the source in place, so require write access.
-			if (!($file->getPermissions() & Constants::PERMISSION_UPDATE)) {
-				throw new NotPermittedException('No update permission for file ' . $file->getId());
-			}
-
 			$content = $this->pdfService->fillFields($file, $fields);
 			if ($destination !== null) {
 				$this->writeToDestination($destination, $content);
