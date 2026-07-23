@@ -12,12 +12,12 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
-use OCP\IRequest;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IRequest;
 use OCP\IUserSession;
 
 class TemplateFieldController extends OCSController {
@@ -31,7 +31,6 @@ class TemplateFieldController extends OCSController {
 		parent::__construct($appName, $request);
 	}
 
-
 	/** Resolve strictly within the acting user's scope (blocks IDOR). */
 	private function getUserFile(int $fileId): File {
 		$user = $this->userSession->getUser();
@@ -44,7 +43,6 @@ class TemplateFieldController extends OCSController {
 		}
 		return $node;
 	}
-
 
 	/**
 	 * @param int $fileId
