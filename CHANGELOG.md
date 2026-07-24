@@ -4,6 +4,24 @@
 -->
 # Changelog
 
+## 10.3.0
+
+### Added
+
+- Markdown editing support by @vmiklos in [#5919](https://github.com/nextcloud/richdocuments/pull/5919)
+
+
+### Fixed
+
+- Authorization in template field endpoints by @rikled in [#5916](https://github.com/nextcloud/richdocuments/pull/5916)
+- Resized the settings iframe to its reported height by @timar in [#5911](https://github.com/nextcloud/richdocuments/pull/5911)
+- Post message origin verification by @elzody in [#5906](https://github.com/nextcloud/richdocuments/pull/5906)
+
+### Other
+
+- Temporarily test only against Collabora nightly by @elzody in [#5896](https://github.com/nextcloud/richdocuments/pull/5896)
+- Development dependency updates
+
 ## 10.2.1
 
 ### Fixed
