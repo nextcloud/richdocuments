@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.4.16
+
+### Fixed
+
+- Post message origin verification by @elzody in [#5909](https://github.com/nextcloud/richdocuments/pull/5909)
+
 ## 8.4.15
 
 ### Fixed
