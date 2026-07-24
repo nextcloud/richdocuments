@@ -51,3 +51,46 @@ const openPdf = new FileAction({
 })
 
 registerFileAction(openPdf)
+
+const openMarkdown = {
+	id: 'office-open-markdown',
+
+	iconSvgInline: () => {
+		// Make sure the icon is the correct color
+		return appIcon.replaceAll(/#(fff|0{6})/g, 'currentColor')
+	},
+
+	displayName: () => {
+		return t('richdocuments',
+			'Edit with {productName}',
+			{ productName: getCapabilities().productName })
+	},
+
+	enabled: ({ nodes }) => {
+		if (nodes.length !== 1) {
+			return false
+		}
+
+		if ((nodes[0].permissions & Permission.READ) === 0) {
+			return false
+		}
+
+		const isMarkdown = nodes[0].mime === 'text/markdown'
+		// Only enable the file action when Collabora is not the default handler
+		const optionalMimetypes = getCapabilities().mimetypesNoDefaultOpen
+		return isMarkdown && optionalMimetypes.includes('text/markdown')
+	},
+
+	exec: ({ nodes }) => {
+		const file = nodes[0]
+
+		// If no viewer API, we can't open the document
+		if (!OCA.Viewer) {
+			return
+		}
+
+		OCA.Viewer.openWith('richdocuments', { path: file.path })
+	},
+}
+
+registerFileAction(openMarkdown)
