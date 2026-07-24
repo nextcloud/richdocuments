@@ -4,6 +4,13 @@
 -->
 # Changelog
 
+## 8.5.17
+
+### Fixed
+
+- Authorization in template field endpoints by @rikled in [#5913](https://github.com/nextcloud/richdocuments/pull/5913)
+- Post message origin verification by @elzody in [#5908](https://github.com/nextcloud/richdocuments/pull/5908)
+
 ## 8.5.16
 
 ### Fixed
