@@ -27,22 +27,37 @@ export default class PostMessageService {
 
 	private readonly targets: {[name: string]: (Window|WindowCallbackHandler)}
 	private postMessageHandlers: PostMessageHandler[] = []
+	private allowedOrigins: string[] = []
+	private targetOrigins: {[name: string]: string} = {}
 
 	constructor(targets: {[name: string]: (Window|WindowCallbackHandler)}) {
 		this.targets = targets
 		window.addEventListener('message', (event: {source: MessageEventSource, data: any, origin: string}) => {
+			if (this.allowedOrigins.length > 0 && !this.allowedOrigins.includes(event.origin)) {
+				console.warn('PostMessageService: rejected message from unexpected origin', event.origin)
+				return
+			}
 			this.handlePostMessage(event.data)
 		}, false)
 	}
 
-	sendPostMessage(target: string, message: any, targetOrigin: string = '*') {
+	setAllowedOrigins(origins: string[]): void {
+		this.allowedOrigins = origins
+	}
+
+	setTargetOrigins(origins: {[name: string]: string}): void {
+		this.targetOrigins = origins
+	}
+
+	sendPostMessage(target: string, message: any, targetOrigin?: string) {
 		let targetElement: Window
 		if (typeof this.targets[target] === 'function') {
 			targetElement = (this.targets[target] as WindowCallbackHandler)()
 		} else {
 			targetElement = this.targets[target] as Window
 		}
-		targetElement.postMessage(message, targetOrigin)
+		const origin = targetOrigin ?? this.targetOrigins[target] ?? '*'
+		targetElement.postMessage(message, origin)
 		console.debug('PostMessageService.sendPostMessage', target, message)
 	}
 

@@ -276,7 +276,8 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) =>
 	return cy.get('@loleafletframe')
 })
 
-Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefined) => {
+Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefined, options = {}) => {
+	const { targetOrigin } = options
 	const checkExpectedValues = (message, values) => {
 		for (const [key, value] of Object.entries(values)) {
 			if (!message.Values[key] || message.Values[key] !== value) {
@@ -295,7 +296,7 @@ Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefine
 		// We do it this way to avoid the shallow copy of Array.filter()
 		for (const call of calls) {
 			if (call.args[0].includes(`"MessageId":"${messageId}"`)) {
-				messagesMatchingId.push(JSON.parse(call.args[0]))
+				messagesMatchingId.push({ message: JSON.parse(call.args[0]), call })
 			}
 		}
 
@@ -304,13 +305,22 @@ Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefine
 		if (expectedValues) {
 			const messagesMatchingValues = []
 
-			for (const message of messagesMatchingId) {
+			for (const { message } of messagesMatchingId) {
 				if (checkExpectedValues(message, expectedValues)) {
 					messagesMatchingValues.push(message)
 				}
 			}
 
 			expect(messagesMatchingValues.length).to.be.greaterThan(0)
+		}
+
+		if (targetOrigin) {
+			for (const { call } of messagesMatchingId) {
+				expect(call.args[1]).to.equal(
+					targetOrigin,
+					`Expected targetOrigin for ${messageId} to be ${targetOrigin}`,
+				)
+			}
 		}
 	})
 })
@@ -499,6 +509,15 @@ Cypress.Commands.add('makeTalkRoomPublic', (user, token, password = '') => {
 	}).then(response => {
 		cy.log(`Made talk room public`, response.status)
 		return cy.wrap(response.body.ocs.data)
+	})
+})
+
+Cypress.Commands.add('dispatchMessageFromOrigin', (origin, message) => {
+	cy.window().then(win => {
+		win.dispatchEvent(new win.MessageEvent('message', {
+			origin,
+			data: JSON.stringify(message),
+		}))
 	})
 })
 

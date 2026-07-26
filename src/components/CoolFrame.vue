@@ -70,6 +70,7 @@ export default {
 		this.postMessage = new PostMessageService({
 			parent: window.parent,
 		})
+		this.postMessage.setTargetOrigins({ parent: window.location.origin })
 		window.addEventListener('message', this.handlePostMessage)
 
 		if (this.iframeUrl.length > 0) {
@@ -94,9 +95,29 @@ export default {
 	methods: {
 		handlePostMessage(event) {
 			try {
-				const data = event.data
-				if (data.MessageId === 'Iframe_Height') {
-					document.getElementById(this.iframeName).height = data.Values.ContentHeight
+				if (this.iframeUrl && event.origin !== new URL(this.iframeUrl).origin) {
+					return
+				}
+
+				// The embedded settings page posts a JSON string, so event.data is a
+				// string here, not an object. Parse it before inspecting MessageId.
+				let data = event.data
+				if (typeof data === 'string') {
+					try {
+						data = JSON.parse(data)
+					} catch (e) {
+						return
+					}
+				}
+				if (data && data.MessageId === 'Iframe_Height') {
+					const iframe = document.getElementById(this.iframeName)
+					const height = data.Values && data.Values.ContentHeight
+					// Grow the iframe to the reported content height so it does not
+					// show an inner scrollbar. Use style.height: the deprecated
+					// height attribute ignores a "<n>px" value.
+					if (iframe && height) {
+						iframe.style.height = height
+					}
 				}
 			} catch (e) {
 				console.error('Something went wrong with post message', e)
@@ -110,6 +131,9 @@ export default {
   <style scoped>
   .cool-frame-iframe {
     width: 100%;
+    /* Fallback before the first Iframe_Height message sets the real height,
+       so the iframe is not stuck at the 150px HTML default. */
+    min-height: 800px;
     border: none;
 	overflow-y: auto;
 	box-sizing: border-box;
