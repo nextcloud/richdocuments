@@ -46,6 +46,7 @@ jobs:
           aliasgroup1: 'http://172.17.0.1'
         ports:
           - "9980:9980"
+        options: --cap-add SYS_ADMIN --cap-add SYS_CHROOT
 
     steps:
       - name: Checkout server
