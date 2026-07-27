@@ -631,9 +631,9 @@ const documentsMain = {
 
 		$('footer,nav').show()
 		documentsMain.UI.hideEditor()
-		documentsMain.openLocally()
-
-		PostMessages.sendPostMessage('parent', 'close')
+		if (!isDirectEditing()) {
+			PostMessages.sendPostMessage('parent', 'close')
+		}
 	},
 
 	onCloseViewer() {
