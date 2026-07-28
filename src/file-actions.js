@@ -66,24 +66,22 @@ const openMarkdown = {
 			{ productName: getCapabilities().productName })
 	},
 
-	enabled: ({ nodes }) => {
-		if (nodes.length !== 1) {
+	enabled: (files) => {
+		if (files.length !== 1) {
 			return false
 		}
 
-		if ((nodes[0].permissions & Permission.READ) === 0) {
+		if ((files[0].permissions & Permission.READ) === 0) {
 			return false
 		}
 
-		const isMarkdown = nodes[0].mime === 'text/markdown'
+		const isMarkdown = files[0].mime === 'text/markdown'
 		// Only enable the file action when Collabora is not the default handler
 		const optionalMimetypes = getCapabilities().mimetypesNoDefaultOpen
 		return isMarkdown && optionalMimetypes.includes('text/markdown')
 	},
 
-	exec: ({ nodes }) => {
-		const file = nodes[0]
-
+	exec: (file) => {
 		// If no viewer API, we can't open the document
 		if (!OCA.Viewer) {
 			return
