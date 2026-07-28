@@ -178,13 +178,18 @@ describe('Direct editing (legacy)', function() {
 				.then((token) => {
 					cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
 					cy.logout()
-					cy.visit(token)
+					cy.visit(token, {
+						onBeforeLoad(win) {
+							cy.spy(win, 'postMessage').as('postMessage')
+						},
+					})
 					cy.waitForCollabora(false)
+					cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 					cy.get('[data-cy="coolframe"]').then($iframe => {
 						const collaboraOrigin = $iframe[0].contentWindow.location.origin
 						cy.spy($iframe[0].contentWindow, 'postMessage').as('postMessage')
-						cy.dispatchMessageFromOrigin(collaboraOrigin, { MessageId: 'App_LoadingStatus', Values: { Status: 'Document_Loaded' } })
-						cy.waitForPostMessage('Host_PostmessageReady', undefined, { targetOrigin: collaboraOrigin })
+						cy.dispatchMessageFromOrigin(collaboraOrigin, { MessageId: 'Action_Paste', Values: {} })
+						cy.waitForPostMessage('Action_Paste', undefined, { targetOrigin: collaboraOrigin })
 					})
 				})
 		})
@@ -208,7 +213,7 @@ describe('Direct editing (legacy)', function() {
 	it('Save as', function() {
 		createDirectEditingLink(randUser, fileId)
 			.then((token) => {
-				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'tabbed')
+				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'notebookbar')
 				cy.logout()
 				cy.visit(token)
 				cy.waitForCollabora(false)
@@ -218,9 +223,14 @@ describe('Direct editing (legacy)', function() {
 						.should('be.visible')
 
 					cy.get('button[aria-label="File"]').click()
-					cy.get('button[aria-label="Save As"]').click()
+					cy.get('button[aria-label="Save As"]')
+						.should('be.visible', { timeout: 10_000 })
+						.click()
 
-					cy.get('#saveas-entries #saveas-entry-1').click()
+					cy.get('#saveas-entries > div', { timeout: 30_000 })
+						.contains('Rich Text (.rtf)')
+						.should('be.visible')
+						.click()
 				})
 
 				cy.get('.saveas-dialog')
