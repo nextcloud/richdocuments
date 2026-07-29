@@ -27,7 +27,6 @@ jobs:
       fail-fast: false
       matrix:
         code-image: [ 'release' ]
-        node-version: [16.x]
         containers: [1, 2, 3]
         php-versions: [ '8.1' ]
         databases: [ 'sqlite' ]
@@ -116,7 +115,7 @@ jobs:
       - name: Install composer dependencies
         working-directory: apps/richdocuments
         run: |
-          composer install
+          composer install --no-dev
 
       - name: Build talk
         working-directory: apps/spreed

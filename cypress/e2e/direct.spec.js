@@ -2,10 +2,12 @@
  * SPDX-FileCopyrightText: 2023 Julius Härtl <jus@bitgrid.net>
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+const baseUrl = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
+
 const getTemplates = (user, type) => {
 	return cy.request({
 		method: 'GET',
-		url: `${Cypress.env('baseUrl')}/ocs/v2.php/apps/richdocuments/api/v1/templates/${type}?format=json`,
+		url: `${baseUrl}/ocs/v2.php/apps/richdocuments/api/v1/templates/${type}?format=json`,
 		auth: { user: user.userId, pass: user.password },
 		headers: {
 			'OCS-ApiRequest': 'true',
@@ -22,7 +24,7 @@ const createDirectEditingLink = (user, fileId) => {
 	cy.login(user)
 	return cy.request({
 		method: 'POST',
-		url: `${Cypress.env('baseUrl')}/ocs/v2.php/apps/richdocuments/api/v1/document?format=json`,
+		url: `${baseUrl}/ocs/v2.php/apps/richdocuments/api/v1/document?format=json`,
 		form: true,
 		body: {
 			fileId,
@@ -44,7 +46,7 @@ const createNewFileDirectEditingLink = (user, path, template) => {
 	cy.login(user)
 	return cy.request({
 		method: 'POST',
-		url: `${Cypress.env('baseUrl')}/ocs/v2.php/apps/richdocuments/api/v1/templates/new?format=json`,
+		url: `${baseUrl}/ocs/v2.php/apps/richdocuments/api/v1/templates/new?format=json`,
 		form: true,
 		body: {
 			path, template,
@@ -66,7 +68,7 @@ const createDirectEditingLinkForShareToken = (shareToken, host = undefined, path
 	cy.logout()
 	return cy.request({
 		method: 'POST',
-		url: `${Cypress.env('baseUrl')}/ocs/v2.php/apps/richdocuments/api/v1/share?format=json`,
+		url: `${baseUrl}/ocs/v2.php/apps/richdocuments/api/v1/share?format=json`,
 		form: true,
 		body: {
 			shareToken,
