@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce98dadb0302a6f330edf24de02d0c30",
+    "content-hash": "c39274a958a36cdf6f3c68211b4ec995",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -272,16 +272,16 @@
         },
         {
             "name": "mikehaertl/php-pdftk",
-            "version": "0.14.3",
+            "version": "0.14.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikehaertl/php-pdftk.git",
-                "reference": "25dba2edcba9b8eedec7dc65a79557c2018eafef"
+                "reference": "9a88810285c1a26459b67a50e30af51eccc57a9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikehaertl/php-pdftk/zipball/25dba2edcba9b8eedec7dc65a79557c2018eafef",
-                "reference": "25dba2edcba9b8eedec7dc65a79557c2018eafef",
+                "url": "https://api.github.com/repos/mikehaertl/php-pdftk/zipball/9a88810285c1a26459b67a50e30af51eccc57a9e",
+                "reference": "9a88810285c1a26459b67a50e30af51eccc57a9e",
                 "shasum": ""
             },
             "require": {
@@ -321,9 +321,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mikehaertl/php-pdftk/issues",
-                "source": "https://github.com/mikehaertl/php-pdftk/tree/0.14.3"
+                "source": "https://github.com/mikehaertl/php-pdftk/tree/0.14.4"
             },
-            "time": "2026-06-24T10:20:40+00:00"
+            "time": "2026-07-15T09:51:50+00:00"
         },
         {
             "name": "mikehaertl/php-shellcommand",

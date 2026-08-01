@@ -16,7 +16,7 @@
 	"require": {
 		"ext-json": "*",
 		"ext-simplexml": "*",
-		"mikehaertl/php-pdftk": "^0.14.3",
+		"mikehaertl/php-pdftk": "^0.14.4",
 		"league/commonmark": "^2.8",
 		"phpseclib/phpseclib": "^3.0"
 	},
