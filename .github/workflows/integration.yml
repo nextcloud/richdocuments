@@ -357,7 +357,7 @@ jobs:
 
     if: always()
 
-    name: phpunit-oci-summary
+    name: phpunit-integration-summary
 
     steps:
       - name: Summary status
