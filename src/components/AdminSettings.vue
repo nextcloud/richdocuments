@@ -662,7 +662,6 @@ export default {
 			try {
 				result = await axios.get(generateUrl('/apps/richdocuments/settings/check'))
 				this.serverError = SERVER_STATE_OK
-
 			} catch (e) {
 				this.serverError = SERVER_STATE_CONNECTION_ERROR
 				result = e.response
@@ -675,17 +674,46 @@ export default {
 			const { settings } = result?.data?.data || {}
 			for (const settingKey in settings) {
 				if (settingKey === 'use_groups' || settingKey === 'edit_groups') {
-					this.settings[settingKey] = settings[settingKey] ? settings[settingKey].split('|') : []
+					this.settings[settingKey] = settings[settingKey]
+						? settings[settingKey].split('|')
+						: []
 					continue
 				}
 				this.settings[settingKey] = settings[settingKey]
 			}
+
+			this.checkIfDemoServerIsActive()
 			this.checkFrontend()
 		},
 		async checkFrontend() {
 			try {
-				await fetch(this.settings.public_wopi_url + '/hosting/discovery', { mode: 'no-cors' })
-				await fetch(this.settings.public_wopi_url + '/hosting/capabilities', { mode: 'no-cors' })
+				// For builtin: proxy.php is same-origin so the discovery response is fully readable.
+				if (this.serverMode === 'builtin' && this.settings.wopi_url) {
+					// Full read (no mode: 'no-cors') because proxy.php is same-origin.
+					// We parse the response only to surface a clear error if CODE is
+					// unreachable or returning unexpected content; no writeback needed.
+					const discoveryRes = await fetch(
+						this.settings.wopi_url + '/hosting/discovery'
+					)
+					if (!discoveryRes.ok) {
+						this.serverError = SERVER_STATE_BROWSER_CONNECTION_ERROR
+						return
+					}
+					// Verify capabilities endpoint also reachable from browser
+					await fetch(
+						this.settings.wopi_url + '/hosting/capabilities',
+						{ mode: 'no-cors' }
+					)
+				} else {
+					await fetch(
+						this.settings.public_wopi_url + '/hosting/discovery',
+						{ mode: 'no-cors' }
+					)
+					await fetch(
+						this.settings.public_wopi_url + '/hosting/capabilities',
+						{ mode: 'no-cors' }
+					)
+				}
 			} catch (e) {
 				console.error(e)
 				this.serverError = SERVER_STATE_BROWSER_CONNECTION_ERROR
@@ -823,15 +851,17 @@ export default {
 			}
 		},
 		checkIfDemoServerIsActive() {
-			this.settings.demoUrl = this.demoServers ? this.demoServers.find((server) => server.demo_url === this.settings.wopi_url) : null
-			this.settings.CODEUrl = this.CODEInstalled ? window.location.protocol + '//' + window.location.host + generateFilePath(this.CODEAppID, '', '') + 'proxy.php?req=' : null
+			this.settings.demoUrl = this.demoServers
+				? this.demoServers.find((server) => server.demo_url === this.settings.wopi_url)
+				: null
+
 			if (this.settings.wopi_url && this.settings.wopi_url !== '') {
 				this.serverMode = 'custom'
 			}
 			if (this.settings.demoUrl) {
 				this.serverMode = 'demo'
 				this.approvedDemoModal = true
-			} else if (this.settings.CODEUrl && this.settings.CODEUrl === this.settings.wopi_url) {
+			} else if (this.settings.server_mode === 'builtin') {
 				this.serverMode = 'builtin'
 			}
 		},
@@ -841,12 +871,21 @@ export default {
 		async setDemoServer(server) {
 			this.settings.wopi_url = server.demo_url
 			this.settings.disable_certificate_verification = false
-			await this.updateServer()
+			await this.updateSettings({
+				server_mode: 'demo',
+				wopi_url: server.demo_url,
+				disable_certificate_verification: false,
+			})
+			this.checkIfDemoServerIsActive()		
 		},
+		// Tell the server to activate builtin mode; it derives wopi_url via IURLGenerator.
 		async setBuiltinServer() {
-			this.settings.wopi_url = this.settings.CODEUrl
-			this.settings.disable_certificate_verification = false
-			await this.updateServer()
+			await this.updateSettings({
+				server_mode: 'builtin',
+				//disable_certificate_verification: false,
+			})
+			// updateSettings() applies the returned settings (including server_mode,
+			// wopi_url, builtin_server_url) and calls checkFrontend(); no extra work needed.
 		},
 		checkUrlProtocol(string) {
 			let url
