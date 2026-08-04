@@ -46,6 +46,7 @@ OC.L10N.register(
     "New presentation" : "Nova presentació",
     "New spreadsheet" : "Nou full de càlcul",
     "Document" : "Document",
+    "Spreadsheet" : "Full de càlcul",
     "Presentation" : "Presentació",
     "Diagram" : "Diagrama",
     "{user} has mentioned you in {node}" : "{user} t'ha mencionat a {node}",
