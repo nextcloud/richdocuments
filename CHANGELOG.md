@@ -4,6 +4,16 @@
 -->
 # Changelog
 
+## 9.2.1
+
+### Fixed
+
+- Use proper file actions API for Nextcloud 32 by @elzody in [#5938](https://github.com/nextcloud/richdocuments/pull/5938)
+
+### Other
+
+- Stabilized Cypress tests by @elzody in [#5939](https://github.com/nextcloud/richdocuments/pull/5939)
+
 ## 9.2.0
 
 ### Added
