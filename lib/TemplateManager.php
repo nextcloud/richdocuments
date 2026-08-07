@@ -107,6 +107,51 @@ class TemplateManager {
 		$this->userId = $userId;
 	}
 
+	private function debugStorage($file) {
+		$storage = $file->getStorage();
+
+		while ($storage) {
+			$class = get_class($storage);
+			$this->logger->warning(
+				'DEBUG: storage unwrap {fullPath} ({internalPath}) {className} with permissions {permissions}, double-check is it readable: {isReadable}',
+				[
+					'app' => Application::APPNAME,
+					'fullPath' => $file->getPath(),
+					'internalPath' => $file->getInternalPath(),
+					'permissions' => $storage->getPermissions($file->getInternalPath()),
+					'isReadable' => $storage->isReadable($file->getInternalPath()),
+					'className' => $class,
+				]
+			);
+			if ($storage instanceof \OC\Files\Storage\Wrapper\Wrapper) {
+				$storage = $storage->getWrapperStorage();
+			} else {
+				$storage = null;
+			}
+		}
+
+		$cache = $file->getStorage()->getCache();
+
+		while ($cache) {
+			$class = get_class($cache);
+			$this->logger->warning(
+				'DEBUG: cache unwrap {fullPath} ({internalPath}) {className} with permissions {permissions}',
+				[
+					'app' => Application::APPNAME,
+					'fullPath' => $file->getPath(),
+					'internalPath' => $file->getInternalPath(),
+					'permissions' => $cache->get($file->getInternalPath())->getPermissions(),
+					'className' => $class,
+				]
+			);
+			if ($cache instanceof \OC\Files\Cache\Wrapper\CacheWrapper) {
+				$cache = $cache->getCache();
+			} else {
+				$cache = null;
+			}
+		}
+	}
+
 	/**
 	 * Get template ISimpleFile|Node
 	 *
@@ -119,6 +164,18 @@ class TemplateManager {
 
 		foreach ($files as $file) {
 			if ($file->getId() === $fileId) {
+				$this->logger->warning(
+					'DEBUG: found template in empty_templates dir: {fullPath} ({internalPath}) with permissions {permissions}, double-check is it readable: {isReadable}',
+					[
+						'app' => Application::APPNAME,
+						'fullPath' => $file->getPath(),
+						'internalPath' => $file->getInternalPath(),
+						'permissions' => $file->getPermissions(),
+						'isReadable' => $file->isReadable(),
+					]
+				);
+				$this->debugStorage($file);
+
 				return $file;
 			}
 		}
@@ -132,6 +189,17 @@ class TemplateManager {
 
 		foreach ($files as $file) {
 			if ($file->getId() === $fileId) {
+				$this->logger->warning(
+					'DEBUG: found template in system templates dir: {fullPath} ({internalPath}) with permissions {permissions}, double-check is it readable: {isReadable}',
+					[
+						'app' => Application::APPNAME,
+						'fullPath' => $file->getPath(),
+						'internalPath' => $file->getInternalPath(),
+						'permissions' => $file->getPermissions(),
+						'isReadable' => $file->isReadable(),
+					]
+				);
+				$this->debugStorage($file);
 				return $file;
 			}
 		}
@@ -140,6 +208,17 @@ class TemplateManager {
 		// finally get the template file
 		$file = $templateDir->getFirstNodeById($fileId);
 		if ($file !== null) {
+			$this->logger->warning(
+				'DEBUG: found template in user templates dir: {fullPath} ({internalPath}) with permissions {permissions}, double-check is it readable: {isReadable}',
+				[
+					'app' => Application::APPNAME,
+					'fullPath' => $file->getPath(),
+					'internalPath' => $file->getInternalPath(),
+					'permissions' => $file->getPermissions(),
+					'isReadable' => $file->isReadable(),
+				]
+			);
+			$this->debugStorage($file);
 			return $file;
 		}
 
