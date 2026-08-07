@@ -651,6 +651,12 @@ class WopiController extends Controller {
 				return new JSONResponse(['COOLStatusCode' => self::COOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
 			}
 
+			// Remember the current mtime so we can detect whether a failed save
+			// left the file modified (a partial write). Reporting an advanced mtime
+			// afterwards would make the WOPI client assume the document changed
+			// externally and raise a spurious conflict.
+			$mtimeBefore = $file->getMTime();
+
 			$content = fopen('php://input', 'rb');
 
 			$freespace = (int)$file->getStorage()->free_space($file->getInternalPath());
@@ -663,7 +669,9 @@ class WopiController extends Controller {
 				$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
 			} catch (LockedException $e) {
 				$this->logger->error($e->getMessage(), ['exception' => $e]);
-				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
+				// Report the lock as a conflict so the client retries the save
+				// instead of treating it as an opaque server error.
+				return new JSONResponse(['message' => 'File locked'], Http::STATUS_CONFLICT);
 			}
 
 			if ($wopi->hasTemplateId()) {
@@ -674,8 +682,16 @@ class WopiController extends Controller {
 		} catch (NotFoundException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), ['exception' => $e]);
+		} catch (\Throwable $e) {
+			// Catch \Throwable (not just \Exception) so that errors raised inside
+			// filesystem hooks (e.g. a TypeError from the versions listener) do not
+			// escape as an uncaught error but result in a controlled response.
+			$mtimeAfter = isset($file) ? $file->getMTime() : null;
+			if (isset($mtimeBefore) && $mtimeAfter !== null && $mtimeAfter !== $mtimeBefore) {
+				$this->logger->error('Saving the file via WOPI failed after it was already modified, storage may diverge from the editor: ' . $e->getMessage(), ['exception' => $e]);
+			} else {
+				$this->logger->error('Saving the file via WOPI failed: ' . $e->getMessage(), ['exception' => $e]);
+			}
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -805,7 +821,9 @@ class WopiController extends Controller {
 			try {
 				$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
 			} catch (LockedException) {
-				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
+				// Report the lock as a conflict so the client retries the save
+				// instead of treating it as an opaque server error.
+				return new JSONResponse(['message' => 'File locked'], Http::STATUS_CONFLICT);
 			}
 
 			// epub is exception (can be uploaded but not opened so don't try to get access token)
@@ -821,7 +839,10 @@ class WopiController extends Controller {
 		} catch (NotFoundException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
+			// Catch \Throwable (not just \Exception) so that errors raised inside
+			// filesystem hooks (e.g. a TypeError from the versions listener) do not
+			// escape as an uncaught error but result in a controlled response.
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
