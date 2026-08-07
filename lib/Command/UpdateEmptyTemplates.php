@@ -25,7 +25,7 @@ class UpdateEmptyTemplates extends Command {
 			->setDescription('Update empty template files');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$this->templateManager->updateEmptyTemplates();
 			$output->writeln('<info>Empty template files were updated</info>');

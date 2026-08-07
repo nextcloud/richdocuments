@@ -25,7 +25,7 @@ class InstallDefaultFonts extends Command {
 			->setDescription('Install default fonts');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$this->fontService->installDefaultFonts();
 			return 0;
