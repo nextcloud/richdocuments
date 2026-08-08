@@ -271,7 +271,7 @@ class TokenManager {
 	}
 
 	public function getUrlSrc(File $file): string {
-		return $this->wopiParser->getUrlSrcValue($file->getMimeType());
+		return $this->wopiParser->getUrlSrcForFile($file);
 	}
 
 	public function getUrlSrcForMimeType(string $type): ?string {
