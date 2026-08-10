@@ -55,7 +55,7 @@ class FileCreatedFromTemplateListener implements IEventListener {
 			return;
 		}
 
-		if ($this->capabilitiesService->hasFormFilling()) {
+		if ($this->capabilitiesService->hasFormFilling() && !empty($event->getTemplateFields())) {
 			try {
 				$filledTemplate = $this->templateFieldService->fillFields($templateFile, $event->getTemplateFields(), null, $event->getTarget()->getExtension());
 				$event->getTarget()->putContent($filledTemplate);
