@@ -11,8 +11,8 @@ addCommands()
 const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 
 Cypress.Commands.add('logout', (route = '/') => {
-	cy.session('_guest', function() {
-	})
+	Cypress.session.clearAllSavedSessions()
+	cy.clearCookies()
 })
 
 Cypress.Commands.add('createFolder', (user, target) => {

@@ -41,7 +41,7 @@ class Version10000Date20251217143558 extends SimpleMigrationStep {
 			return null;
 		}
 
-		$table->changeColumn('version', [
+		$table->modifyColumn('version', [
 			'type' => Type::getType('string'),
 			'notnull' => false,
 			'length' => 1024,
