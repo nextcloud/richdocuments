@@ -288,9 +288,7 @@ describe('Direct editing (legacy)', function() {
 
 				cy.get('.saveas-dialog button.button-vue--vue-primary').click()
 
-				cy.get('@loleafletframe').within(() => {
-					cy.verifyOpen('document.rtf')
-				})
+				cy.waitForPostMessage('Action_Save_Resp', { success: true })
 				cy.closeDirectDocument()
 			})
 	})
