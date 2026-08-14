@@ -4,6 +4,20 @@
 -->
 # Changelog
 
+## 12.0.0-beta.1
+
+### Added
+- application/epub+zip as supported mime type by @juliusknorr in [#5752](https://github.com/nextcloud/richdocuments/pull/5752)
+
+### Fixed
+- Set preview flag for file templates that have a URL by @juliusknorr in [#5697](https://github.com/nextcloud/richdocuments/pull/5697)
+- Gate conversion with SecureViewService check by @chrip in [#5635](https://github.com/nextcloud/richdocuments/pull/5635)
+- Replace deprecated oc_* with OC.* counterparts by @joshtrichards in [#5753](https://github.com/nextcloud/richdocuments/pull/5753)
+
+### Other
+- Improve InitialStateService robustness and maintainability by @joshtrichards in [#5329](https://github.com/nextcloud/richdocuments/pull/5329)
+- Use type hinting in commands by @CarlSchwan in [#5961](https://github.com/nextcloud/richdocuments/pull/5961)
+
 ## 11.0.0-beta.1
 
 ### Fixed
