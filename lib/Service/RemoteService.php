@@ -58,9 +58,15 @@ class RemoteService {
 	}
 
 	/**
+	 * @param array<string, string> $conversionOptions
 	 * @return resource|string
 	 */
-	public function convertFileTo(File $file, string $format, int $timeout = RemoteOptionsService::REMOTE_TIMEOUT_DEFAULT) {
+	public function convertFileTo(
+		File $file,
+		string $format,
+		int $timeout = RemoteOptionsService::REMOTE_TIMEOUT_DEFAULT,
+		array $conversionOptions = [],
+	) {
 		$fileName = $file->getStorage()->getLocalFile($file->getInternalPath());
 		$stream = fopen($fileName, 'rb');
 
@@ -68,11 +74,12 @@ class RemoteService {
 			throw new Exception('Failed to open stream');
 		}
 
-		return $this->convertTo($file->getName(), $stream, $format, [], $timeout);
+		return $this->convertTo($file->getName(), $stream, $format, $conversionOptions, $timeout);
 	}
 
 	/**
 	 * @param resource $stream
+	 * @param array<string, string>|null $conversionOptions
 	 * @return resource|string
 	 */
 	public function convertTo(string $filename, $stream, string $format, ?array $conversionOptions = [], int $timeout = RemoteOptionsService::REMOTE_TIMEOUT_DEFAULT) {
@@ -86,12 +93,19 @@ class RemoteService {
 		}
 
 		$options['multipart'] = [
-			array_merge([
+			[
 				'name' => $filename,
 				'filename' => $filename,
 				'contents' => $stream
-			], $conversionOptions),
+			],
 		];
+
+		foreach ($conversionOptions ?? [] as $name => $contents) {
+			$options['multipart'][] = [
+				'name' => (string)$name,
+				'contents' => $contents,
+			];
+		}
 
 		try {
 			$response = $client->post($this->appConfig->getCollaboraUrlInternal() . '/cool/convert-to/' . $format, $options);
