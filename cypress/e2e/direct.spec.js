@@ -255,7 +255,7 @@ describe('Direct editing (legacy)', function() {
 	it('Save as', function() {
 		createDirectEditingLink(randUser, this.fileId)
 			.then((token) => {
-				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'notebookbar')
+				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
 				cy.logout()
 				cy.visit(token, {
 					onBeforeLoad(win) {
@@ -265,19 +265,13 @@ describe('Direct editing (legacy)', function() {
 				cy.waitForCollabora(false)
 				cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
-				cy.get('@loleafletframe').within(() => {
-					cy.get('.notebookbar-tabs-container')
-						.should('be.visible')
+				cy.get('[data-cy="coolframe"]').then(($iframe) => {
+					const collaboraOrigin = $iframe[0].contentWindow.location.origin
 
-					cy.get('button[aria-label="File"]').click()
-					cy.get('button[aria-label="Save As"]')
-						.should('be.visible', { timeout: 10_000 })
-						.click()
-
-					cy.get('#saveas-entries > div', { timeout: 30_000 })
-						.contains('Rich Text (.rtf)')
-						.should('be.visible')
-						.click()
+					cy.dispatchMessageFromOrigin(collaboraOrigin, {
+						MessageId: 'UI_SaveAs',
+						Values: { format: 'rtf' },
+					})
 				})
 
 				cy.get('.saveas-dialog')
