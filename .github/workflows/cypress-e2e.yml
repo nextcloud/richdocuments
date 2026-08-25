@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        code-image: [ 'nightly' ]
+        code-image: [ 'release', 'nightly' ]
         node-version: [16.x]
         containers: [1, 2, 3]
         php-versions: [ '8.3' ]
