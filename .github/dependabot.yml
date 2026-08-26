@@ -102,3 +102,22 @@ updates:
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
 
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  cooldown:
+    default-days: 10
+  target-branch: stable35
+  labels:
+    - "3. to review"
+    - "dependencies"
+  ignore:
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
+
