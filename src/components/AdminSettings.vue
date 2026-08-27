@@ -295,10 +295,10 @@
 			<SettingsFontList :fonts="settings.fonts"
 				:label="t('richdocuments', 'Available fonts')"
 				@deleted="onFontDeleted" />
-			<em>
+			<em v-if="showFontConfigHint">
 				{{ fontHint }}
 			</em>
-			<em>
+			<em v-if="showFontConfigHint">
 				<pre>
 					{{ fontXmlHint }}
 				</pre>
@@ -558,6 +558,9 @@ export default {
 			return t('richdocuments', 'Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config.',
 				{ url: this.fontHintUrl },
 			)
+		},
+		showFontConfigHint() {
+			return this.serverMode !== 'builtin'
 		},
 		shareToken() {
 			return getSharingToken()
