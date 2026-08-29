@@ -12,6 +12,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -20,6 +21,7 @@ class AppConfigTest extends TestCase {
 	private $config;
 	/** @var IAppConfig */
 	private $appConfig;
+	private IURLGenerator|MockObject $urlGenerator;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -27,8 +29,9 @@ class AppConfigTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->gsConfig = $this->createMock(IGlobalScaleConfig::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
-		$this->appConfig = new AppConfig($this->config, $this->appConfig, $this->appManager, $this->gsConfig);
+		$this->appConfig = new AppConfig($this->config, $this->appConfig, $this->appManager, $this->gsConfig, $this->urlGenerator);
 	}
 
 	public function testGetAppValueArrayWithValues() {
