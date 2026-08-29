@@ -50,7 +50,7 @@ describe('Talk integraiton integration', function() {
 		})
 	})
 
-	it.skip('See that the file is shared without download', function() {
+	it('See that the file is shared without download', function() {
 		cy.nextcloudTestingAppConfigSet('files', 'watermark_enabled', 'yes')
 		cy.nextcloudTestingAppConfigSet('files', 'watermark_shareTalkPublic', 'yes')
 		cy.nextcloudTestingAppConfigSet('files', 'watermark_text', 'TestingWatermark')
