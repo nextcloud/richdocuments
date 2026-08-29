@@ -219,6 +219,7 @@ OC.L10N.register(
     "Continue editing online" : "Jätka muutmist võrgus",
     "Failed to revert the document to older version" : "Dokumendi varasema versiooni kasutuselevõtmine ei õnnestunud",
     "Starting the built-in CODE server is taking longer than expected" : "Sisseehitatud CODE-serveri käivitamine kestab kauem, kui peaks",
+    "Insert file from {name}" : "Lisa fail rakendusest „{name}“",
     "Insert file" : "Lisa fail",
     "Remove from favorites" : "Eemalda lemmikutest",
     "Add to favorites" : "Lisa lemmikutesse",
