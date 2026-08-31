@@ -4,11 +4,21 @@
  */
 
 import { spawnDialog } from '@nextcloud/dialogs'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { basename } from 'path'
 import SaveAs from '../components/Modal/SaveAs.vue'
 
 export default {
+	mounted() {
+		subscribe('richdocuments:grab-focus', this.grabFocus)
+	},
+	beforeDestroy() {
+		unsubscribe('richdocuments:grab-focus', this.grabFocus)
+	},
 	methods: {
+		grabFocus() {
+			this.sendPostMessage('Grab_Focus')
+		},
 		async saveAs(format) {
 			spawnDialog(
 				SaveAs,
