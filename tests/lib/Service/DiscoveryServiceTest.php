@@ -14,7 +14,6 @@ use OCP\Files\AppData\IAppDataFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -24,7 +23,6 @@ class DiscoveryServiceTest extends TestCase {
 	private IAppDataFactory $appDataFactory;
 	private IAppConfig $appConfig;
 	private LoggerInterface $logger;
-	private IConfig $config;
 
 	private DiscoveryService $discoveryService;
 
@@ -36,7 +34,6 @@ class DiscoveryServiceTest extends TestCase {
 		$this->appDataFactory = $this->createStub(IAppDataFactory::class);
 		$this->appConfig = $this->createStub(IAppConfig::class);
 		$this->logger = $this->createStub(LoggerInterface::class);
-		$this->config = $this->createStub(IConfig::class);
 
 		$this->discoveryService = $this->getMockBuilder(DiscoveryService::class)
 			->setConstructorArgs([
@@ -45,7 +42,6 @@ class DiscoveryServiceTest extends TestCase {
 				$this->appDataFactory,
 				$this->appConfig,
 				$this->logger,
-				$this->config
 			])
 			->onlyMethods(['get'])
 			->getMock();
