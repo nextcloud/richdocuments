@@ -66,7 +66,7 @@ class TemplateFieldService {
 				return $fields;
 			}
 
-			if (!in_array($file->getMimetype(), Capabilities::MIMETYPES)) {
+			if (!in_array($file->getMimetype(), array_merge(Capabilities::MIMETYPES, Capabilities::MIMETYPES_MSOFFICE))) {
 				return [];
 			}
 
