@@ -51,7 +51,9 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        code-image: [ 'nightly' ]
+        # Skip nightly Collabora image until the upstream nightly container issue is resolved
+        # https://github.com/CollaboraOnline/online/issues/16175
+        code-image: [ 'release' ]
         php-versions: ['8.1']
         databases: ['sqlite']
         server-versions: ['stable32']
