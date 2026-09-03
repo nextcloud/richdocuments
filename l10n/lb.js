@@ -13,6 +13,7 @@ OC.L10N.register(
     "Images" : "Biller",
     "Office" : "Office",
     "New" : "Nei",
+    "Failed to save settings" : "Späichere vun den Astellunge feelgeschloen",
     "Advanced settings" : "Erweidert Astellungen",
     "Select groups" : "Wiel Gruppen äus",
     "Save" : "Späicheren",
