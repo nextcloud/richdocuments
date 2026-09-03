@@ -30,7 +30,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        code-image: [ 'release', 'nightly' ]
+        # Skip nightly Collabora image until the upstream nightly container issue is resolved
+        # https://github.com/CollaboraOnline/online/issues/16175
+        code-image: [ 'release' ]
         node-version: [16.x]
         containers: [1, 2, 3]
         php-versions: [ '8.3' ]
