@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Tests\Richdocuments\Conversion;
 
 use OCA\Richdocuments\Conversion\ConversionProvider;
+use OCA\Richdocuments\Service\LanguageService;
 use OCA\Richdocuments\Service\RemoteOptionsService;
 use OCA\Richdocuments\Service\RemoteService;
 use OCA\Richdocuments\Service\SecureViewService;
@@ -26,6 +27,7 @@ class ConversionProviderTest extends TestCase {
 	private IFactory&MockObject $l10nFactory;
 	private IL10N&MockObject $l10n;
 	private SecureViewService&MockObject $secureViewService;
+	private LanguageService&MockObject $languageService;
 	private ConversionProvider $provider;
 
 	protected function setUp(): void {
@@ -36,6 +38,7 @@ class ConversionProviderTest extends TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->secureViewService = $this->createMock(SecureViewService::class);
+		$this->languageService = $this->createMock(LanguageService::class);
 
 		$this->l10n->method('t')->willReturnCallback(static fn (string $text): string => $text);
 		$this->l10nFactory->method('get')
@@ -47,20 +50,21 @@ class ConversionProviderTest extends TestCase {
 			$this->logger,
 			$this->l10nFactory,
 			$this->secureViewService,
+			$this->languageService,
 		);
 	}
 
 	public function testConvertFilePassesCurrentLocaleToCollabora(): void {
 		$file = $this->createMock(File::class);
 
-		$this->l10n->expects($this->once())
-			->method('getLocaleCode')
-			->willReturn('de_DE');
+		$this->languageService->expects($this->once())
+			->method('getBCP47LanguageTag')
+			->willReturn('de');
 		$this->secureViewService->method('isEnabled')
 			->willReturn(false);
 		$this->remoteService->expects($this->once())
 			->method('convertFileTo')
-			->with($file, 'pdf', RemoteOptionsService::REMOTE_TIMEOUT_DEFAULT, ['lang' => 'de-DE'])
+			->with($file, 'pdf', RemoteOptionsService::REMOTE_TIMEOUT_DEFAULT, ['lang' => 'de'])
 			->willReturn('pdf-content');
 
 		$result = $this->provider->convertFile($file, 'application/pdf');

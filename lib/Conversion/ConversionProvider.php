@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Conversion;
 
+use OCA\Richdocuments\Service\LanguageService;
 use OCA\Richdocuments\Service\RemoteService;
 use OCA\Richdocuments\Service\SecureViewService;
 use OCP\Files\Conversion\ConversionMimeProvider;
@@ -56,6 +57,7 @@ class ConversionProvider implements IConversionProvider {
 		private LoggerInterface $logger,
 		IFactory $l10nFactory,
 		private SecureViewService $secureViewService,
+		private LanguageService $languageService,
 	) {
 		$this->l10n = $l10nFactory->get('richdocuments');
 	}
@@ -168,15 +170,8 @@ class ConversionProvider implements IConversionProvider {
 		return $this->remoteService->convertFileTo(
 			$file,
 			$targetFileExtension,
-			conversionOptions: ['lang' => $this->getConversionLanguage()]
+			conversionOptions: ['lang' => $this->languageService->getBCP47LanguageTag()]
 		);
-	}
-
-	private function getConversionLanguage(): string {
-		$locale = $this->l10n->getLocaleCode();
-		$language = $locale !== '' ? $locale : $this->l10n->getLanguageCode();
-
-		return str_replace('_', '-', $language);
 	}
 
 	private function getMimeProvidersFor(array $inputMimeTypes, string $outputMimeType): array {
