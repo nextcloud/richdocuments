@@ -144,7 +144,18 @@ class ConversionProvider implements IConversionProvider {
 			));
 		}
 
-		return $this->remoteService->convertFileTo($file, $targetFileExtension);
+		return $this->remoteService->convertFileTo(
+			$file,
+			$targetFileExtension,
+			conversionOptions: ['lang' => $this->getConversionLanguage()]
+		);
+	}
+
+	private function getConversionLanguage(): string {
+		$locale = $this->l10n->getLocaleCode();
+		$language = $locale !== '' ? $locale : $this->l10n->getLanguageCode();
+
+		return str_replace('_', '-', $language);
 	}
 
 	private function getMimeProvidersFor(array $inputMimeTypes, string $outputMimeType): array {
