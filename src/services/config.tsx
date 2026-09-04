@@ -11,6 +11,7 @@ class ConfigService {
 	constructor() {
 		this.values = {
 			wopi_callback_url: loadState('richdocuments', 'wopi_callback_url', ''),
+			bcp47Language: loadState('richdocuments', 'bcp47Language', ''),
 			...loadState('richdocuments', 'document', {}),
 		}
 	}
