@@ -11,9 +11,9 @@ namespace OCA\Richdocuments\Service;
 
 use DateTime;
 use DateTimeImmutable;
-use phpseclib3\Crypt\PublicKeyLoader;
-use phpseclib3\Crypt\RSA;
-use phpseclib3\Math\BigInteger;
+use phpseclib4\Crypt\PublicKeyLoader;
+use phpseclib4\Crypt\RSA;
+use phpseclib4\Math\BigInteger;
 use Throwable;
 
 class ProofKeyService {
@@ -79,7 +79,7 @@ class ProofKeyService {
 			'n' => new BigInteger(base64_decode($modulus, true), 256),
 		]);
 
-		return (string)$rsa->__toString();
+		return $rsa->__toString();
 	}
 
 	private function constructProof(
