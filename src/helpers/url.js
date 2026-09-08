@@ -5,7 +5,6 @@
 
 import { getRootUrl, generateUrl } from '@nextcloud/router'
 import { getSharingToken } from '@nextcloud/sharing/public'
-import { languageToBCP47 } from './index.js'
 import Config from './../services/config.tsx'
 
 const getSearchParam = (name) => {
@@ -39,7 +38,7 @@ const getWopiUrl = ({ fileId, readOnly, closeButton, revisionHistory, target = u
 	//   https://<loolwsd-server>:9980/hosting/discovery
 	return Config.get('urlsrc')
 		+ 'WOPISrc=' + encodeURIComponent(getWopiSrc(fileId))
-		+ '&lang=' + languageToBCP47()
+		+ '&lang=' + Config.get('bcp47Language')
 		+ (closeButton ? '&closebutton=1' : '')
 		+ (revisionHistory ? '&revisionhistory=1' : '')
 		+ (readOnly ? '&permission=readonly' : '')
