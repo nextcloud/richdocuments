@@ -28,7 +28,7 @@
 <script>
 
 import { generateCSSVarTokens, getCollaboraTheme, getUITheme } from '../helpers/coolParameters.js'
-import { languageToBCP47 } from '../helpers/index.js'
+import { loadState } from '@nextcloud/initial-state'
 import PostMessageService from '../services/postMessage.tsx'
 
 export default {
@@ -74,7 +74,7 @@ export default {
 		window.addEventListener('message', this.handlePostMessage)
 
 		if (this.iframeUrl.length > 0) {
-			this.formAction = this.iframeUrl + '?lang=' + languageToBCP47()
+			this.formAction = this.iframeUrl + '?lang=' + loadState('richdocuments', 'bcp47Language', '')
 			this.isIframeLoaded = true
 		} else {
 			return
