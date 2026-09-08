@@ -28,6 +28,7 @@ class InitialStateService {
 		private TemplateManager $templateManager,
 		private CapabilitiesService $capabilitiesService,
 		private IConfig $config,
+		private LanguageService $languageService,
 		private ?string $userId,
 	) {
 	}
@@ -42,6 +43,7 @@ class InitialStateService {
 		$this->initialState->provideInitialState('hasNextcloudBranding', $this->capabilitiesService->hasNextcloudBranding());
 		$this->initialState->provideInitialState('instanceId', $this->config->getSystemValue('instanceid'));
 		$this->initialState->provideInitialState('wopi_callback_url', $this->appConfig->getNextcloudUrl());
+		$this->initialState->provideInitialState('bcp47Language', $this->languageService->getBCP47LanguageTag());
 		$this->provideOptions();
 
 		$this->hasProvidedCapabilities = true;
