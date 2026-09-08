@@ -675,7 +675,10 @@ class WopiController extends Controller {
 				$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
 			} catch (LockedException $e) {
 				$this->logger->error($e->getMessage(), ['exception' => $e]);
-				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
+				// The file is locked by another operation and we wrote nothing.
+				// Report it as such, so the client can retry rather than treat
+				// this as a server fault or as a change behind its back.
+				return new JSONResponse(['message' => 'File locked'], Http::STATUS_LOCKED);
 			}
 
 			if ($isPutRelative) {
@@ -819,7 +822,8 @@ class WopiController extends Controller {
 			try {
 				$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
 			} catch (LockedException) {
-				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
+				// As in putFile(): nothing was written, so this is not a server fault.
+				return new JSONResponse(['message' => 'File locked'], Http::STATUS_LOCKED);
 			}
 
 			// epub is exception (can be uploaded but not opened so don't try to get access token)
