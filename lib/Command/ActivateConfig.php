@@ -74,6 +74,14 @@ class ActivateConfig extends Command {
 			}
 
 			try {
+				$this->connectivityService->testWopiAccess($output);
+			} catch (\Throwable $e) {
+				$output->writeln('<error>Failed to verify WOPI connectivity');
+				$output->writeln($e->getMessage());
+				return 1;
+			}
+
+			try {
 				$this->connectivityService->autoConfigurePublicUrl();
 			} catch (\Throwable $e) {
 				$output->writeln('<error>Failed to determine public URL from discovery response</error>');
