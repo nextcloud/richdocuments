@@ -4,6 +4,25 @@
 -->
 # Changelog
 
+## 12.0.0-beta.2
+
+### Fixed
+
+- Report a locked file as 423, not 500 by @timar in [#6064](https://github.com/nextcloud/richdocuments/pull/6064)
+- Pass language to Collabora file conversions by @xhon-pelushi in [#6038](https://github.com/nextcloud/richdocuments/pull/6038)
+- Include ooxml types in form filling by @elzody in [#6029](https://github.com/nextcloud/richdocuments/pull/6029)
+- Avoid extra file write by @elzody in [#5971](https://github.com/nextcloud/richdocuments/pull/5971)
+
+### Other
+
+- Move language tag logic to backend by @elzody in [#6053](https://github.com/nextcloud/richdocuments/pull/6053)
+- Pin workflows to stable35 by @elzody in [#6056](https://github.com/nextcloud/richdocuments/pull/6056)
+- Skip nightly collabora tests by @elzody in [#6030](https://github.com/nextcloud/richdocuments/pull/6030)
+- Hide extra fonts instructions when built-in CODE selected by @xhon-pelushi in [#6001](https://github.com/nextcloud/richdocuments/pull/6001)
+- Use only nightly collabora image by @elzody in [#5894](https://github.com/nextcloud/richdocuments/pull/5894)
+- Trigger direct editing Save As via postMessage by @elzody in [#5982](https://github.com/nextcloud/richdocuments/pull/5982)
+- Dependency updates
+
 ## 12.0.0-beta.1
 
 ### Added
