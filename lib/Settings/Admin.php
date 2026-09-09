@@ -41,6 +41,8 @@ class Admin implements ISettings {
 			'admin',
 			[
 				'settings' => [
+					'server_mode' => $this->appConfig->getServerMode(),
+					'builtin_server_url' => $this->appConfig->getBuiltinServerUrl(),
 					'wopi_url' => $this->appConfig->getCollaboraUrlInternal(),
 					'public_wopi_url' => $this->appConfig->getCollaboraUrlPublic(),
 					'wopi_callback_url' => $this->appConfig->getNextcloudUrl(),

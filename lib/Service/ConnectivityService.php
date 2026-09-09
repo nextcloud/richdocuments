@@ -49,14 +49,66 @@ class ConnectivityService {
 	}
 
 	/**
-	 * Detect public URL of the WOPI server for setting CSP on Nextcloud
+	 * Test discovery and capabilities reachability against an explicit URL.
+	 *
+	 * This temporarily forces custom mode so AppConfig resolves the provided
+	 * wopi_url directly instead of builtin-mode derivation logic.
+	 * Previous config values are always restored afterwards.
+	 */
+	public function testUrl(string $wopiUrl, OutputInterface $output): void {
+    	// Temporarily override the URL for the duration of this test by driving
+    	// DiscoveryService and CapabilitiesService directly with the given URL,
+    	// rather than going through AppConfig.
+    	$previousUrl = $this->appConfig->getAppValue(AppConfig::WOPI_URL, '');
+    	$previousMode = $this->appConfig->getAppValue(AppConfig::SERVER_MODE, '');
+
+		// Force explicit-URL resolution through the stored wopi_url path.
+		$this->appConfig->setAppValue(AppConfig::SERVER_MODE, 'custom');
+    	$this->appConfig->setAppValue(AppConfig::WOPI_URL, $wopiUrl);
+
+    	try {
+        	$this->testDiscovery($output);
+        	$this->testCapabilities($output);
+    	} finally {
+        	// Always restore, whether the test passed or threw
+			if ($previousMode !== '') {
+				$this->appConfig->setAppValue(AppConfig::SERVER_MODE, $previousMode);
+			} else {
+				// TODO: rename "appConfig" (which isn't; it's not actually the Server AppFramework version I expected))
+				$this->appConfig->setAppValue(AppConfig::SERVER_MODE, '');
+			}
+
+			if ($previousUrl !== '') {
+	        	$this->appConfig->setAppValue(AppConfig::WOPI_URL, $previousUrl);
+			} else {
+				$this->appConfig->setAppValue(AppConfig::WOPI_URL, '');
+			}
+    	}
+	}
+
+	/**
+	 * Detect public URL of the WOPI server for setting CSP on Nextcloud.
 	 *
 	 * This value is not meant to be set manually. If this turns out to be the wrong URL
-	 * it is likely a misconfiguration on your WOPI server. Collabora will inherit the URL to use
-	 * form the request and the ssl.enable/ssl.termination settings and server_name (if configured)
+	 * it is likely a misconfiguration either of the Collabora (i.e. server_name) or
+	 * Nextcloud itself (i.e. overwrite.cli.url).
+	 *
+	 * Skipped for the built-in CODE server: public_wopi_url for builtin is always
+	 * Nextcloud's own public origin, derived directly from IURLGenerator in AppConfig.
+	 * Running discovery-based detection server-side would be redundant and would produce
+	 * incorrect results in CLI context where overwrite.cli.url may differ from the
+	 * public-facing URL that CODE's ProxyPrefix would return to a browser.
+	 *
+	 * For standalone Collabora, server_name in coolwsd.xml makes urlsrc deterministic
+	 * regardless of request context, so server-side detection remains appropriate.
 	 */
 	public function autoConfigurePublicUrl(): void {
-		$determinedUrl = $this->parser->getUrlSrcValue('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+		if ($this->appConfig->isBuiltinServer()) {
+			return;
+		}
+		$determinedUrl = $this->parser->getUrlSrcValue(
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+		);
 		$detectedUrl = $this->appConfig->domainOnly($determinedUrl);
 		$this->appConfig->setAppValue('public_wopi_url', $detectedUrl);
 	}
