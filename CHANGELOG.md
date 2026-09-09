@@ -4,6 +4,23 @@
 -->
 # Changelog
 
+## 10.3.1
+
+### Fixed
+
+- Report a locked file as 423, not 500 by @timar in [#6062](https://github.com/nextcloud/richdocuments/pull/6062)
+- Pass language to Collabora file conversions by @xhon-pelushi in [#6036](https://github.com/nextcloud/richdocuments/pull/6036)
+- Include ooxml types in form filling by @elzody in [#6027](https://github.com/nextcloud/richdocuments/pull/6027)
+- Avoid extra file write by @elzody in [#5993](https://github.com/nextcloud/richdocuments/pull/5993)
+- Stabilize cypress tests by @elzody in [#5940](https://github.com/nextcloud/richdocuments/pull/5940)
+
+### Other
+
+- Move language tag logic to backend by @elzody in [#6051](https://github.com/nextcloud/richdocuments/pull/6051)
+- Skip nightly collabora tests by @elzody in [#6032](https://github.com/nextcloud/richdocuments/pull/6032)
+- Hide extra fonts instructions when built-in CODE selected by @xhon-pelushi in [#5999](https://github.com/nextcloud/richdocuments/pull/5999)
+- Dependency updates
+
 ## 10.3.0
 
 ### Added
