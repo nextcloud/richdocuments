@@ -4,6 +4,24 @@
 -->
 # Changelog
 
+## 9.2.2
+
+### Fixed
+
+- Report a locked file as 423, not 500 by @timar in [#6061](https://github.com/nextcloud/richdocuments/pull/6061)
+- Pass language to Collabora file conversions by @xhon-pelushi in [#6035](https://github.com/nextcloud/richdocuments/pull/6035)
+- Include ooxml types in form filling by @elzody in [#6026](https://github.com/nextcloud/richdocuments/pull/6026)
+- Npm audit by @elzody in [#6009](https://github.com/nextcloud/richdocuments/pull/6009)
+- Avoid extra file write by @elzody in [#5992](https://github.com/nextcloud/richdocuments/pull/5992)
+
+### Other
+
+- Move language tag logic to backend by @elzody in [#6050](https://github.com/nextcloud/richdocuments/pull/6050)
+- Fix npm audit by @nextcloud-command in [#6049](https://github.com/nextcloud/richdocuments/pull/6049)
+- Skip nightly collabora tests by @elzody in [#6033](https://github.com/nextcloud/richdocuments/pull/6033)
+- Hide extra fonts instructions when built-in CODE selected by @xhon-pelushi in [#5998](https://github.com/nextcloud/richdocuments/pull/5998)
+- Dependency updates
+
 ## 9.2.1
 
 ### Fixed
