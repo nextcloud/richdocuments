@@ -15,6 +15,7 @@ use OCA\Richdocuments\Events\DocumentOpenedEvent;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Helper;
+use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\FederationService;
@@ -99,6 +100,7 @@ class WopiController extends Controller {
 		private CapabilitiesService $capabilitiesService,
 		private Helper $helper,
 		private WopiRateLimitService $wopiRateLimitService,
+		private WOPIMiddleware $wopiMiddleware,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -239,14 +241,25 @@ class WopiController extends Controller {
 				// If the client ID & secret is set, then assume a production base URL.
 				$eSignatureBaseUrl = 'https://id.eideasy.com';
 			}
-			if ($eSignatureBaseUrl !== '') {
-				$response['ServerPrivateInfo']['ESignatureBaseUrl'] = $eSignatureBaseUrl;
-			}
-			if ($eSignatureClientId !== '') {
-				$response['ServerPrivateInfo']['ESignatureClientId'] = $eSignatureClientId;
-			}
-			if ($eSignatureSecret !== '') {
-				$response['ServerPrivateInfo']['ESignatureSecret'] = $eSignatureSecret;
+
+			$hasESignatureSettings = $eSignatureBaseUrl !== '' || $eSignatureClientId !== '' || $eSignatureSecret !== '';
+
+			// The electronic signature settings are instance wide admin credentials that
+			// Collabora consumes server side, so they must only be handed to a request
+			// that could be proven to come from Collabora. Access tokens are no such
+			// proof, as the same token is handed to the browser to load the document.
+			if ($hasESignatureSettings && !$this->wopiMiddleware->isTrustedWopiServer()) {
+				$this->logger->warning('Not sending the electronic signature settings as the request could not be verified to originate from the Collabora server. Generate a WOPI proof key on the Collabora server or configure the WOPI allow list.');
+			} elseif ($hasESignatureSettings) {
+				if ($eSignatureBaseUrl !== '') {
+					$response['ServerPrivateInfo']['ESignatureBaseUrl'] = $eSignatureBaseUrl;
+				}
+				if ($eSignatureClientId !== '') {
+					$response['ServerPrivateInfo']['ESignatureClientId'] = $eSignatureClientId;
+				}
+				if ($eSignatureSecret !== '') {
+					$response['ServerPrivateInfo']['ESignatureSecret'] = $eSignatureSecret;
+				}
 			}
 		}
 		if ($wopi->hasTemplateId()) {
