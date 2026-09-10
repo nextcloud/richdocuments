@@ -406,3 +406,20 @@ Feature: WOPI
     And a guest opens the share link
     When I perform "11" guest checkFileInfo requests
     Then the WOPI HTTP status code should be "429"
+
+  Scenario: The electronic signature secret is withheld from an unverified caller
+    Given as user "user1"
+    And electronic signature credentials are configured
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
+    When User "user1" opens "/file.odt"
+    And Collabora fetches checkFileInfo
+    Then checkFileInfo "ServerPrivateInfo" does not contain "ESignatureSecret"
+
+  Scenario: The electronic signature secret is sent to a verified caller
+    Given as user "user1"
+    And electronic signature credentials are configured
+    And the WOPI allow list matches any address
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
+    When User "user1" opens "/file.odt"
+    And Collabora fetches checkFileInfo
+    Then checkFileInfo "ServerPrivateInfo" contains "ESignatureSecret"
