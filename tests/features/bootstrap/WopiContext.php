@@ -174,6 +174,20 @@ class WopiContext implements Context {
 	}
 
 	/**
+	 * @Then /^checkFileInfo "([^"]*)" contains "([^"]*)"$/
+	 */
+	public function checkfileinfoContains($key, $nestedKey) {
+		\PHPUnit\Framework\Assert::assertArrayHasKey($nestedKey, $this->checkFileInfoResult[$key]);
+	}
+
+	/**
+	 * @Then /^checkFileInfo "([^"]*)" does not contain "([^"]*)"$/
+	 */
+	public function checkfileinfoDoesNotContain($key, $nestedKey) {
+		\PHPUnit\Framework\Assert::assertArrayNotHasKey($nestedKey, $this->checkFileInfoResult[$key]);
+	}
+
+	/**
 	 * @Given /^Collabora downloads the file$/
 	 */
 	public function collaboraDownloadsTheFile() {
