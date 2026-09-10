@@ -41,6 +41,7 @@ class WOPIMiddleware extends Middleware {
 		private LoggerInterface $logger,
 		private ProofKeyService $proofKeyService,
 		private bool $isWOPIRequest = false,
+		private bool $isTrustedWopiServer = false,
 	) {
 	}
 
@@ -107,6 +108,10 @@ class WOPIMiddleware extends Middleware {
 					if (!$isProofValid) {
 						throw new WopiException('Invalid WOPI proof');
 					}
+
+					$this->isTrustedWopiServer = true;
+				} elseif ($this->isWopiServerAddress()) {
+					$this->isTrustedWopiServer = true;
 				}
 			}
 
@@ -161,18 +166,46 @@ class WOPIMiddleware extends Middleware {
 		if ($allowedRanges === '') {
 			return true;
 		}
-		$allowedRanges = preg_split('/(\s|,|;|\|)+/', $allowedRanges);
 
 		$userIp = $this->request->getRemoteAddress();
-		if (IpUtils::checkIp($userIp, $allowedRanges)) {
+		if ($this->matchesAllowList($userIp, $allowedRanges)) {
 			return true;
 		}
 
-		$this->logger->warning('WOPI request denied from ' . $userIp . ' as it does not match the configured ranges: ' . implode(', ', $allowedRanges));
+		$this->logger->warning('WOPI request denied from ' . $userIp . ' as it does not match the configured ranges: ' . $allowedRanges);
 		return false;
+	}
+
+	/**
+	 * Whether the remote address is covered by the configured allow list.
+	 *
+	 * In contrast to isWOPIAllowed() an unconfigured allow list is not a match, as
+	 * an empty allow list proves nothing about the origin of the request.
+	 */
+	public function isWopiServerAddress(): bool {
+		$allowedRanges = $this->config->getAppValue(Application::APPNAME, 'wopi_allowlist');
+		if ($allowedRanges === '') {
+			return false;
+		}
+
+		return $this->matchesAllowList($this->request->getRemoteAddress(), $allowedRanges);
+	}
+
+	private function matchesAllowList(string $address, string $allowedRanges): bool {
+		return IpUtils::checkIp($address, preg_split('/(\s|,|;|\|)+/', $allowedRanges));
 	}
 
 	public function isWOPIRequest(): bool {
 		return $this->isWOPIRequest;
+	}
+
+	/**
+	 * Whether the current request could be proven to originate from the Collabora
+	 * server, either through a valid WOPI proof or through the configured allow list.
+	 *
+	 * Access tokens alone are no proof, as they are also handed out to the browser.
+	 */
+	public function isTrustedWopiServer(): bool {
+		return $this->isTrustedWopiServer;
 	}
 }
