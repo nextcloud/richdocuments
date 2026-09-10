@@ -406,7 +406,7 @@ export default {
 		close() {
 			FilesAppIntegration.close()
 			if (this.modified) {
-				FilesAppIntegration.updateFileInfo(undefined, Date.now())
+				FilesAppIntegration.refreshFileInfo()
 			}
 			disableScrollLock()
 			this.restoreFavicon()
@@ -526,7 +526,7 @@ export default {
 						this.switchToSavedAsFile(newFileName)
 					} else {
 						// When saving the current file, update its modification time
-						FilesAppIntegration.updateFileInfo(undefined, Date.now())
+						FilesAppIntegration.refreshFileInfo()
 					}
 				}
 				break
@@ -580,19 +580,11 @@ export default {
 			case 'Action_GetLinkPreview':
 				this.resolveLink(args.url)
 				break
-			case 'Action_Save':
-				if (this.modified) {
-					FilesAppIntegration.updateFileInfo(undefined, Date.now())
-				}
-				break
-			case 'UI_Save':
-				FilesAppIntegration.updateFileInfo(undefined, Date.now())
-				break
 			case 'Clicked_Button':
 				this.buttonClicked(args)
 				break
 			case 'Doc_ModifiedStatus':
-				if (args.Modified !== this.modified && !this.openingLocally) {
+				if (this.modified && !args.Modified && !this.openingLocally) {
 					FilesAppIntegration.updateFileInfo(undefined, Date.now())
 				}
 				this.modified = args.Modified
