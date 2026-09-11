@@ -55,6 +55,20 @@ command to configure a non-default base URL for eID Easy. For example:
 
 	occ config:app:set richdocuments esignature_base_url --type string --value https://test.eideasy.com 
 
+The eID Easy client ID and secret are instance wide admin credentials. Collabora Online uses them server side and never passes the secret on to the browser, so Nextcloud only includes them in a `CheckFileInfo` response when the request can be verified to originate from the Collabora server. The WOPI access token is no such proof, as the same token is handed to the browser to load the document.
+
+A request is verified when Collabora Online publishes a WOPI proof key in its discovery and sends a valid proof. Generate the key on the Collabora Online server with:
+
+	sudo coolconfig generate-proof-key
+
+Alternatively the remote address of the request has to match the configured WOPI allow list:
+
+	occ config:app:set richdocuments wopi_allowlist --value "192.168.1.0/24"
+
+The proof key is the better option of the two, as the allow list compares IP addresses and therefore cannot tell Collabora Online apart from a user when both reach Nextcloud from the same address.
+
+When neither is configured, the electronic signature settings are left out of the response, electronic signatures stay unavailable in the editor and a warning is written to the Nextcloud log.
+
 ### UI mode
 
 Switching between classic and tabbed view is possible as a default, however users can still change this while using Office:
