@@ -11,6 +11,7 @@ namespace OCA\Richdocuments\Notification;
 
 use OC\User\NoUserException;
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IURLGenerator;
@@ -27,6 +28,7 @@ class Notifier implements INotifier {
 	public const SUBJECT_MENTIONED_TARGET_USER = 'targetUser';
 
 	public function __construct(
+		private CapabilitiesService $capabilitiesService,
 		private IFactory $factory,
 		private IUserManager $userManager,
 		private IURLGenerator $urlGenerator,
@@ -41,7 +43,7 @@ class Notifier implements INotifier {
 
 	#[\Override]
 	public function getName(): string {
-		return 'Office';
+		return $this->capabilitiesService->getProductName();
 	}
 
 	#[\Override]
