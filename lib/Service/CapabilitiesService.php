@@ -107,7 +107,7 @@ class CapabilitiesService extends CachedRequestService {
 			return $this->getCapabilities()['productName'];
 		}
 
-		return $this->l10n->t('Nextcloud Office (Collabora)');
+		return $this->l10n->t('Collabora Online');
 	}
 
 	public function hasOtherOOXMLApps(): bool {
