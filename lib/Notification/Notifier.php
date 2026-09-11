@@ -43,7 +43,14 @@ class Notifier implements INotifier {
 
 	#[\Override]
 	public function getName(): string {
-		return $this->capabilitiesService->getProductName();
+		try {
+			return $this->capabilitiesService->getProductName();
+		} catch (\Throwable) {
+			// Reading the product name goes through the cached capabilities and
+			// therefore touches app data. This used to be a constant, so keep it
+			// from taking down the notifier list over a display label.
+			return 'Collabora Online';
+		}
 	}
 
 	#[\Override]

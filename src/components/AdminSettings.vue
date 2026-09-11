@@ -7,11 +7,8 @@
 	<div>
 		<div class="section">
 			<h2>{{ productName }}</h2>
-			<p v-if="hasNextcloudBranding" class="description">
-				{{ t('richdocuments', 'Collabora Online is a powerful online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
-			</p>
-			<p v-else class="description">
-				{{ t('richdocuments', 'Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
+			<p class="description">
+				{{ t('richdocuments', '{productName} is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.', { productName }) }}
 			</p>
 
 			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
@@ -77,7 +74,6 @@
 						:disabled="updating">
 					<label for="customserver">{{ t('richdocuments', 'Use your own server') }}</label><br>
 					<p class="option-inline">
-						<em>{{ t('richdocuments', 'Collabora Online requires a separate server running Collabora Online to provide editing capabilities.') }}</em>
 						<em>{{ t('richdocuments', 'Collabora Online requires a separate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
 					</p>
 					<div v-if="serverMode === 'custom'" class="option-inline">
@@ -484,7 +480,6 @@ export default {
 	data() {
 		return {
 			productName: loadState('richdocuments', 'productName', 'Collabora Online'),
-			hasNextcloudBranding: loadState('richdocuments', 'hasNextcloudBranding', true),
 
 			serverMode: '',
 			serverError: SERVER_STATE_LOADING,
