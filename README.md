@@ -17,11 +17,11 @@ Users can insert and reply to comments and invite others without a Nextcloud acc
 
 Collabora Online supports dozens of document formats including DOC, DOCX, PPT, PPTX, XLS, XLSX + ODF, Import/View Visio, Publisher and many more…
 
-Collabora Online is based on the Collabora Online Development Edition (CODE) and is available free and under heavy development, adding features and improvements all the time! Enterprise users have access to the more stable, scalable Collabora Online Enterprise based version through a Nextcloud support subscription.
+This app connects to the Collabora Online Development Edition (CODE), which is available free and under heavy development, adding features and improvements all the time! Enterprise users have access to the more stable, scalable Collabora Online Enterprise based version through a Nextcloud support subscription.
 
 ## Installation
 
-Collabora Online is built on Collabora Online which requires a dedicated service running next to the Nextcloud webserver stack. There are several ways to run the coolwsd service. For full details, see the related section in the admin manual https://docs.nextcloud.com/server/latest/admin_manual/office/index.html
+This app requires a Collabora Online server (coolwsd) running next to the Nextcloud webserver stack. There are several ways to run the coolwsd service. For full details, see the related section in the admin manual https://docs.nextcloud.com/server/latest/admin_manual/office/index.html
 
 This repository covers only the Nextcloud integration app which requires a Collabora Online server to connect to.
 
