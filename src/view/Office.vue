@@ -733,7 +733,7 @@ export default {
 	width: 100%;
 	height: 100vh;
 	height: 100dvh;
-	top: -50px;
+	top: calc(var(--header-height) * -1);
 	position: absolute;
 	z-index: 10001;
 }
