@@ -5,8 +5,8 @@
 
 <template>
 	<NcSettingsSection
-		:name="t('richdocuments', 'Collabora Online')"
-		:description="t('richdocuments', 'Personal Settings for Collabora Online')">
+		:name="productName"
+		:description="t('richdocuments', 'Personal Settings for {productName}', { productName })">
 		<!-- Template folder selection -->
 		<div class="template-folder-settings">
 			<div class="template-input-wrapper">
@@ -34,7 +34,7 @@
 		</div>
 		<p>
 			<em>
-				{{ t('richdocuments', 'Templates inside of this directory will be added to the template selector of Collabora Online.') }}
+				{{ t('richdocuments', 'Templates inside of this directory will be added to the template selector of {productName}.', { productName }) }}
 			</em>
 		</p>
 
@@ -55,6 +55,7 @@ import {
 } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { generateFilePath, generateUrl } from '@nextcloud/router'
 import { getSharingToken } from '@nextcloud/sharing/public'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -85,6 +86,7 @@ export default {
 
 	data() {
 		return {
+			productName: loadState('richdocuments', 'productName', 'Collabora Online'),
 			templateFolder: this.initial.templateFolder || '',
 			hasSettingIframeSupport: this.initial.hasSettingIframeSupport || false,
 			settingIframeUrl: this.initial.setting_iframe_url || '',
