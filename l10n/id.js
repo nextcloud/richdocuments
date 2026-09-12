@@ -45,6 +45,7 @@ OC.L10N.register(
     "New diagram" : "Diagram baru",
     "New presentation" : "Presentasi baru",
     "New spreadsheet" : "Spreadsheet baru",
+    "Document" : "Dokumen",
     "Presentation" : "Presentasi",
     "Diagram" : "Diagram",
     "{user} has mentioned you in {node}" : "{user} menyebut Anda dalam {node}",
