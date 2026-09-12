@@ -4,8 +4,8 @@
 -->
 
 <template>
-	<NcSettingsSection :name="t('richdocuments', 'Nextcloud Office (Collabora)')"
-		:description="t('richdocuments', 'Personal Settings for Nextcloud Office (Collabora)')"
+	<NcSettingsSection :name="productName"
+		:description="t('richdocuments', 'Personal Settings for {productName}', { productName })"
 		:limit-width="true">
 		<!-- Template folder selection -->
 		<div class="template-folder-settings">
@@ -30,7 +30,7 @@
 		</div>
 		<p>
 			<em>
-				{{ t('richdocuments', 'Templates inside of this directory will be added to the template selector of Nextcloud Office (Collabora).') }}
+				{{ t('richdocuments', 'Templates inside of this directory will be added to the template selector of {productName}.', { productName }) }}
 			</em>
 		</p>
 
@@ -81,6 +81,7 @@
 
 <script>
 import { generateFilePath, generateUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
@@ -116,6 +117,7 @@ export default {
 	},
 	data() {
 		return {
+			productName: loadState('richdocuments', 'productName', 'Collabora Online'),
 			templateFolder: this.initial.templateFolder || '',
 			hasSettingIframeSupport: this.initial.hasSettingIframeSupport || false,
 			settingIframeUrl: this.initial.setting_iframe_url || '',
