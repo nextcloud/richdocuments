@@ -164,7 +164,7 @@ class DocumentController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function createFromTemplate(int $templateId, string $fileName, string $dir = '/'): TemplateResponse {
-		if (!$this->templateManager->isTemplate($templateId)) {
+		if ($this->userId === null || !$this->templateManager->isTemplate($templateId)) {
 			return new TemplateResponse('core', '403', [], 'guest');
 		}
 
@@ -183,8 +183,7 @@ class DocumentController extends Controller {
 
 		$template = $this->templateManager->get($templateId);
 		$urlSrc = $this->tokenManager->getUrlSrc($file);
-		$isGuest = $this->userId === null;
-		$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $file->getId(), $this->userId, $isGuest);
+		$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $file->getId(), $this->userId, false);
 
 		$params = [
 			'permissions' => $template->getPermissions(),
