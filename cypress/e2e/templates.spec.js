@@ -183,7 +183,7 @@ describe('User templates', function() {
 			})
 		})
 
-		it.skip('Create a document from a template with fields', () => {
+		it('Create a document from a template with fields', () => {
 			const fields = [
 				{ index: 'ContentControls.ByIndex.0', type: 'rich-text', alias: 'Name', content: 'Nextcloud' },
 				{ index: 'ContentControls.ByIndex.1', type: 'rich-text', alias: 'Favorite app', content: 'richdocuments' },
