@@ -127,6 +127,7 @@ class Capabilities implements ICapability {
 						'public_wopi_url' => $this->config->getCollaboraUrlPublic(),
 						'wopi_callback_url' => $this->config->getNextcloudUrl(),
 						'disable_certificate_verification' => $this->config->getAppValue('disable_certificate_verification'),
+						'msoffice_with_other_office_apps' => $this->config->getAppValue('msoffice_with_other_office_apps'),
 						'edit_groups' => $this->config->getAppValue('edit_groups'),
 						'use_groups' => $this->config->getAppValue('use_groups'),
 						'doc_format' => $this->config->getAppValue('doc_format'),
