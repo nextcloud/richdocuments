@@ -193,7 +193,7 @@ class WopiController extends Controller {
 			'UserExtraInfo' => [],
 			'UserPrivateInfo' => [],
 			'UserCanWrite' => $canWriteThroughLock && (bool)$wopi->getCanwrite(),
-			'UserCanNotWriteRelative' => $isPublic || $wopi->getHideDownload() || $wopi->isRemoteToken() || $shouldUseSecureView,
+			'UserCanNotWriteRelative' => $this->userCannotWriteRelative($wopi, $file),
 			'PostMessageOrigin' => $wopi->getServerHost(),
 			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
 			'SupportsRename' => !$isVersion && !$wopi->isRemoteToken(),
@@ -797,6 +797,14 @@ class WopiController extends Controller {
 			} else {
 				$file = $this->getFileForWopiToken($wopi);
 
+				// Enforce the same restriction we advertise as UserCanNotWriteRelative in
+				// checkFileInfo: PutRelativeFile ("Save As") must be rejected for public links,
+				// hidden-download and remote tokens, and secure view. The client hides the UI
+				// action in these cases, but we must not rely on it doing so.
+				if ($this->userCannotWriteRelative($wopi, $file)) {
+					return new JSONResponse([], Http::STATUS_FORBIDDEN);
+				}
+
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
 				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7');
 
@@ -996,6 +1004,21 @@ class WopiController extends Controller {
 		usort($files, fn (Node $a, Node $b) => ($b->getPermissions() & Constants::PERMISSION_UPDATE) <=> ($a->getPermissions() & Constants::PERMISSION_UPDATE));
 
 		return array_shift($files);
+	}
+
+	/**
+	 * Whether the token holder may edit the file but must not create relative
+	 * (new) files from it via PutRelativeFile ("Save As"). This is the value
+	 * advertised as UserCanNotWriteRelative in checkFileInfo and enforced on the
+	 * PutRelativeFile endpoint so the two never disagree.
+	 */
+	private function userCannotWriteRelative(Wopi $wopi, File $file): bool {
+		$share = $this->getShareForWopiToken($wopi, $file);
+		$shouldUseSecureView = $this->permissionManager->shouldWatermark($file, $wopi->getEditorUid(), $share);
+		return empty($wopi->getEditorUid())
+			|| $wopi->getHideDownload()
+			|| $wopi->isRemoteToken()
+			|| $shouldUseSecureView;
 	}
 
 	private function getShareForWopiToken(Wopi $wopi, File $file): ?IShare {
