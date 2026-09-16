@@ -4,6 +4,13 @@
 -->
 # Changelog
 
+## 12.0.0
+
+### Fixed
+
+- Hide digital signature inputs by @codewithvk in [#6086](https://github.com/nextcloud/richdocuments/pull/6086)
+- Use the header height token for the document offset by @Darshan-upadhyay1110 in [#6082](https://github.com/nextcloud/richdocuments/pull/6082)
+
 ## 12.0.0-beta.2
 
 ### Fixed
