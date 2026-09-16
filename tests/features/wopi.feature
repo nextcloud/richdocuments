@@ -343,7 +343,7 @@ Feature: WOPI
     And Collabora downloads the file
     And Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
-  Scenario: Save as guest user to owner root
+  Scenario: Guest cannot Save As on a write-enabled share link
     Given as user "user1"
     And User "user1" creates a folder "SharedFolder"
     And as "user1" create a share with
@@ -355,8 +355,10 @@ Feature: WOPI
     And as "user1" the file "/SharedFolder/some-guest-document.odt" exists
     And a guest opens the file "some-guest-document.odt" of the shared link
     And Collabora fetches checkFileInfo
+    And checkFileInfo "UserCanNotWriteRelative" is true
     And Collabora saves the content of "./../emptyTemplates/template.ods" as "/saved-as-guest-document.odt"
-    And as "user1" the file "/SharedFolder/saved-as-guest-document.odt" exists
+    And the WOPI HTTP status code should be "403"
+    And as "user1" the file "/SharedFolder/saved-as-guest-document.odt" does not exist
     And as "user1" the file "/saved-as-guest-document.odt" does not exist
 
   Scenario: Rename file on share link
