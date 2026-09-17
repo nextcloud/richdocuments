@@ -26,6 +26,7 @@ use OCA\Richdocuments\Service\WopiRateLimitService;
 use OCA\Richdocuments\TaskProcessingManager;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
+use OCA\Richdocuments\WOPI\SettingsType;
 use OCA\Richdocuments\WOPI\SettingsUrl;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -532,7 +533,7 @@ class WopiController extends Controller {
 			$isUserAdmin = $this->groupManager->isAdmin($userId);
 			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
 			$settingsUrl = new SettingsUrl($fileId);
-			if ($settingsUrl->isSystemConfig() && !$isUserAdmin) {
+			if ($settingsUrl->getSettingsType() === SettingsType::SystemConfig && !$isUserAdmin) {
 				throw new NotPermittedException();
 			}
 
@@ -587,7 +588,7 @@ class WopiController extends Controller {
 			$userId = $wopi->getEditorUid();
 			$isUserAdmin = $this->groupManager->isAdmin($userId);
 
-			if ($settingsUrl->isSystemConfig() && !$isUserAdmin) {
+			if ($settingsUrl->getSettingsType() === SettingsType::SystemConfig && !$isUserAdmin) {
 				throw new NotPermittedException();
 			}
 
