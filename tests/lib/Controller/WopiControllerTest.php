@@ -380,4 +380,35 @@ class WopiControllerTest extends TestCase {
 
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
+
+	/**
+	 * A public session has no user, so the settings token handed to Collabora must not be bound to
+	 * the synthetic guest id that is only used as a display name.
+	 */
+	public function testCheckFileInfoBindsSettingsTokenToTheRealEditor(): void {
+		$this->givenToken(Wopi::TOKEN_TYPE_GUEST, null, userExists: false);
+		$this->capabilitiesService->method('hasSettingIframeSupport')->willReturn(true);
+
+		$file = $this->createMock(File::class);
+		$file->method('getName')->willReturn('document.odt');
+		$file->method('getSize')->willReturn(1);
+		$file->method('getMTime')->willReturn(0);
+		$file->method('getId')->willReturn(1);
+
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getById')->willReturn([$file]);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
+
+		$this->settingsService->expects($this->once())
+			->method('generateIframeToken')
+			->with('user', '')
+			->willReturn(['token' => 'settings-token', 'token_ttl' => 0]);
+		$this->settingsService->method('getFolderEtag')->willReturn('etag');
+		$this->settingsService->method('getPresentationFolderEtag')->willReturn('etag');
+
+		$response = $this->makeController()->checkFileInfo('1_instanceid', 'token');
+
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+		$this->assertArrayNotHasKey('UserSettings', $response->getData());
+	}
 }
