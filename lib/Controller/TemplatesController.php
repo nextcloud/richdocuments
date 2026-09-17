@@ -101,16 +101,21 @@ class TemplatesController extends Controller {
 		$files = $this->request->getUploadedFile('files');
 
 		if (!is_null($files)) {
-			$mimeType = !empty($files['type'] ?? '') ? $files['type'] : $this->mimeTypeDetector->detect($files['tmp_name']);
 			$error = $files['error'] ?? 0;
 
 			if ($error !== 0) {
 				$this->logger->error('Failed to get the uploaded file. PHP file upload error code: ' . $error);
+				$message = match ($error) {
+					UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => $this->l10n->t('File is too big'),
+					default => $this->l10n->t('Failed to upload the file'),
+				};
 				return new JSONResponse(
-					['data' => ['message' => $this->l10n->t('Failed to upload the file')]],
+					['data' => ['message' => $message]],
 					Http::STATUS_BAD_REQUEST
 				);
 			}
+
+			$mimeType = !empty($files['type'] ?? '') ? $files['type'] : $this->mimeTypeDetector->detect($files['tmp_name']);
 
 			if (is_uploaded_file($files['tmp_name']) && !Filesystem::isFileBlacklisted($files['tmp_name'])) {
 				if ($files['size'] > $this->maxSize) {
