@@ -479,6 +479,60 @@ class WopiController extends Controller {
 		}
 	}
 
+	/**
+	 * The editor a token belongs to, empty for a public session that has no user.
+	 */
+	private function getEditorUid(Wopi $wopi): string {
+		return $wopi->getEditorUid() ?? '';
+	}
+
+	/**
+	 * Authorization shared by all settings endpoints.
+	 *
+	 * Settings may only be reached with a settings token or with the document token of the editor
+	 * session the settings iframe runs in. `userconfig` is stored per user, so it additionally
+	 * requires the token to name an account that exists; `systemconfig` is instance wide and is
+	 * readable by every session, including public ones, which carry no user at all.
+	 *
+	 * @param SettingsType|null $settingsType Null when the request named no supported type.
+	 * @throws \InvalidArgumentException When the request named no supported type.
+	 * @throws NotPermittedException When the token may not act on $settingsType.
+	 */
+	private function assertSettingsAccess(Wopi $wopi, ?SettingsType $settingsType): void {
+		$tokenType = $wopi->getTokenType();
+		if ($tokenType !== Wopi::TOKEN_TYPE_SETTING_AUTH && $tokenType !== Wopi::TOKEN_TYPE_USER) {
+			throw new NotPermittedException('Settings are not reachable with this token type');
+		}
+
+		if ($settingsType === null) {
+			throw new \InvalidArgumentException('Unknown settings type');
+		}
+
+		if ($settingsType === SettingsType::UserConfig && !$this->userManager->userExists($this->getEditorUid($wopi))) {
+			throw new NotPermittedException('User settings require an existing user');
+		}
+	}
+
+	/**
+	 * Authorization for the settings endpoints that modify a file.
+	 *
+	 * On top of {@see self::assertSettingsAccess()}, writing to `systemconfig` is restricted to
+	 * admins holding a settings token: the document token is not scoped to the settings session,
+	 * so it must never reach instance wide configuration.
+	 *
+	 * @throws \InvalidArgumentException When the URL named no supported type.
+	 * @throws NotPermittedException When the token may not write to $settingsUrl.
+	 */
+	private function assertSettingsWriteAccess(Wopi $wopi, SettingsUrl $settingsUrl): void {
+		$this->assertSettingsAccess($wopi, $settingsUrl->getSettingsType());
+
+		if ($settingsUrl->getSettingsType() === SettingsType::SystemConfig
+			&& ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH
+				|| !$this->groupManager->isAdmin($this->getEditorUid($wopi)))) {
+			throw new NotPermittedException('System settings require an admin settings token');
+		}
+	}
+
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
@@ -488,25 +542,20 @@ class WopiController extends Controller {
 		#[\SensitiveParameter]
 		string $access_token,
 	): JSONResponse {
-		if (empty($type)) {
-			return new JSONResponse(['error' => 'Invalid type parameter'], Http::STATUS_BAD_REQUEST);
-		}
-
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH && $wopi->getTokenType() !== Wopi::TOKEN_TYPE_USER) {
-				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_BAD_REQUEST);
-			}
+			$this->assertSettingsAccess($wopi, SettingsType::tryFrom($type));
 
-			$isPublic = empty($wopi->getEditorUid());
-			$guestUserId = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
-			$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
-
-			$userConfig = $this->settingsService->generateSettingsConfig($type, $userId);
+			$userConfig = $this->settingsService->generateSettingsConfig($type, $this->getEditorUid($wopi));
 			return new JSONResponse($userConfig, Http::STATUS_OK);
 		} catch (UnknownTokenException|ExpiredTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Unauthorized'], Http::STATUS_UNAUTHORIZED);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['error' => 'Invalid type parameter'], Http::STATUS_BAD_REQUEST);
+		} catch (NotPermittedException $e) {
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
+			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Internal Server Error'], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -524,18 +573,9 @@ class WopiController extends Controller {
 	): JSONResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-			$userId = $wopi->getEditorUid();
-
-			if (empty($userId)) {
-				throw new \Exception('UserID is empty');
-			}
-
-			$isUserAdmin = $this->groupManager->isAdmin($userId);
 			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
 			$settingsUrl = new SettingsUrl($fileId);
-			if ($settingsUrl->getSettingsType() === SettingsType::SystemConfig && !$isUserAdmin) {
-				throw new NotPermittedException();
-			}
+			$this->assertSettingsWriteAccess($wopi, $settingsUrl);
 
 			$content = fopen('php://input', 'rb');
 			if (!$content) {
@@ -546,7 +586,7 @@ class WopiController extends Controller {
 			fclose($content);
 
 
-			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $userId);
+			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $this->getEditorUid($wopi));
 
 			return new JSONResponse([
 				'status' => 'success',
@@ -557,6 +597,8 @@ class WopiController extends Controller {
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Invalid token'], Http::STATUS_FORBIDDEN);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['error' => 'Invalid settings path'], Http::STATUS_BAD_REQUEST);
 		} catch (NotPermittedException $e) {
 			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
 		} catch (\Exception $e) {
@@ -576,23 +618,15 @@ class WopiController extends Controller {
 	): JSONResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
-				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_FORBIDDEN);
-			}
-
 			// Parse the dynamic file path from `fileId`, e.g. "/settings/systemconfig/wordbook/en_US (1).dic"
 			$settingsUrl = new SettingsUrl($fileId);
+			$this->assertSettingsWriteAccess($wopi, $settingsUrl);
+
 			$type = $settingsUrl->getType();
 			$category = $settingsUrl->getCategory();
 			$fileName = $settingsUrl->getFileName();
-			$userId = $wopi->getEditorUid();
-			$isUserAdmin = $this->groupManager->isAdmin($userId);
 
-			if ($settingsUrl->getSettingsType() === SettingsType::SystemConfig && !$isUserAdmin) {
-				throw new NotPermittedException();
-			}
-
-			$this->settingsService->deleteSettingsFile($type, $category, $fileName, $userId);
+			$this->settingsService->deleteSettingsFile($type, $category, $fileName, $this->getEditorUid($wopi));
 
 			return new JSONResponse([
 				'status' => 'success',
@@ -601,6 +635,8 @@ class WopiController extends Controller {
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Invalid token'], Http::STATUS_FORBIDDEN);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['error' => 'Invalid settings path'], Http::STATUS_BAD_REQUEST);
 		} catch (NotFoundException $e) {
 			return new JSONResponse(['error' => 'File not found'], Http::STATUS_NOT_FOUND);
 		} catch (NotPermittedException $e) {
