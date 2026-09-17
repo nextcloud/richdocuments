@@ -18,6 +18,7 @@ use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\UploadException;
+use OCA\Richdocuments\WOPI\SettingsType;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -32,6 +33,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -63,6 +65,7 @@ class SettingsController extends Controller {
 		private LoggerInterface $logger,
 		private IURLGenerator $urlGenerator,
 		private WopiMapper $wopiMapper,
+		private IUserManager $userManager,
 		private ?string $userId,
 		private TemplateManager $templateManager,
 	) {
@@ -494,8 +497,19 @@ class SettingsController extends Controller {
 			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
 				throw new NotPermittedException();
 			}
+
+			$settingsType = SettingsType::tryFrom($type);
+			if ($settingsType === null) {
+				throw new NotPermittedException();
+			}
+
 			$userId = $wopi->getEditorUid() ?: $wopi->getOwnerUid();
-			if ($type === 'userconfig') {
+			if ($settingsType === SettingsType::UserConfig) {
+				// An empty user would collapse the path back onto the userconfig folder itself,
+				// letting the category segment address another user's directory.
+				if (!$this->userManager->userExists($userId)) {
+					throw new NotPermittedException();
+				}
 				$type = $type . '/' . $userId;
 			}
 
