@@ -218,7 +218,9 @@ class WopiController extends Controller {
 		];
 
 		if ($this->capabilitiesService->hasSettingIframeSupport()) {
-			$token = $this->generateSettingToken($userId);
+			// Bind the settings token to the real editor, which is empty for a public session, so
+			// that it cannot be used for anything stored per user.
+			$token = $this->generateSettingToken($this->getEditorUid($wopi));
 			if (!$isPublic) {
 				$response['UserSettings'] = $this->generateSettings($token, 'userconfig', $userId);
 			}
