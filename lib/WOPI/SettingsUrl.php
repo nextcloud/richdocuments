@@ -103,11 +103,11 @@ class SettingsUrl {
 	}
 
 	/**
-	 * Determines if this Settings URL leads to a system config file
+	 * The setting type this URL addresses, or null when it names no supported type.
 	 *
-	 * @return bool
+	 * @return SettingsType|null
 	 */
-	public function isSystemConfig(): bool {
-		return $this->getType() === 'systemconfig';
+	public function getSettingsType(): ?SettingsType {
+		return SettingsType::tryFrom($this->getType());
 	}
 }
