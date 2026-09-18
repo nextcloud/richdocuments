@@ -5,7 +5,7 @@
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
-  env: {
+  expose: {
     collaboraUrl: process.env.CYPRESS_collaboraUrl ?? 'https://localhost:9980/',
   },
   projectId: 'fef71b',
