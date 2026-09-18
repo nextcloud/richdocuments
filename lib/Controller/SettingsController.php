@@ -112,6 +112,7 @@ class SettingsController extends Controller {
 			'wopi_callback_url' => $this->appConfig->getNextcloudUrl(),
 			'wopi_allowlist' => $this->appConfig->getAppValue('wopi_allowlist'),
 			'disable_certificate_verification' => $this->appConfig->getAppValue('disable_certificate_verification') === 'yes',
+			'msoffice_with_other_office_apps' => $this->appConfig->getAppValue('msoffice_with_other_office_apps') === 'yes',
 			'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
 			'use_groups' => $this->appConfig->getAppValue('use_groups'),
 			'doc_format' => $this->appConfig->getAppValue('doc_format'),
@@ -137,9 +138,17 @@ class SettingsController extends Controller {
 		?string $esignature_base_url,
 		?string $esignature_client_id,
 		?string $esignature_secret,
+		?bool $msoffice_with_other_office_apps = null,
 	): JSONResponse {
 		if ($wopi_url !== null) {
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
+		}
+
+		if ($msoffice_with_other_office_apps !== null) {
+			$this->appConfig->setAppValue(
+				'msoffice_with_other_office_apps',
+				$msoffice_with_other_office_apps ? 'yes' : ''
+			);
 		}
 
 		if ($wopi_allowlist !== null) {
