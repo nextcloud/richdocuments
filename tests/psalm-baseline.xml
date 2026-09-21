@@ -47,12 +47,6 @@
       <code><![CDATA[BadResponseException]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/Controller/SettingsController.php">
-    <UndefinedClass>
-      <code><![CDATA[NullOutput]]></code>
-      <code><![CDATA[NullOutput]]></code>
-    </UndefinedClass>
-  </file>
   <file src="lib/Controller/TemplatesController.php">
     <InvalidReturnStatement>
       <code><![CDATA[$this->fetchPreview($template, $x, $y, $a, $forceIcon, $mode)]]></code>
@@ -96,10 +90,15 @@
     </MissingDependency>
   </file>
   <file src="lib/Service/ConnectivityService.php">
-    <UndefinedClass>
-      <code><![CDATA[OutputInterface]]></code>
-      <code><![CDATA[OutputInterface]]></code>
-    </UndefinedClass>
+    <InvalidCatch>
+      <code><![CDATA[try {
+			$result = $client->post($url, array_merge(RemoteOptionsService::getDefaultOptions(), [
+				'body' => json_encode(['callbackUrl' => $callbackUrl . '/status.php']), 'headers' => ['Content-Type' => 'application/json']
+			]));
+		} catch (ClientException $e) {
+			$result = $e->getResponse();
+		}]]></code>
+    </InvalidCatch>
   </file>
   <file src="lib/Service/FederationService.php">
     <TypeDoesNotContainType>
