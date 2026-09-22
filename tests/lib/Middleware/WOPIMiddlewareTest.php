@@ -69,6 +69,34 @@ class WOPIMiddlewareTest extends \PHPUnit\Framework\TestCase {
 		self::assertEquals($result, $this->middleware->isWOPIAllowed());
 	}
 
+	/** @dataProvider dataWopiServerAddress */
+	public function testIsWopiServerAddress($ip, $allowList, $result) {
+		$this->request->expects(self::any())
+			->method('getRemoteAddress')
+			->willReturn($ip);
+		$this->config->expects(self::any())
+			->method('getAppValue')
+			->willReturn($allowList);
+		self::assertEquals($result, $this->middleware->isWopiServerAddress());
+	}
+
+	public static function dataWopiServerAddress() {
+		return [
+			// An unconfigured allow list proves nothing about the origin
+			['192.168.178.1', '', false],
+			['192.168.178.1', '192.168.178.1', true],
+			['192.168.178.1', '192.168.178.2', false],
+			['192.168.178.230', '192.168.178.1/24', true],
+			['192.168.179.1', '192.168.178.1/24', false],
+			['2001:0DB8:8280:97e8:6c18:0000:a53f:0001', '2001:0DB8:8280::/48', true],
+			['2001:0DB8:8180:97e8:6c18:0000:a53f:0001', '2001:0DB8:8280::/48', false],
+		];
+	}
+
+	public function testIsTrustedWopiServerDefaultsToFalse() {
+		self::assertFalse($this->middleware->isTrustedWopiServer());
+	}
+
 	public static function dataAllow() {
 		return [
 			['192.168.178.1', '192.168.178.1', true],
