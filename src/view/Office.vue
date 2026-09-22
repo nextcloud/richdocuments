@@ -337,15 +337,13 @@ export default {
 	},
 	methods: {
 		async load() {
-			const fileid = this.activeFileid ?? basename(dirname(this.source))
-			const version = this.activeFileid ? '0' : basename(this.source)
+			const tokenParams = this.tokenRequestParams()
+			const { fileId: fileid, version } = tokenParams
 
 			enableScrollLock()
 
 			// Generate WOPI token
-			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), {
-				fileId: fileid, shareToken: this.shareToken, version, guestName: getGuestNickname(),
-			})
+			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), tokenParams)
 
 			if (data.federatedUrl) {
 				try {
@@ -383,6 +381,7 @@ export default {
 			})
 			this.$set(this.formData, 'action', action)
 			this.$set(this.formData, 'accessToken', data.token)
+			this.$set(this.formData, 'accessTokenTTL', data.token_ttl * 1000)
 			this.$nextTick(() => this.$refs.form.submit())
 
 			this.loading = LOADING_STATE.LOADING
@@ -391,6 +390,26 @@ export default {
 				this.loading = LOADING_STATE.FAILED
 				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)') })
 			}, (getCapabilities().config.timeout * 1000 || 15000))
+		},
+		tokenRequestParams() {
+			return {
+				fileId: this.activeFileid ?? basename(dirname(this.source)),
+				shareToken: this.shareToken,
+				version: this.activeFileid ? '0' : basename(this.source),
+				guestName: getGuestNickname(),
+			}
+		},
+		async refreshToken() {
+			try {
+				const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), this.tokenRequestParams())
+				// Collabora reads a missing ttl as "no expiry" and stops warning about later ones
+				this.sendPostMessage('Reset_Access_Token', {
+					token: data.token,
+					ttl: data.token_ttl * 1000,
+				})
+			} catch (error) {
+				console.error('[richdocuments] Failed to refresh the WOPI access token', error)
+			}
 		},
 		sendPostMessage(msgId, values = {}) {
 			this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
@@ -500,6 +519,10 @@ export default {
 				break
 			case 'Session_Closed':
 				this.handleSessionClosed(args)
+				break
+			case 'App_TokenExpiring':
+			case 'App_TokenExpired':
+				this.refreshToken()
 				break
 			case 'UI_SaveAs':
 				this.saveAs(args.format)
