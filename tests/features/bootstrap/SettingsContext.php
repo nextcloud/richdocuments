@@ -10,12 +10,16 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Hook\AfterScenario;
 use Behat\Hook\BeforeScenario;
+use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
 use JuliusHaertl\NextcloudBehat\Context\ServerContext;
 use PHPUnit\Framework\Assert;
 
 class SettingsContext implements Context {
+	private const ESIGNATURE_CLIENT_ID = 'behat-client-id';
+	private const ESIGNATURE_SECRET = 'behat-secret';
+
 	/** @var ServerContext */
 	private $serverContext;
 
@@ -27,6 +31,8 @@ class SettingsContext implements Context {
 
 	/** @var Psr\Http\Message\ResponseInterface */
 	private $httpResponse;
+
+	private bool $adminSettingsChanged = false;
 
 	public function __construct() {
 
@@ -46,6 +52,15 @@ class SettingsContext implements Context {
 	#[AfterScenario]
 	public function cleanup() {
 		$this->httpResponse = null;
+
+		if ($this->adminSettingsChanged) {
+			$this->adminSettingsChanged = false;
+			$this->setAdminSettings([
+				'esignature_client_id' => '',
+				'esignature_secret' => '',
+				'wopi_allowlist' => '',
+			]);
+		}
 	}
 
 	#[When('a user uploads a system configuration file')]
@@ -218,6 +233,34 @@ class SettingsContext implements Context {
 	#[Then('the user configuration file is forbidden')]
 	public function userConfigFileAccessIsForbidden() {
 		Assert::assertEquals(403, $this->httpResponse->getStatusCode());
+	}
+
+	#[Given('electronic signature credentials are configured')]
+	public function eSignatureCredentialsAreConfigured() {
+		$this->adminSettingsChanged = true;
+		$this->setAdminSettings([
+			'esignature_client_id' => self::ESIGNATURE_CLIENT_ID,
+			'esignature_secret' => self::ESIGNATURE_SECRET,
+		]);
+	}
+
+	#[Given('the WOPI allow list matches any address')]
+	public function wopiAllowListMatchesAnyAddress() {
+		$this->adminSettingsChanged = true;
+		$this->setAdminSettings([
+			'wopi_allowlist' => '0.0.0.0/0,::/0',
+		]);
+	}
+
+	private function setAdminSettings(array $settings): void {
+		$this->serverContext->actAsAdmin(function () use ($settings) {
+			// Refresh the admin session, as the request token is shared between users
+			$this->serverContext->usingWebAsUser('admin');
+
+			$options = array_merge($this->serverContext->getWebOptions(), ['json' => $settings]);
+			$this->httpResponse = $this->http->post('ajax/admin.php', $options);
+			Assert::assertEquals(200, $this->httpResponse->getStatusCode());
+		});
 	}
 
 	private function getSettingsAccessToken(string $type) {

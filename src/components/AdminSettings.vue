@@ -405,7 +405,7 @@
 				@update="updateESignatureClientId" />
 			<SettingsInputText v-model="settings.esignature_secret"
 				:label="t('richdocuments', 'Secret for the electronic signature API')"
-				:hint="t('richdocuments', 'The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured.')"
+				:hint="t('richdocuments', 'The secret is only sent to requests that can be verified to come from the Collabora server. Generate a WOPI proof key on the Collabora server or configure the WOPI allow list, otherwise electronic signatures stay unavailable.')"
 				:disabled="updating"
 				@update="updateESignatureSecret" />
 		</div>
