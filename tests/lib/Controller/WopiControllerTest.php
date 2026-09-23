@@ -14,6 +14,7 @@ use OCA\Richdocuments\Controller\WopiController;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Helper;
+use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\FederationService;
@@ -89,6 +90,7 @@ class WopiControllerTest extends TestCase {
 			$this->capabilitiesService,
 			$this->createMock(Helper::class),
 			$this->createMock(WopiRateLimitService::class),
+			$this->createMock(WOPIMiddleware::class),
 		);
 	}
 
