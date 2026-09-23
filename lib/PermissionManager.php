@@ -98,7 +98,7 @@ class PermissionManager {
 
 		// User settings are stored below the editor, so an editor that is no account would let the
 		// rest of the path address another user's directory.
-		if ($settingsType === SettingsType::UserConfig && !$this->userManager->userExists($this->editorUid($wopi))) {
+		if ($settingsType === SettingsType::UserConfig && !$this->userManager->userExists($wopi->getEditorUid() ?? '')) {
 			throw new NotPermittedException('User settings require an existing user');
 		}
 	}
@@ -123,17 +123,10 @@ class PermissionManager {
 		}
 
 		$hasSettingsToken = $wopi->getTokenType() === Wopi::TOKEN_TYPE_SETTING_AUTH;
-		$isAdmin = $this->groupManager->isAdmin($this->editorUid($wopi));
+		$isAdmin = $this->groupManager->isAdmin($wopi->getEditorUid() ?? '');
 		if (!$hasSettingsToken || !$isAdmin) {
 			throw new NotPermittedException('System settings require an admin settings token');
 		}
-	}
-
-	/**
-	 * The editor a token belongs to, empty for a public session that has no user.
-	 */
-	public function editorUid(Wopi $wopi): string {
-		return $wopi->getEditorUid() ?? '';
 	}
 
 	public function loggedInUser(): ?string {
