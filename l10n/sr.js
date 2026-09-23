@@ -178,7 +178,6 @@ OC.L10N.register(
     "Client ID for the electronic signature API" : "ID клијента за API електронског потписа",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Да бисте добили ID клијента и тајну, попуните формулар за регистрацију на https://eideasy.com/signup.",
     "Secret for the electronic signature API" : "Тајна за API електронског потписа",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "У случају да WOPI подешавања нису исправно постављена, тајна може да се преузме WOPI захтевима.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Молимо вас да унесете име госта које желите да користите пре него што наставите ка документу. Ако не наведете име, употребиће се подразумевано.",
     "Guest name" : "Име госта",
     "Submit name" : "Поднеси име",

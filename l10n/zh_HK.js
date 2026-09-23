@@ -190,7 +190,6 @@ OC.L10N.register(
     "Client ID for the electronic signature API" : "電子簽名 API 的客戶 ID",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "填寫註冊表格 https://eideasy.com/signup 以獲取客戶 ID 和密鑰",
     "Secret for the electronic signature API" : "電子簽名 API 的密鑰",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "如果 WOPI 允許清單未正確配置，則可能通過 WOPI 請求下載密鑰。",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "在繼續訪問文件之前，請提供您希望使用的訪客名稱。如果您未提供名稱，將使用默認名稱。請輸入您的訪客名稱：",
     "Guest name" : "訪客名字",
     "Submit name" : "遞交名字",

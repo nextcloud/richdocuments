@@ -188,7 +188,6 @@
     "Client ID for the electronic signature API" : "ID an chliaint don API ríomhshínithe",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Líon isteach an fhoirm chlárúcháin ag https://eideasy.com/signup chun ID agus rún an chliaint a fháil.",
     "Secret for the electronic signature API" : "Rúnda don API síniú leictreonach",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "Is féidir an rún a íoslódáil trí iarratais WOPI mura bhfuil liosta ceadaithe WOPI cumraithe i gceart.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Cuir isteach an t-ainm aoi is mian leat a úsáid sula dtéann tú ar aghaidh chuig an doiciméad le do thoil. Mura gcuireann tú ceann ar fáil, úsáidfear an réamhshocrú.",
     "Guest name" : "Ainm aoi",
     "Submit name" : "Cuir ainm",
