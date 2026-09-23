@@ -142,7 +142,6 @@ OC.L10N.register(
     "Client ID for the electronic signature API" : "مُعرِّف العميل client ID لواجهة تطبيق التوقيع الإلكتروني ",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "قم بملء نموذج  التسجيل في https://eideasy.com/signup  للحصول على مُعرِّف و سر العميل.",
     "Secret for the electronic signature API" : "سر واجهة تطبيق التوقيع الالكتروني",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "يُمكن تنزيل السر عبر طلبات WOPI إذا لم يتم تكوين قائمة السماح الخاصة بـ WOPI بالشكل الصحيح.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "الرجاء إدخال اسم الضيف الذي ترغب في استخدامه قبل المتابعة إلى المستند. إذا لم تقم بتعيين واحد، فسيتم استخدام الإعداد الافتراضي.",
     "Guest name" : "اسم الضيف",
     "Submit name" : "إرسال الاسم",

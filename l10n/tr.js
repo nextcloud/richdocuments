@@ -190,7 +190,6 @@ OC.L10N.register(
     "Client ID for the electronic signature API" : "Elektronik imza API için istemci kimliği",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "İstemci kimliği ve parolanızı almak için https://eideasy.com/signup adresindeki kayıt formunu doldurun.",
     "Secret for the electronic signature API" : "Elektronik imza API için parola",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "WOPI izin listesi doğru yapılandırılmamışsa, parola WOPI istekleri kullanılarak indirilebilir.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Lütfen belgeye geçmeden önce kullanmak istediğiniz konuk adını yazın. Bir ad yazmazsanız, varsayılan ad kullanılır.",
     "Guest name" : "Konuk adı",
     "Submit name" : "Adı gönder",

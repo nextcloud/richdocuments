@@ -176,7 +176,6 @@
     "Client ID for the electronic signature API" : "Αναγνωριστικό πελάτη για το API ηλεκτρονικής υπογραφής",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Συμπληρώστε τη φόρμα εγγραφής στο https://eideasy.com/signup για να λάβετε ένα αναγνωριστικό πελάτη και μυστικό.",
     "Secret for the electronic signature API" : "Μυστικό για το API ηλεκτρονικής υπογραφής",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "Το μυστικό μπορεί να είναι δυνατό να ληφθεί μέσω αιτημάτων WOPI εάν η λίστα επιτρεπόμενων WOPI δεν έχει ρυθμιστεί σωστά.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Παρακαλώ εισάγετε το όνομα επισκέπτη που θέλετε να χρησιμοποιήσετε πριν προχωρήσετε στο έγγραφο. Εάν δεν παρέχετε κάποιο, θα χρησιμοποιηθεί το προεπιλεγμένο.",
     "Guest name" : "Όνομα επισκέπτη",
     "Submit name" : "Υποβολή ονόματος",

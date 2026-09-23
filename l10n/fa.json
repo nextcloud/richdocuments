@@ -188,7 +188,6 @@
     "Client ID for the electronic signature API" : "شناسه مشتری برای API امضای الکترونیکی",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "فرم ثبت‌نام را در https://eideasy.com/signup پر کنید تا شناسه مشتری و رمز دریافت کنید.",
     "Secret for the electronic signature API" : "رمز برای API امضای الکترونیکی",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "اگر فهرست مجاز WOPI به درستی پیکربندی نشده باشد، ممکن است رمز از طریق درخواست‌های WOPI قابل دانلود باشد.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "لطفاً قبل از ورود به سند، نام مهمان مورد نظر خود را وارد کنید. اگر نامی وارد نکنید، از نام پیش‌فرض استفاده خواهد شد.",
     "Guest name" : "نام مهمان",
     "Submit name" : "ارسال نام",

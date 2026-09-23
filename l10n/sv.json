@@ -188,7 +188,6 @@
     "Client ID for the electronic signature API" : "Klient-ID för API:t för elektroniska signaturer",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Fyll i registreringsformuläret på https://eideasy.com/signup för att få ett klient-ID och en hemlighet.",
     "Secret for the electronic signature API" : "Hemlighet för API:t för elektroniska signaturer",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "Hemligheten kan gå att hämta via WOPI-begäranden om WOPI:s tillåtelselista inte är korrekt konfigurerad.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Ange det gästnamn du vill använda innan du fortsätter till dokumentet. Om inget namn anges används standardnamnet.",
     "Guest name" : "Gästnamn",
     "Submit name" : "Bekräfta namn",
