@@ -25,14 +25,6 @@ class SettingsUrl {
 	}
 
 	/**
-	 * Factory method to create a SettingsUrl instance based on individual parameters.
-	 */
-	public static function fromComponents(string $type, string $category, string $fileName): self {
-		$rawUrl = "settings/$type/$category/$fileName";
-		return new self($rawUrl);
-	}
-
-	/**
 	 * Parses the settings URL and extracts type, category, and filename.
 	 *
 	 * @param string $url The settings URL to parse.
