@@ -188,7 +188,6 @@
     "Client ID for the electronic signature API" : "ID klienta pre API elektronického podpisu",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Vypňte formulár na https://eideasy.com/signup pre získanie ID klienta a tajomstva klienta",
     "Secret for the electronic signature API" : "Tajomstvo klienta pre API elektronického podpisu",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "Tajomstvo je možné stiahnuť prostredníctvom požiadaviek WOPI, ak zoznam povolených WOPI nie je správne nakonfigurovaný.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Pred pokračovaním v dokumente zadajte meno návštevníka, ktoré chcete použiť. Ak ho nezadáte, použije sa predvolené nastavenie.",
     "Guest name" : "Meno návštevníka",
     "Submit name" : "Odoslať meno",

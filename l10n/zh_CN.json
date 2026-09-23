@@ -188,7 +188,6 @@
     "Client ID for the electronic signature API" : "电子签名API的客户端ID",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "通过 https://eideasy.com/signup 注册账号以获取客户端ID以及秘钥。",
     "Secret for the electronic signature API" : "电子签名API的秘钥",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "如果未正确配置WOPI允许列表，文件可能会通过WOPI请求被下载。",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "在继续处理文件之前，请输入您希望使用的客人姓名。 如果您不提供，则将使用默认值。",
     "Guest name" : "访客名称",
     "Submit name" : "提交名称",

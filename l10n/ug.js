@@ -178,7 +178,6 @@ OC.L10N.register(
     "Client ID for the electronic signature API" : "ئىلىكترونلۇق ئىمزا API سىنىڭ خېرىدار ID",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "خېرىدار كىملىكى ۋە مەخپىي نومۇرىغا ئېرىشىش ئۈچۈن https://eideasy.com/signup دىكى تىزىملىتىش جەدۋىلىنى تولدۇرۇڭ.",
     "Secret for the electronic signature API" : "ئىلىكترونلۇق ئىمزا API سىنىڭ پارولى",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "ئەگەر WOPI يول قويۇش تىزىملىكى توغرا تەڭشەلمىگەن بولسا، مەخپىيەتنى WOPI تەلىپى ئارقىلىق چۈشۈرۈۋالغىلى بولۇشى مۇمكىن.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "ھۆججەتكە ئۆتۈشتىن بۇرۇن ئىشلەتمەكچى بولغان مېھمان نامىنى كىرگۈزۈڭ. بىرنى تەمىنلىمىسىڭىز سۈكۈتتىكى ھالەتتە ئىشلىتىلىدۇ.",
     "Guest name" : "مېھمان ئىسمى",
     "Submit name" : "ئىسىم يوللاڭ",

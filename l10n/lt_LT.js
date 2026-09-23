@@ -190,7 +190,6 @@ OC.L10N.register(
     "Client ID for the electronic signature API" : "Elektroninio parašo API kliento ID",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Užpildykite registracijos formą adresu https://eideasy.com/signup, kad gautumėte kliento ID ir slaptažodį.",
     "Secret for the electronic signature API" : "Elektroninio parašo API raktas",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "Jei WOPI leidžiamųjų sąrašas neteisingai sukonfigūruotas, slaptą kodą galima atsisiųsti per WOPI užklausas.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Prieš pereidami prie dokumento, įveskite norimą svečio vardą. Jei jo nenurodysite, bus naudojamas numatytasis vardas.",
     "Guest name" : "Svečio vardas",
     "Submit name" : "Įveskite vardą",
