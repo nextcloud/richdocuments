@@ -77,6 +77,12 @@ class WopiController extends Controller {
 
 	public const WOPI_AVATAR_SIZE = 64;
 
+	/**
+	 * The settings iframe runs inside an editor session, so its document token is accepted next to
+	 * a settings token.
+	 */
+	private const SETTINGS_TOKEN_TYPES = [Wopi::TOKEN_TYPE_SETTING_AUTH, Wopi::TOKEN_TYPE_USER];
+
 	public function __construct(
 		$appName,
 		IRequest $request,
@@ -480,12 +486,6 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}
-
-	/**
-	 * The settings iframe runs inside an editor session, so its document token is accepted next to
-	 * a settings token.
-	 */
-	private const SETTINGS_TOKEN_TYPES = [Wopi::TOKEN_TYPE_SETTING_AUTH, Wopi::TOKEN_TYPE_USER];
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
