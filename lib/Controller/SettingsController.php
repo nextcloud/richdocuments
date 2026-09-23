@@ -501,7 +501,7 @@ class SettingsController extends Controller {
 			// settings endpoints this one does not accept the editor's document token.
 			$this->permissionManager->assertSettingsAccess($wopi, $settingsType, self::SETTINGS_TOKEN_TYPES);
 
-			$userId = $this->permissionManager->editorUid($wopi);
+			$userId = $wopi->getEditorUid() ?? '';
 			if ($settingsType === SettingsType::UserConfig) {
 				$type = $type . '/' . $userId;
 			}

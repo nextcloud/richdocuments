@@ -226,7 +226,7 @@ class WopiController extends Controller {
 		if ($this->capabilitiesService->hasSettingIframeSupport()) {
 			// Bind the settings token to the real editor, which is empty for a public session, so
 			// that it cannot be used for anything stored per user.
-			$token = $this->generateSettingToken($this->permissionManager->editorUid($wopi));
+			$token = $this->generateSettingToken($wopi->getEditorUid() ?? '');
 			if (!$isPublic) {
 				$response['UserSettings'] = $this->generateSettings($token, 'userconfig', $userId);
 			}
@@ -499,7 +499,7 @@ class WopiController extends Controller {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 			$this->permissionManager->assertSettingsAccess($wopi, SettingsType::tryFrom($type), self::SETTINGS_TOKEN_TYPES);
 
-			$userConfig = $this->settingsService->generateSettingsConfig($type, $this->permissionManager->editorUid($wopi));
+			$userConfig = $this->settingsService->generateSettingsConfig($type, $wopi->getEditorUid() ?? '');
 			return new JSONResponse($userConfig, Http::STATUS_OK);
 		} catch (UnknownTokenException|ExpiredTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
@@ -539,7 +539,7 @@ class WopiController extends Controller {
 			fclose($content);
 
 
-			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $this->permissionManager->editorUid($wopi));
+			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $wopi->getEditorUid() ?? '');
 
 			return new JSONResponse([
 				'status' => 'success',
@@ -579,7 +579,7 @@ class WopiController extends Controller {
 			$category = $settingsUrl->getCategory();
 			$fileName = $settingsUrl->getFileName();
 
-			$this->settingsService->deleteSettingsFile($type, $category, $fileName, $this->permissionManager->editorUid($wopi));
+			$this->settingsService->deleteSettingsFile($type, $category, $fileName, $wopi->getEditorUid() ?? '');
 
 			return new JSONResponse([
 				'status' => 'success',
