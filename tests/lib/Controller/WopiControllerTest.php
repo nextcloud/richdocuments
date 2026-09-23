@@ -39,7 +39,9 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -52,6 +54,7 @@ class WopiControllerTest extends TestCase {
 	private SettingsService $settingsService;
 	private CapabilitiesService $capabilitiesService;
 	private IRootFolder $rootFolder;
+	private PermissionManager $permissionManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,6 +65,14 @@ class WopiControllerTest extends TestCase {
 		$this->settingsService = $this->createMock(SettingsService::class);
 		$this->capabilitiesService = $this->createMock(CapabilitiesService::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->permissionManager = new PermissionManager(
+			$this->createMock(AppConfig::class),
+			$this->createMock(IConfig::class),
+			$this->groupManager,
+			$this->userManager,
+			$this->createMock(IUserSession::class),
+			$this->createMock(ISystemTagObjectMapper::class),
+		);
 	}
 
 	private function makeController(): WopiController {
@@ -73,7 +84,7 @@ class WopiControllerTest extends TestCase {
 			$this->createMock(IConfig::class),
 			$this->createMock(AppConfig::class),
 			$this->createMock(TokenManager::class),
-			$this->createMock(PermissionManager::class),
+			$this->permissionManager,
 			$this->userManager,
 			$this->wopiMapper,
 			$this->createMock(LoggerInterface::class),
