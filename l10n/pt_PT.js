@@ -158,7 +158,6 @@ OC.L10N.register(
     "Electronic Signature" : "Assinatura Eletrônica",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Preencha o formulário de registro em https://eideasy.com/signup para obter um ID e um segredo de cliente.",
     "Secret for the electronic signature API" : "Segredo da API de assinatura eletrônica",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "O segredo pode ser baixado por meio de solicitações WOPI se a lista de permissões WOPI não estiver configurada corretamente.",
     "Guest name" : "Nome do convidado",
     "Confirm" : "Confirmar",
     "Cancel" : "Cancelar",

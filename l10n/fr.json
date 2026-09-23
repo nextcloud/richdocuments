@@ -188,7 +188,6 @@
     "Client ID for the electronic signature API" : "Identifiant Client pour l'API de signature électronique",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Créer un compte sur https://eideasy.com/signup pour obtenir un identifiant client et son secret.",
     "Secret for the electronic signature API" : "Secret pour l'API de signature électronique",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "Le secret doit être téléchargé via des requêtes WOPI si les paramètres WOPI ne sont pas correctement configurés.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Veuillez saisir le nom d'invité que vous souhaitez utiliser avant de vous rendre dans le document. Si vous n'en indiquez pas, le nom par défaut sera utilisé.",
     "Guest name" : "Nom d'invité",
     "Submit name" : "Confirmer votre nom",

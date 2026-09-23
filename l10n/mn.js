@@ -180,7 +180,6 @@ OC.L10N.register(
     "Client ID for the electronic signature API" : "Цахим гарын үсгийн API-н Client ID",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Client ID болон нууц үг авахын тулд https://eideasy.com/signup хаягийн бүртгэлийн маягтыг бөглөнө үү.",
     "Secret for the electronic signature API" : "Цахим гарын үсгийн API-н Secret",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "WOPI зөвшөөрлийн жагсаалт зөв тохируулагдаагүй бол нууц үгийг WOPI хүсэлтээр татаж авах боломжтой байж болзошгүй.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Баримт бичигт орохын өмнө ашиглахыг хүсэж буй зочны нэрийг оруулна уу. Оруулаагүй бол үндсэн нэр ашиглагдана.",
     "Guest name" : "Зочны нэр",
     "Submit name" : "Нэр илгээх",

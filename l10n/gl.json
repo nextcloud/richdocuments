@@ -188,7 +188,6 @@
     "Client ID for the electronic signature API" : "ID de cliente para a API de sinatura electrónica",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Cubra o formulario de rexistro en https://eideasy.com/signup para obter un ID de cliente e un segredo.",
     "Secret for the electronic signature API" : "Segredo para a API de sinatura electrónica",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "O segredo pode descargarse mediante solicitudes WOPI se a lista de permisos WOPI non está configurada correctamente.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Introduza o nome de convidado que quere usar antes de continuar co documento. Se non fornece un, utilizarase o predeterminado.",
     "Guest name" : "Nome do convidado",
     "Submit name" : "Enviar o nome",

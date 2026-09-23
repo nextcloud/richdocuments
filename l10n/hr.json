@@ -179,7 +179,6 @@
     "Client ID for the electronic signature API" : "ID klijenta za API elektroničkog potpisa",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Ispunite registracijski obrazac na https://eideasy.com/signup kako biste dobili ID klijenta i tajnu (secret).",
     "Secret for the electronic signature API" : "Tajna (secret) za API elektroničkog potpisa",
-    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "Tajna se može preuzeti putem WOPI zahtjeva ako popis dopuštenih za WOPI nije ispravno konfiguriran.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Prije otvaranja dokumenta unesite ime gosta koje želite koristiti. Ako ga ne navedete, koristit će se zadano.",
     "Guest name" : "Ime gosta",
     "Submit name" : "Pošalji naziv",
