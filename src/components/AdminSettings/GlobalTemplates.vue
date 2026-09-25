@@ -111,6 +111,10 @@ export default {
 			if (!templateAlreadyExists) {
 				const template = await this.uploadTemplate(selectedFile)
 
+				if (template === null) {
+					return
+				}
+
 				this.existingTemplates.push(template)
 				showSuccess(t('richdocuments', 'Uploaded template "{name}"', { name: template.name }))
 			} else {
@@ -123,18 +127,20 @@ export default {
 
 			formData.append('files', file)
 
-			let res = null
 			try {
-				res = await axios.post(url, formData, {
+				const res = await axios.post(url, formData, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 					},
 				})
-			} catch (error) {
-				showError(error.response.data.data.message)
-			}
 
-			return res.data.data
+				return res.data.data
+			} catch (error) {
+				showError(error.response?.data?.data?.message
+					?? t('richdocuments', 'Failed to upload the file'))
+
+				return null
+			}
 		},
 		async deleteTemplate(templateId) {
 			const url = generateUrl('/apps/richdocuments/template/' + templateId)
