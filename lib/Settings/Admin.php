@@ -51,6 +51,7 @@ class Admin implements ISettings {
 					'external_apps' => $this->config->getAppValue('richdocuments', 'external_apps'),
 					'canonical_webroot' => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
 					'disable_certificate_verification' => $this->config->getAppValue('richdocuments', 'disable_certificate_verification', '') === 'yes',
+					'msoffice_with_other_office_apps' => $this->config->getAppValue('richdocuments', 'msoffice_with_other_office_apps', '') === 'yes',
 					'settings' => $this->appConfig->getAppSettings(),
 					'demo_servers' => $this->demoService->fetchDemoServers(),
 					'web_server' => strtolower($_SERVER['SERVER_SOFTWARE']),
