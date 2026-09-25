@@ -200,3 +200,84 @@ describe('PostMessage origin security', function() {
 		cy.closeDocument()
 	})
 })
+
+describe('Access token refresh', function() {
+	let randUser
+
+	before(function() {
+		cy.createRandomUser().then(user => {
+			randUser = user
+			cy.login(user)
+			cy.uploadFile(user, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
+		})
+	})
+
+	beforeEach(function() {
+		cy.login(randUser)
+	})
+
+	// waitForPostMessage matches Values by strict equality, which cannot
+	// express "some timestamp in the future", so read the spy directly.
+	const lastResetAccessTokenTtl = () => {
+		return cy.get('@postMessage').then(spy => {
+			const messages = spy.getCalls()
+				.filter(call => call.args[0].includes('"MessageId":"Reset_Access_Token"'))
+				.map(call => JSON.parse(call.args[0]))
+
+			expect(messages.length).to.be.greaterThan(0)
+			return cy.wrap(messages[messages.length - 1].Values.ttl)
+		})
+	}
+
+	it('passes the token expiry to Collabora on load', function() {
+		cy.visit('/apps/files')
+		cy.openFile('document.odt')
+		cy.waitForViewer()
+		cy.waitForCollabora()
+
+		// Collabora only arms its expiry timer when it is told when the token
+		// dies, and reads the value as milliseconds since the epoch.
+		cy.get('input[name="access_token_ttl"]')
+			.invoke('val')
+			.should('not.be.empty')
+			.then(ttl => {
+				expect(Number(ttl), 'access_token_ttl is an epoch in milliseconds')
+					.to.be.greaterThan(Date.now())
+			})
+
+		cy.closeDocument()
+	})
+
+	const expiryMessages = ['App_TokenExpiring', 'App_TokenExpired']
+	expiryMessages.forEach(messageId => {
+
+		it('issues a new token when Collabora sends ' + messageId, function() {
+			cy.intercept('POST', '**/apps/richdocuments/token').as('tokenRequest')
+
+			cy.visit('/apps/files')
+			cy.openFile('document.odt')
+			cy.waitForViewer()
+			cy.waitForCollabora()
+			cy.wait('@tokenRequest')
+
+			cy.get('[data-cy="coolframe"]').then($iframe => {
+				const collaboraOrigin = $iframe[0].contentWindow.location.origin
+				cy.spy($iframe[0].contentWindow, 'postMessage').as('postMessage')
+
+				cy.dispatchMessageFromOrigin(collaboraOrigin, { MessageId: messageId, Values: { Timeout: 900000 } })
+
+				cy.wait('@tokenRequest')
+				cy.waitForPostMessage('Reset_Access_Token', undefined, { targetOrigin: collaboraOrigin })
+
+				// A Reset_Access_Token without a ttl is read as "never expires",
+				// which stops Collabora warning about any later expiry.
+				lastResetAccessTokenTtl().should(ttl => {
+					expect(ttl).to.be.a('number')
+					expect(ttl).to.be.greaterThan(Date.now())
+				})
+			})
+
+			cy.closeDocument()
+		})
+	})
+})
