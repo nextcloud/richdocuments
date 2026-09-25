@@ -8,9 +8,13 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments;
 
+use InvalidArgumentException;
+use OCA\Richdocuments\Db\Wopi;
+use OCA\Richdocuments\WOPI\SettingsType;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Node;
+use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -69,6 +73,60 @@ class PermissionManager {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Authorization shared by every endpoint that reads or writes settings.
+	 *
+	 * The accepted token types differ per endpoint and are therefore passed in: the WOPI settings
+	 * endpoints are reached from the editor and accept its document token, while the settings file
+	 * download is only ever linked with a settings token.
+	 *
+	 * @param int[] $allowedTokenTypes
+	 * @param SettingsType|null $settingsType Null when the request named no supported type.
+	 * @throws InvalidArgumentException When the request named no supported type.
+	 * @throws NotPermittedException When the token may not act on $settingsType.
+	 */
+	public function assertSettingsAccess(Wopi $wopi, ?SettingsType $settingsType, array $allowedTokenTypes): void {
+		if (!in_array($wopi->getTokenType(), $allowedTokenTypes, true)) {
+			throw new NotPermittedException('Settings are not reachable with this token type');
+		}
+
+		if ($settingsType === null) {
+			throw new InvalidArgumentException('Unknown settings type');
+		}
+
+		// User settings are stored below the editor, so an editor that is no account would let the
+		// rest of the path address another user's directory.
+		if ($settingsType === SettingsType::UserConfig && !$this->userManager->userExists($wopi->getEditorUid() ?? '')) {
+			throw new NotPermittedException('User settings require an existing user');
+		}
+	}
+
+	/**
+	 * Authorization for the settings endpoints that modify a file.
+	 *
+	 * On top of {@see self::assertSettingsAccess()}, writing to systemconfig is restricted to
+	 * admins holding a settings token: the document token is not scoped to the settings session,
+	 * so it must never reach instance wide configuration.
+	 *
+	 * @param int[] $allowedTokenTypes
+	 * @param SettingsType|null $settingsType Null when the request named no supported type.
+	 * @throws InvalidArgumentException When the request named no supported type.
+	 * @throws NotPermittedException When the token may not write to $settingsType.
+	 */
+	public function assertSettingsWriteAccess(Wopi $wopi, ?SettingsType $settingsType, array $allowedTokenTypes): void {
+		$this->assertSettingsAccess($wopi, $settingsType, $allowedTokenTypes);
+
+		if ($settingsType !== SettingsType::SystemConfig) {
+			return;
+		}
+
+		$hasSettingsToken = $wopi->getTokenType() === Wopi::TOKEN_TYPE_SETTING_AUTH;
+		$isAdmin = $this->groupManager->isAdmin($wopi->getEditorUid() ?? '');
+		if (!$hasSettingsToken || !$isAdmin) {
+			throw new NotPermittedException('System settings require an admin settings token');
+		}
 	}
 
 	public function loggedInUser(): ?string {
