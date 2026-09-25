@@ -188,6 +188,7 @@
     "Client ID for the electronic signature API" : "電子簽名 API 的客戶 ID",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "填寫註冊表格 https://eideasy.com/signup 以獲取客戶 ID 和密鑰",
     "Secret for the electronic signature API" : "電子簽名 API 的密鑰",
+    "The secret is only sent to requests that can be verified to come from the Collabora server. Generate a WOPI proof key on the Collabora server or configure the WOPI allow list, otherwise electronic signatures stay unavailable." : "此密鑰只會傳送給可驗證為來自 Collabora 伺服器的請求。請在 Collabora 伺服器上產生 WOPI 證明金鑰，或設定 WOPI 允許清單，否則電子簽署功能將維持不可用。",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "在繼續訪問文件之前，請提供您希望使用的訪客名稱。如果您未提供名稱，將使用默認名稱。請輸入您的訪客名稱：",
     "Guest name" : "訪客名字",
     "Submit name" : "遞交名字",
