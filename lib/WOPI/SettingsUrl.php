@@ -24,14 +24,6 @@ class SettingsUrl {
 	}
 
 	/**
-	 * Factory method to create a SettingsUrl instance based on individual parameters.
-	 */
-	public static function fromComponents(string $type, string $category, string $fileName): self {
-		$rawUrl = "settings/$type/$category/$fileName";
-		return new self($rawUrl);
-	}
-
-	/**
 	 * Parses the settings URL and extracts type, category, and filename.
 	 *
 	 * @param string $url The settings URL to parse.
@@ -102,11 +94,11 @@ class SettingsUrl {
 	}
 
 	/**
-	 * Determines if this Settings URL leads to a system config file
+	 * The setting type this URL addresses, or null when it names no supported type.
 	 *
-	 * @return bool
+	 * @return SettingsType|null
 	 */
-	public function isSystemConfig(): bool {
-		return $this->getType() === 'systemconfig';
+	public function getSettingsType(): ?SettingsType {
+		return SettingsType::tryFrom($this->getType());
 	}
 }

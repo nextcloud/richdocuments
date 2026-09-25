@@ -9,6 +9,7 @@ use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
 use OCA\Richdocuments\Service\DemoService;
@@ -17,6 +18,7 @@ use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\UploadException;
+use OCA\Richdocuments\WOPI\SettingsType;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -37,6 +39,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\NullOutput;
 
 class SettingsController extends Controller {
+	/** Settings file URLs are generated with a settings token and carry no document context. */
+	private const SETTINGS_TOKEN_TYPES = [Wopi::TOKEN_TYPE_SETTING_AUTH];
+
 	// TODO adapt overview generation if we add more font mimetypes
 	public const FONT_MIME_TYPES = [
 		'font/ttf',
@@ -62,6 +67,7 @@ class SettingsController extends Controller {
 		private LoggerInterface $logger,
 		private IURLGenerator $urlGenerator,
 		private WopiMapper $wopiMapper,
+		private PermissionManager $permissionManager,
 		private ?string $userId,
 		private TemplateManager $templateManager,
 	) {
@@ -490,11 +496,13 @@ class SettingsController extends Controller {
 	public function getSettingsFile(string $type, string $token, string $category, string $name) {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($token);
-			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
-				throw new NotPermittedException();
-			}
-			$userId = $wopi->getEditorUid() ?: $wopi->getOwnerUid();
-			if ($type === 'userconfig') {
+			$settingsType = SettingsType::tryFrom($type);
+			// These URLs are only ever handed out with a settings token, so unlike the WOPI
+			// settings endpoints this one does not accept the editor's document token.
+			$this->permissionManager->assertSettingsAccess($wopi, $settingsType, self::SETTINGS_TOKEN_TYPES);
+
+			$userId = $wopi->getEditorUid() ?? '';
+			if ($settingsType === SettingsType::UserConfig) {
 				$type = $type . '/' . $userId;
 			}
 
@@ -514,6 +522,8 @@ class SettingsController extends Controller {
 					'Content-Type' => $systemFile->getMimeType() ?: 'application/octet-stream'
 				]
 			);
+		} catch (\InvalidArgumentException $e) {
+			return new DataDisplayResponse('Invalid settings type.', Http::STATUS_BAD_REQUEST);
 		} catch (NotPermittedException $e) {
 			return new DataDisplayResponse('Forbidden.', Http::STATUS_FORBIDDEN);
 		} catch (NotFoundException $e) {
