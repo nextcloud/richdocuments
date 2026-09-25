@@ -31,8 +31,8 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\IUserFolder;
 use OCP\Files\Lock\ILockManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -408,7 +408,7 @@ class WopiControllerTest extends TestCase {
 		$file->method('getMTime')->willReturn(0);
 		$file->method('getId')->willReturn(1);
 
-		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder = $this->createMock(Folder::class);
 		$userFolder->method('getById')->willReturn([$file]);
 		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
 
