@@ -190,6 +190,7 @@ OC.L10N.register(
     "Client ID for the electronic signature API" : "Client ID for the electronic signature API",
     "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret.",
     "Secret for the electronic signature API" : "Secret for the electronic signature API",
+    "The secret is only sent to requests that can be verified to come from the Collabora server. Generate a WOPI proof key on the Collabora server or configure the WOPI allow list, otherwise electronic signatures stay unavailable." : "The secret is only sent to requests that can be verified to come from the Collabora server. Generate a WOPI proof key on the Collabora server or configure the WOPI allow list, otherwise electronic signatures stay unavailable.",
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used.",
     "Guest name" : "Guest name",
     "Submit name" : "Submit name",
