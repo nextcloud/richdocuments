@@ -415,7 +415,7 @@ class DocumentController extends Controller {
 
 			return new DataResponse(array_merge(
 				$params,
-				['token' => $wopi->getToken()],
+				['token' => $wopi->getToken(), 'token_ttl' => $wopi->getExpiry()],
 			));
 		} catch (Exception $e) {
 			$this->logger->error('Failed to generate token for file', [ 'exception' => $e ]);
