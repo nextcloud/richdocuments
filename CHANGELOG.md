@@ -4,6 +4,19 @@
 -->
 # Changelog
 
+## 12.0.1
+
+### Fixed
+
+- Enforce UserCanNotWriteRelative by @elzody in [#6125](https://github.com/nextcloud/richdocuments/pull/6125)
+- Access token refresh by @elzody in [#6116](https://github.com/nextcloud/richdocuments/pull/6116)
+- Proper token type validation by @elzody in [#6111](https://github.com/nextcloud/richdocuments/pull/6111)
+- Prevent esignature leak by @elzody in [#6101](https://github.com/nextcloud/richdocuments/pull/6101)
+
+### Other
+
+- Dependency updates
+
 ## 12.0.0
 
 ### Fixed
