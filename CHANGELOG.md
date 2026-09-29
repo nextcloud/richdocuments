@@ -4,6 +4,16 @@
 -->
 # Changelog
 
+## 8.8.3
+
+### Fixed
+
+- Enforce UserCanNotWriteRelative by @elzody in [#6129](https://github.com/nextcloud/richdocuments/pull/6129)
+
+### Other
+
+- Dependency updates
+
 ## 8.8.2
 
 ### Fixed
