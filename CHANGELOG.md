@@ -4,6 +4,16 @@
 -->
 # Changelog
 
+## 10.3.2
+
+### Fixed
+
+- Enforce UserCanNotWriteRelative by @elzody in [#6127](https://github.com/nextcloud/richdocuments/pull/6127)
+- Access token refresh by @elzody in [#6114](https://github.com/nextcloud/richdocuments/pull/6114)
+- Proper token type validation by @elzody in [#6109](https://github.com/nextcloud/richdocuments/pull/6109)
+- Prevent esignature leak by @elzody in [#6103](https://github.com/nextcloud/richdocuments/pull/6103)
+- Hide digital signature inputs from user settings by @codewithvk in [#6084](https://github.com/nextcloud/richdocuments/pull/6084)
+
 ## 10.3.1
 
 ### Fixed
