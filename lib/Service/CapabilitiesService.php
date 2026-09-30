@@ -111,6 +111,13 @@ class CapabilitiesService extends CachedRequestService {
 	}
 
 	public function hasOtherOOXMLApps(): bool {
+		// Admins can opt in to keep Microsoft Office formats handled by this app even
+		// when another office app is enabled; the other app then stays reachable from
+		// the file actions menu. See https://github.com/nextcloud/richdocuments/issues/3456
+		if ($this->appConfig->getValueString(Application::APPNAME, 'msoffice_with_other_office_apps') === 'yes') {
+			return false;
+		}
+
 		if ($this->appManager->isEnabledForUser('officeonline')) {
 			return true;
 		}

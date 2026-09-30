@@ -225,6 +225,12 @@
 				:disabled="updating"
 				@input="updateOoxml" />
 
+			<SettingsCheckbox :value="settings.msoffice_with_other_office_apps"
+				:label="t('richdocuments', 'Keep opening Microsoft Office files when another office app is enabled')"
+				:hint="t('richdocuments', 'When ONLYOFFICE or Office Online is enabled, {productName} stops handling Microsoft Office formats (docx, xlsx, pptx) and only keeps OpenDocument formats. Enable this to keep opening them with {productName}; the other app then stays available from the file actions menu.', { productName })"
+				:disabled="updating"
+				@input="updateMsofficeWithOtherOfficeApps" />
+
 			<SettingsCheckbox :value="settings.use_groups?.length > 0"
 				:label="t('richdocuments', 'Restrict usage to specific groups')"
 				:hint="t('richdocuments', '{productName} is enabled for all users by default. When this setting is active, only members of the specified groups can use it.', { productName })"
@@ -533,6 +539,7 @@ export default {
 				hasSettingIframeSupport: false,
 				setting_iframe_url: '',
 				doc_format: null,
+				msoffice_with_other_office_apps: false,
 			},
 			accessToken: '',
 			accessTokenTTL: '',
@@ -736,6 +743,12 @@ export default {
 
 			await this.updateSettings({
 				edit_groups: this.settings.edit_groups?.join('|') ?? '',
+			})
+		},
+		async updateMsofficeWithOtherOfficeApps(enabled) {
+			this.settings.msoffice_with_other_office_apps = enabled
+			await this.updateSettings({
+				msoffice_with_other_office_apps: enabled,
 			})
 		},
 		async updateCanonicalWebroot(canonicalWebroot) {

@@ -16,6 +16,9 @@ By default all users can edit documents with Nextcloud Office (Collabora). When 
 ### Use OOXML by default for new files
 By default new files created by users are in OpenDocument Format (ODF). When this setting is active, new files will be created in Office Open XML (OOXML) format.
 
+### Keep opening Microsoft Office files when another office app is enabled
+By default, when another office app (ONLYOFFICE or Office Online) is enabled, Nextcloud Office (Collabora) stops handling Microsoft Office formats (docx, xlsx, pptx…) and only keeps OpenDocument formats, so that each app handles its own family of formats. When this setting is active, Nextcloud Office keeps opening Microsoft Office files too; the other app then stays available from the file actions menu ("Open in …"), so users can choose the editor per document. The app config key is `msoffice_with_other_office_apps` (`yes` to enable).
+
 ### Enable access for external apps
 Nextcloud internally passes an access token to Collabora Online that is used later by it to do various operations. By default, it's not possible to generate this token by 3rd parties; only Nextcloud can generate and pass it to Collabora Online.
 
