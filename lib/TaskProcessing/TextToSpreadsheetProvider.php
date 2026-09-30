@@ -33,7 +33,7 @@ class TextToSpreadsheetProvider implements ISynchronousProvider {
 
 	#[\Override]
 	public function getName(): string {
-		return $this->l->t('Nextcloud Office (Collabora) spreadsheet generator');
+		return $this->l->t('Collabora Online spreadsheet generator');
 	}
 
 	#[\Override]
