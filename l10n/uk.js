@@ -212,6 +212,7 @@ OC.L10N.register(
     "Settings saved successfully." : "Налаштування успішно збережено.",
     "Failed to save settings." : "Не вдалося зберегти налаштування.",
     "Unexpected error occurred." : "Неочікувана помилка.",
+    "Personal Settings for Nextcloud Office (Collabora)" : "Налаштування користувача для Nextcloud Office (Collabora)",
     "Select a template directory" : "Виберіть каталог для шаблонів",
     "Remove personal template folder" : "Вилучити каталог з вашими шаблонами",
     "Description" : "Опис",
