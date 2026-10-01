@@ -40,6 +40,9 @@ use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Preview\Rtf;
 use OCA\Richdocuments\Reference\OfficeTargetReferenceProvider;
+use OCA\Richdocuments\SetupCheck\CollaboraUpdate;
+use OCA\Richdocuments\SetupCheck\ConnectivityCheck;
+use OCA\Richdocuments\SetupCheck\ProofKeyCheck;
 use OCA\Richdocuments\Storage\SecureViewWrapper;
 use OCA\Richdocuments\TaskProcessing\SlideDeckGenerationProvider;
 use OCA\Richdocuments\TaskProcessing\SlideDeckGenerationTaskType;
@@ -123,6 +126,10 @@ class Application extends App implements IBootstrap {
 		$context->registerTaskProcessingProvider(TextToSpreadsheetProvider::class);
 		$context->registerTaskProcessingProvider(SlideDeckGenerationProvider::class);
 		$context->registerTaskProcessingTaskType(SlideDeckGenerationTaskType::class);
+
+		$context->registerSetupCheck(CollaboraUpdate::class);
+		$context->registerSetupCheck(ConnectivityCheck::class);
+		$context->registerSetupCheck(ProofKeyCheck::class);
 	}
 
 	#[\Override]

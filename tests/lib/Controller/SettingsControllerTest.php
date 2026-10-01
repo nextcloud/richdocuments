@@ -39,6 +39,7 @@ class SettingsControllerTest extends TestCase {
 	private IUserManager $userManager;
 	private PermissionManager $permissionManager;
 	private SettingsService $settingsService;
+	private ConnectivityService $connectivityService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -54,6 +55,7 @@ class SettingsControllerTest extends TestCase {
 			$this->createMock(ISystemTagObjectMapper::class),
 		);
 		$this->settingsService = $this->createMock(SettingsService::class);
+		$this->connectivityService = $this->createMock(ConnectivityService::class);
 	}
 
 	private function makeController(): SettingsController {
@@ -63,7 +65,7 @@ class SettingsControllerTest extends TestCase {
 			$this->createMock(IL10N::class),
 			$this->createMock(AppConfig::class),
 			$this->createMock(IConfig::class),
-			$this->createMock(ConnectivityService::class),
+			$this->connectivityService,
 			$this->createMock(DiscoveryService::class),
 			$this->createMock(CapabilitiesService::class),
 			$this->createMock(DemoService::class),
@@ -211,5 +213,33 @@ class SettingsControllerTest extends TestCase {
 		$response = $this->makeController()->getSettingsFile('userconfig', 'token', 'wordbook', 'x.dic');
 
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+	}
+
+	public function testAccessCheckSendsContentLength(): void {
+		$response = $this->makeController()->accessCheck();
+
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+		$this->assertSame('OK', $response->render());
+		$this->assertSame('2', $response->getHeaders()['Content-Length']);
+	}
+
+	/** @dataProvider dataSetSettingsWopiAccessCheck */
+	public function testSetSettingsOnlyChecksWopiAccessWhenWopiUrlChanges(?string $wopiUrl, int $expectedChecks): void {
+		$this->connectivityService->expects($this->once())->method('testDiscovery');
+		$this->connectivityService->expects($this->once())->method('testCapabilities');
+		$this->connectivityService->expects($this->exactly($expectedChecks))->method('testWopiAccess');
+
+		$response = $this->makeController()->setSettings(
+			$wopiUrl, null, null, null, null, null, null, null, null, 'client-id', 'secret',
+		);
+
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+	}
+
+	public static function dataSetSettingsWopiAccessCheck(): array {
+		return [
+			'wopi_url unchanged' => [null, 0],
+			'wopi_url changed' => ['https://collabora.example', 1],
+		];
 	}
 }

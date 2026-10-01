@@ -25,6 +25,8 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -38,7 +40,6 @@ use OCP\IURLGenerator;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Output\NullOutput;
 
 class SettingsController extends Controller {
 	/** Settings file URLs are generated with a settings token and carry no document context. */
@@ -76,11 +77,20 @@ class SettingsController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
+	/**
+	 * Callback for the Collabora WOPI access check. Collabora requires a 200 response and cannot
+	 * handle a body without Content-Length, which the PHP built-in webserver does not add.
+	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function accessCheck(): DataDisplayResponse {
+		$body = 'OK';
+		return new DataDisplayResponse($body, Http::STATUS_OK, ['Content-Type' => 'text/plain', 'Content-Length' => (string)strlen($body)]);
+	}
+
 	public function checkSettings(): DataResponse {
 		try {
-			$output = new NullOutput();
-			$this->connectivityService->testDiscovery($output);
-			$this->connectivityService->testCapabilities($output);
+			$this->connectivityService->test();
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new DataResponse([
@@ -192,9 +202,11 @@ class SettingsController extends Controller {
 		}
 
 		try {
-			$output = new NullOutput();
-			$this->connectivityService->testDiscovery($output);
-			$this->connectivityService->testCapabilities($output);
+			$this->connectivityService->testDiscovery();
+			$this->connectivityService->testCapabilities();
+			if ($wopi_url !== null) {
+				$this->connectivityService->testWopiAccess();
+			}
 			$this->connectivityService->autoConfigurePublicUrl();
 		} catch (\Throwable $e) {
 			return new JSONResponse([
