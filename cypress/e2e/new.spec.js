@@ -29,8 +29,8 @@ describe('New file menu', function() {
 		cy.get('form[data-cy-upload-picker=""]')
 			.click()
 
-		cy.get('li[data-cy-upload-picker-menu-entry="upload-file"]')
-			.should('not.be.visible')
+		cy.contains('button[role="menuitem"]', 'Document')
+			.should('not.exist')
 	})
 
 	describe('Creates a new file', function() {

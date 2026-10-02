@@ -38,7 +38,7 @@ describe('Open existing office files', function() {
 
 			cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
-			cy.get('#viewer .modal-header')
+			cy.get('.viewer__modal .modal-header')
 				.should('exist')
 				.and('not.be.visible')
 				.and('have.css', 'display', 'none')
@@ -70,7 +70,7 @@ describe('Open existing office files', function() {
 			cy.waitForViewer()
 			cy.waitForCollabora()
 
-			cy.get('#viewer .modal-header')
+			cy.get('.viewer__modal .modal-header')
 				.should('exist')
 				.and('not.be.visible')
 				.and('have.css', 'display', 'none')
