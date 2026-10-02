@@ -27,6 +27,7 @@ export default {
 			required: true,
 		},
 	},
+	inheritAttrs: false,
 	emits: ['loaded'],
 	computed: {
 		isVersion() {
