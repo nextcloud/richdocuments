@@ -50,12 +50,12 @@ export default {
 	emits: ['update:modelValue', 'update'],
 	data() {
 		return {
-			inputVal: this.modelValue,
+			inputVal: this.modelValue ?? '',
 		}
 	},
 	watch: {
 		modelValue(newVal) {
-			this.inputVal = newVal
+			this.inputVal = newVal ?? ''
 		},
 	},
 	methods: {
