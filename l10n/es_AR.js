@@ -30,6 +30,7 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Save" : "Guardar",
     "Select template" : "Seleccionar plantilla",
+    "File name" : "Nombre del archivo",
     "Create" : "Crear",
     "Submit" : "Enviar",
     "Select a template directory" : "Seleccionar un directorio de plantillas",
