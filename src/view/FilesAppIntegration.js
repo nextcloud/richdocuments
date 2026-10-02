@@ -487,6 +487,13 @@ export default {
 		}
 	},
 
+	emitPendingNodeUpdate() {
+		if (this.updatedNode) {
+			emit('files:node:updated', this.updatedNode)
+			this.updatedNode = null
+		}
+	},
+
 	async updateFileInfo(name, mtime) {
 		const node = await this.getFileNode()
 
@@ -499,7 +506,8 @@ export default {
 				node._data.mtime = new Date(mtime)
 			}
 
-			emit('files:node:updated', node)
+			// The viewer reloads the editor when the file it shows is updated, so this waits for the editor to go away
+			this.updatedNode = node
 		}
 
 		// FIXME: Remove once all files app is moved to vue
