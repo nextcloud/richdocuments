@@ -10,7 +10,7 @@
 //   node scripts/dev-server.mjs stop
 
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdtempSync } from 'node:fs'
+import { copyFileSync, mkdirSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { configureNextcloud, runExec, runOcc, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/e2e-test-server/docker'
@@ -18,6 +18,7 @@ import { configureNextcloud, runExec, runOcc, startNextcloud, stopNextcloud, wai
 const NEXTCLOUD_PORT = 8081
 const COLLABORA_PORT = 9980
 const COLLABORA_CONTAINER = 'richdocuments-dev-collabora'
+const PRODUCTION_COMPOSER = join(tmpdir(), 'richdocuments-dev-composer')
 const COLLABORA_IMAGE = process.env.COLLABORA_IMAGE ?? 'collabora/code:latest'
 // How the containers reach each other through the host's published ports
 const DOCKER_HOST = process.env.DOCKER_HOST_ADDRESS ?? (process.platform === 'linux' ? '172.17.0.1' : 'host.docker.internal')
@@ -55,10 +56,14 @@ async function waitOnCollabora() {
 
 async function start() {
 	startCollabora()
-	// The dev dependencies ship OCP stubs that would shadow the server's own classes
-	const mounts = existsSync('vendor/nextcloud/ocp')
-		? { 'apps-writable/richdocuments/vendor/nextcloud/ocp': mkdtempSync(join(tmpdir(), 'richdocuments-ocp-')) }
-		: {}
+	// The server gets a vendor without dev dependencies, whose OCP stubs would shadow its own classes.
+	// Built next to a copy of the composer files so the autoloader paths stay relative to the app.
+	mkdirSync(PRODUCTION_COMPOSER, { recursive: true })
+	for (const file of ['composer.json', 'composer.lock']) {
+		copyFileSync(file, join(PRODUCTION_COMPOSER, file))
+	}
+	execFileSync('composer', ['install', '--no-dev', '--no-interaction', '--quiet', '--working-dir', PRODUCTION_COMPOSER], { stdio: 'inherit' })
+	const mounts = { 'apps-writable/richdocuments/vendor': join(PRODUCTION_COMPOSER, 'vendor') }
 	await startNextcloud(process.env.BRANCH ?? 'master', true, { exposePort: NEXTCLOUD_PORT, mounts })
 	await waitOnNextcloud('localhost:' + NEXTCLOUD_PORT)
 	await configureNextcloud(['files_pdfviewer'])

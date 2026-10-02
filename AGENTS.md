@@ -20,7 +20,7 @@ PHPUnit (`composer run test:unit`) and the Cypress e2e suite need a full server 
 
 ## Local dev environment
 
-`npm run dev:server` starts a throwaway Nextcloud (server `master`, override with `BRANCH=stable35`) with this checkout mounted, plus a Collabora container. It needs Docker and takes a few minutes on first start; later runs reuse the running Nextcloud container. Stop both with `npm run dev:server:stop`.
+`npm run dev:server` starts a throwaway Nextcloud (server `master`, override with `BRANCH=stable35`) with this checkout mounted, plus a Collabora container. It needs Docker and Composer (it installs the PHP dependencies without dev packages into a separate folder for the container, so your own `vendor/` keeps the dev tools) and takes a few minutes on first start; later runs reuse the running Nextcloud container. Stop both with `npm run dev:server:stop`.
 
 - Nextcloud: http://localhost:8081, login `admin` / `admin`
 - Collabora: http://localhost:9980
