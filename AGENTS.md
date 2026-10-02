@@ -51,4 +51,5 @@ Things to know:
 
 - The document is rendered inside Collabora's cross-origin iframe. Its text is not visible to `wait_for`; wait a fixed time (around 20 seconds) and use a screenshot instead. Controls inside the iframe, like "Close document", are reachable through the snapshot.
 - The editor is mounted by `@nextcloud/viewer` as the `<richdocuments-viewer>` custom element inside the viewer modal. `browser_evaluate` on that element is the quickest way to debug layout.
+- Collabora calls back to Nextcloud through `host.docker.internal:8081`, not the browser's `localhost:8081`, so the settings iframe on the personal settings page logs `postMessage` origin warnings. Those come from the dev setup.
 - Playwright MCP writes snapshots and screenshots to `.playwright-mcp/` (gitignored).

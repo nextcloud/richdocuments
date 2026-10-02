@@ -10,6 +10,9 @@
 //   node scripts/dev-server.mjs stop
 
 import { execFileSync } from 'node:child_process'
+import { existsSync, mkdtempSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { configureNextcloud, runExec, runOcc, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/e2e-test-server/docker'
 
 const NEXTCLOUD_PORT = 8081
@@ -52,7 +55,11 @@ async function waitOnCollabora() {
 
 async function start() {
 	startCollabora()
-	await startNextcloud(process.env.BRANCH ?? 'master', true, { exposePort: NEXTCLOUD_PORT })
+	// The dev dependencies ship OCP stubs that would shadow the server's own classes
+	const mounts = existsSync('vendor/nextcloud/ocp')
+		? { 'apps-writable/richdocuments/vendor/nextcloud/ocp': mkdtempSync(join(tmpdir(), 'richdocuments-ocp-')) }
+		: {}
+	await startNextcloud(process.env.BRANCH ?? 'master', true, { exposePort: NEXTCLOUD_PORT, mounts })
 	await waitOnNextcloud('localhost:' + NEXTCLOUD_PORT)
 	await configureNextcloud(['files_pdfviewer'])
 
