@@ -116,7 +116,7 @@ export default {
 			const newFileModel = oldFile.clone()
 			newFileModel.set('id', node.fileid)
 			newFileModel.set('name', newName)
-			newFileModel.set('mtime', Date.now())
+			newFileModel.set('mtime', node.mtime?.getTime())
 			this.getFileList()
 				.add(newFileModel.toJSON())
 		}
@@ -484,6 +484,13 @@ export default {
 				fileId: this.fileId,
 				filePath: (this.filePath ?? '') + '/' + this.fileName,
 			},
+		}
+	},
+
+	async refreshFileInfo() {
+		const node = await this.getFileNode(true)
+		if (node) {
+			emit('files:node:updated', node)
 		}
 	},
 
