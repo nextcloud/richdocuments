@@ -16,11 +16,11 @@
 				</a>
 			</p>
 			<form @submit.prevent="submit">
-				<NcTextField :value.sync="apiKey"
+				<NcTextField v-model="apiKey"
 					:label="t('richdocuments', 'Zotero API key')"
 					:placeholder="t('richdocuments', 'Zotero API key')" />
 				<div class="submit">
-					<NcButton :aria-label="t('richdocuments', 'Submit')" type="primary" @click="submit">
+					<NcButton :aria-label="t('richdocuments', 'Submit')" variant="primary" @click="submit">
 						{{ t('richdocuments', 'Submit') }}
 					</NcButton>
 				</div>
@@ -30,10 +30,11 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 import BookOpenPageVariantOutline from 'vue-material-design-icons/BookOpenPageVariantOutline.vue'
 import { savePersonalSetting } from '../../services/api.js'
 export default {
@@ -50,13 +51,14 @@ export default {
 			default: false,
 		},
 	},
-	emits: ['submit'],
+	emits: ['submit', 'update:show'],
 	data() {
 		return {
 			apiKey: '',
 		}
 	},
 	methods: {
+		t,
 		async submit() {
 			try {
 				await savePersonalSetting({

@@ -13,15 +13,17 @@
 		:multiple="true"
 		:close-on-select="false"
 		:disabled="disabled"
-		@input="update"
+		@update:model-value="update"
 		@search="asyncFindGroup">
-		<span slot="noResult">{{ t('settings', 'No results') }}</span>
+		<template #noResult>
+			<span>{{ t('settings', 'No results') }}</span>
+		</template>
 	</NcSelect>
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
-import { NcSelect } from '@nextcloud/vue'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { generateOcsUrl } from '@nextcloud/router'
 
 let uuid = 0
@@ -39,7 +41,7 @@ export default {
 			type: String,
 			default: '',
 		},
-		value: {
+		modelValue: {
 			type: Array,
 			default: () => [],
 		},
@@ -48,6 +50,7 @@ export default {
 			default: false,
 		},
 	},
+	emits: ['update:modelValue', 'error'],
 	data() {
 		return {
 			uuid: '',
@@ -66,7 +69,7 @@ export default {
 		},
 	},
 	watch: {
-		value(newVal) {
+		modelValue(newVal) {
 			this.inputValObjects = this.getValueObject()
 		},
 	},
@@ -76,7 +79,7 @@ export default {
 
 		// Preseed with placeholder entries for groups
 		this.getValueObject().forEach((element) => {
-			this.$set(this.groups, element.id, element)
+			this.groups[element.id] = element
 		})
 		this.inputValObjects = this.getValueObject()
 		// Fetch actual group metadata
@@ -86,7 +89,7 @@ export default {
 	},
 	methods: {
 		getValueObject() {
-			return this.value.filter((group) => group !== '' && typeof group !== 'undefined').map(
+			return this.modelValue.filter((group) => group !== '' && typeof group !== 'undefined').map(
 				(id) => {
 					if (typeof this.groups[id] === 'undefined') {
 						return {
@@ -99,7 +102,7 @@ export default {
 			)
 		},
 		update() {
-			this.$emit('input', this.inputValObjects.map((element) => element.id))
+			this.$emit('update:modelValue', this.inputValObjects.map((element) => element.id))
 		},
 		asyncFindGroup(query) {
 			query = typeof query === 'string' ? encodeURI(query) : ''
@@ -108,7 +111,7 @@ export default {
 					if (Object.keys(response.data.ocs.data.groups).length > 0) {
 						response.data.ocs.data.groups.forEach((element) => {
 							if (typeof this.groups[element.id] === 'undefined') {
-								this.$set(this.groups, element.id, element)
+								this.groups[element.id] = element
 							}
 						})
 						return true

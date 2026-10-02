@@ -5,10 +5,11 @@
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
-import { spawnDialog } from '@nextcloud/dialogs'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getNextcloudUrl } from '../helpers/url.js'
+import { openPath } from '../helpers/viewer.js'
 import Confirmation from '../components/Modal/Confirmation.vue'
 
 export default {
@@ -31,20 +32,19 @@ export default {
 					confirmButtonText: t('richdocuments', 'Open locally'),
 					cancelButtonText: t('richdocuments', 'Continue editing online'),
 				},
-				(decision) => {
-					if (!decision) {
-						return
-					}
-					this.openingLocally = true
-					this.postMessage.registerPostMessageHandler(this.handleCloseSession)
-					this.sendPostMessage('Action_Save', {
-						DontTerminateEdit: false,
-						DontSaveIfUnmodified: false,
-						Notify: false,
-					})
-					this.sendPostMessage('Close_Session')
-				},
-			)
+			).then((decision) => {
+				if (!decision) {
+					return
+				}
+				this.openingLocally = true
+				this.postMessage.registerPostMessageHandler(this.handleCloseSession)
+				this.sendPostMessage('Action_Save', {
+					DontTerminateEdit: false,
+					DontSaveIfUnmodified: false,
+					Notify: false,
+				})
+				this.sendPostMessage('Close_Session')
+			})
 		},
 
 		handleCloseSession() {
@@ -62,15 +62,14 @@ export default {
 					confirmButtonText: t('richdocuments', 'Retry to open locally'),
 					cancelButtonText: t('richdocuments', 'Continue editing online'),
 				},
-				(decision) => {
-					if (!decision) {
-						window.OCA.Viewer.open({ path: fileName })
-						return
-					}
-					this.openingLocally = true
-					this.openLocally()
-				},
-			)
+			).then((decision) => {
+				if (!decision) {
+					openPath(fileName, 'richdocuments')
+					return
+				}
+				this.openingLocally = true
+				this.openLocally()
+			})
 		},
 
 		unlockFile() {

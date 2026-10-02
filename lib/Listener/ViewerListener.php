@@ -12,15 +12,15 @@ namespace OCA\Richdocuments\Listener;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\InitialStateService;
-use OCA\Viewer\Event\LoadViewer;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
 
-/** @template-implements IEventListener<Event|LoadViewer> */
-class LoadViewerListener implements IEventListener {
+/** @template-implements IEventListener<Event|BeforeTemplateRenderedEvent> */
+class ViewerListener implements IEventListener {
 	public function __construct(
 		private PermissionManager $permissionManager,
 		private InitialStateService $initialStateService,
@@ -31,13 +31,13 @@ class LoadViewerListener implements IEventListener {
 
 	#[\Override]
 	public function handle(Event $event): void {
-		if (!$event instanceof LoadViewer) {
+		if (!$event instanceof BeforeTemplateRenderedEvent) {
 			return;
 		}
 		if ($this->permissionManager->isEnabledForUser() && $this->userId !== null) {
 			$this->initialStateService->provideCapabilities();
 			Util::addInitScript(Application::APPNAME, Application::APPNAME . '-init-viewer');
-			Util::addScript(Application::APPNAME, Application::APPNAME . '-viewer', 'viewer');
+			Util::addScript(Application::APPNAME, Application::APPNAME . '-viewer');
 			$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		}
 	}

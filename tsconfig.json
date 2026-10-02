@@ -3,7 +3,7 @@
 		"outDir": "./dist/",
 		"sourceMap": false,
 		"noImplicitAny": false,
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"module": "es2020",
 		"target": "es5",
 		"jsx": "react",

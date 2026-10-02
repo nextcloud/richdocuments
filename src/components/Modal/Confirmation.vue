@@ -8,11 +8,11 @@
 			<h1>{{ name }}</h1>
 			<p>{{ description }}</p>
 			<div class="confirmation-dialog--buttons">
-				<NcButton type="secondary"
+				<NcButton variant="secondary"
 					@click="() => close(false)">
 					{{ cancelButtonText }}
 				</NcButton>
-				<NcButton type="primary"
+				<NcButton variant="primary"
 					@click="() => close(true)">
 					{{ confirmButtonText }}
 				</NcButton>
@@ -21,8 +21,8 @@
 	</NcModal>
 </template>
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcModal from '@nextcloud/vue/components/NcModal'
 import { translate as t } from '@nextcloud/l10n'
 
 export default {

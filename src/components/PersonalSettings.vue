@@ -5,8 +5,7 @@
 
 <template>
 	<NcSettingsSection :name="t('richdocuments', 'Nextcloud Office (Collabora)')"
-		:description="t('richdocuments', 'Personal Settings for Nextcloud Office (Collabora)')"
-		:limit-width="true">
+		:description="t('richdocuments', 'Personal Settings for Nextcloud Office (Collabora)')">
 		<!-- Template folder selection -->
 		<div class="template-folder-settings">
 			<div class="template-input-wrapper">
@@ -15,14 +14,14 @@
 					:disabled="true" />
 			</div>
 			<NcButton id="templateSelectButton"
-				type="secondary"
+				variant="secondary"
 				@click="onTemplateSelectButtonClick">
 				<FolderIcon :size="20"
 					:title="t('richdocuments', 'Select a personal template folder')"
 					data-toggle="tooltip" />
 			</NcButton>
 			<NcButton id="templateResetButton"
-				type="secondary"
+				variant="secondary"
 				:title="t('richdocuments', 'Remove personal template folder')"
 				@click="resetTemplate">
 				<DeleteIcon :size="20" />
@@ -47,9 +46,9 @@
 <script>
 import { generateFilePath, generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import FolderIcon from 'vue-material-design-icons/FolderOutline.vue'
 import axios from '@nextcloud/axios'

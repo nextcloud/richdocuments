@@ -34,7 +34,7 @@ export default {
 		}
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		if (this.autoLogoutInterval) {
 			clearInterval(this.autoLogoutInterval)
 		}

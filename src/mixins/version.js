@@ -20,7 +20,7 @@ export default {
 
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		unsubscribe('files_versions:restore:requested', this.onRestoreRequested)
 	},
 
