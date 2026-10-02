@@ -89,7 +89,7 @@ export default {
 			}
 		})
 	},
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('message', this.handlePostMessage)
 	},
 	methods: {

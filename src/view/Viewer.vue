@@ -2,62 +2,43 @@
   - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
-<!--
-  - This component is a wrapper around the Office component to be used in the viewer
-  - We currently need this to isolate the vue instances
--->
 <template>
-	<Office :filename="filename"
-		:fileid="fileid"
-		:has-preview="hasPreview"
-		:source="source"
-		:mime="mime"
+	<Office :filename="file.path"
+		:fileid="isVersion ? null : file.fileid"
+		:source="file.source"
+		:mime="file.mime"
 		:permissions="permissions"
-		:is-embedded="isEmbedded"
-		@close="$parent.close()"
-		@update:loaded="$emit('update:loaded', $event)" />
+		@close="close"
+		@update:loaded="$emit('loaded')" />
 </template>
 <script>
-import Vue from 'vue'
-import Office from './Office.vue'
-
-Vue.prototype.t = t
-Vue.prototype.n = n
+import { defineAsyncComponent } from 'vue'
+import { Permission } from '@nextcloud/files'
+import { getViewer } from '@nextcloud/viewer'
 
 export default {
 	name: 'Viewer',
 	components: {
-		Office: Vue.extend(Office),
+		Office: defineAsyncComponent(() => import('./Office.vue')),
 	},
 	props: {
-		filename: {
-			type: String,
-			default: null,
+		file: {
+			type: Object,
+			required: true,
 		},
-		fileid: {
-			type: Number,
-			default: null,
+	},
+	emits: ['loaded'],
+	computed: {
+		isVersion() {
+			return this.file.root?.startsWith('/versions/')
 		},
-		hasPreview: {
-			type: Boolean,
-			required: false,
-			default: () => false,
+		permissions() {
+			return (this.file.permissions & Permission.UPDATE) ? 'W' : ''
 		},
-		source: {
-			type: String,
-			default: null,
-		},
-		mime: {
-			type: String,
-			default: null,
-		},
-		permissions: {
-			type: String,
-			default: '',
-		},
-		isEmbedded: {
-			type: Boolean,
-			default: false,
+	},
+	methods: {
+		close() {
+			getViewer().close()
 		},
 	},
 }

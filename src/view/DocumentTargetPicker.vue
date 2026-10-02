@@ -4,14 +4,7 @@
 -->
 
 <template>
-	<div v-if="filePath === null" class="office-target-picker">
-		<FilePicker :name="t('files', 'Select file or folder to link to')"
-			:buttons="filePickerButtons"
-			:allow-pick-directory="false"
-			:multiselect="false"
-			:mimetype-filter="validMimetypes"
-			container=".office-target-picker" />
-	</div>
+	<div v-if="filePath === null" class="office-target-picker" />
 	<div v-else class="office-target-picker">
 		<h2>{{ t('richdocuments', 'Link to office document section') }}</h2>
 		<NcLoadingIcon v-if="sections === null || !fileId" :size="44" />
@@ -39,7 +32,7 @@
 			</template>
 			<div v-if="sections.length !== 0" class="office-target-picker__buttons">
 				<NcButton data-cy-link-to-section=""
-					type="primary"
+					variant="primary"
 					:disabled="!target"
 					@click="submit()">
 					{{ t('richdocuments', 'Link to office document section') }}
@@ -50,13 +43,14 @@
 </template>
 
 <script>
-import { FilePickerVue as FilePicker } from '@nextcloud/dialogs/filepicker.js'
+import { getFilePickerBuilder } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import TableOfContentsIcon from 'vue-material-design-icons/TableOfContents.vue'
 import { getCapabilities } from '../services/capabilities.ts'
 
@@ -67,7 +61,6 @@ export default {
 		NcEmptyContent,
 		NcListItem,
 		NcLoadingIcon,
-		FilePicker,
 		TableOfContentsIcon,
 	},
 	props: {
@@ -80,31 +73,13 @@ export default {
 			default: false,
 		},
 	},
+	emits: ['submit', 'cancel'],
 	data() {
 		return {
 			fileId: null,
 			filePath: null,
 			target: null,
 			sections: null,
-			filePickerButtons: [
-				{
-					label: t('richdocuments', 'Cancel'),
-					callback: () => {
-						this.$emit('cancel')
-					},
-					type: 'secondary',
-				},
-				{
-					label: t('richdocuments', 'Select file'),
-					callback: (files) => {
-						const file = files[0]
-						this.fileId = file.fileid
-						this.filePath = file.path
-						this.fetchReferences()
-					},
-					type: 'primary',
-				},
-			],
 		}
 	},
 	computed: {
@@ -113,18 +88,32 @@ export default {
 		},
 	},
 	mounted() {
-		window.addEventListener('click', this.onWindowClick)
-	},
-	beforeDestroy() {
-		window.removeEventListener('click', this.onWindowClick)
+		getFilePickerBuilder(t('files', 'Select file or folder to link to'))
+			.setContainer('.office-target-picker')
+			.setMimeTypeFilter(this.validMimetypes)
+			.addButton({
+				label: t('richdocuments', 'Cancel'),
+				callback: () => {
+					this.$emit('cancel')
+				},
+				variant: 'secondary',
+			})
+			.addButton({
+				label: t('richdocuments', 'Select file'),
+				callback: (files) => {
+					const file = files[0]
+					this.fileId = file.fileid
+					this.filePath = file.path
+					this.fetchReferences()
+				},
+				variant: 'primary',
+			})
+			.build()
+			.pickNodes()
+			.catch(() => this.filePath === null && this.$emit('cancel'))
 	},
 	methods: {
 		t,
-		onWindowClick(e) {
-			if (e.target.tagName === 'A' && e.target.classList.contains('oc-dialog-close')) {
-				this.$emit('cancel')
-			}
-		},
 		setTarget(entry) {
 			this.target = entry.id
 		},

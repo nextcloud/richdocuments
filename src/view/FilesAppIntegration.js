@@ -6,7 +6,8 @@
 import $ from 'jquery'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { getFilePickerBuilder, spawnDialog } from '@nextcloud/dialogs'
+import { getFilePickerBuilder } from '@nextcloud/dialogs'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
@@ -464,16 +465,15 @@ export default {
 				description: t('richdocuments', 'Please enter the filename for the new file'),
 				buttonText: t('richdocuments', 'Create'),
 			},
-			(value) => {
-				if (value) {
-					if (type === 'text') {
-						type = 'document'
-					}
-					const url = generateUrl('/apps/files/?dir=' + getCurrentDirectory() + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
-					window.open(url, '_blank')
+		).then((value) => {
+			if (value) {
+				if (type === 'text') {
+					type = 'document'
 				}
-			},
-		)
+				const url = generateUrl('/apps/files/?dir=' + getCurrentDirectory() + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
+				window.open(url, '_blank')
+			}
+		})
 	},
 
 	loggingContext() {

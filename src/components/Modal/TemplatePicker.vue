@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcModal :title="t('richdocuments', 'Select template')" @close="onCancel">
+	<NcModal :name="t('richdocuments', 'Select template')" @close="onCancel">
 		<div class="template-picker">
 			<NcTextField v-model="filename"
 				class="filename-input"
@@ -23,10 +23,10 @@
 				</div>
 			</div>
 			<div class="buttons">
-				<NcButton type="tertiary" @click="onCancel">
+				<NcButton variant="tertiary" @click="onCancel">
 					{{ t('core', 'Cancel') }}
 				</NcButton>
-				<NcButton type="primary" :disabled="!!filenameError" @click="onCreate">
+				<NcButton variant="primary" :disabled="!!filenameError" @click="onCreate">
 					{{ t('richdocuments', 'Create') }}
 				</NcButton>
 			</div>
@@ -65,6 +65,7 @@ export default {
 			default: () => [],
 		},
 	},
+	emits: ['close'],
 	data() {
 		return {
 			selectedTemplateId: this.initialTemplateId || (this.templates[0]?.id || null),
