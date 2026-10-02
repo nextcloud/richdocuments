@@ -17,3 +17,5 @@ cypress/screenshots/
 ## VSCode
 .vscode/
 *.code-workspace
+
+cypress/downloads/
