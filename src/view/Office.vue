@@ -756,12 +756,15 @@ export default {
 </style>
 
 <style lang="scss">
-.viewer__content:not(.viewer--split) .office-viewer:not(.viewer__file--hidden):not(.widget-file) {
+richdocuments-viewer {
+	display: block;
 	width: 100%;
-	height: 100vh;
-	height: 100dvh;
-	top: calc(var(--header-height) * -1);
-	position: absolute;
+	height: 100%;
+}
+
+.modal-container__content > richdocuments-viewer .office-viewer:not(.widget-file) {
+	position: fixed;
+	inset: 0;
 	z-index: 10001;
 }
 
@@ -773,7 +776,7 @@ export default {
 	bottom: 0;
 }
 
-.viewer__content.viewer--split .office-viewer {
+.viewer__comparison .office-viewer {
 	height: 100%;
 	width: 100%;
 }
