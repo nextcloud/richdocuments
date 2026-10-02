@@ -87,9 +87,12 @@ export default {
 			this.$refs.guestNameInput.focus()
 		})
 
-		const name = document.getElementById('filename').value
+		const name = document.getElementById('filename')?.value ?? ''
 		const mimeTypeIcon = async () => {
-			const url = document.getElementById('mimetypeIcon').value
+			const url = document.getElementById('mimetypeIcon')?.value
+			if (!url) {
+				return null
+			}
 			let res
 
 			try {
@@ -98,7 +101,7 @@ export default {
 				console.error(e)
 			}
 
-			return (res.status === 200) ? res.data : null
+			return (res?.status === 200) ? res.data : null
 		}
 
 		this.file = {
