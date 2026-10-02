@@ -337,6 +337,7 @@ export default {
 	beforeUnmount() {
 		this.postMessage.unregisterPostMessageHandler(this.postMessageHandler)
 		this.restoreFavicon()
+		FilesAppIntegration.emitPendingNodeUpdate()
 	},
 	methods: {
 		t,
@@ -426,10 +427,10 @@ export default {
 		async share() {
 			FilesAppIntegration.share()
 		},
-		close() {
+		async close() {
 			FilesAppIntegration.close()
 			if (this.modified) {
-				FilesAppIntegration.updateFileInfo(undefined, Date.now())
+				await FilesAppIntegration.updateFileInfo(undefined, Date.now())
 			}
 			disableScrollLock()
 			this.restoreFavicon()
@@ -762,10 +763,12 @@ richdocuments-viewer {
 	height: 100%;
 }
 
+// Fill the viewer, which shrinks to make room for the files sidebar,
+// over the viewport height the mobile fixer sets
 .modal-container__content > richdocuments-viewer .office-viewer:not(.widget-file) {
-	position: fixed;
+	position: absolute;
 	inset: 0;
-	z-index: 10001;
+	height: auto !important;
 }
 
 [data-handler="richdocuments"] .modal-header {
