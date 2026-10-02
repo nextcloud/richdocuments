@@ -21,13 +21,13 @@ export default {
 	components: {
 		Office: defineAsyncComponent(() => import('./Office.vue')),
 	},
+	inheritAttrs: false,
 	props: {
 		file: {
 			type: Object,
 			required: true,
 		},
 	},
-	inheritAttrs: false,
 	emits: ['loaded'],
 	computed: {
 		isVersion() {
