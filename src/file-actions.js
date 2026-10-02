@@ -5,6 +5,7 @@
 import { Permission, registerFileAction } from '@nextcloud/files'
 import { getCapabilities } from './services/capabilities.ts'
 import { translate as t } from '@nextcloud/l10n'
+import { openNode } from './helpers/viewer.js'
 
 // eslint-disable-next-line import/no-unresolved
 import appIcon from '../img/app.svg?raw'
@@ -38,15 +39,9 @@ const openPdf = {
 		return isPdf && optionalMimetypes.includes('application/pdf')
 	},
 
-	exec: ({ nodes }) => {
-		const file = nodes[0]
-
-		// If no viewer API, we can't open the document
-		if (!OCA.Viewer) {
-			return
-		}
-
-		OCA.Viewer.openWith('richdocuments', { path: file.path })
+	exec: async ({ nodes }) => {
+		await openNode(nodes[0], 'richdocuments')
+		return null
 	},
 }
 
@@ -81,15 +76,9 @@ const openMarkdown = {
 		return isMarkdown && optionalMimetypes.includes('text/markdown')
 	},
 
-	exec: ({ nodes }) => {
-		const file = nodes[0]
-
-		// If no viewer API, we can't open the document
-		if (!OCA.Viewer) {
-			return
-		}
-
-		OCA.Viewer.openWith('richdocuments', { path: file.path })
+	exec: async ({ nodes }) => {
+		await openNode(nodes[0], 'richdocuments')
+		return null
 	},
 }
 

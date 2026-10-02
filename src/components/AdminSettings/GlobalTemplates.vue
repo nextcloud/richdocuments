@@ -14,7 +14,7 @@
 			@change="selectFile">
 
 		<div class="template-buttons">
-			<NcButton type="tertiary-no-background" @click="newTemplate">
+			<NcButton variant="tertiary-no-background" @click="newTemplate">
 				<div class="template-btn new-template-btn">
 					<div class="template-icon">
 						<NewTemplateIcon :size="38" />
@@ -24,7 +24,7 @@
 			</NcButton>
 
 			<div v-for="template in existingTemplates" :key="template.id">
-				<NcButton type="tertiary-no-background"
+				<NcButton variant="tertiary-no-background"
 					@click="deleteTemplate(template.id)">
 					<div class="template-btn" :data-cy-template-btn-name="basename(template.name)">
 						<div class="template-icon"
@@ -44,7 +44,8 @@
 </template>
 
 <script lang="js">
-import { NcSettingsSection, NcButton } from '@nextcloud/vue'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'

@@ -21,7 +21,7 @@ import {
 import { getWopiUrl, getSearchParam, getNextcloudUrl } from './helpers/url.js'
 import '../css/document.scss'
 import axios from '@nextcloud/axios'
-import { spawnDialog } from '@nextcloud/dialogs'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import SaveAs from './components/Modal/SaveAs.vue'
 
 const PostMessages = new PostMessageService({
@@ -491,8 +491,7 @@ const documentsMain = {
 								path: docPath,
 								format: args.format,
 							},
-							(value) => value && PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { Filename: value, Notify: true }),
-						)
+						).then((value) => value && PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { Filename: value, Notify: true }))
 					} else if (msgId === 'Action_Save_Resp') {
 						if (args.success && args.fileName) {
 							documentsMain.fileName = args.fileName

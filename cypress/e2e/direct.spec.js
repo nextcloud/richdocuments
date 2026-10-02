@@ -280,7 +280,7 @@ describe('Direct editing (legacy)', function() {
 					.should('be.visible')
 					.should('have.value', '/document.rtf')
 
-				cy.get('.saveas-dialog button.button-vue--vue-primary').click()
+				cy.get('.saveas-dialog button.button-vue--primary').click()
 
 				cy.waitForPostMessage('Action_Save_Resp', { success: true, fileName: 'document.rtf' })
 				cy.closeDirectDocument()

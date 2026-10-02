@@ -31,5 +31,6 @@ module.exports = {
 		'jsdoc/require-property-description': 'off',
 		'@typescript-eslint/no-unused-vars': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
+		'vue/no-v-model-argument': 'off',
 	}
 }

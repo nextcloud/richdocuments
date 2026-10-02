@@ -5,19 +5,28 @@
 
 import './init-shared.js'
 
-import { getCapabilities } from './services/capabilities.ts'
+import { defineCustomElement } from 'vue'
+import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { registerHandler } from '@nextcloud/viewer'
+import { getCapabilities } from './services/capabilities.ts'
+import Viewer from './view/Viewer.vue'
 
-const supportedMimes = getCapabilities().mimetypes
-const AsyncViewerComponent = () => import('./view/Viewer.vue')
+const tagName = 'richdocuments-viewer'
 
-const viewerHandler = {
-	id: 'richdocuments',
-	group: null,
-	mimes: supportedMimes,
-	component: AsyncViewerComponent,
-	theme: 'default',
-	canCompare: true,
+if (!window.customElements.get(tagName)) {
+	window.customElements.define(tagName, defineCustomElement(Viewer, {
+		shadowRoot: false,
+		configureApp(app) {
+			app.config.globalProperties.t = t
+			app.config.globalProperties.n = n
+		},
+	}))
 }
 
-registerHandler(viewerHandler)
+registerHandler({
+	id: 'richdocuments',
+	displayName: getCapabilities().productName,
+	tagName,
+	enabled: (nodes) => nodes.every((node) => getCapabilities().mimetypes.includes(node.mime)),
+	theme: 'default',
+})

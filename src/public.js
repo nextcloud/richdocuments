@@ -10,17 +10,18 @@ import {
 	isDownloadHidden,
 } from './helpers/index.js'
 import { getCapabilities } from './services/capabilities.ts'
+import { openPath } from './helpers/viewer.js'
 
 document.addEventListener('DOMContentLoaded', () => {
-	if (!isPublicShare() || !OCA.Viewer) {
+	if (!isPublicShare()) {
 		return
 	}
 
 	const isEnabledFilesPdfViewer = getCapabilities().mimetypesNoDefaultOpen.includes('application/pdf')
 
 	if ((isDownloadHidden() || !isEnabledFilesPdfViewer) && isPdf()) {
-		OCA.Viewer.openWith('richdocuments', { path: '/' })
+		openPath('', 'richdocuments')
 	} else if (isDocument()) {
-		OCA.Viewer.open({ path: '/' })
+		openPath('')
 	}
 })

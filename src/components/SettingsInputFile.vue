@@ -52,6 +52,7 @@ export default {
 			default: () => ['*'],
 		},
 	},
+	emits: ['change'],
 	data() {
 		return {
 		}

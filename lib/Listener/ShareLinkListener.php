@@ -41,8 +41,8 @@ class ShareLinkListener implements \OCP\EventDispatcher\IEventListener {
 			$this->initialStateService->provideCapabilities();
 
 			Util::addInitScript(Application::APPNAME, Application::APPNAME . '-init-viewer');
-			Util::addScript(Application::APPNAME, Application::APPNAME . '-viewer', 'viewer');
-			Util::addScript(Application::APPNAME, Application::APPNAME . '-public', 'viewer');
+			Util::addScript(Application::APPNAME, Application::APPNAME . '-viewer');
+			Util::addScript(Application::APPNAME, Application::APPNAME . '-public');
 		}
 	}
 }

@@ -5,27 +5,23 @@
 
 import './init-shared.js'
 
-import Vue from 'vue'
+import { createApp } from 'vue'
 import { translate as t } from '@nextcloud/l10n'
 
-import { registerCustomPickerElement, NcCustomPickerRenderResult } from '@nextcloud/vue/dist/Functions/registerReference.js'
+import { registerCustomPickerElement, NcCustomPickerRenderResult } from '@nextcloud/vue/functions/reference'
 
 import DocumentTargetPicker from './view/DocumentTargetPicker.vue'
 
-Vue.mixin({
-	methods: {
-		t,
-	},
-})
 registerCustomPickerElement('office-target', (el, { providerId, accessible }) => {
-	const Element = Vue.extend(DocumentTargetPicker)
-	const vueElement = new Element({
-		propsData: {
-			providerId,
-			accessible,
-		},
-	}).$mount(el)
-	return new NcCustomPickerRenderResult(vueElement.$el, vueElement)
+	const app = createApp(DocumentTargetPicker, {
+		providerId,
+		accessible,
+		onSubmit: (link) => el.dispatchEvent(new CustomEvent('submit', { detail: link })),
+		onCancel: () => el.dispatchEvent(new CustomEvent('cancel')),
+	})
+	app.config.globalProperties.t = t
+	app.mount(el)
+	return new NcCustomPickerRenderResult(el, app)
 }, (el, renderResult) => {
-	renderResult.object.$destroy()
+	renderResult.object.unmount()
 })

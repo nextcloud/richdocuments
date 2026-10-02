@@ -10,15 +10,14 @@
 			<p>{{ description }}</p>
 			<NcTextField ref="nameInput"
 				v-model="newFileName"
-				:label-visible="true"
 				:label="t('richdocuments', 'Path to save')"
 				:placeholder="'/path/to/save'" />
 			<div class="saveas-dialog--buttons">
-				<NcButton type="secondary"
+				<NcButton variant="secondary"
 					@click="cancel">
 					{{ t('richdocuments', 'Cancel') }}
 				</NcButton>
-				<NcButton type="primary"
+				<NcButton variant="primary"
 					:disabled="isChecking || !isValidName"
 					@click="close">
 					{{ isChecking ? t('richdocuments', 'Checking…') : t('richdocuments', 'Save') }}
@@ -36,9 +35,9 @@ import { getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/da
 import { emit } from '@nextcloud/event-bus'
 import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import Config from '../../services/config.tsx'
 export default {
 	name: 'SaveAs',
@@ -117,7 +116,7 @@ export default {
 		const extension = filename.split('.').pop()
 		const filenameWithoutExtension = filename.substring(0, filename.length - extension.length - 1)
 		this.$nextTick(() => {
-			const input = this.$refs.nameInput.$refs.inputField.$el.querySelector('input')
+			const input = this.$refs.nameInput.$el.querySelector('input')
 			input.setSelectionRange(0, filenameWithoutExtension.length)
 			input.focus()
 		})

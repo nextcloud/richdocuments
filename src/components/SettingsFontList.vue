@@ -31,6 +31,7 @@ export default {
 			default: () => [],
 		},
 	},
+	emits: ['deleted'],
 	data() {
 		return {
 		}
