@@ -253,7 +253,7 @@
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Chyba:  Na vašom serveri nie je nainštalovaná knižnica fontconfig. Nainštalujte ju alebo nastavte samostatný server.",
     "Error: Not running on glibc-based Linux, please setup a standalone server." : "Chyba: Nebeží na Linuxe založenom na glibc, nastavte samostatný server.",
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Chyba: Nie je možné spustiť zabudovaný server Collabora Online, nastavte samostatný server.",
-    "Close version preview" : "Zavrieť náľad verzie",
+    "Close version preview" : "Zavrieť náhľad verzie",
     "Edit with {productName}" : "Upraviť pomocou {productName}u",
     "Insert into document" : "Vložiť do dokumentu",
     "Open file locally" : "Otvoriť súbor lokálne",
