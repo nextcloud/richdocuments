@@ -33,7 +33,8 @@ describe('Talk integraiton integration', function() {
 		cy.login(randUser)
 	})
 
-	it('Can share a file to a talk room and open it', function() {
+	// TODO: unskip once Talk no longer calls OCA.Viewer.registerHandler
+	it.skip('Can share a file to a talk room and open it', function() {
 		cy.createTalkRoom(randUser, {
 			roomName: 'Test room',
 		}).then(room => {
