@@ -281,6 +281,12 @@ export default {
 		hasWidgetEditingEnabled() {
 			this.load()
 		},
+		// The viewer hides the handler until it is loaded, which would hide the error
+		loading(state) {
+			if (state === LOADING_STATE.FAILED) {
+				this.$emit('update:loaded', true)
+			}
+		},
 	},
 	async mounted() {
 		this.storeFavicon()
@@ -348,7 +354,15 @@ export default {
 			enableScrollLock()
 
 			// Generate WOPI token
-			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), tokenParams)
+			let data
+			try {
+				({ data } = await axios.post(generateUrl('/apps/richdocuments/token'), tokenParams))
+			} catch (e) {
+				console.error('Failed to generate the WOPI token', e)
+				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)') })
+				this.loading = LOADING_STATE.FAILED
+				return
+			}
 
 			if (data.federatedUrl) {
 				try {
@@ -502,7 +516,6 @@ export default {
 					}
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
-					this.$emit('update:loaded', true)
 				}
 				break
 			case 'Action_Load_Resp':
