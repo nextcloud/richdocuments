@@ -13,6 +13,7 @@ use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -31,7 +32,8 @@ class ViewerListener implements IEventListener {
 
 	#[\Override]
 	public function handle(Event $event): void {
-		if (!$event instanceof BeforeTemplateRenderedEvent) {
+		if (!$event instanceof BeforeTemplateRenderedEvent
+			|| $event->getResponse()->getRenderAs() === TemplateResponse::RENDER_AS_ERROR) {
 			return;
 		}
 		if ($this->permissionManager->isEnabledForUser() && $this->userId !== null) {
