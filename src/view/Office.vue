@@ -358,7 +358,7 @@ export default {
 					console.warn('[richdocuments] Could not derive origin from federatedUrl', e)
 				}
 				this.formData.action = data.federatedUrl
-				this.$nextTick(() => this.$refs.form.submit())
+				this.$nextTick(() => this.$refs.form?.submit())
 				this.loading = LOADING_STATE.DOCUMENT_READY
 				return
 			}
@@ -387,7 +387,7 @@ export default {
 			this.formData.action = action
 			this.formData.accessToken = data.token
 			this.formData.accessTokenTTL = data.token_ttl * 1000
-			this.$nextTick(() => this.$refs.form.submit())
+			this.$nextTick(() => this.$refs.form?.submit())
 
 			this.loading = LOADING_STATE.LOADING
 			this.loadingTimeout = setTimeout(() => {
