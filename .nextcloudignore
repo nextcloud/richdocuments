@@ -3,7 +3,6 @@
 _config.yml
 .codecov.yml
 .drone.yml
-.eslintignore
 .eslintrc.js
 .eslintrc.yml
 .git
