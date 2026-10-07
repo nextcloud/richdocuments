@@ -285,28 +285,7 @@
 				@update="updateWopiAllowlist" />
 		</div>
 
-		<div v-if="isSetup" id="font-settings" class="section">
-			<h2>{{ t('richdocuments', 'Custom Fonts') }}</h2>
-			<SettingsInputFile :label="t('richdocuments', 'Upload font file')"
-				:button-title="t('richdocuments', 'Upload a font file')"
-				:uploading="uploadingFont"
-				:mimetypes="fontMimes"
-				@change="uploadFont" />
-			<SettingsFontList :fonts="settings.fonts"
-				:label="t('richdocuments', 'Available fonts')"
-				@deleted="onFontDeleted" />
-			<em v-if="showFontConfigHint">
-				{{ fontHint }}
-			</em>
-			<em v-if="showFontConfigHint">
-				<pre>
-					{{ fontXmlHint }}
-				</pre>
-			</em>
-			<em>
-				{{ t('richdocuments', 'For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office, installing their proprietary fonts can be done following the documentation.') }} <a :href="fontCustomDocumentUrl" target="_blank">{{ t('richdocuments', 'Custom fonts documentation') }}</a>
-			</em>
-		</div>
+		<CustomFonts v-if="isSetup" :show-config-hint="showFontConfigHint" />
 
 		<div v-if="isSetup" id="secure-view-settings" class="section">
 			<h2>{{ t('richdocuments', 'Secure View') }}</h2>
@@ -433,9 +412,8 @@ import SettingsCheckbox from './SettingsCheckbox.vue'
 import SettingsInputText from './SettingsInputText.vue'
 import SettingsSelectGroup from './SettingsSelectGroup.vue'
 import SettingsExternalApps from './SettingsExternalApps.vue'
-import SettingsInputFile from './SettingsInputFile.vue'
-import SettingsFontList from './SettingsFontList.vue'
 import GlobalTemplates from './AdminSettings/GlobalTemplates.vue'
+import CustomFonts from './AdminSettings/CustomFonts.vue'
 import { getCurrentUser } from '@nextcloud/auth'
 
 import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
@@ -451,14 +429,6 @@ const SERVER_STATE_CONNECTION_ERROR = 2
 const PROTOCOL_MISMATCH = 3
 const SERVER_STATE_BROWSER_CONNECTION_ERROR = 4
 
-const fontMimes = [
-	'font/ttf',
-	'font/otf',
-	'application/font-sfnt',
-	'font/opentype',
-	'application/vnd.oasis.opendocument.formula-template',
-]
-
 export default {
 	name: 'AdminSettings',
 	components: {
@@ -468,9 +438,8 @@ export default {
 		NcSelect,
 		NcSelectTags,
 		SettingsExternalApps,
-		SettingsInputFile,
-		SettingsFontList,
 		GlobalTemplates,
+		CustomFonts,
 		NcModal,
 		NcNoteCard,
 		CoolFrame,
@@ -498,10 +467,6 @@ export default {
 			appUrl: generateUrl('/settings/apps/app-bundles/richdocumentscode'),
 			approvedDemoModal: false,
 			updating: false,
-			uploadingFont: false,
-			fontMimes,
-			fontHintUrl: window.location.protocol + '//' + window.location.host + generateUrl('/apps/richdocuments/settings/fonts.json'),
-			fontCustomDocumentUrl: 'https://docs.nextcloud.com/server/latest/admin_manual/office/configuration.html#custom-fonts',
 			groups: [],
 			tags: [],
 			uiVisible: {
@@ -529,7 +494,6 @@ export default {
 					allTagsList: [],
 					text: '',
 				},
-				fonts: [],
 				hasSettingIframeSupport: false,
 				setting_iframe_url: '',
 				doc_format: null,
@@ -554,23 +518,11 @@ export default {
 		hasHostErrors() {
 			return this.hostErrors.some(x => x)
 		},
-		fontHint() {
-			return t('richdocuments', 'Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config.',
-				{ url: this.fontHintUrl },
-			)
-		},
 		showFontConfigHint() {
 			return this.serverMode !== 'builtin'
 		},
 		shareToken() {
 			return getSharingToken()
-		},
-		fontXmlHint() {
-			return `
-<remote_font_config>
-	<url>${this.fontHintUrl}</url>
-</remote_font_config>
-			`
 		},
 		callbackUrl() {
 			return this.settings.wopi_callback_url ? this.settings.wopi_callback_url : getCallbackBaseUrl()
@@ -618,7 +570,6 @@ export default {
 		}
 		Vue.set(this.settings, 'edit_groups', this.settings.edit_groups ? this.settings.edit_groups.split('|') : null)
 		Vue.set(this.settings, 'use_groups', this.settings.use_groups ? this.settings.use_groups.split('|') : null)
-		Vue.set(this.settings, 'fonts', this.initial.fonts ? this.initial.fonts : [])
 		Vue.set(this.settings, 'hasSettingIframeSupport', this.initial.hasSettingIframeSupport ?? false)
 		Vue.set(this.settings, 'setting_iframe_url', this.initial.setting_iframe_url ?? '')
 
@@ -860,43 +811,6 @@ export default {
 			}
 
 			return url.protocol
-		},
-		uploadFont(event) {
-			// TODO define font format list
-			const files = event.target.files
-			const file = files[0]
-			if (file.type !== '' && !fontMimes.includes(file.type)) {
-				showError(t('richdocuments', 'Font format not supported ({mime})', { mime: file.type }))
-				return
-			}
-			this.uploadingFont = true
-
-			// Clear input to ensure that the change event will be emitted if
-			// the same file is picked again.
-			event.target.value = ''
-
-			const formData = new FormData()
-			formData.append('fontfile', file)
-			const url = generateUrl('/apps/richdocuments/settings/fonts')
-			axios.post(url, formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			}).then((response) => {
-				// TODO reload font list
-				this.settings.fonts.push(file.name)
-			}).catch((error) => {
-				console.error(error)
-				showError(error?.response?.data?.error)
-			}).then(() => {
-				this.uploadingFont = false
-			})
-		},
-		onFontDeleted(name) {
-			const index = this.settings.fonts.indexOf(name)
-			if (index !== -1) {
-				this.settings.fonts.splice(index, 1)
-			}
 		},
 	},
 }
