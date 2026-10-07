@@ -141,7 +141,8 @@ export default {
 		async selectFile() {
 			const selectedFile = this.$refs.newFontInput?.files[0]
 
-			if (!fontMimes.includes(selectedFile.type)) {
+			// browsers report an empty type for some valid font files, notably .ttf
+			if (selectedFile.type !== '' && !fontMimes.includes(selectedFile.type)) {
 				showError(t('richdocuments', 'Invalid font file selected'))
 				return
 			}
