@@ -377,7 +377,7 @@ Cypress.Commands.add('uploadSystemTemplate', ({ fixturePath, fileName, mimeType 
 	cy.visit('/settings/admin/richdocuments')
 
 	cy.get('.settings-section')
-		.find('input[data-cy="newTemplateInput"')
+		.find('input[data-cy="newTemplateInput"]')
 		.as('newTemplateInput')
 
 	cy.get('@newTemplateInput')
@@ -396,7 +396,7 @@ Cypress.Commands.add('uploadInputFile', ({ identifier, fixturePath, fileName, mi
 		.as('fileInputElement')
 
 	cy.get('@fileInputElement').scrollIntoView()
-	
+
 	cy.get('@fileInputElement').selectFile({
 		contents: `cypress/fixtures/${fixturePath}`,
 		fileName,
