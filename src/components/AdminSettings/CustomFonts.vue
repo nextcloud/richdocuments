@@ -49,6 +49,18 @@
 				</tr>
 			</tbody>
 		</table>
+
+		<em v-if="showConfigHint">
+			{{ fontHint }}
+		</em>
+		<em v-if="showConfigHint">
+			<pre>
+				{{ fontXmlHint }}
+			</pre>
+		</em>
+		<em>
+			{{ t('richdocuments', 'For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office, installing their proprietary fonts can be done following the documentation.') }} <a :href="fontCustomDocumentUrl" target="_blank">{{ t('richdocuments', 'Custom fonts documentation') }}</a>
+		</em>
 	</NcSettingsSection>
 </template>
 
@@ -81,8 +93,18 @@ export default {
 		TrashCanIcon,
 	},
 
+	props: {
+		/** Whether to show the coolwsd.xml remote font config hint, hidden for built-in CODE. */
+		showConfigHint: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
 	data() {
-		return {}
+		return {
+			fontCustomDocumentUrl: 'https://docs.nextcloud.com/server/latest/admin_manual/office/configuration.html#custom-fonts',
+		}
 	},
 
 	computed: {
@@ -91,6 +113,21 @@ export default {
 			return t('richdocuments', `
 				This setting allows the uploading of custom fonts which can be used in office files.
 			`)
+		},
+		fontHintUrl() {
+			return window.location.protocol + '//' + window.location.host + generateUrl('/apps/richdocuments/settings/fonts.json')
+		},
+		fontHint() {
+			return t('richdocuments', 'Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config.',
+				{ url: this.fontHintUrl },
+			)
+		},
+		fontXmlHint() {
+			return `
+<remote_font_config>
+	<url>${this.fontHintUrl}</url>
+</remote_font_config>
+			`
 		},
 	},
 
