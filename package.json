@@ -19,9 +19,7 @@
     "lint:fix": "eslint --ext .js,.vue,.ts,.tsx src --fix",
     "lint:cypress": "eslint --ext .js cypress",
     "stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css css/*.scss",
-    "stylelint:fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css css/*.scss --fix",
-    "test": "NODE_ENV=test jest --passWithNoTests",
-    "test:coverage": "NODE_ENV=test jest --coverage"
+    "stylelint:fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css css/*.scss --fix"
   },
   "dependencies": {
     "@nextcloud/auth": "^2.6.0",
@@ -64,28 +62,5 @@
     "eslint-plugin-cypress": "^3.5.0",
     "ts-loader": "^9.6.2",
     "typescript": "^5.9.3"
-  },
-  "jest": {
-    "verbose": true,
-    "testEnvironment": "jest-environment-jsdom-fourteen",
-    "moduleFileExtensions": [
-      "js",
-      "vue"
-    ],
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    },
-    "testPathIgnorePatterns": [
-      "<rootDir>/src/tests/fixtures/",
-      "<rootDir>/build"
-    ],
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
-      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
-    },
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/jest-serializer-vue"
-    ],
-    "globalSetup": "<rootDir>/src/tests/setup.js"
   }
 }
