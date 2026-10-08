@@ -72,9 +72,8 @@ function getWopiUrl({ fileId, readOnly, closeButton, revisionHistory, target = u
  * @param templateId
  * @param fileName
  * @param fileDir
- * @param fillWithTemplate
  */
-function getDocumentUrlFromTemplate(templateId, fileName, fileDir, fillWithTemplate) {
+function getDocumentUrlFromTemplate(templateId, fileName, fileDir) {
 	return generateUrl(
 		'apps/richdocuments/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
 		{

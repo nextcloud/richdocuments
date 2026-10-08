@@ -358,9 +358,7 @@ export default {
 		this.postMessage.registerPostMessageHandler(this.postMessageHandler)
 
 		if (shouldAskForGuestName(this.mime, this.permissions?.includes('W'))) {
-			const { default: GuestNamePicker } = await import(
-				/* webpackChunkName: 'GuestNamePicker' */
-				'../components/GuestNamePicker.vue')
+			const { default: GuestNamePicker } = await import(/* webpackChunkName: 'GuestNamePicker' */ '../components/GuestNamePicker.vue')
 
 			spawnDialog(GuestNamePicker, {
 				fileName: basename(this.filename),

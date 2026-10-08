@@ -57,7 +57,7 @@ export default {
 	},
 
 	watch: {
-		modelValue(newVal) {
+		modelValue() {
 			this.inputVal = this.modelValue
 		},
 

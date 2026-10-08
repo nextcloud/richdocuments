@@ -58,7 +58,7 @@ export async function checkProxyStatus() {
 		let result
 		try {
 			result = await axios.get(proxyStatusUrl)
-		} catch (e) {
+		} catch {
 			await sleep(PROXY_POLL_INTERVAL_MS)
 			continue
 		}

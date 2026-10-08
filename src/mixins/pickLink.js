@@ -23,7 +23,7 @@ export default {
 						this.sendPostMessage('Action_InsertLink', { url: link })
 						return
 					}
-				} catch (e) {
+				} catch {
 					console.debug('error when parsing the link picker result')
 				}
 				this.sendPostMessage('Action_Paste', { Mimetype: 'text/plain', Data: link })

@@ -56,7 +56,7 @@ import {
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { generateFilePath, generateUrl } from '@nextcloud/router'
-import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
+import { getSharingToken } from '@nextcloud/sharing/public'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import NcTextField from '@nextcloud/vue/components/NcTextField'

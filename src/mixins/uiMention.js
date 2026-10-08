@@ -21,7 +21,8 @@ export default {
 							params: { search: text },
 						})
 						users = result.data.ocs.data
-					} catch (e) {
+					} catch {
+						// Mention suggestions stay empty when autocomplete is unavailable
 					}
 				}
 

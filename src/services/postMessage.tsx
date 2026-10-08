@@ -80,7 +80,7 @@ export default class PostMessageService {
 			msgId = msg.MessageId
 			args = msg.Values
 			deprecated = !!msg.Values.Deprecated
-		} catch (exc) {
+		} catch {
 			msgId = data
 		}
 		return { msgId, args, deprecated }
@@ -106,7 +106,9 @@ export default class PostMessageService {
 			if (typeof wopiPostMessage === 'object' && wopiPostMessage !== null) {
 				emit('richdocuments:wopi-post', wopiPostMessage)
 			}
-		} catch (e) {}
+		} catch {
+			// Not every post message is WOPI JSON, the parsed message is handled below
+		}
 
 		this.postMessageHandlers.forEach((fn: PostMessageHandler): void => {
 			if (parsed.deprecated) {
