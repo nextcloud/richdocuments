@@ -3,10 +3,10 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcModal :can-close="false"
+	<NcModal v-model:show="show"
+		no-close
 		:out-transition="true"
-		size="small"
-		:show.sync="show">
+		size="small">
 		<form class="modal__content"
 			data-cy="guestNameModal"
 			@submit.prevent.stop="submit">
@@ -24,19 +24,19 @@
 
 			<fieldset>
 				<NcTextField ref="guestNameInput"
-					:value="guestName"
+					:model-value="guestName"
 					data-cy="guestNameInput"
 					:label="t('richdocuments', 'Guest name')"
 					:placeholder="t('richdocuments', 'Anonymous guest')"
 					type="text"
-					@update:value="setGuestName" />
+					@update:model-value="setGuestName" />
 			</fieldset>
 
 			<div class="modal__buttons">
 				<NcButton data-cy="guestNameSubmit"
 					:aria-label="t('richdocuments', 'Submit name')"
-					type="primary"
-					native-type="submit">
+					variant="primary"
+					type="submit">
 					{{ t('richdocuments', 'Submit name') }}
 				</NcButton>
 			</div>
@@ -87,9 +87,12 @@ export default {
 			this.$refs.guestNameInput.focus()
 		})
 
-		const name = document.getElementById('filename').value
+		const name = document.getElementById('filename')?.value ?? ''
 		const mimeTypeIcon = async () => {
-			const url = document.getElementById('mimetypeIcon').value
+			const url = document.getElementById('mimetypeIcon')?.value
+			if (!url) {
+				return null
+			}
 			let res
 
 			try {
@@ -98,7 +101,7 @@ export default {
 				console.error(e)
 			}
 
-			return (res.status === 200) ? res.data : null
+			return (res?.status === 200) ? res.data : null
 		}
 
 		this.file = {

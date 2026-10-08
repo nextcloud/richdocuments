@@ -76,19 +76,21 @@
 				<PencilIcon v-else />
 			</template>
 		</NcButton>
-		<ZoteroHint :show.sync="showZotero" @submit="reload" />
+		<ZoteroHint v-model:show="showZotero" @submit="reload" />
 	</div>
 </template>
 
 <script>
 import EyeIcon from 'vue-material-design-icons/EyeOutline.vue'
 import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import AlertOctagonOutline from 'vue-material-design-icons/AlertOctagonOutline.vue'
 import { loadState } from '@nextcloud/initial-state'
-import { showInfo, spawnDialog } from '@nextcloud/dialogs'
+import { showInfo } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 
 import ZoteroHint from '../components/Modal/ZoteroHint.vue'
 import { basename, dirname } from 'path'
@@ -186,6 +188,7 @@ export default {
 			default: false,
 		},
 	},
+	emits: ['close', 'update:loaded'],
 	data() {
 		return {
 			postMessage: null,
@@ -278,6 +281,12 @@ export default {
 		hasWidgetEditingEnabled() {
 			this.load()
 		},
+		// The viewer hides the handler until it is loaded, which would hide the error
+		loading(state) {
+			if (state === LOADING_STATE.FAILED) {
+				this.$emit('update:loaded', true)
+			}
+		},
 	},
 	async mounted() {
 		this.storeFavicon()
@@ -331,11 +340,13 @@ export default {
 			await this.load()
 		}
 	},
-	beforeDestroy() {
+	beforeUnmount() {
 		this.postMessage.unregisterPostMessageHandler(this.postMessageHandler)
 		this.restoreFavicon()
+		FilesAppIntegration.emitPendingNodeUpdate()
 	},
 	methods: {
+		t,
 		async load() {
 			const tokenParams = this.tokenRequestParams()
 			const { fileId: fileid, version } = tokenParams
@@ -343,7 +354,15 @@ export default {
 			enableScrollLock()
 
 			// Generate WOPI token
-			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), tokenParams)
+			let data
+			try {
+				({ data } = await axios.post(generateUrl('/apps/richdocuments/token'), tokenParams))
+			} catch (e) {
+				console.error('Failed to generate the WOPI token', e)
+				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)') })
+				this.loading = LOADING_STATE.FAILED
+				return
+			}
 
 			if (data.federatedUrl) {
 				try {
@@ -352,8 +371,8 @@ export default {
 				} catch (e) {
 					console.warn('[richdocuments] Could not derive origin from federatedUrl', e)
 				}
-				this.$set(this.formData, 'action', data.federatedUrl)
-				this.$nextTick(() => this.$refs.form.submit())
+				this.formData.action = data.federatedUrl
+				this.$nextTick(() => this.$refs.form?.submit())
 				this.loading = LOADING_STATE.DOCUMENT_READY
 				return
 			}
@@ -379,10 +398,10 @@ export default {
 				startPresentation: Config.get('startPresentation'),
 				target: data.target,
 			})
-			this.$set(this.formData, 'action', action)
-			this.$set(this.formData, 'accessToken', data.token)
-			this.$set(this.formData, 'accessTokenTTL', data.token_ttl * 1000)
-			this.$nextTick(() => this.$refs.form.submit())
+			this.formData.action = action
+			this.formData.accessToken = data.token
+			this.formData.accessTokenTTL = data.token_ttl * 1000
+			this.$nextTick(() => this.$refs.form?.submit())
 
 			this.loading = LOADING_STATE.LOADING
 			this.loadingTimeout = setTimeout(() => {
@@ -422,10 +441,10 @@ export default {
 		async share() {
 			FilesAppIntegration.share()
 		},
-		close() {
+		async close() {
 			FilesAppIntegration.close()
 			if (this.modified) {
-				FilesAppIntegration.updateFileInfo(undefined, Date.now())
+				await FilesAppIntegration.updateFileInfo(undefined, Date.now())
 			}
 			disableScrollLock()
 			this.restoreFavicon()
@@ -497,7 +516,6 @@ export default {
 					}
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
-					this.$emit('update:loaded', true)
 				}
 				break
 			case 'Action_Load_Resp':
@@ -752,13 +770,18 @@ export default {
 </style>
 
 <style lang="scss">
-.viewer__content:not(.viewer--split) .office-viewer:not(.viewer__file--hidden):not(.widget-file) {
+richdocuments-viewer {
+	display: block;
 	width: 100%;
-	height: 100vh;
-	height: 100dvh;
-	top: calc(var(--header-height) * -1);
+	height: 100%;
+}
+
+// Fill the viewer, which shrinks to make room for the files sidebar,
+// over the viewport height the mobile fixer sets
+.modal-container__content > richdocuments-viewer .office-viewer:not(.widget-file) {
 	position: absolute;
-	z-index: 10001;
+	inset: 0;
+	height: auto !important;
 }
 
 [data-handler="richdocuments"] .modal-header {
@@ -769,7 +792,7 @@ export default {
 	bottom: 0;
 }
 
-.viewer__content.viewer--split .office-viewer {
+.viewer__comparison .office-viewer {
 	height: 100%;
 	width: 100%;
 }

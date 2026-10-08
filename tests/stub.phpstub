@@ -126,10 +126,6 @@ namespace OCA\Federation {
 	}
 }
 
-namespace OCA\Viewer\Event {
-	class LoadViewer extends \OCP\EventDispatcher\Event {
-	}
-}
 
 namespace Doctrine\DBAL\Platforms {
 	class SqlitePlatform {

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import './init-shared.js'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import AdminSettings from './components/AdminSettings.vue'
 import '../css/admin.scss'
 
@@ -16,14 +16,11 @@ __webpack_nonce__ = btoa(OC.requestToken)
 // eslint-disable-next-line
 __webpack_public_path__ = OC.linkTo('richdocuments', 'js/')
 
-Vue.prototype.t = t
-Vue.prototype.n = n
-Vue.prototype.OC = OC
-Vue.prototype.OCA = OCA
-
 const element = document.getElementById('admin-vue')
 
-/* eslint-disable-next-line no-new */
-new Vue({
-	render: h => h(AdminSettings, { props: { initial: JSON.parse(element.dataset.initial) } }),
-}).$mount('#admin-vue')
+const app = createApp(AdminSettings, { initial: JSON.parse(element.dataset.initial) })
+app.config.globalProperties.t = t
+app.config.globalProperties.n = n
+app.config.globalProperties.OC = OC
+app.config.globalProperties.OCA = OCA
+app.mount(element)

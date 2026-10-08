@@ -125,7 +125,7 @@
 						</p>
 						<p class="option-inline-emphasized">
 							{{ t('richdocuments', 'If the installation from the App Store fails, you can still do that manually using this command:') }}
-							<tt>php -d memory_limit=512M occ app:install {{ CODEAppID }}</tt>
+							<code>php -d memory_limit=512M occ app:install {{ CODEAppID }}</code>
 						</p>
 					</div>
 				</div>
@@ -178,7 +178,7 @@
 								:searchable="false"
 								:allow-empty="false"
 								:disabled="updating"
-								@input="setDemoServer" />
+								@update:model-value="setDemoServer" />
 						</p>
 						<p v-else>
 							{{ t('richdocuments', 'No available demo servers found.') }}
@@ -219,43 +219,43 @@
 
 		<div v-if="isSetup" id="advanced-settings" class="section">
 			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
-			<SettingsCheckbox :value="isOoxml"
+			<SettingsCheckbox :model-value="isOoxml"
 				:label="t('richdocuments', 'Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files')"
 				hint=""
 				:disabled="updating"
-				@input="updateOoxml" />
+				@update:model-value="updateOoxml" />
 
-			<SettingsCheckbox :value="settings.use_groups?.length > 0"
+			<SettingsCheckbox :model-value="settings.use_groups?.length > 0"
 				:label="t('richdocuments', 'Restrict usage to specific groups')"
 				:hint="t('richdocuments', '{productName} is enabled for all users by default. When this setting is active, only members of the specified groups can use it.', { productName })"
 				:disabled="updating"
-				@input="updateUseGroups">
+				@update:model-value="updateUseGroups">
 				<SettingsSelectGroup v-if="uiVisible.use_groups || settings.use_groups?.length > 0"
 					v-model="settings.use_groups"
 					:label="t('richdocuments', 'Select groups')"
 					class="option-inline"
 					:disabled="updating"
-					@input="updateUseGroups" />
+					@update:model-value="updateUseGroups" />
 			</SettingsCheckbox>
 
-			<SettingsCheckbox :value="settings.edit_groups?.length > 0"
+			<SettingsCheckbox :model-value="settings.edit_groups?.length > 0"
 				:label="t('richdocuments', 'Restrict edit to specific groups')"
 				:hint="t('richdocuments', 'All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit, whereas the others can only view documents.', { productName })"
 				:disabled="updating"
-				@input="updateEditGroups">
+				@update:model-value="updateEditGroups">
 				<SettingsSelectGroup v-if="uiVisible.edit_groups || settings.edit_groups?.length > 0"
 					v-model="settings.edit_groups"
 					:label="t('richdocuments', 'Select groups')"
 					class="option-inline"
 					:disabled="updating"
-					@input="updateEditGroups" />
+					@update:model-value="updateEditGroups" />
 			</SettingsCheckbox>
 
 			<SettingsCheckbox v-model="uiVisible.canonical_webroot"
 				:label="t('richdocuments', 'Use Canonical webroot')"
 				hint=""
 				:disabled="updating"
-				@input="updateCanonicalWebroot">
+				@update:model-value="updateCanonicalWebroot">
 				<SettingsInputText v-if="uiVisible.canonical_webroot"
 					v-model="settings.canonical_webroot"
 					label=""
@@ -269,7 +269,7 @@
 				:label="t('richdocuments', 'Enable access for external apps')"
 				hint=""
 				:disabled="updating"
-				@input="updateExternalApps">
+				@update:model-value="updateExternalApps">
 				<div v-if="uiVisible.external_apps">
 					<SettingsExternalApps class="option-inline"
 						:external-apps="settings.external_apps"
@@ -322,7 +322,7 @@
 				:label="t('richdocuments', 'Enable secure view')"
 				hint=""
 				:disabled="updating"
-				@input="update" />
+				@update:model-value="update" />
 			<SettingsInputText v-if="settings.watermark.enabled"
 				v-model="settings.watermark.text"
 				label="Watermark text"
@@ -333,65 +333,65 @@
 				<SettingsCheckbox v-model="settings.watermark.allTags"
 					:label="t('richdocuments', 'Enforce secure view on tagged files')"
 					:disabled="updating"
-					@input="update" />
+					@update:model-value="update" />
 				<p v-if="settings.watermark.allTags" class="checkbox-details">
-					<NcSelectTags v-model="settings.watermark.allTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
+					<NcSelectTags v-model="settings.watermark.allTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @update:model-value="update" />
 				</p>
 				<SettingsCheckbox v-model="settings.watermark.allGroups"
 					:label="t('richdocuments', 'Enforce secure view for users of groups')"
 					:disabled="updating"
-					@input="update" />
+					@update:model-value="update" />
 				<p v-if="settings.watermark.allGroups" class="checkbox-details">
-					<SettingsSelectGroup v-model="settings.watermark.allGroupsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
+					<SettingsSelectGroup v-model="settings.watermark.allGroupsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @update:model-value="update" />
 				</p>
 				<SettingsCheckbox v-model="settings.watermark.shareAll"
 					:label="t('richdocuments', 'Enforce secure view for all shares')"
 					hint=""
 					:disabled="updating"
-					@input="update" />
+					@update:model-value="update" />
 				<SettingsCheckbox v-if="!settings.watermark.shareAll"
 					v-model="settings.watermark.shareRead"
 					:label="t('richdocuments', 'Enforce secure view for read only shares')"
 					hint=""
 					:disabled="updating"
-					@input="update" />
+					@update:model-value="update" />
 				<SettingsCheckbox v-model="settings.watermark.shareTalkPublic"
 					:label="t('richdocuments', 'Enforce secure view for all public Talk shares')"
 					hint=""
 					:disabled="updating"
-					@input="update" />
+					@update:model-value="update" />
 				<SettingsCheckbox v-if="!settings.watermark.shareAll"
 					v-model="settings.watermark.shareDisabledDownload"
 					:label="t('richdocuments', 'Enforce secure view for shares without download permission')"
 					hint=""
 					:disabled="updating"
-					@input="update" />
+					@update:model-value="update" />
 
 				<h3>Link shares</h3>
 				<SettingsCheckbox v-model="settings.watermark.linkAll"
 					:label="t('richdocuments', 'Enforce secure view for all link shares')"
 					hint=""
 					:disabled="updating"
-					@input="update" />
+					@update:model-value="update" />
 				<SettingsCheckbox v-if="!settings.watermark.linkAll"
 					v-model="settings.watermark.linkSecure"
 					:label="t('richdocuments', 'Enforce secure view for download hidden shares')"
 					hint=""
 					:disabled="updating"
-					@input="update" />
+					@update:model-value="update" />
 				<SettingsCheckbox v-if="!settings.watermark.linkAll"
 					v-model="settings.watermark.linkRead"
 					:label="t('richdocuments', 'Enforce secure view for read only link shares')"
 					hint=""
 					:disabled="updating"
-					@input="update" />
+					@update:model-value="update" />
 				<SettingsCheckbox v-if="!settings.watermark.linkAll"
 					v-model="settings.watermark.linkTags"
 					:label="t('richdocuments', 'Enforce secure view on link shares with specific system tags')"
 					:disabled="updating"
-					@input="update" />
+					@update:model-value="update" />
 				<p v-if="!settings.watermark.linkAll && settings.watermark.linkTags" class="checkbox-details">
-					<NcSelectTags v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce secure view')" @input="update" />
+					<NcSelectTags v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce secure view')" @update:model-value="update" />
 				</p>
 			</div>
 		</div>
@@ -423,11 +423,13 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl, generateFilePath } from '@nextcloud/router'
 import { showWarning, showError } from '@nextcloud/dialogs'
-import { NcModal, NcSelect, NcSelectTags, NcNoteCard } from '@nextcloud/vue'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import axios from '@nextcloud/axios'
 import SettingsCheckbox from './SettingsCheckbox.vue'
 import SettingsInputText from './SettingsInputText.vue'
@@ -606,21 +608,21 @@ export default {
 
 			const [parent, setting] = key.split('_')
 			if (parent === 'watermark') {
-				Vue.set(this.settings[parent], setting, this.initial.settings[key])
+				this.settings[parent][setting] = this.initial.settings[key]
 			} else {
-				Vue.set(this.settings, key, this.initial.settings[key])
+				this.settings[key] = this.initial.settings[key]
 			}
 
 		}
-		Vue.set(this.settings, 'data', this.initial.settings)
+		this.settings.data = this.initial.settings
 		if (this.settings.wopi_url === '') {
 			this.serverError = SERVER_STATE_CONNECTION_ERROR
 		}
-		Vue.set(this.settings, 'edit_groups', this.settings.edit_groups ? this.settings.edit_groups.split('|') : null)
-		Vue.set(this.settings, 'use_groups', this.settings.use_groups ? this.settings.use_groups.split('|') : null)
-		Vue.set(this.settings, 'fonts', this.initial.fonts ? this.initial.fonts : [])
-		Vue.set(this.settings, 'hasSettingIframeSupport', this.initial.hasSettingIframeSupport ?? false)
-		Vue.set(this.settings, 'setting_iframe_url', this.initial.setting_iframe_url ?? '')
+		this.settings.edit_groups = this.settings.edit_groups ? this.settings.edit_groups.split('|') : null
+		this.settings.use_groups = this.settings.use_groups ? this.settings.use_groups.split('|') : null
+		this.settings.fonts = this.initial.fonts ? this.initial.fonts : []
+		this.settings.hasSettingIframeSupport = this.initial.hasSettingIframeSupport ?? false
+		this.settings.setting_iframe_url = this.initial.setting_iframe_url ?? ''
 
 		this.uiVisible.canonical_webroot = !!(this.settings.canonical_webroot && this.settings.canonical_webroot !== '')
 		this.uiVisible.external_apps = !!(this.settings.external_apps && this.settings.external_apps !== '')

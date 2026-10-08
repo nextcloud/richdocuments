@@ -9,7 +9,7 @@
 			<NcTextField v-model="inputVal"
 				:label="label"
 				:disabled="disabled"
-				@input="$emit('input', $event.target.value)" />
+				@update:model-value="$emit('update:modelValue', $event)" />
 			<NcButton type="submit"
 				:disabled="disabled"
 				@click="submit">
@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default {
 	name: 'SettingsInputText',
@@ -38,7 +38,7 @@ export default {
 			type: String,
 			default: '',
 		},
-		value: {
+		modelValue: {
 			type: String,
 			default: '',
 		},
@@ -47,14 +47,15 @@ export default {
 			default: false,
 		},
 	},
+	emits: ['update:modelValue', 'update'],
 	data() {
 		return {
-			inputVal: this.value,
+			inputVal: this.modelValue ?? '',
 		}
 	},
 	watch: {
-		value(newVal) {
-			this.inputVal = newVal
+		modelValue(newVal) {
+			this.inputVal = newVal ?? ''
 		},
 	},
 	methods: {

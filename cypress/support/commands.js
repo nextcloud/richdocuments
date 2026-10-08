@@ -238,14 +238,14 @@ Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configVa
 })
 
 Cypress.Commands.add('waitForViewer', () => {
-	cy.get('#viewer', { timeout: 50000 })
+	cy.get('.viewer__modal', { timeout: 50000 })
 		.should('be.visible')
 		.and('have.class', 'modal-mask')
 		.and('not.have.class', 'icon-loading')
 })
 
 Cypress.Commands.add('waitForViewerClose', () => {
-	cy.get('#viewer', { timeout: 30000 })
+	cy.get('.viewer__modal', { timeout: 30000 })
 		.should('not.exist')
 })
 
@@ -336,7 +336,7 @@ Cypress.Commands.add('closeDocument', () => {
 		cy.get('#closebutton').click()
 	})
 
-	cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+	cy.get('.viewer__modal', { timeout: 5000 }).should('not.exist')
 })
 
 Cypress.Commands.add('closeDirectDocument', () => {

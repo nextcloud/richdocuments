@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 export default {
 	name: 'SettingsCheckbox',
@@ -34,7 +34,7 @@ export default {
 			type: String,
 			default: '',
 		},
-		value: {
+		modelValue: {
 			type: Boolean,
 			default: false,
 		},
@@ -43,17 +43,18 @@ export default {
 			default: false,
 		},
 	},
+	emits: ['update:modelValue'],
 	data() {
 		return {
-			inputVal: this.value,
+			inputVal: this.modelValue,
 		}
 	},
 	watch: {
-		value(newVal) {
-			this.inputVal = this.value
+		modelValue(newVal) {
+			this.inputVal = this.modelValue
 		},
 		inputVal(newVal) {
-			this.$emit('input', newVal)
+			this.$emit('update:modelValue', newVal)
 		},
 	},
 }

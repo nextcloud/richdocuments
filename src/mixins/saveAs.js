@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { spawnDialog } from '@nextcloud/dialogs'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { basename } from 'path'
 import SaveAs from '../components/Modal/SaveAs.vue'
@@ -12,7 +12,7 @@ export default {
 	mounted() {
 		subscribe('richdocuments:grab-focus', this.grabFocus)
 	},
-	beforeDestroy() {
+	beforeUnmount() {
 		unsubscribe('richdocuments:grab-focus', this.grabFocus)
 	},
 	methods: {
@@ -27,14 +27,13 @@ export default {
 					format,
 					description: t('richdocuments', 'Save a copy of the file under a new name and continue editing the new file'),
 				},
-				(value) => {
-					if (value) {
-						// Track the requested filename for export operations
-						this.lastSaveAsFilename = basename(value)
-						this.sendPostMessage('Action_SaveAs', { Filename: value, Notify: true })
-					}
-				},
-			)
+			).then((value) => {
+				if (value) {
+					// Track the requested filename for export operations
+					this.lastSaveAsFilename = basename(value)
+					this.sendPostMessage('Action_SaveAs', { Filename: value, Notify: true })
+				}
+			})
 		},
 	},
 }

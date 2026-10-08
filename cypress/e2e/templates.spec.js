@@ -40,7 +40,7 @@ describe('Global templates', function() {
 			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
 		})
 
-		cy.get('.toast-error').contains('Template "systemtemplate.otp" already exists').should('be.visible')
+		cy.contains('[role="alert"]', 'Template "systemtemplate.otp" already exists').should('be.visible')
 	})
 
 	it('Can be deleted', function() {

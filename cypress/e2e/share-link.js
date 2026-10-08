@@ -129,8 +129,9 @@ describe('Public sharing of office documents', () => {
 					cy.newFileFromMenu('document', 'MyNewFile')
 					waitForCollabora()
 
-					// Make sure the document is still in the correct subfolder
-					cy.reload()
+					// Make sure the document is still in the correct subfolder.
+					// Not a reload: server master serves no /s/{token}/{fileid} URL the files app navigates to
+					cy.visit(`/s/${token}?dir=/Subfolder`)
 					cy.get('tr[data-cy-files-list-row-name="MyNewFile.odt"]')
 						.should('be.visible')
 				})
