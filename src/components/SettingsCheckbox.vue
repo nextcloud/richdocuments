@@ -5,7 +5,8 @@
 
 <template>
 	<div class="settings-entry">
-		<NcCheckboxRadioSwitch v-model="inputVal"
+		<NcCheckboxRadioSwitch
+			v-model="inputVal"
 			type="checkbox"
 			:disabled="disabled">
 			{{ label }}
@@ -25,34 +26,41 @@ export default {
 	components: {
 		NcCheckboxRadioSwitch,
 	},
+
 	props: {
 		label: {
 			type: String,
 			required: true,
 		},
+
 		hint: {
 			type: String,
 			default: '',
 		},
+
 		modelValue: {
 			type: Boolean,
 			default: false,
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	emits: ['update:modelValue'],
 	data() {
 		return {
 			inputVal: this.modelValue,
 		}
 	},
+
 	watch: {
 		modelValue(newVal) {
 			this.inputVal = this.modelValue
 		},
+
 		inputVal(newVal) {
 			this.$emit('update:modelValue', newVal)
 		},

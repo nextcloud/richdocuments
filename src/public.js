@@ -5,12 +5,12 @@
 
 import { isPublicShare } from '@nextcloud/sharing/public'
 import {
-	isPdf,
 	isDocument,
 	isDownloadHidden,
+	isPdf,
 } from './helpers/index.js'
-import { getCapabilities } from './services/capabilities.ts'
 import { openPath } from './helpers/viewer.js'
+import { getCapabilities } from './services/capabilities.ts'
 
 document.addEventListener('DOMContentLoaded', () => {
 	if (!isPublicShare()) {

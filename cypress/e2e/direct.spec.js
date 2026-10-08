@@ -4,7 +4,7 @@
  */
 const baseUrl = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 
-const getTemplates = (user, type) => {
+function getTemplates(user, type) {
 	return cy.request({
 		method: 'GET',
 		url: `${baseUrl}/ocs/v2.php/apps/richdocuments/api/v1/templates/${type}?format=json`,
@@ -13,14 +13,14 @@ const getTemplates = (user, type) => {
 			'OCS-ApiRequest': 'true',
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-	}).then(response => {
+	}).then((response) => {
 		cy.log(response)
 		const templates = response.body?.ocs?.data
 		cy.wrap(templates)
 	})
 }
 
-const createDirectEditingLink = (user, fileId) => {
+function createDirectEditingLink(user, fileId) {
 	cy.login(user)
 	return cy.request({
 		method: 'POST',
@@ -34,7 +34,7 @@ const createDirectEditingLink = (user, fileId) => {
 			'OCS-ApiRequest': 'true',
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-	}).then(response => {
+	}).then((response) => {
 		cy.log(response)
 		const token = response.body?.ocs?.data?.url
 		cy.log(`Created direct editing token for ${user.userId}`, token)
@@ -42,21 +42,22 @@ const createDirectEditingLink = (user, fileId) => {
 	})
 }
 
-const createNewFileDirectEditingLink = (user, path, template) => {
+function createNewFileDirectEditingLink(user, path, template) {
 	cy.login(user)
 	return cy.request({
 		method: 'POST',
 		url: `${baseUrl}/ocs/v2.php/apps/richdocuments/api/v1/templates/new?format=json`,
 		form: true,
 		body: {
-			path, template,
+			path,
+			template,
 		},
 		// auth: { user: user.userId, pass: user.password },
 		headers: {
 			'OCS-ApiRequest': 'true',
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-	}).then(response => {
+	}).then((response) => {
 		cy.log(response)
 		const token = response.body?.ocs?.data?.url
 		cy.log(`Created direct editing token for ${user.userId}`, token)
@@ -64,7 +65,7 @@ const createNewFileDirectEditingLink = (user, path, template) => {
 	})
 }
 
-const createDirectEditingLinkForShareToken = (shareToken, host = undefined, path = '', password = undefined) => {
+function createDirectEditingLinkForShareToken(shareToken, host = undefined, path = '', password = undefined) {
 	cy.logout()
 	return cy.request({
 		method: 'POST',
@@ -81,10 +82,10 @@ const createDirectEditingLinkForShareToken = (shareToken, host = undefined, path
 			'OCS-ApiRequest': 'true',
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-	}).then(response => {
+	}).then((response) => {
 		cy.log(response)
 		const token = response.body?.ocs?.data?.url
-		cy.log(`Created direct editing token for share link`, token)
+		cy.log('Created direct editing token for share link', token)
 		cy.wrap(token)
 	})
 }
@@ -93,7 +94,7 @@ describe('Direct editing (legacy)', function() {
 	let randUser
 
 	before(function() {
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 		})
 	})
@@ -204,14 +205,11 @@ describe('Direct editing (legacy)', function() {
 					cy.waitForCollabora(false)
 					cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
-					cy.window().then(win => {
+					cy.window().then((win) => {
 						cy.spy(win.console, 'warn').as('consoleWarn')
 					})
 					cy.dispatchMessageFromOrigin('https://evil.example.com', { MessageId: 'Action_Save', Values: {} })
-					cy.get('@consoleWarn').should('have.been.calledWith',
-						'PostMessageService: rejected message from unexpected origin',
-						'https://evil.example.com'
-					)
+					cy.get('@consoleWarn').should('have.been.calledWith', 'PostMessageService: rejected message from unexpected origin', 'https://evil.example.com')
 				})
 		})
 
@@ -227,7 +225,7 @@ describe('Direct editing (legacy)', function() {
 					})
 					cy.waitForCollabora(false)
 					cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
-					cy.get('[data-cy="coolframe"]').then($iframe => {
+					cy.get('[data-cy="coolframe"]').then(($iframe) => {
 						const collaboraOrigin = $iframe[0].contentWindow.location.origin
 						cy.spy($iframe[0].contentWindow, 'postMessage').as('postMessage')
 						cy.dispatchMessageFromOrigin(collaboraOrigin, { MessageId: 'Action_Paste', Values: {} })
@@ -238,10 +236,10 @@ describe('Direct editing (legacy)', function() {
 	})
 
 	it.skip('Open a remotely shared file', () => {
-		cy.createRandomUser().then(shareRecipient => {
+		cy.createRandomUser().then((shareRecipient) => {
 			cy.login(randUser)
 			cy.shareFileToRemoteUser(randUser, '/document.odt', shareRecipient)
-				.then(incomingFileId => {
+				.then((incomingFileId) => {
 					createDirectEditingLink(shareRecipient, incomingFileId)
 						.then((token) => {
 							cy.logout()
@@ -286,5 +284,4 @@ describe('Direct editing (legacy)', function() {
 				cy.closeDirectDocument()
 			})
 	})
-
 })

@@ -6,23 +6,22 @@
 import { getCapabilities as getInitialCapabilities } from '@nextcloud/capabilities'
 
 interface OfficeCapabilities {
-	version: string;
-	mimetypes: string[];
+	version: string
+	mimetypes: string[]
 	config: {
-		wopi_url: string;
+		wopi_url: string
 	}
 }
 interface AllCapabilities {
-	richdocuments: OfficeCapabilities;
+	richdocuments: OfficeCapabilities
 }
 
 const initialCapabilities: AllCapabilities = <AllCapabilities>getInitialCapabilities()
 
 class CapabilitiesService {
-
 	private capabilities: OfficeCapabilities = (initialCapabilities as AllCapabilities).richdocuments
 
-	getCapabilities(): OfficeCapabilities|null {
+	getCapabilities(): OfficeCapabilities | null {
 		return this.capabilities
 	}
 
@@ -33,13 +32,15 @@ class CapabilitiesService {
 	updateCapability(key: string, value: string) {
 		this.capabilities[key] = value
 	}
-
 }
 
 const capabilitiesService = new CapabilitiesService()
 
-const getCapabilities = (): OfficeCapabilities => {
+/**
+ *
+ */
+function getCapabilities(): OfficeCapabilities {
 	return capabilitiesService.getCapabilities()
 }
 
-export { getCapabilities, capabilitiesService }
+export { capabilitiesService, getCapabilities }

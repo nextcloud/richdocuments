@@ -7,7 +7,10 @@ import { getCapabilities } from '../services/capabilities.ts'
 
 const ooxml = getCapabilities().config.doc_format === 'ooxml'
 
-const getFileTypes = () => {
+/**
+ *
+ */
+function getFileTypes() {
 	if (ooxml) {
 		return {
 			document: {
@@ -48,7 +51,11 @@ const getFileTypes = () => {
 	}
 }
 
-const getFileType = (document) => {
+/**
+ *
+ * @param document
+ */
+function getFileType(document) {
 	return {
 		...getFileTypes()[document],
 		name: document,

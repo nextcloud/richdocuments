@@ -7,9 +7,9 @@
 	<div class="settings-font">
 		<label :title="name">{{ name }}</label>
 		<img :src="overviewUrl" :alt="t('richdocuments', 'No font overview')">
-		<button :class="{
-				'icon-delete': true,
-				svg: true,
+		<button
+			class="icon-delete svg"
+			:class="{
 				'loading-small': disabled,
 			}"
 			:disabled="disabled"
@@ -20,8 +20,8 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
+import { generateUrl } from '@nextcloud/router'
 
 export default {
 	name: 'SettingsFont',
@@ -31,12 +31,14 @@ export default {
 			required: true,
 		},
 	},
+
 	emits: ['deleted'],
 	data() {
 		return {
 			disabled: false,
 		}
 	},
+
 	computed: {
 		overviewUrl() {
 			return generateUrl('/apps/richdocuments/settings/fonts/{name}/overview', {
@@ -44,6 +46,7 @@ export default {
 			})
 		},
 	},
+
 	methods: {
 		onDeleteClick() {
 			this.disabled = true

@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {User} from "@nextcloud/e2e-test-server/cypress";
+import { User } from '@nextcloud/e2e-test-server/cypress'
 
 describe('Global templates', function() {
-
 	let randUser
 	before(function() {
 		cy.nextcloudTestingAppConfigSet('richdocuments', 'doc_format', '')
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 			cy.createFolder(randUser, 'Templates-user')
 			cy.uploadFile(randUser, 'templates/presentation.otp', 'application/vnd.oasis.opendocument.presentation', '/Templates-user/presentation.otp')
@@ -162,7 +161,7 @@ describe('User templates', function() {
 		let randUser
 
 		before(() => {
-			cy.createRandomUser().then(user => {
+			cy.createRandomUser().then((user) => {
 				randUser = user
 
 				cy.login(randUser)
@@ -244,7 +243,7 @@ describe('User templates', function() {
 			})
 
 			// Test if the fields currently match the values we passed to the template
-			cy.get('@createdFileId').then(createdFileId => {
+			cy.get('@createdFileId').then((createdFileId) => {
 				cy.verifyTemplateFields(fields, createdFileId)
 			})
 		})

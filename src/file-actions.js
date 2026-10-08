@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { Permission, registerFileAction } from '@nextcloud/files'
-import { getCapabilities } from './services/capabilities.ts'
 import { translate as t } from '@nextcloud/l10n'
-import { openNode } from './helpers/viewer.js'
-
 // eslint-disable-next-line import/no-unresolved
 import appIcon from '../img/app.svg?raw'
+import { openNode } from './helpers/viewer.js'
+import { getCapabilities } from './services/capabilities.ts'
 
 const openPdf = {
 	id: 'office-open-pdf',
@@ -19,9 +18,7 @@ const openPdf = {
 	},
 
 	displayName: () => {
-		return t('richdocuments',
-			'Edit with {productName}',
-			{ productName: getCapabilities().productName })
+		return t('richdocuments', 'Edit with {productName}', { productName: getCapabilities().productName })
 	},
 
 	enabled: ({ nodes }) => {
@@ -56,9 +53,7 @@ const openMarkdown = {
 	},
 
 	displayName: () => {
-		return t('richdocuments',
-			'Edit with {productName}',
-			{ productName: getCapabilities().productName })
+		return t('richdocuments', 'Edit with {productName}', { productName: getCapabilities().productName })
 	},
 
 	enabled: ({ nodes }) => {

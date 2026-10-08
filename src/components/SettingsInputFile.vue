@@ -6,17 +6,18 @@
 <template>
 	<div class="settings-entry">
 		<label :for="id">{{ label }}</label><br>
-		<button id="uploadlogo"
+		<button
+			id="uploadlogo"
+			class="icon-upload svg"
 			:class="{
-				'icon-upload': true,
-				svg: true,
 				'loading-small': uploading,
 			}"
 			:disabled="uploading"
 			:title="buttonTitle"
 			@click="onUploadClick" />
 		<em v-if="hint !== ''">{{ hint }}</em>
-		<input :id="id"
+		<input
+			:id="id"
 			ref="fileInput"
 			type="file"
 			aria-hidden="true"
@@ -35,42 +36,52 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		buttonTitle: {
 			type: String,
 			default: '',
 		},
+
 		hint: {
 			type: String,
 			default: '',
 		},
+
 		uploading: {
 			type: Boolean,
 			default: false,
 		},
+
 		mimetypes: {
 			type: Array,
 			default: () => ['*'],
 		},
 	},
+
 	emits: ['change'],
 	data() {
 		return {
 		}
 	},
+
 	computed: {
 		id() {
 			return 'settings-file-' + this.uuid
 		},
+
 		acceptedMimeTypes() {
 			return this.mimetypes.join(',')
 		},
 	},
+
 	watch: {
 	},
+
 	beforeCreate() {
 		this.uuid = uuid.toString()
 		uuid += 1
 	},
+
 	methods: {
 		onUploadClick() {
 			this.$refs.fileInput.click()

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateUrl } from '@nextcloud/router'
-import { getCapabilities, capabilitiesService } from './capabilities'
 import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
+import { capabilitiesService, getCapabilities } from './capabilities'
 
 const wopiUrl = getCapabilities()?.config?.wopi_url
 const isConfigured = wopiUrl !== ''
@@ -13,7 +13,10 @@ const appWebRoots = OC.appswebroots
 const isCodeInstalled = appWebRoots?.richdocumentscode !== undefined || appWebRoots?.richdocumentscode_arm64 !== undefined
 const shouldAutoSetupCode = !isConfigured && isCodeInstalled
 
-const autoSetupBuiltInCodeServerIfNeeded = async () => {
+/**
+ *
+ */
+async function autoSetupBuiltInCodeServerIfNeeded() {
 	if (!isCodeInstalled || !shouldAutoSetupCode || !OC.isUserAdmin()) {
 		return
 	}

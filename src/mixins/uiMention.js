@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateOcsUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
-import Config from '../services/config.tsx'
-import { getNextcloudUrl } from '../helpers/url.js'
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
+import { getNextcloudUrl } from '../helpers/url.js'
+import Config from '../services/config.tsx'
 
 export default {
 	methods: {
@@ -28,7 +28,7 @@ export default {
 				// Workaround to add the current user to the suggestions if they are not already in the list
 				// https://github.com/nextcloud/server/issues/48180
 				const currentUser = getCurrentUser()
-				const userExists = users.some(user => user.id === currentUser.uid)
+				const userExists = users.some((user) => user.id === currentUser.uid)
 
 				if (!userExists) {
 					const matchesSearch = currentUser.uid.toLowerCase().includes(text.toLowerCase()) || currentUser.displayName.toLowerCase().includes(text.toLowerCase())

@@ -6,11 +6,13 @@
 <template>
 	<form @submit.prevent="submit">
 		<div class="input-wrapper">
-			<NcTextField v-model="inputVal"
+			<NcTextField
+				v-model="inputVal"
 				:label="label"
 				:disabled="disabled"
-				@update:model-value="$emit('update:modelValue', $event)" />
-			<NcButton type="submit"
+				@update:modelValue="$emit('update:modelValue', $event)" />
+			<NcButton
+				type="submit"
 				:disabled="disabled"
 				@click="submit">
 				{{ t('richdocuments', 'Save') }}
@@ -20,8 +22,8 @@
 </template>
 
 <script>
-import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default {
 	name: 'SettingsInputText',
@@ -29,35 +31,42 @@ export default {
 		NcTextField,
 		NcButton,
 	},
+
 	props: {
 		label: {
 			type: String,
 			required: true,
 		},
+
 		hint: {
 			type: String,
 			default: '',
 		},
+
 		modelValue: {
 			type: String,
 			default: '',
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	emits: ['update:modelValue', 'update'],
 	data() {
 		return {
 			inputVal: this.modelValue ?? '',
 		}
 	},
+
 	watch: {
 		modelValue(newVal) {
 			this.inputVal = newVal ?? ''
 		},
 	},
+
 	methods: {
 		submit() {
 			this.$emit('update', this.inputVal)

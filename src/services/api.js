@@ -6,6 +6,10 @@
 import axios from '@nextcloud/axios'
 import { generateFilePath } from '@nextcloud/router'
 
-export const savePersonalSetting = (data) => {
+/**
+ *
+ * @param data
+ */
+export function savePersonalSetting(data) {
 	return axios.post(generateFilePath('richdocuments', 'ajax', 'personal.php'), data)
 }

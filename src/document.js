@@ -1,28 +1,29 @@
-/**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
-import './init-shared.js'
-import $ from 'jquery'
-import { emit, subscribe } from '@nextcloud/event-bus'
-import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { emit, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
-import Config from './services/config.tsx'
-import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters.js'
-import { enableScrollLock } from './helpers/mobileFixer.js'
-import PostMessageService from './services/postMessage.tsx'
-import { getCapabilities } from './services/capabilities.ts'
+import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
+import $ from 'jquery'
+import SaveAs from './components/Modal/SaveAs.vue'
+import { generateCSSVarTokens, getCollaboraTheme, getUIDefaults } from './helpers/coolParameters.js'
 import {
 	callMobileMessage,
 	isDirectEditing,
 	isMobileInterfaceAvailable,
 } from './helpers/mobile.js'
-import { getWopiUrl, getSearchParam, getNextcloudUrl } from './helpers/url.js'
+import { enableScrollLock } from './helpers/mobileFixer.js'
+import { getNextcloudUrl, getSearchParam, getWopiUrl } from './helpers/url.js'
+import { getCapabilities } from './services/capabilities.ts'
+import Config from './services/config.tsx'
+import PostMessageService from './services/postMessage.tsx'
+
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+import './init-shared.js'
 import '../css/document.scss'
-import axios from '@nextcloud/axios'
-import { spawnDialog } from '@nextcloud/vue/functions/dialog'
-import SaveAs from './components/Modal/SaveAs.vue'
 
 const PostMessages = new PostMessageService({
 	parent: window.parent,
@@ -39,7 +40,10 @@ if (isDirectEditing()) {
 
 let checkingProxyStatus = false
 
-const checkProxyStatus = () => {
+/**
+ *
+ */
+function checkProxyStatus() {
 	checkingProxyStatus = true
 	const url = Config.get('urlsrc').slice(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
 	$.get(url + '?status').done(function(val) {
@@ -80,7 +84,10 @@ const checkProxyStatus = () => {
 	})
 }
 
-const showLoadingIndicator = () => {
+/**
+ *
+ */
+function showLoadingIndicator() {
 	if ((OC.appswebroots.richdocumentscode || OC.appswebroots.richdocumentscode_arm64) && Config.get('urlsrc').indexOf('proxy.php') >= 0) {
 		checkProxyStatus()
 	} else {
@@ -88,7 +95,10 @@ const showLoadingIndicator = () => {
 	}
 }
 
-const hideLoadingIndicator = () => {
+/**
+ *
+ */
+function hideLoadingIndicator() {
 	if (checkingProxyStatus) {
 		setTimeout(function() { hideLoadingIndicator() }, 100)
 		return
@@ -146,11 +156,11 @@ const documentsMain = {
 	UI: {
 		/* Editor wrapper HTML */
 		container: '<div id="mainContainer" class="claro">'
-					+ '</div>',
+			+ '</div>',
 
 		viewContainer: '<div id="revViewerContainer" class="claro">'
-						+ '<div id="revViewer"></div>'
-						+ '</div>',
+			+ '<div id="revViewer"></div>'
+			+ '</div>',
 
 		showViewer(fileId, title) {
 			// remove previous viewer, if open, and set a new one
@@ -175,7 +185,7 @@ const documentsMain = {
 				// buy product for new customer users
 				+ '<input name="buy_product" value="https://nextcloud.com/pricing" type="hidden"/>'
 				+ '<input name="host_session_id" value="nextcloud ' + OC.config.version
-					+ ' - richdocuments ' + getCapabilities().version + '" type="hidden"/>'
+				+ ' - richdocuments ' + getCapabilities().version + '" type="hidden"/>'
 				+ '</form>'
 
 			// iframe that contains the Collabora Online Viewer
@@ -237,7 +247,7 @@ const documentsMain = {
 				// buy product for new customer users
 				+ '<input name="buy_product" value="https://nextcloud.com/pricing" type="hidden"/>'
 				+ '<input name="host_session_id" value="nextcloud ' + OC.config.version
-					+ ' - richdocuments ' + getCapabilities().version + '" type="hidden"/>'
+				+ ' - richdocuments ' + getCapabilities().version + '" type="hidden"/>'
 				+ '</form>'
 
 			// iframe that contains the Collabora Online
@@ -280,58 +290,58 @@ const documentsMain = {
 					}
 
 					switch (args.Status) {
-					case 'Frame_Ready':
-						documentsMain.isFrameReady = true
-						documentsMain.wopiClientFeatures = args.Features
-						callMobileMessage('documentLoaded')
-						// Mirror the generic message used by other editors
-						// (e.g. text) so mobile clients integrating via the
-						// shared OCP\DirectEditing API receive a consistent
-						// signal regardless of editor.
-						callMobileMessage('loaded')
-						break
-					case 'Document_Loaded':
-						PostMessages.unregisterPostMessageHandler(editorInitListener)
+						case 'Frame_Ready':
+							documentsMain.isFrameReady = true
+							documentsMain.wopiClientFeatures = args.Features
+							callMobileMessage('documentLoaded')
+							// Mirror the generic message used by other editors
+							// (e.g. text) so mobile clients integrating via the
+							// shared OCP\DirectEditing API receive a consistent
+							// signal regardless of editor.
+							callMobileMessage('loaded')
+							break
+						case 'Document_Loaded':
+							PostMessages.unregisterPostMessageHandler(editorInitListener)
 
-						// Hide buttons when using the mobile app integration
-						if (isDirectEditing()) {
-							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Button', { id: 'fullscreen' })
-							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'fullscreen' })
-						}
-						if (!(Config.get('permissions') & OC.PERMISSION_SHARE)) {
-							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'shareas' })
-						}
+							// Hide buttons when using the mobile app integration
+							if (isDirectEditing()) {
+								PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Button', { id: 'fullscreen' })
+								PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'fullscreen' })
+							}
+							if (!(Config.get('permissions') & OC.PERMISSION_SHARE)) {
+								PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'shareas' })
+							}
 
-						if (Config.get('userId') === null) {
-							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'insertgraphicremote' })
-						}
+							if (Config.get('userId') === null) {
+								PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'insertgraphicremote' })
+							}
 
-						if (Config.get('userId') !== null && !Config.get('isPublicShare')) {
-							PostMessages.sendWOPIPostMessage('loolframe', 'Insert_Button', {
-								id: 'Open_Local_Editor',
-								imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
-								mobile: false,
-								tablet: false,
-								label: t('richdocuments', 'Open in local editor'),
-								hint: t('richdocuments', 'Open in local editor'),
-								insertBefore: 'print',
-								accessKey: '2',
+							if (Config.get('userId') !== null && !Config.get('isPublicShare')) {
+								PostMessages.sendWOPIPostMessage('loolframe', 'Insert_Button', {
+									id: 'Open_Local_Editor',
+									imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
+									mobile: false,
+									tablet: false,
+									label: t('richdocuments', 'Open in local editor'),
+									hint: t('richdocuments', 'Open in local editor'),
+									insertBefore: 'print',
+									accessKey: '2',
+								})
+							}
+
+							emit('richdocuments:wopi-load:succeeded', {
+								wopiFileId: fileId,
 							})
-						}
-
-						emit('richdocuments:wopi-load:succeeded', {
-							wopiFileId: fileId,
-						})
-						break
-					case 'Failed':
+							break
+						case 'Failed':
 						// Loading failed but editor shows the error
-						documentsMain.isFrameReady = true
-						emit('richdocuments:wopi-load:failed', {
-							reason: 'collabora',
-							collaboraResponse: 'App_LoadingStatus Failed',
-							wopiFileId: fileId,
-						})
-						break
+							documentsMain.isFrameReady = true
+							emit('richdocuments:wopi-load:failed', {
+								reason: 'collabora',
+								collaboraResponse: 'App_LoadingStatus Failed',
+								wopiFileId: fileId,
+							})
+							break
 					}
 				}
 
@@ -366,37 +376,37 @@ const documentsMain = {
 					if (documentsMain.isViewerMode) {
 						let { fileId, title, version } = args
 						switch (parsed.msgId) {
-						case 'Action_loadRevViewer':
-							documentsMain.UI.loadRevViewerContainer()
-							if (fileId) {
-								fileId += '_' + Config.get('instanceId')
-								if (version) {
-									fileId += `_${version}`
-									title += `_${version}`
+							case 'Action_loadRevViewer':
+								documentsMain.UI.loadRevViewerContainer()
+								if (fileId) {
+									fileId += '_' + Config.get('instanceId')
+									if (version) {
+										fileId += `_${version}`
+										title += `_${version}`
+									}
+									documentsMain.UI.showViewer(
+										fileId,
+										title,
+									)
 								}
-								documentsMain.UI.showViewer(
-									fileId, title,
-								)
-							}
-							break
-						case 'Host_VersionRestore':
+								break
+							case 'Host_VersionRestore':
 							// resolve the deferred object immediately if client doesn't support version states
-							if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
-								console.error('No version support')
-								// Not forwarding message to collabora
-								return
-							}
-							documentsMain.onCloseViewer()
-							break
-						case 'App_VersionRestore':
+								if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
+									console.error('No version support')
+									// Not forwarding message to collabora
+									return
+								}
+								documentsMain.onCloseViewer()
+								break
+							case 'App_VersionRestore':
 							// Status = Pre_Restore_Ack -> Ready to restore version
-							break
-						case 'UI_Share':
-							break
-						default:
-							return
+								break
+							case 'UI_Share':
+								break
+							default:
+								return
 						}
-
 					}
 
 					// Pass all messages to viewer if not direct editing or
@@ -434,50 +444,51 @@ const documentsMain = {
 					}
 
 					switch (parsed.msgId) {
-					case 'UI_Close':
-					case 'close':
-						documentsMain.onClose()
-						break
+						case 'UI_Close':
+						case 'close':
+							documentsMain.onClose()
+							break
 						// Messages received from the viewer
-					case 'postAsset':
-						documentsMain.postAsset(args.FileName, args.Url)
-						break
-					case 'UI_FileVersions':
-					case 'rev-history':
-						documentsMain.UI.loadRevViewerContainer()
-						documentsMain.UI.showViewer(
-							documentsMain.fileId, documentsMain.title,
-						)
-						break
-					case 'RD_Version_Restored':
-						$('#loleafletform_viewer').submit()
-						break
-					case 'File_Rename':
-						documentsMain.fileName = args.NewName
-						break
-					case 'Views_List':
-						documentsMain.users = []
-						parsed.args.forEach((view) => {
-							if (!view.UserId.startsWith('Guest-')) {
-								documentsMain.users.push({ id: view.UserId, label: view.UserName })
+						case 'postAsset':
+							documentsMain.postAsset(args.FileName, args.Url)
+							break
+						case 'UI_FileVersions':
+						case 'rev-history':
+							documentsMain.UI.loadRevViewerContainer()
+							documentsMain.UI.showViewer(
+								documentsMain.fileId,
+								documentsMain.title,
+							)
+							break
+						case 'RD_Version_Restored':
+							$('#loleafletform_viewer').submit()
+							break
+						case 'File_Rename':
+							documentsMain.fileName = args.NewName
+							break
+						case 'Views_List':
+							documentsMain.users = []
+							parsed.args.forEach((view) => {
+								if (!view.UserId.startsWith('Guest-')) {
+									documentsMain.users.push({ id: view.UserId, label: view.UserName })
+								}
+							})
+							break
+						case 'Get_Views_Resp':
+							if (documentsMain.openingLocally) {
+								documentsMain.UI.removeViews(parsed.args)
+								documentsMain.unlockFile()
+									.catch((_) => {}) // Unlocking failed, possibly because file was not locked, we want to proceed regardless.
+									.then(() => {
+										documentsMain.openLocally()
+									})
 							}
-						})
-						break
-					case 'Get_Views_Resp':
-						if (documentsMain.openingLocally) {
-							documentsMain.UI.removeViews(parsed.args)
-							documentsMain.unlockFile()
-								.catch(_ => {}) // Unlocking failed, possibly because file was not locked, we want to proceed regardless.
-								.then(() => {
-									documentsMain.openLocally()
-								})
-						}
-						break
-					case 'UI_Mention':
-						documentsMain.sendUserList(parsed.args.text)
-						break
-					default:
-						console.debug('[document] Unhandled post message', parsed)
+							break
+						case 'UI_Mention':
+							documentsMain.sendUserList(parsed.args.text)
+							break
+						default:
+							console.debug('[document] Unhandled post message', parsed)
 					}
 
 					if (msgId === 'UI_SaveAs') {
@@ -694,18 +705,17 @@ const documentsMain = {
 			return
 		}
 
-		window.addEventListener('mousemove', e => {
+		window.addEventListener('mousemove', (e) => {
 			localStorage.setItem('lastActive', Date.now())
 		})
 
-		window.addEventListener('touchstart', e => {
+		window.addEventListener('touchstart', (e) => {
 			localStorage.setItem('lastActive', Date.now())
 		})
 	},
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-
 	if (!OCA.RichDocuments) {
 		OCA.RichDocuments = {}
 	}

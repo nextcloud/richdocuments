@@ -4,6 +4,7 @@
  */
 /**
  * Determines if the resource is downloadable
+ *
  * @return {boolean}
  */
 function isDownloadHidden() {

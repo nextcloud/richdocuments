@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { generateRemoteUrl, getRootUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { generateRemoteUrl, getRootUrl } from '@nextcloud/router'
 
 export default {
 	data() {
@@ -17,7 +17,6 @@ export default {
 	},
 	mounted() {
 		subscribe('files_versions:restore:requested', this.onRestoreRequested)
-
 	},
 
 	beforeUnmount() {

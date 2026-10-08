@@ -3,25 +3,25 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import $ from 'jquery'
-import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { getFilePickerBuilder } from '@nextcloud/dialogs'
-import { spawnDialog } from '@nextcloud/vue/functions/dialog'
-import { isPublicShare } from '@nextcloud/sharing/public'
 import axios from '@nextcloud/axios'
+import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { getCurrentDirectory } from '../helpers/filesApp.js'
 import {
 	getSidebar,
 } from '@nextcloud/files'
 import {
+	defaultRootPath,
 	getClient,
 	getDefaultPropfind,
 	resultToNode,
-	defaultRootPath,
 } from '@nextcloud/files/dav'
+import { generateUrl } from '@nextcloud/router'
+import { isPublicShare } from '@nextcloud/sharing/public'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
+import $ from 'jquery'
 import SaveAs from '../components/Modal/SaveAs.vue'
+import { getCurrentDirectory } from '../helpers/filesApp.js'
 
 export default {
 
@@ -195,9 +195,7 @@ export default {
 	},
 
 	insertGraphic(insertFileProc) {
-		this.insertFile_impl(['image/png', 'image/gif', 'image/jpeg', 'image/svg'],
-			insertFileProc,
-			(filesAppIntegration, mimeTypeFilter, { insertFileFromPath }) => { return this.handlers.insertGraphic && this.handlers.insertGraphic(filesAppIntegration, { insertFileFromPath }) })
+		this.insertFile_impl(['image/png', 'image/gif', 'image/jpeg', 'image/svg'], insertFileProc, (filesAppIntegration, mimeTypeFilter, { insertFileFromPath }) => { return this.handlers.insertGraphic && this.handlers.insertGraphic(filesAppIntegration, { insertFileFromPath }) })
 	},
 
 	insertFile(mimeTypeFilter, insertFileProc) {
@@ -336,7 +334,6 @@ export default {
 		label.text(view.UserName)
 		if (view.ReadOnly === '1') {
 			label.text(view.UserName + ' ' + t('richdocuments', '(read only)'))
-
 		}
 		label.click((event) => {
 			event.stopPropagation()
