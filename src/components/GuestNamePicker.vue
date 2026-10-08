@@ -3,15 +3,18 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcModal v-model:show="show"
-		no-close
-		:out-transition="true"
+	<NcModal
+		v-model:show="show"
+		noClose
+		:outTransition="true"
 		size="small">
-		<form class="modal__content"
+		<form
+			class="modal__content"
 			data-cy="guestNameModal"
 			@submit.prevent.stop="submit">
 			<h3>
-				<NcIconSvgWrapper v-if="file.icon !== null"
+				<NcIconSvgWrapper
+					v-if="file.icon !== null"
 					:inline="true"
 					:svg="file.icon"
 					:size="35" />
@@ -23,17 +26,19 @@
 			</p>
 
 			<fieldset>
-				<NcTextField ref="guestNameInput"
-					:model-value="guestName"
+				<NcTextField
+					ref="guestNameInput"
+					:modelValue="guestName"
 					data-cy="guestNameInput"
 					:label="t('richdocuments', 'Guest name')"
 					:placeholder="t('richdocuments', 'Anonymous guest')"
 					type="text"
-					@update:model-value="setGuestName" />
+					@update:modelValue="setGuestName" />
 			</fieldset>
 
 			<div class="modal__buttons">
-				<NcButton data-cy="guestNameSubmit"
+				<NcButton
+					data-cy="guestNameSubmit"
 					:aria-label="t('richdocuments', 'Submit name')"
 					variant="primary"
 					type="submit">
@@ -46,9 +51,9 @@
 
 <script>
 import { setGuestNickname } from '@nextcloud/auth'
-import { NcButton, NcIconSvgWrapper, NcModal, NcTextField } from '@nextcloud/vue'
-import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
+import { translate as t } from '@nextcloud/l10n'
+import { NcButton, NcIconSvgWrapper, NcModal, NcTextField } from '@nextcloud/vue'
 
 export default {
 	name: 'GuestNamePicker',
@@ -65,6 +70,7 @@ export default {
 			type: Function,
 			default: () => {},
 		},
+
 		fileName: {
 			type: String,
 			default: '',
@@ -115,6 +121,7 @@ export default {
 		setGuestName(guestName) {
 			this.guestName = guestName
 		},
+
 		async submit() {
 			setGuestNickname(this.guestName)
 			this.show = false

@@ -7,11 +7,13 @@
 	<div>
 		<ul>
 			<li v-for="token in tokens" :key="token.token">
-				<input v-model="token.description"
+				<input
+					v-model="token.description"
 					type="text"
 					:placeholder="t('richdocuments', 'Description')"
 					:disabled="disabled">
-				<input class="token"
+				<input
+					class="token"
 					type="text"
 					disabled
 					:value="token.token">
@@ -22,7 +24,8 @@
 		<button :disabled="disabled" @click="addNewToken">
 			{{ t('richdocuments', 'Add new token') }}
 		</button>
-		<input type="button"
+		<input
+			type="button"
 			value="Save"
 			:disabled="disabled"
 			@click="updateTokens">
@@ -30,7 +33,10 @@
 </template>
 
 <script>
-const generateRandomToken = () => {
+/**
+ *
+ */
+function generateRandomToken() {
 	const len = 3
 	const array = new Uint32Array(len)
 	window.crypto.getRandomValues(array)
@@ -41,7 +47,11 @@ const generateRandomToken = () => {
 	return random
 }
 
-const appsStringToArray = (apps) => {
+/**
+ *
+ * @param apps
+ */
+function appsStringToArray(apps) {
 	if (apps === '') {
 		return []
 	}
@@ -53,7 +63,11 @@ const appsStringToArray = (apps) => {
 		}
 	})
 }
-const appsArrayToString = (apps) => {
+/**
+ *
+ * @param apps
+ */
+function appsArrayToString(apps) {
 	let result = ''
 	apps.forEach((item) => {
 		result += item.description + ':' + item.token + ','
@@ -67,20 +81,24 @@ export default {
 			type: String,
 			default: '',
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	emits: ['input'],
 	data() {
 		return {
 			tokens: [],
 		}
 	},
+
 	beforeMount() {
 		this.tokens = appsStringToArray(this.externalApps)
 	},
+
 	methods: {
 		addNewToken() {
 			this.tokens.push({
@@ -88,12 +106,15 @@ export default {
 				token: generateRandomToken(),
 			})
 		},
+
 		removeToken(token) {
 			this.tokens.splice(this.tokens.indexOf(token), 1)
 		},
+
 		updateTokens() {
 			this.$emit('input', appsArrayToString(this.tokens))
 		},
+
 		regenerateToken(token) {
 			token.token = generateRandomToken()
 		},

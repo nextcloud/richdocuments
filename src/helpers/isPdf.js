@@ -5,6 +5,7 @@
 
 /**
  * Determines if the resource is a PDF document
+ *
  * @return {boolean}
  */
 function isPdf() {

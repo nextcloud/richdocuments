@@ -6,7 +6,8 @@
 <template>
 	<div class="settings-entry font-list-settings">
 		<b>{{ label }}</b>
-		<SettingsFont v-for="name in sortedFonts"
+		<SettingsFont
+			v-for="name in sortedFonts"
 			:key="name"
 			:name="name"
 			@deleted="$emit('deleted', name)" />
@@ -21,21 +22,25 @@ export default {
 	components: {
 		SettingsFont,
 	},
+
 	props: {
 		label: {
 			type: String,
 			required: true,
 		},
+
 		fonts: {
 			type: Array,
 			default: () => [],
 		},
 	},
+
 	emits: ['deleted'],
 	data() {
 		return {
 		}
 	},
+
 	computed: {
 		sortedFonts() {
 			return this.fonts.slice().sort((a, b) => {
@@ -49,6 +54,7 @@ export default {
 			})
 		},
 	},
+
 	methods: {
 	},
 }

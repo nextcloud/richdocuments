@@ -11,12 +11,12 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
+const webpackPreprocessor = require('@cypress/webpack-batteries-included-preprocessor')
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 const cypressSplit = require('cypress-split')
-const webpackPreprocessor = require('@cypress/webpack-batteries-included-preprocessor')
 
 module.exports = (on, config) => {
 	cypressSplit(on, config)

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
 import { getLinkWithPicker } from '@nextcloud/vue/functions/reference'
 
 // FIXME: Migrate to vue component

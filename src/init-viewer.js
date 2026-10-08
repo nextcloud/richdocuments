@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import './init-shared.js'
-
-import { defineCustomElement } from 'vue'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { translatePlural as n, translate as t } from '@nextcloud/l10n'
 import { registerHandler } from '@nextcloud/viewer'
-import { getCapabilities } from './services/capabilities.ts'
+import { defineCustomElement } from 'vue'
 import Viewer from './view/Viewer.vue'
+import { getCapabilities } from './services/capabilities.ts'
+
+import './init-shared.js'
 
 const tagName = 'richdocuments-viewer'
 

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { autoSetupBuiltInCodeServerIfNeeded } from './services/builtInCode.ts'
+
 import './init-shared.js'
 import '../css/filetypes.scss'
-
-import { autoSetupBuiltInCodeServerIfNeeded } from './services/builtInCode.ts'
 
 autoSetupBuiltInCodeServerIfNeeded()

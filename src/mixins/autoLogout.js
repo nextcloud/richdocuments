@@ -3,14 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
 
 const config = loadState('core', 'config', {})
 
-const getInterval = () => {
+/**
+ *
+ */
+function getInterval() {
 	const interval = config.session_lifetime ? Math.floor(config.session_lifetime / 2) : 900
 	return Math.min(24 * 3600, Math.max(60, interval))
 }

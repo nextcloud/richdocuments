@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import axios from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
 
 const SupportedTaskTypes = {
 	Text: 'core:text2text',
@@ -35,17 +35,16 @@ export default {
 		},
 		handleTask(task) {
 			switch (task.type) {
+				case SupportedTaskTypes.Text:
+					this.insertAIText(task.output.output)
+					break
 
-			case SupportedTaskTypes.Text:
-				this.insertAIText(task.output.output)
-				break
+				case SupportedTaskTypes.Image:
+					this.insertAIImages(task.output.images)
+					break
 
-			case SupportedTaskTypes.Image:
-				this.insertAIImages(task.output.images)
-				break
-
-			default:
-				break
+				default:
+					break
 			}
 		},
 		insertAIText(text) {

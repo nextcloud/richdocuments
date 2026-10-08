@@ -5,7 +5,10 @@
 
 import { loadState } from '@nextcloud/initial-state'
 
-const getUIDefaults = () => {
+/**
+ *
+ */
+function getUIDefaults() {
 	const defaults = loadState('richdocuments', 'uiDefaults', {})
 	const statusBar = 'true'
 	const textRuler = 'false'
@@ -23,11 +26,17 @@ const getUIDefaults = () => {
 	return uiDefaults
 }
 
-const getCollaboraTheme = () => {
+/**
+ *
+ */
+function getCollaboraTheme() {
 	return loadState('richdocuments', 'theme', 'nextcloud')
 }
 
-const getUITheme = () => {
+/**
+ *
+ */
+function getUITheme() {
 	const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
 	let dataset = {}
 	try {
@@ -40,7 +49,12 @@ const getUITheme = () => {
 	return matchedDarkMode ? 'dark' : 'light'
 }
 
-const createDataThemeDiv = (elementType, theme) => {
+/**
+ *
+ * @param elementType
+ * @param theme
+ */
+function createDataThemeDiv(elementType, theme) {
 	const element = document.createElement(elementType)
 	element.setAttribute('id', 'cool-var-source-' + theme)
 	element.setAttribute('data-theme-' + theme, '')
@@ -48,7 +62,11 @@ const createDataThemeDiv = (elementType, theme) => {
 	return element
 }
 
-const generateCSSVarTokens = (isSettingIframe = false) => {
+/**
+ *
+ * @param isSettingIframe
+ */
+function generateCSSVarTokens(isSettingIframe = false) {
 	/* NC versus COOL */
 	const cssVarMap = {
 		'--color-primary-element-text': '--co-primary-text:--co-settings-btn-primary-text',
@@ -88,7 +106,7 @@ const generateCSSVarTokens = (isSettingIframe = false) => {
 				// try suffix -dark instead
 				cStyle = window.getComputedStyle(selectedElement).getPropertyValue(cssVarKey + '-dark')
 			}
-			if (!cStyle) continue // skip if it is not set
+			if (!cStyle) { continue } // skip if it is not set
 			const varNames = cssVarMap[cssVarKey].split(':')
 			for (let i = 0; i < varNames.length; ++i) {
 				str += varNames[i] + '=' + cStyle.trim() + ';'
@@ -145,8 +163,8 @@ const generateCSSVarTokens = (isSettingIframe = false) => {
 		const lightStyle = window.getComputedStyle(lightElement).getPropertyValue(varName)
 		const darkStyle = window.getComputedStyle(darkElement).getPropertyValue(varName)
 
-		if (lightStyle) str += varName.replace('--', '--nc-light-') + '=' + lightStyle.trim() + ';'
-		if (darkStyle) str += varName.replace('--', '--nc-dark-') + '=' + darkStyle.trim() + ';'
+		if (lightStyle) { str += varName.replace('--', '--nc-light-') + '=' + lightStyle.trim() + ';' }
+		if (darkStyle) { str += varName.replace('--', '--nc-dark-') + '=' + darkStyle.trim() + ';' }
 
 		// Workaround for now as we need primary-invert-if-dark which is not available on server yet
 		if (varName === '--primary-invert-if-bright') {
@@ -182,8 +200,8 @@ const generateCSSVarTokens = (isSettingIframe = false) => {
 }
 
 export {
-	getUIDefaults,
-	getCollaboraTheme,
 	generateCSSVarTokens,
+	getCollaboraTheme,
+	getUIDefaults,
 	getUITheme,
 }
