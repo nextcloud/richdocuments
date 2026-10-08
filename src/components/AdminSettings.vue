@@ -466,7 +466,7 @@ import axios from '@nextcloud/axios'
 import { showError, showWarning } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { generateFilePath, generateUrl } from '@nextcloud/router'
-import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
+import { getSharingToken } from '@nextcloud/sharing/public'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
@@ -637,7 +637,11 @@ export default {
 			if (newVal !== oldVal) {
 				const protocol = this.checkUrlProtocol(newVal)
 				const nextcloudProtocol = this.checkUrlProtocol(window.location.href)
-				if (protocol !== nextcloudProtocol) { this.serverError = PROTOCOL_MISMATCH } else { this.serverError = Object.values(getCapabilities().collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR }
+				if (protocol !== nextcloudProtocol) {
+					this.serverError = PROTOCOL_MISMATCH
+				} else {
+					this.serverError = Object.values(getCapabilities().collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
+				}
 			}
 		},
 	},
@@ -757,7 +761,7 @@ export default {
 			try {
 				const result = await axios.get(generateUrl('/apps/richdocuments/settings/demo'))
 				this.demoServers = result.data
-			} catch (e) {
+			} catch {
 				this.demoServers = []
 			}
 		},
@@ -765,7 +769,7 @@ export default {
 		update() {
 			this.updating = true
 			const settings = this.settings
-			axios.post(generateUrl('/apps/richdocuments/settings/watermark'), { settings }).then((response) => {
+			axios.post(generateUrl('/apps/richdocuments/settings/watermark'), { settings }).then(() => {
 				this.updating = false
 			}).catch((error) => {
 				this.updating = false
@@ -929,7 +933,7 @@ export default {
 			let url
 			try {
 				url = new URL(string)
-			} catch (_) {
+			} catch {
 				return false
 			}
 
@@ -957,7 +961,7 @@ export default {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
-			}).then((response) => {
+			}).then(() => {
 				// TODO reload font list
 				this.settings.fonts.push(file.name)
 			}).catch((error) => {

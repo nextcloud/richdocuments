@@ -40,10 +40,10 @@ function callMobileMessage(messageName, attributes) {
 			Values: attributes,
 		}
 	}
-	let attributesString = null
+	let attributesString
 	try {
 		attributesString = JSON.stringify(attributes)
-	} catch (e) {
+	} catch {
 		attributesString = null
 	}
 	// Forward to RichDocuments-specific mobile handler (legacy richdocuments WebView)

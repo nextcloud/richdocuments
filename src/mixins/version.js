@@ -47,7 +47,7 @@ export default {
 					},
 				})
 				emit('files_versions:restore:restored', this.versionToRestore)
-			} catch (e) {
+			} catch {
 				showError(t('richdocuments', 'Failed to revert the document to older version'))
 			}
 			this.versionToRestore = null

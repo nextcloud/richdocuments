@@ -23,6 +23,45 @@ export default defineConfig(
 		},
 	},
 
+	// WOPI post message payloads and the config store are untyped by nature
+	{
+		name: 'richdocuments/untyped-payloads',
+		rules: {
+			'@typescript-eslint/no-explicit-any': 'off',
+		},
+	},
+
+	// Levelled console output is intentional, stray `console.log` is not
+	{
+		name: 'richdocuments/console',
+		rules: {
+			'no-console': ['error', { allow: ['debug', 'warn', 'error'] }],
+		},
+	},
+
+	// ts-loader rejects `.ts` import paths (TS5097) and cannot enable
+	// `allowImportingTsExtensions`, which requires `noEmit`
+	{
+		name: 'richdocuments/ts-import-extensions',
+		files: ['**/*.ts', '**/*.tsx'],
+		rules: {
+			'import-extensions/extensions': 'off',
+		},
+	},
+
+	// Pre-existing single-word view components, renaming them is a breaking change
+	{
+		name: 'richdocuments/legacy-component-names',
+		files: [
+			'src/components/Modal/Confirmation.vue',
+			'src/view/Office.vue',
+			'src/view/Viewer.vue',
+		],
+		rules: {
+			'vue/multi-word-component-names': 'off',
+		},
+	},
+
 	{
 		name: 'richdocuments/cypress',
 		files: ['cypress/**/*.js'],

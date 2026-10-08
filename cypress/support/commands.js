@@ -10,7 +10,7 @@ addCommands()
 
 const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 
-Cypress.Commands.add('logout', (route = '/') => {
+Cypress.Commands.add('logout', () => {
 	Cypress.session.clearAllSavedSessions()
 	cy.clearCookies()
 })
@@ -71,7 +71,7 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 				})
 		} catch (error) {
 			cy.log(error)
-			throw new Error(`Unable to process fixture ${fixture}`)
+			throw new Error(`Unable to process fixture ${fixture}`, { cause: error })
 		}
 	})
 })

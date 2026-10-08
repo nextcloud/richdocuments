@@ -4,7 +4,6 @@
  */
 import { Permission, registerFileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-// eslint-disable-next-line import/no-unresolved
 import appIcon from '../img/app.svg?raw'
 import { openNode } from './helpers/viewer.js'
 import { getCapabilities } from './services/capabilities.ts'

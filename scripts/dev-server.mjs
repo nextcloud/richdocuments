@@ -9,11 +9,11 @@
 //   node scripts/dev-server.mjs start   (BRANCH=master by default)
 //   node scripts/dev-server.mjs stop
 
+import { configureNextcloud, runExec, runOcc, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/e2e-test-server/docker'
 import { execFileSync } from 'node:child_process'
 import { copyFileSync, mkdirSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { configureNextcloud, runExec, runOcc, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/e2e-test-server/docker'
 
 const NEXTCLOUD_PORT = 8081
 const COLLABORA_PORT = 9980
@@ -32,14 +32,18 @@ const docker = (...args) => execFileSync('docker', args, { stdio: 'inherit' })
 
 function startCollabora() {
 	execFileSync('docker', ['rm', '-f', COLLABORA_CONTAINER], { stdio: 'ignore' })
-	docker('run', '-d', '--name', COLLABORA_CONTAINER,
-		'-p', `${COLLABORA_PORT}:9980`,
-		'--cap-add', 'SYS_ADMIN', '--cap-add', 'SYS_CHROOT',
-		'-e', 'extra_params=--o:ssl.enable=false --o:home_mode.enable=true',
-		'-e', `aliasgroup1=${internalNextcloudUrl}`,
+	docker(...[
+		['run', '-d'],
+		['--name', COLLABORA_CONTAINER],
+		['-p', `${COLLABORA_PORT}:9980`],
+		['--cap-add', 'SYS_ADMIN'],
+		['--cap-add', 'SYS_CHROOT'],
+		['-e', 'extra_params=--o:ssl.enable=false --o:home_mode.enable=true'],
+		['-e', `aliasgroup1=${internalNextcloudUrl}`],
 		// Discovery reports this host to the browser, whichever host Nextcloud used to fetch it
-		'-e', `server_name=localhost:${COLLABORA_PORT}`,
-		COLLABORA_IMAGE)
+		['-e', `server_name=localhost:${COLLABORA_PORT}`],
+		[COLLABORA_IMAGE],
+	].flat())
 }
 
 async function waitOnCollabora() {
@@ -48,7 +52,9 @@ async function waitOnCollabora() {
 			if ((await fetch(`${collaboraUrl}/hosting/discovery`)).ok) {
 				return
 			}
-		} catch {}
+		} catch {
+			// Collabora is not accepting connections yet, retry below
+		}
 		await new Promise((resolve) => setTimeout(resolve, 1000))
 	}
 	throw new Error(`Collabora did not come up on ${collaboraUrl}`)

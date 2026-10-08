@@ -12,7 +12,7 @@
 		label="displayname"
 		:inputLabel="label"
 		:multiple="true"
-		:closeOnSelect="false"
+		:keepOpen="true"
 		:disabled="disabled"
 		@update:modelValue="update"
 		@search="asyncFindGroup">
@@ -78,7 +78,7 @@ export default {
 	},
 
 	watch: {
-		modelValue(newVal) {
+		modelValue() {
 			this.inputValObjects = this.getValueObject()
 		},
 	},
@@ -93,7 +93,7 @@ export default {
 		})
 		this.inputValObjects = this.getValueObject()
 		// Fetch actual group metadata
-		this.asyncFindGroup('').then((result) => {
+		this.asyncFindGroup('').then(() => {
 			this.inputValObjects = this.getValueObject()
 		})
 	},

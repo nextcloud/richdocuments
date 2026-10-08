@@ -76,7 +76,9 @@ function checkProxyStatus() {
 			}
 
 			// retry...
-			setTimeout(function() { checkProxyStatus() }, 100)
+			setTimeout(function() {
+				checkProxyStatus()
+			}, 100)
 			return
 		}
 
@@ -100,7 +102,9 @@ function showLoadingIndicator() {
  */
 function hideLoadingIndicator() {
 	if (checkingProxyStatus) {
-		setTimeout(function() { hideLoadingIndicator() }, 100)
+		setTimeout(function() {
+			hideLoadingIndicator()
+		}, 100)
 		return
 	}
 
@@ -215,13 +219,15 @@ const documentsMain = {
 
 		showEditor(title, fileId, action) {
 			if (!documentsMain.renderComplete) {
-				setTimeout(function() { documentsMain.UI.showEditor(title, fileId, action) }, 10)
+				setTimeout(function() {
+					documentsMain.UI.showEditor(title, fileId, action)
+				}, 10)
 				console.debug('Waiting for page to render…')
 				return
 			}
 
 			if (!isDirectEditing()) {
-				OC.Util.History.addOnPopStateHandler(_.bind(documentsMain.onClose))
+				OC.Util.History.addOnPopStateHandler(documentsMain.onClose)
 				OC.Util.History.pushState()
 			}
 
@@ -374,7 +380,8 @@ const documentsMain = {
 					}
 
 					if (documentsMain.isViewerMode) {
-						let { fileId, title, version } = args
+						const { version } = args
+						let { fileId, title } = args
 						switch (parsed.msgId) {
 							case 'Action_loadRevViewer':
 								documentsMain.UI.loadRevViewerContainer()
@@ -478,7 +485,7 @@ const documentsMain = {
 							if (documentsMain.openingLocally) {
 								documentsMain.UI.removeViews(parsed.args)
 								documentsMain.unlockFile()
-									.catch((_) => {}) // Unlocking failed, possibly because file was not locked, we want to proceed regardless.
+									.catch(() => {}) // Unlocking failed, possibly because file was not locked, we want to proceed regardless.
 									.then(() => {
 										documentsMain.openLocally()
 									})
@@ -563,7 +570,9 @@ const documentsMain = {
 					params: { search },
 				})
 				users = result.data.ocs.data
-			} catch (e) { }
+			} catch {
+				// Keep the already known users when autocomplete is unavailable
+			}
 		}
 
 		const list = users.map((user) => {
@@ -599,7 +608,9 @@ const documentsMain = {
 					loolframe: new URL(urlsrc).origin,
 					parent: window.location.origin,
 				})
-			} catch (e) {}
+			} catch {
+				// A malformed urlsrc leaves the post message origins unrestricted
+			}
 		}
 		documentsMain.urlsrc = urlsrc
 		documentsMain.fullPath = Config.get('path')
@@ -705,11 +716,11 @@ const documentsMain = {
 			return
 		}
 
-		window.addEventListener('mousemove', (e) => {
+		window.addEventListener('mousemove', () => {
 			localStorage.setItem('lastActive', Date.now())
 		})
 
-		window.addEventListener('touchstart', (e) => {
+		window.addEventListener('touchstart', () => {
 			localStorage.setItem('lastActive', Date.now())
 		})
 	},

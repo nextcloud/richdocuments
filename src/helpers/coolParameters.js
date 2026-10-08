@@ -41,7 +41,7 @@ function getUITheme() {
 	let dataset = {}
 	try {
 		dataset = (document.body.dataset.themes ? document.body.dataset : parent?.document.body.dataset) ?? {}
-	} catch (e) {
+	} catch {
 		// Ignore errors here in case we run into cross-origin domains
 	}
 	const nextcloudDarkMode = dataset?.themeDark === '' || dataset?.themeDarkHighcontrast === ''
@@ -106,13 +106,16 @@ function generateCSSVarTokens(isSettingIframe = false) {
 				// try suffix -dark instead
 				cStyle = window.getComputedStyle(selectedElement).getPropertyValue(cssVarKey + '-dark')
 			}
-			if (!cStyle) { continue } // skip if it is not set
+			if (!cStyle) {
+				// skip if it is not set
+				continue
+			}
 			const varNames = cssVarMap[cssVarKey].split(':')
 			for (let i = 0; i < varNames.length; ++i) {
 				str += varNames[i] + '=' + cStyle.trim() + ';'
 			}
 		}
-	} catch (e) {
+	} catch {
 		// Skip extracting css vars if we cannot access parent
 	}
 
@@ -163,8 +166,12 @@ function generateCSSVarTokens(isSettingIframe = false) {
 		const lightStyle = window.getComputedStyle(lightElement).getPropertyValue(varName)
 		const darkStyle = window.getComputedStyle(darkElement).getPropertyValue(varName)
 
-		if (lightStyle) { str += varName.replace('--', '--nc-light-') + '=' + lightStyle.trim() + ';' }
-		if (darkStyle) { str += varName.replace('--', '--nc-dark-') + '=' + darkStyle.trim() + ';' }
+		if (lightStyle) {
+			str += varName.replace('--', '--nc-light-') + '=' + lightStyle.trim() + ';'
+		}
+		if (darkStyle) {
+			str += varName.replace('--', '--nc-dark-') + '=' + darkStyle.trim() + ';'
+		}
 
 		// Workaround for now as we need primary-invert-if-dark which is not available on server yet
 		if (varName === '--primary-invert-if-bright') {

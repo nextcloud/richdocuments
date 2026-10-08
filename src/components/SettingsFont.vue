@@ -53,7 +53,7 @@ export default {
 			const url = generateUrl('/apps/richdocuments/settings/fonts/{name}', {
 				name: this.name,
 			})
-			axios.delete(url).then((response) => {
+			axios.delete(url).then(() => {
 				this.$emit('deleted')
 			}).catch((error) => {
 				console.error(error)
