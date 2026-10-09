@@ -107,6 +107,7 @@ class TemplatesController extends Controller {
 				$this->logger->error('Failed to get the uploaded file. PHP file upload error code: ' . $error);
 				$message = match ($error) {
 					UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => $this->l10n->t('File is too big'),
+					UPLOAD_ERR_NO_FILE => $this->l10n->t('No file was uploaded'),
 					default => $this->l10n->t('Failed to upload the file'),
 				};
 				return new JSONResponse(
