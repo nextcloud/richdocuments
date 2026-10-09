@@ -21,7 +21,8 @@
 
 					<p v-if="isNginx && serverMode === 'builtin'">
 						{{ t('richdocuments', 'This might be due to a missing configuration of your web server. For more information, please visit: ') }}
-						<a title="Connecting Collabora Online Single Click with Nginx"
+						<a
+							title="Connecting Collabora Online Single Click with Nginx"
 							href="https://www.collaboraoffice.com/online/connecting-collabora-online-single-click-with-nginx/"
 							target="_blank"
 							rel="noopener"
@@ -58,7 +59,8 @@
 			<NcNoteCard v-if="settings.wopi_url && settings.wopi_url !== '' && !settings.wopi_allowlist" type="warning">
 				<p>
 					{{ t('richdocuments', 'You have not configured the allow-list for WOPI requests. Without this setting users may download restricted files via WOPI requests to the Nextcloud server.') }}
-					<a title="WOPI settings documentation"
+					<a
+						title="WOPI settings documentation"
 						href="https://docs.nextcloud.com/server/latest/admin_manual/office/configuration.html#wopi-settings"
 						target="_blank"
 						rel="noopener"
@@ -68,7 +70,8 @@
 
 			<fieldset>
 				<div>
-					<input id="customserver"
+					<input
+						id="customserver"
 						v-model="serverMode"
 						type="radio"
 						name="serverMode"
@@ -84,14 +87,16 @@
 						<form @submit.prevent.stop="updateServer">
 							<p>
 								<label for="wopi_url">{{ t('richdocuments', 'URL (and Port) of Collabora Online-server') }}</label><br>
-								<input id="wopi_url"
+								<input
+									id="wopi_url"
 									v-model="settings.wopi_url"
 									type="text"
 									:disabled="updating">
 								<input type="submit" value="Save" :disabled="updating"><br>
 							</p>
 							<p>
-								<input id="disable_certificate_verification"
+								<input
+									id="disable_certificate_verification"
 									v-model="settings.disable_certificate_verification"
 									type="checkbox"
 									class="checkbox"
@@ -104,7 +109,8 @@
 					</div>
 				</div>
 				<div v-if="CODECompatible">
-					<input id="builtinserver"
+					<input
+						id="builtinserver"
 						v-model="serverMode"
 						type="radio"
 						name="serverMode"
@@ -130,7 +136,8 @@
 					</div>
 				</div>
 				<div>
-					<input id="demoserver"
+					<input
+						id="demoserver"
 						v-model="serverMode"
 						type="radio"
 						name="serverMode"
@@ -156,7 +163,8 @@
 							</li>
 						</ul><br>
 						<p>
-							{{ t('richdocuments', 'For use cases like this, we offer instructions for a') }} <a title="Quick tryout with Nextcloud docker"
+							{{ t('richdocuments', 'For use cases like this, we offer instructions for a') }} <a
+								title="Quick tryout with Nextcloud docker"
 								href="https://www.collaboraoffice.com/code/quick-tryout-nextcloud-docker/"
 								target="_blank"
 								rel="noopener"
@@ -165,20 +173,21 @@
 					</div>
 					<div v-if="serverMode === 'demo'" class="option-inline">
 						<p v-if="demoServers === null">
-							{{ t('richdocuments', 'Loading available demo servers …') }}
+							{{ t('richdocuments', 'Loading available demo servers …') }}
 						</p>
 						<p v-else-if="demoServers.length > 0">
-							<NcSelect v-if="serverMode === 'demo'"
+							<NcSelect
+								v-if="serverMode === 'demo'"
 								v-model="settings.demoUrl"
-								:custom-label="demoServerLabel"
-								track-by="demo_url"
+								:customLabel="demoServerLabel"
+								trackBy="demo_url"
 								label="demo_url"
 								placeholder="Select a demo server"
 								:options="demoServers"
 								:searchable="false"
-								:allow-empty="false"
+								:allowEmpty="false"
 								:disabled="updating"
-								@update:model-value="setDemoServer" />
+								@update:modelValue="setDemoServer" />
 						</p>
 						<p v-else>
 							{{ t('richdocuments', 'No available demo servers found.') }}
@@ -187,7 +196,8 @@
 						<p v-if="settings.demoUrl">
 							<em>
 								{{ t('richdocuments', 'Documents opened with the demo server configured will be sent to a 3rd party server. Only use this for evaluating Collabora Online.') }}<br>
-								<a :href="settings.demoUrl.provider_url"
+								<a
+									:href="settings.demoUrl.provider_url"
 									target="_blank"
 									rel="noreferrer noopener"
 									class="external">{{ providerDescription }}</a>
@@ -209,54 +219,62 @@
 					<li>{{ t('richdocuments', 'The users documents will not be retained by a third party after their session completes except in exceptional circumstances. By using the service, the user gives permission for Collabora engineers to exceptionally use such document data, solely for the purpose of providing, optimizing and improving Collabora Online. Such document data will remain confidential to Collabora and/or any third party providing a demo server.') }}</li>
 				</ul>
 				<p>{{ t('richdocuments', 'At the first use and after an update, each user will get the warning, explaining all the above.') }}</p>
-				<input type="button"
+				<input
+					type="button"
 					class="primary"
 					:value="t('richdocuments', 'I agree, and use the demo server')"
-					@click="approvedDemoModal=true">
+					@click="approvedDemoModal = true">
 				<input type="button" :value="t('richdocuments', 'I will setup my own server')" @click="serverMode = 'custom'">
 			</div>
 		</NcModal>
 
 		<div v-if="isSetup" id="advanced-settings" class="section">
 			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
-			<SettingsCheckbox :model-value="isOoxml"
+			<SettingsCheckbox
+				:modelValue="isOoxml"
 				:label="t('richdocuments', 'Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files')"
 				hint=""
 				:disabled="updating"
-				@update:model-value="updateOoxml" />
+				@update:modelValue="updateOoxml" />
 
-			<SettingsCheckbox :model-value="settings.use_groups?.length > 0"
+			<SettingsCheckbox
+				:modelValue="settings.use_groups?.length > 0"
 				:label="t('richdocuments', 'Restrict usage to specific groups')"
 				:hint="t('richdocuments', '{productName} is enabled for all users by default. When this setting is active, only members of the specified groups can use it.', { productName })"
 				:disabled="updating"
-				@update:model-value="updateUseGroups">
-				<SettingsSelectGroup v-if="uiVisible.use_groups || settings.use_groups?.length > 0"
+				@update:modelValue="updateUseGroups">
+				<SettingsSelectGroup
+					v-if="uiVisible.use_groups || settings.use_groups?.length > 0"
 					v-model="settings.use_groups"
 					:label="t('richdocuments', 'Select groups')"
 					class="option-inline"
 					:disabled="updating"
-					@update:model-value="updateUseGroups" />
+					@update:modelValue="updateUseGroups" />
 			</SettingsCheckbox>
 
-			<SettingsCheckbox :model-value="settings.edit_groups?.length > 0"
+			<SettingsCheckbox
+				:modelValue="settings.edit_groups?.length > 0"
 				:label="t('richdocuments', 'Restrict edit to specific groups')"
 				:hint="t('richdocuments', 'All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit, whereas the others can only view documents.', { productName })"
 				:disabled="updating"
-				@update:model-value="updateEditGroups">
-				<SettingsSelectGroup v-if="uiVisible.edit_groups || settings.edit_groups?.length > 0"
+				@update:modelValue="updateEditGroups">
+				<SettingsSelectGroup
+					v-if="uiVisible.edit_groups || settings.edit_groups?.length > 0"
 					v-model="settings.edit_groups"
 					:label="t('richdocuments', 'Select groups')"
 					class="option-inline"
 					:disabled="updating"
-					@update:model-value="updateEditGroups" />
+					@update:modelValue="updateEditGroups" />
 			</SettingsCheckbox>
 
-			<SettingsCheckbox v-model="uiVisible.canonical_webroot"
+			<SettingsCheckbox
+				v-model="uiVisible.canonical_webroot"
 				:label="t('richdocuments', 'Use Canonical webroot')"
 				hint=""
 				:disabled="updating"
-				@update:model-value="updateCanonicalWebroot">
-				<SettingsInputText v-if="uiVisible.canonical_webroot"
+				@update:modelValue="updateCanonicalWebroot">
+				<SettingsInputText
+					v-if="uiVisible.canonical_webroot"
 					v-model="settings.canonical_webroot"
 					label=""
 					:hint="t('richdocuments', 'Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.')"
@@ -265,20 +283,23 @@
 					@update="updateCanonicalWebroot" />
 			</SettingsCheckbox>
 
-			<SettingsCheckbox v-model="uiVisible.external_apps"
+			<SettingsCheckbox
+				v-model="uiVisible.external_apps"
 				:label="t('richdocuments', 'Enable access for external apps')"
 				hint=""
 				:disabled="updating"
-				@update:model-value="updateExternalApps">
+				@update:modelValue="updateExternalApps">
 				<div v-if="uiVisible.external_apps">
-					<SettingsExternalApps class="option-inline"
-						:external-apps="settings.external_apps"
+					<SettingsExternalApps
+						class="option-inline"
+						:externalApps="settings.external_apps"
 						:disabled="updating"
 						@input="updateExternalApps" />
 				</div>
 			</SettingsCheckbox>
 
-			<SettingsInputText v-model="settings.wopi_allowlist"
+			<SettingsInputText
+				v-model="settings.wopi_allowlist"
 				label="Allow list for WOPI requests"
 				:hint="t('richdocuments', 'List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests of the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24')"
 				:disabled="updating"
@@ -287,12 +308,14 @@
 
 		<div v-if="isSetup" id="font-settings" class="section">
 			<h2>{{ t('richdocuments', 'Custom Fonts') }}</h2>
-			<SettingsInputFile :label="t('richdocuments', 'Upload font file')"
-				:button-title="t('richdocuments', 'Upload a font file')"
+			<SettingsInputFile
+				:label="t('richdocuments', 'Upload font file')"
+				:buttonTitle="t('richdocuments', 'Upload a font file')"
 				:uploading="uploadingFont"
 				:mimetypes="fontMimes"
 				@change="uploadFont" />
-			<SettingsFontList :fonts="settings.fonts"
+			<SettingsFontList
+				:fonts="settings.fonts"
 				:label="t('richdocuments', 'Available fonts')"
 				@deleted="onFontDeleted" />
 			<em v-if="showFontConfigHint">
@@ -318,92 +341,106 @@
 				<li>{{ t('richdocuments', 'Files may still be downloadable via WOPI requests if WOPI settings are not correctly configured') }}</li>
 				<li>{{ t('richdocuments', 'Previews will be blocked') }}</li>
 			</ul>
-			<SettingsCheckbox v-model="settings.watermark.enabled"
+			<SettingsCheckbox
+				v-model="settings.watermark.enabled"
 				:label="t('richdocuments', 'Enable secure view')"
 				hint=""
 				:disabled="updating"
-				@update:model-value="update" />
-			<SettingsInputText v-if="settings.watermark.enabled"
+				@update:modelValue="update" />
+			<SettingsInputText
+				v-if="settings.watermark.enabled"
 				v-model="settings.watermark.text"
 				label="Watermark text"
 				:hint="t('richdocuments', 'Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}')"
 				:disabled="updating"
 				@update="update" />
 			<div v-if="settings.watermark.enabled">
-				<SettingsCheckbox v-model="settings.watermark.allTags"
+				<SettingsCheckbox
+					v-model="settings.watermark.allTags"
 					:label="t('richdocuments', 'Enforce secure view on tagged files')"
 					:disabled="updating"
-					@update:model-value="update" />
+					@update:modelValue="update" />
 				<p v-if="settings.watermark.allTags" class="checkbox-details">
-					<NcSelectTags v-model="settings.watermark.allTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @update:model-value="update" />
+					<NcSelectTags v-model="settings.watermark.allTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @update:modelValue="update" />
 				</p>
-				<SettingsCheckbox v-model="settings.watermark.allGroups"
+				<SettingsCheckbox
+					v-model="settings.watermark.allGroups"
 					:label="t('richdocuments', 'Enforce secure view for users of groups')"
 					:disabled="updating"
-					@update:model-value="update" />
+					@update:modelValue="update" />
 				<p v-if="settings.watermark.allGroups" class="checkbox-details">
-					<SettingsSelectGroup v-model="settings.watermark.allGroupsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @update:model-value="update" />
+					<SettingsSelectGroup v-model="settings.watermark.allGroupsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @update:modelValue="update" />
 				</p>
-				<SettingsCheckbox v-model="settings.watermark.shareAll"
+				<SettingsCheckbox
+					v-model="settings.watermark.shareAll"
 					:label="t('richdocuments', 'Enforce secure view for all shares')"
 					hint=""
 					:disabled="updating"
-					@update:model-value="update" />
-				<SettingsCheckbox v-if="!settings.watermark.shareAll"
+					@update:modelValue="update" />
+				<SettingsCheckbox
+					v-if="!settings.watermark.shareAll"
 					v-model="settings.watermark.shareRead"
 					:label="t('richdocuments', 'Enforce secure view for read only shares')"
 					hint=""
 					:disabled="updating"
-					@update:model-value="update" />
-				<SettingsCheckbox v-model="settings.watermark.shareTalkPublic"
+					@update:modelValue="update" />
+				<SettingsCheckbox
+					v-model="settings.watermark.shareTalkPublic"
 					:label="t('richdocuments', 'Enforce secure view for all public Talk shares')"
 					hint=""
 					:disabled="updating"
-					@update:model-value="update" />
-				<SettingsCheckbox v-if="!settings.watermark.shareAll"
+					@update:modelValue="update" />
+				<SettingsCheckbox
+					v-if="!settings.watermark.shareAll"
 					v-model="settings.watermark.shareDisabledDownload"
 					:label="t('richdocuments', 'Enforce secure view for shares without download permission')"
 					hint=""
 					:disabled="updating"
-					@update:model-value="update" />
+					@update:modelValue="update" />
 
 				<h3>Link shares</h3>
-				<SettingsCheckbox v-model="settings.watermark.linkAll"
+				<SettingsCheckbox
+					v-model="settings.watermark.linkAll"
 					:label="t('richdocuments', 'Enforce secure view for all link shares')"
 					hint=""
 					:disabled="updating"
-					@update:model-value="update" />
-				<SettingsCheckbox v-if="!settings.watermark.linkAll"
+					@update:modelValue="update" />
+				<SettingsCheckbox
+					v-if="!settings.watermark.linkAll"
 					v-model="settings.watermark.linkSecure"
 					:label="t('richdocuments', 'Enforce secure view for download hidden shares')"
 					hint=""
 					:disabled="updating"
-					@update:model-value="update" />
-				<SettingsCheckbox v-if="!settings.watermark.linkAll"
+					@update:modelValue="update" />
+				<SettingsCheckbox
+					v-if="!settings.watermark.linkAll"
 					v-model="settings.watermark.linkRead"
 					:label="t('richdocuments', 'Enforce secure view for read only link shares')"
 					hint=""
 					:disabled="updating"
-					@update:model-value="update" />
-				<SettingsCheckbox v-if="!settings.watermark.linkAll"
+					@update:modelValue="update" />
+				<SettingsCheckbox
+					v-if="!settings.watermark.linkAll"
 					v-model="settings.watermark.linkTags"
 					:label="t('richdocuments', 'Enforce secure view on link shares with specific system tags')"
 					:disabled="updating"
-					@update:model-value="update" />
+					@update:modelValue="update" />
 				<p v-if="!settings.watermark.linkAll && settings.watermark.linkTags" class="checkbox-details">
-					<NcSelectTags v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce secure view')" @update:model-value="update" />
+					<NcSelectTags v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce secure view')" @update:modelValue="update" />
 				</p>
 			</div>
 		</div>
 
 		<div v-if="isSetup" id="esignature-settings" class="section">
 			<h2>{{ t('richdocuments', 'Electronic Signature') }}</h2>
-			<SettingsInputText v-model="settings.esignature_client_id"
+			<SettingsInputText
+				v-model="settings.esignature_client_id"
 				:label="t('richdocuments', 'Client ID for the electronic signature API')"
 				:hint="t('richdocuments', 'Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret.')"
 				:disabled="updating"
 				@update="updateESignatureClientId" />
-			<SettingsInputText v-model="settings.esignature_secret"
+			<SettingsInputText
+				v-model="settings.esignature_secret"
 				:label="t('richdocuments', 'Secret for the electronic signature API')"
 				:hint="t('richdocuments', 'The secret is only sent to requests that can be verified to come from the Collabora server. Generate a WOPI proof key on the Collabora server or configure the WOPI allow list, otherwise electronic signatures stay unavailable.')"
 				:disabled="updating"
@@ -412,40 +449,40 @@
 
 		<GlobalTemplates v-if="isSetup" />
 
-		<CoolFrame v-if="tokenGenerated"
+		<CoolFrame
+			v-if="tokenGenerated"
 			class="section"
-			:iframe-type="'admin'"
-			:iframe-url="settings.setting_iframe_url"
-			:access-token="accessToken"
-			:access-token-t-t-l="accessTokenTTL"
-			:wopi-setting-base-url="wopiSettingBaseUrl" />
+			iframeType="admin"
+			:iframeUrl="settings.setting_iframe_url"
+			:accessToken="accessToken"
+			:accessTokenTTL="accessTokenTTL"
+			:wopiSettingBaseUrl="wopiSettingBaseUrl" />
 	</div>
 </template>
 
 <script>
+import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { showError, showWarning } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import { generateUrl, generateFilePath } from '@nextcloud/router'
-import { showWarning, showError } from '@nextcloud/dialogs'
+import { generateFilePath, generateUrl } from '@nextcloud/router'
+import { getSharingToken } from '@nextcloud/sharing/public'
 import NcModal from '@nextcloud/vue/components/NcModal'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import axios from '@nextcloud/axios'
+import GlobalTemplates from './AdminSettings/GlobalTemplates.vue'
+import CoolFrame from './CoolFrame.vue'
 import SettingsCheckbox from './SettingsCheckbox.vue'
+import SettingsExternalApps from './SettingsExternalApps.vue'
+import SettingsFontList from './SettingsFontList.vue'
+import SettingsInputFile from './SettingsInputFile.vue'
 import SettingsInputText from './SettingsInputText.vue'
 import SettingsSelectGroup from './SettingsSelectGroup.vue'
-import SettingsExternalApps from './SettingsExternalApps.vue'
-import SettingsInputFile from './SettingsInputFile.vue'
-import SettingsFontList from './SettingsFontList.vue'
-import GlobalTemplates from './AdminSettings/GlobalTemplates.vue'
-import { getCurrentUser } from '@nextcloud/auth'
-
-import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
-
-import '@nextcloud/dialogs/style.css'
 import { getCallbackBaseUrl, getConfigFileUrl } from '../helpers/url.js'
 import { getCapabilities } from '../services/capabilities.ts'
-import CoolFrame from './CoolFrame.vue'
+
+import '@nextcloud/dialogs/style.css'
 
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
@@ -477,12 +514,14 @@ export default {
 		NcNoteCard,
 		CoolFrame,
 	},
+
 	props: {
 		initial: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			productName: loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)'),
@@ -512,6 +551,7 @@ export default {
 				use_groups: false,
 				edit_groups: false,
 			},
+
 			settings: {
 				demoUrl: null,
 				wopi_url: null,
@@ -531,11 +571,13 @@ export default {
 					allTagsList: [],
 					text: '',
 				},
+
 				fonts: [],
 				hasSettingIframeSupport: false,
 				setting_iframe_url: '',
 				doc_format: null,
 			},
+
 			accessToken: '',
 			accessTokenTTL: '',
 			userId: getCurrentUser()?.uid,
@@ -543,30 +585,40 @@ export default {
 			wopiSettingBaseUrl: '',
 		}
 	},
+
 	computed: {
 		providerDescription() {
 			return t('richdocuments', 'Contact {0} to get an own installation.', [this.settings.demoUrl.provider_name])
 		},
+
 		isSetup() {
 			return this.serverError === SERVER_STATE_OK
 		},
+
 		isOoxml() {
 			return this.settings.doc_format === 'ooxml'
 		},
+
 		hasHostErrors() {
-			return this.hostErrors.some(x => x)
+			return this.hostErrors.some((x) => x)
 		},
+
 		fontHint() {
-			return t('richdocuments', 'Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config.',
+			return t(
+				'richdocuments',
+				'Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config.',
 				{ url: this.fontHintUrl },
 			)
 		},
+
 		showFontConfigHint() {
 			return this.serverMode !== 'builtin'
 		},
+
 		shareToken() {
 			return getSharingToken()
 		},
+
 		fontXmlHint() {
 			return `
 <remote_font_config>
@@ -574,20 +626,26 @@ export default {
 </remote_font_config>
 			`
 		},
+
 		callbackUrl() {
 			return this.settings.wopi_callback_url ? this.settings.wopi_callback_url : getCallbackBaseUrl()
 		},
 	},
+
 	watch: {
-		'settings.public_wopi_url'(newVal, oldVal) {
+		'settings.public_wopi_url': function(newVal, oldVal) {
 			if (newVal !== oldVal) {
 				const protocol = this.checkUrlProtocol(newVal)
 				const nextcloudProtocol = this.checkUrlProtocol(window.location.href)
-				if (protocol !== nextcloudProtocol) this.serverError = PROTOCOL_MISMATCH
-				else this.serverError = Object.values(getCapabilities().collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
+				if (protocol !== nextcloudProtocol) {
+					this.serverError = PROTOCOL_MISMATCH
+				} else {
+					this.serverError = Object.values(getCapabilities().collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
+				}
 			}
 		},
 	},
+
 	async mounted() {
 		if (this.settings.hasSettingIframeSupport && this.userId && this.userId.length > 0) {
 			await this.generateAccessToken()
@@ -600,9 +658,10 @@ export default {
 			console.error('Setting Iframe not supported')
 		}
 	},
+
 	beforeMount() {
 		for (const key in this.initial.settings) {
-			if (!Object.prototype.hasOwnProperty.call(this.initial.settings, key)) {
+			if (!Object.hasOwn(this.initial.settings, key)) {
 				continue
 			}
 
@@ -612,7 +671,6 @@ export default {
 			} else {
 				this.settings[key] = this.initial.settings[key]
 			}
-
 		}
 		this.settings.data = this.initial.settings
 		if (this.settings.wopi_url === '') {
@@ -647,6 +705,7 @@ export default {
 		this.checkIfDemoServerIsActive()
 		this.checkSettings()
 	},
+
 	methods: {
 		async generateAccessToken() {
 			const { data } = await axios.get(generateUrl('/apps/richdocuments/settings/generateToken/admin'))
@@ -658,6 +717,7 @@ export default {
 				console.error('Failed to generate token for admin settings')
 			}
 		},
+
 		async checkSettings() {
 			this.errorMessage = null
 			this.updating = true
@@ -667,7 +727,6 @@ export default {
 			try {
 				result = await axios.get(generateUrl('/apps/richdocuments/settings/check'))
 				this.serverError = SERVER_STATE_OK
-
 			} catch (e) {
 				this.serverError = SERVER_STATE_CONNECTION_ERROR
 				result = e.response
@@ -687,6 +746,7 @@ export default {
 			}
 			this.checkFrontend()
 		},
+
 		async checkFrontend() {
 			try {
 				await fetch(this.settings.public_wopi_url + '/hosting/discovery', { mode: 'no-cors' })
@@ -696,18 +756,20 @@ export default {
 				this.serverError = SERVER_STATE_BROWSER_CONNECTION_ERROR
 			}
 		},
+
 		async fetchDemoServers() {
 			try {
 				const result = await axios.get(generateUrl('/apps/richdocuments/settings/demo'))
 				this.demoServers = result.data
-			} catch (e) {
+			} catch {
 				this.demoServers = []
 			}
 		},
+
 		update() {
 			this.updating = true
 			const settings = this.settings
-			axios.post(generateUrl('/apps/richdocuments/settings/watermark'), { settings }).then((response) => {
+			axios.post(generateUrl('/apps/richdocuments/settings/watermark'), { settings }).then(() => {
 				this.updating = false
 			}).catch((error) => {
 				this.updating = false
@@ -728,6 +790,7 @@ export default {
 				use_groups: this.settings.use_groups?.join('|') ?? '',
 			})
 		},
+
 		async updateEditGroups(enabled) {
 			if (typeof enabled === 'boolean') {
 				this.settings.edit_groups = (enabled) ? [] : null
@@ -740,6 +803,7 @@ export default {
 				edit_groups: this.settings.edit_groups?.join('|') ?? '',
 			})
 		},
+
 		async updateCanonicalWebroot(canonicalWebroot) {
 			this.settings.canonical_webroot = (typeof canonicalWebroot === 'boolean') ? '' : canonicalWebroot
 			if (canonicalWebroot === true) {
@@ -749,6 +813,7 @@ export default {
 				canonical_webroot: this.settings.canonical_webroot,
 			})
 		},
+
 		async updateExternalApps(externalApps) {
 			this.settings.external_apps = (typeof externalApps === 'boolean') ? '' : externalApps
 			if (externalApps === true) {
@@ -758,27 +823,32 @@ export default {
 				external_apps: this.settings.external_apps,
 			})
 		},
+
 		async updateWopiAllowlist(allowlist) {
 			await this.updateSettings({
 				wopi_allowlist: allowlist,
 			})
 		},
+
 		async updateESignatureClientId(id) {
 			await this.updateSettings({
 				esignature_client_id: id,
 			})
 		},
+
 		async updateESignatureSecret(secret) {
 			await this.updateSettings({
 				esignature_secret: secret,
 			})
 		},
+
 		async updateOoxml(enabled) {
 			this.settings.doc_format = enabled ? 'ooxml' : ''
 			await this.updateSettings({
 				doc_format: this.settings.doc_format,
 			})
 		},
+
 		async updateServer() {
 			this.serverError = SERVER_STATE_LOADING
 			try {
@@ -796,6 +866,7 @@ export default {
 			}
 			this.checkIfDemoServerIsActive()
 		},
+
 		async updateSettings(data) {
 			this.errorMessage = null
 			this.updating = true
@@ -827,6 +898,7 @@ export default {
 				throw e
 			}
 		},
+
 		checkIfDemoServerIsActive() {
 			this.settings.demoUrl = this.demoServers ? this.demoServers.find((server) => server.demo_url === this.settings.wopi_url) : null
 			this.settings.CODEUrl = this.CODEInstalled ? window.location.protocol + '//' + window.location.host + generateFilePath(this.CODEAppID, '', '') + 'proxy.php?req=' : null
@@ -840,29 +912,34 @@ export default {
 				this.serverMode = 'builtin'
 			}
 		},
+
 		demoServerLabel(server) {
 			return `${server.provider_name} — ${server.provider_location}`
 		},
+
 		async setDemoServer(server) {
 			this.settings.wopi_url = server.demo_url
 			this.settings.disable_certificate_verification = false
 			await this.updateServer()
 		},
+
 		async setBuiltinServer() {
 			this.settings.wopi_url = this.settings.CODEUrl
 			this.settings.disable_certificate_verification = false
 			await this.updateServer()
 		},
+
 		checkUrlProtocol(string) {
 			let url
 			try {
 				url = new URL(string)
-			} catch (_) {
+			} catch {
 				return false
 			}
 
 			return url.protocol
 		},
+
 		uploadFont(event) {
 			// TODO define font format list
 			const files = event.target.files
@@ -884,7 +961,7 @@ export default {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
-			}).then((response) => {
+			}).then(() => {
 				// TODO reload font list
 				this.settings.fonts.push(file.name)
 			}).catch((error) => {
@@ -894,6 +971,7 @@ export default {
 				this.uploadingFont = false
 			})
 		},
+
 		onFontDeleted(name) {
 			const index = this.settings.fonts.indexOf(name)
 			if (index !== -1) {

@@ -8,7 +8,7 @@ describe('Nextcloud integration', function() {
 
 	before(function() {
 		cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'notebookbar')
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 			cy.login(user)
 			cy.uploadFile(randUser, 'image.png', 'image/png', '/image.png')
@@ -111,8 +111,8 @@ describe('Nextcloud integration', function() {
 			cy.get('@shortcuts-bar').should('be.visible')
 
 			cy.get('@shortcuts-bar')
-			    .find('button[aria-label="Open in local editor"]')
-			    .click()
+				.find('button[aria-label="Open in local editor"]')
+				.click()
 		})
 
 		cy.get('.confirmation-dialog').should('be.visible')
@@ -125,7 +125,7 @@ describe('Nextcloud integration', function() {
 		}).as('getLocalToken')
 		cy.window()
 			.then((window) => {
-			  cy.stub(window, 'open').as('open')
+				cy.stub(window, 'open').as('open')
 			})
 		cy.get('.confirmation-dialog button:contains("Open locally")').click()
 		cy.wait('@getLocalToken').its('response.statusCode').should('equal', 200)

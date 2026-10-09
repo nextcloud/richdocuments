@@ -3,8 +3,6 @@
 _config.yml
 .codecov.yml
 .drone.yml
-.eslintrc.js
-.eslintrc.yml
 .git
 .github
 .gitignore
@@ -19,6 +17,7 @@ composer.json
 composer.lock
 cypress
 cypress.config.ts
+eslint.config.mjs
 img/screenshots
 issue_template.md
 krankerl.toml

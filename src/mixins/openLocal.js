@@ -5,12 +5,12 @@
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
-import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
+import Confirmation from '../components/Modal/Confirmation.vue'
 import { getNextcloudUrl } from '../helpers/url.js'
 import { openPath } from '../helpers/viewer.js'
-import Confirmation from '../components/Modal/Confirmation.vue'
 
 export default {
 	data() {

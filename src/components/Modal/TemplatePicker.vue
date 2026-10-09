@@ -5,15 +5,17 @@
 <template>
 	<NcModal :name="t('richdocuments', 'Select template')" @close="onCancel">
 		<div class="template-picker">
-			<NcTextField v-model="filename"
+			<NcTextField
+				v-model="filename"
 				class="filename-input"
 				type="text"
 				:label="t('richdocuments', 'File name')"
 				:error="!!filenameError"
-				:helper-text="filenameError ?? ''"
+				:helperText="filenameError ?? ''"
 				@keyup.enter="onCreate" />
 			<div class="template-container">
-				<div v-for="template in templates"
+				<div
+					v-for="template in templates"
 					:key="template.id"
 					class="template"
 					:class="{ selected: selectedTemplateId === template.id }"
@@ -35,10 +37,10 @@
 </template>
 
 <script>
-import { generateUrl } from '@nextcloud/router'
+import { getUniqueName, isFilenameValid } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { NcModal, NcButton, NcTextField } from '@nextcloud/vue'
-import { isFilenameValid, getUniqueName } from '@nextcloud/files'
+import { generateUrl } from '@nextcloud/router'
+import { NcButton, NcModal, NcTextField } from '@nextcloud/vue'
 
 export default {
 	name: 'TemplatePicker',
@@ -47,24 +49,29 @@ export default {
 		NcButton,
 		NcTextField,
 	},
+
 	props: {
 		suggestedFilename: {
 			type: String,
 			default: '',
 		},
+
 		templates: {
 			type: Array,
 			required: true,
 		},
+
 		initialTemplateId: {
 			type: [String, Number],
 			default: null,
 		},
+
 		content: {
 			type: Array,
 			default: () => [],
 		},
 	},
+
 	emits: ['close'],
 	data() {
 		return {
@@ -72,6 +79,7 @@ export default {
 			filename: '',
 		}
 	},
+
 	computed: {
 		filenameError() {
 			if (!isFilenameValid(this.filename)) {
@@ -84,6 +92,7 @@ export default {
 
 			return null
 		},
+
 		filenameWithExtension() {
 			if (!this.filename.includes('.')) {
 				const extension = this.suggestedFilename.split('.').pop()
@@ -92,23 +101,29 @@ export default {
 			return this.filename
 		},
 	},
+
 	mounted() {
 		this.filename = getUniqueName(this.suggestedFilename, this.content.map((n) => n.basename))
 	},
+
 	methods: {
 		t,
 		stripFileExtension(filename) {
 			return filename.replace(/\.[^/.]+$/, '')
 		},
+
 		templatePreviewUrl(templateId) {
 			return generateUrl('apps/richdocuments/template/preview/' + templateId)
 		},
+
 		selectTemplate(templateId) {
 			this.selectedTemplateId = templateId
 		},
+
 		onCancel() {
 			this.$emit('close')
 		},
+
 		onCreate() {
 			if (this.filenameError) {
 				return

@@ -4,7 +4,8 @@
 -->
 <template>
 	<div v-if="isIframeLoaded">
-		<form ref="form"
+		<form
+			ref="form"
 			:action="formAction"
 			method="post"
 			:target="iframeName">
@@ -16,10 +17,11 @@
 			<input type="hidden" name="theme" :value="theme">
 			<input type="hidden" name="ui_theme" :value="uiTheme">
 		</form>
-		<iframe :id="iframeName"
+		<iframe
+			:id="iframeName"
 			:name="iframeName"
 			class="cool-frame-iframe"
-			:src="'about:blank'"
+			src="about:blank"
 			frameborder="0"
 			allowfullscreen />
 	</div>
@@ -27,8 +29,8 @@
 
 <script>
 
-import { generateCSSVarTokens, getCollaboraTheme, getUITheme } from '../helpers/coolParameters.js'
 import { loadState } from '@nextcloud/initial-state'
+import { generateCSSVarTokens, getCollaboraTheme, getUITheme } from '../helpers/coolParameters.js'
 import PostMessageService from '../services/postMessage.tsx'
 
 export default {
@@ -38,23 +40,28 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		accessToken: {
 			type: String,
 			required: true,
 		},
+
 		accessTokenTTL: {
 			type: [String, Number],
 			required: true,
 		},
+
 		wopiSettingBaseUrl: {
 			type: String,
 			required: true,
 		},
+
 		iframeType: {
 			type: String,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			iframeName: 'coolFrameIframe',
@@ -66,6 +73,7 @@ export default {
 			postMessage: null,
 		}
 	},
+
 	mounted() {
 		this.postMessage = new PostMessageService({
 			parent: window.parent,
@@ -89,9 +97,11 @@ export default {
 			}
 		})
 	},
+
 	beforeUnmount() {
 		window.removeEventListener('message', this.handlePostMessage)
 	},
+
 	methods: {
 		handlePostMessage(event) {
 			try {
@@ -105,7 +115,7 @@ export default {
 				if (typeof data === 'string') {
 					try {
 						data = JSON.parse(data)
-					} catch (e) {
+					} catch {
 						return
 					}
 				}

@@ -7,16 +7,31 @@ import Config from './../services/config.tsx'
 
 const isDirectEditing = () => Config.get('direct')
 
-const isMobileInterfaceAvailable = () => window.RichDocumentsMobileInterface
-	|| window.DirectEditingMobileInterface
-	|| (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.RichDocumentsMobileInterface)
+/**
+ *
+ */
+function isMobileInterfaceAvailable() {
+	return window.RichDocumentsMobileInterface
+		|| window.DirectEditingMobileInterface
+		|| (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.RichDocumentsMobileInterface)
+}
 
 const isMobileInterfaceOnIos = () => window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.RichDocumentsMobileInterface
 
-const isMobileInterfaceOnAndroid = () => window.RichDocumentsMobileInterface
-	|| window.DirectEditingMobileInterface
+/**
+ *
+ */
+function isMobileInterfaceOnAndroid() {
+	return window.RichDocumentsMobileInterface
+		|| window.DirectEditingMobileInterface
+}
 
-const callMobileMessage = (messageName, attributes) => {
+/**
+ *
+ * @param messageName
+ * @param attributes
+ */
+function callMobileMessage(messageName, attributes) {
 	console.debug('callMobileMessage', messageName, attributes)
 	let message = messageName
 	if (typeof attributes !== 'undefined') {
@@ -25,10 +40,10 @@ const callMobileMessage = (messageName, attributes) => {
 			Values: attributes,
 		}
 	}
-	let attributesString = null
+	let attributesString
 	try {
 		attributesString = JSON.stringify(attributes)
-	} catch (e) {
+	} catch {
 		attributesString = null
 	}
 	// Forward to RichDocuments-specific mobile handler (legacy richdocuments WebView)
@@ -63,8 +78,8 @@ export default {
 }
 
 export {
-	isDirectEditing,
 	callMobileMessage,
+	isDirectEditing,
 	isMobileInterfaceAvailable,
 	isMobileInterfaceOnAndroid,
 	isMobileInterfaceOnIos,

@@ -4,23 +4,28 @@
 -->
 
 <template>
-	<NcSettingsSection :name="t('richdocuments', 'Nextcloud Office (Collabora)')"
+	<NcSettingsSection
+		:name="t('richdocuments', 'Nextcloud Office (Collabora)')"
 		:description="t('richdocuments', 'Personal Settings for Nextcloud Office (Collabora)')">
 		<!-- Template folder selection -->
 		<div class="template-folder-settings">
 			<div class="template-input-wrapper">
-				<NcTextField v-model="templateFolder"
+				<NcTextField
+					v-model="templateFolder"
 					:label="t('richdocuments', 'Select a template directory')"
 					:disabled="true" />
 			</div>
-			<NcButton id="templateSelectButton"
+			<NcButton
+				id="templateSelectButton"
 				variant="secondary"
 				@click="onTemplateSelectButtonClick">
-				<FolderIcon :size="20"
+				<FolderIcon
+					:size="20"
 					:title="t('richdocuments', 'Select a personal template folder')"
 					data-toggle="tooltip" />
 			</NcButton>
-			<NcButton id="templateResetButton"
+			<NcButton
+				id="templateResetButton"
 				variant="secondary"
 				:title="t('richdocuments', 'Remove personal template folder')"
 				@click="resetTemplate">
@@ -34,31 +39,31 @@
 		</p>
 
 		<!-- user settings iframe  -->
-		<CoolFrame v-if="tokenGenerated"
-			:iframe-type="'user'"
-			:iframe-url="settingIframeUrl"
-			:access-token="accessToken"
-			:access-token-t-t-l="accessTokenTTL"
-			:wopi-setting-base-url="wopiSettingBaseUrl" />
+		<CoolFrame
+			v-if="tokenGenerated"
+			iframeType="user"
+			:iframeUrl="settingIframeUrl"
+			:accessToken="accessToken"
+			:accessTokenTTL="accessTokenTTL"
+			:wopiSettingBaseUrl="wopiSettingBaseUrl" />
 	</NcSettingsSection>
 </template>
 
 <script>
-import { generateFilePath, generateUrl } from '@nextcloud/router'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
-import FolderIcon from 'vue-material-design-icons/FolderOutline.vue'
-import axios from '@nextcloud/axios'
 import {
 	getCurrentUser,
 } from '@nextcloud/auth'
-
-import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
-import { getConfigFileUrl } from '../helpers/url.js'
+import axios from '@nextcloud/axios'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { generateFilePath, generateUrl } from '@nextcloud/router'
+import { getSharingToken } from '@nextcloud/sharing/public'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import FolderIcon from 'vue-material-design-icons/FolderOutline.vue'
+import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import CoolFrame from './CoolFrame.vue'
+import { getConfigFileUrl } from '../helpers/url.js'
 
 export default {
 	name: 'PersonalSettings',
@@ -70,12 +75,14 @@ export default {
 		DeleteIcon,
 		CoolFrame,
 	},
+
 	props: {
 		initial: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			templateFolder: this.initial.templateFolder || '',
@@ -90,11 +97,13 @@ export default {
 			public_wopi_url: this.initial.publicWopiUrl || '',
 		}
 	},
+
 	computed: {
 		shareToken() {
 			return getSharingToken()
 		},
 	},
+
 	async mounted() {
 		if (this.hasSettingIframeSupport && this.userId && this.userId.length > 0) {
 			await this.generateAccessToken()
@@ -107,6 +116,7 @@ export default {
 			console.error('Setting Iframe not supported')
 		}
 	},
+
 	methods: {
 		async generateAccessToken() {
 			const { data } = await axios.get(generateUrl('/apps/richdocuments/settings/generateToken/user'))
@@ -118,6 +128,7 @@ export default {
 				console.error('Failed to generate token for admin settings')
 			}
 		},
+
 		async onTemplateSelectButtonClick() {
 			OC.dialogs.filepicker(
 				this.t('richdocuments', 'Select a personal template folder'),
@@ -133,12 +144,14 @@ export default {
 				OC.dialogs.FILEPICKER_TYPE_CHOOSE,
 			)
 		},
+
 		async resetTemplate() {
 			const success = await this.updateSetting({ templateFolder: '' })
 			if (success) {
 				this.templateFolder = ''
 			}
 		},
+
 		async updateSetting(settings) {
 			try {
 				const response = await axios.post(

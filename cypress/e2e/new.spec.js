@@ -4,10 +4,9 @@
  */
 
 describe('New file menu', function() {
-
 	let randUser
 	before(function() {
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 			cy.login(user)
 		})
@@ -35,7 +34,10 @@ describe('New file menu', function() {
 
 	describe('Creates a new file', function() {
 		const newFileTypeLabels = [
-			'document', 'spreadsheet', 'presentation', 'diagram',
+			'document',
+			'spreadsheet',
+			'presentation',
+			'diagram',
 		]
 
 		newFileTypeLabels.forEach((filetype) => {

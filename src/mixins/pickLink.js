@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
 import { getLinkWithPicker } from '@nextcloud/vue/functions/reference'
 
 // FIXME: Migrate to vue component
@@ -23,7 +23,7 @@ export default {
 						this.sendPostMessage('Action_InsertLink', { url: link })
 						return
 					}
-				} catch (e) {
+				} catch {
 					console.debug('error when parsing the link picker result')
 				}
 				this.sendPostMessage('Action_Paste', { Mimetype: 'text/plain', Data: link })

@@ -5,8 +5,7 @@
 import { loadState } from '@nextcloud/initial-state'
 
 class ConfigService {
-
-	private values: {[name: string]: any}
+	private values: { [name: string]: any }
 
 	constructor() {
 		this.values = {
@@ -23,7 +22,6 @@ class ConfigService {
 	get(key: string): any {
 		return this.values[key]
 	}
-
 }
 
 const Config = new ConfigService()

@@ -16,7 +16,8 @@
 				</a>
 			</p>
 			<form @submit.prevent="submit">
-				<NcTextField v-model="apiKey"
+				<NcTextField
+					v-model="apiKey"
 					:label="t('richdocuments', 'Zotero API key')"
 					:placeholder="t('richdocuments', 'Zotero API key')" />
 				<div class="submit">
@@ -30,11 +31,11 @@
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import { showError } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 import BookOpenPageVariantOutline from 'vue-material-design-icons/BookOpenPageVariantOutline.vue'
 import { savePersonalSetting } from '../../services/api.js'
 export default {
@@ -45,18 +46,21 @@ export default {
 		NcButton,
 		NcTextField,
 	},
+
 	props: {
 		show: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	emits: ['submit', 'update:show'],
 	data() {
 		return {
 			apiKey: '',
 		}
 	},
+
 	methods: {
 		t,
 		async submit() {
@@ -71,6 +75,7 @@ export default {
 			this.$emit('submit')
 			this.close()
 		},
+
 		close() {
 			this.$emit('update:show', false)
 		},

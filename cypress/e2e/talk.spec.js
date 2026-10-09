@@ -16,7 +16,7 @@ describe('Talk integraiton integration', function() {
 
 	before(function() {
 		resetConfig()
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 			cy.login(user)
 			cy.uploadFile(user, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
@@ -37,7 +37,7 @@ describe('Talk integraiton integration', function() {
 	it.skip('Can share a file to a talk room and open it', function() {
 		cy.createTalkRoom(randUser, {
 			roomName: 'Test room',
-		}).then(room => {
+		}).then((room) => {
 			cy.log(`Created talk room "${room.name}"`, room)
 			cy.shareFileToTalkRoom(randUser, filename, room.token)
 			cy.visit(`/call/${room.token}`)
@@ -58,7 +58,7 @@ describe('Talk integraiton integration', function() {
 
 		cy.createTalkRoom(randUser, {
 			roomName: 'Secure room',
-		}).then(room => {
+		}).then((room) => {
 			cy.log(`Created talk room "${room.name}"`, room)
 			cy.shareFileToTalkRoom(randUser, filename, room.token, { permission: 1 })
 			cy.makeTalkRoomPublic(randUser, room.token)
@@ -97,7 +97,7 @@ describe('Talk integraiton integration', function() {
 
 					cy.waitForCollabora()
 
-					cy.url().then(url => {
+					cy.url().then((url) => {
 						const baseUrl = url.split('?')[0]
 						cy.request({
 							url: baseUrl + '/download',

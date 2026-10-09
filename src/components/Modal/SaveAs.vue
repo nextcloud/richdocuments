@@ -8,16 +8,19 @@
 		<div class="saveas-dialog">
 			<h1>{{ name }}</h1>
 			<p>{{ description }}</p>
-			<NcTextField ref="nameInput"
+			<NcTextField
+				ref="nameInput"
 				v-model="newFileName"
 				:label="t('richdocuments', 'Path to save')"
-				:placeholder="'/path/to/save'" />
+				placeholder="/path/to/save" />
 			<div class="saveas-dialog--buttons">
-				<NcButton variant="secondary"
+				<NcButton
+					variant="secondary"
 					@click="cancel">
 					{{ t('richdocuments', 'Cancel') }}
 				</NcButton>
-				<NcButton variant="primary"
+				<NcButton
+					variant="primary"
 					:disabled="isChecking || !isValidName"
 					@click="close">
 					{{ isChecking ? t('richdocuments', 'Checking…') : t('richdocuments', 'Save') }}
@@ -28,13 +31,12 @@
 </template>
 
 <script>
-import { translate as t } from '@nextcloud/l10n'
-import { showError } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
-import { getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
+import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
-
+import { getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
+import { translate as t } from '@nextcloud/l10n'
+import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
@@ -46,28 +48,34 @@ export default {
 		NcButton,
 		NcTextField,
 	},
+
 	props: {
 		name: {
 			type: String,
 			default: t('richdocuments', 'Save As'),
 		},
+
 		description: {
 			type: String,
 			default: '',
 		},
+
 		buttonText: {
 			type: String,
 			default: t('richdocuments', 'Save'),
 		},
+
 		path: {
 			type: String,
 			default: '',
 		},
+
 		format: {
 			type: String,
 			default: '',
 		},
 	},
+
 	emits: ['close'],
 	data() {
 		return {
@@ -75,6 +83,7 @@ export default {
 			isChecking: false,
 		}
 	},
+
 	computed: {
 		rootPath() {
 			if (isPublicShare()) {
@@ -82,6 +91,7 @@ export default {
 			}
 			return `/files/${getCurrentUser()?.uid ?? Config.get('userId')}`
 		},
+
 		newFileName: {
 			get() {
 				if (this.selectedPath !== null) {
@@ -92,10 +102,12 @@ export default {
 				const filenameWithoutExtension = filename.substring(0, filename.length - extension.length - 1)
 				return filenameWithoutExtension + '.' + (this.format !== '' ? this.format : extension)
 			},
+
 			set(value) {
 				this.selectedPath = value
 			},
 		},
+
 		isValidName() {
 			const value = this.newFileName.trim()
 			if (value === '') {
@@ -111,6 +123,7 @@ export default {
 			return valid
 		},
 	},
+
 	mounted() {
 		const filename = this.path
 		const extension = filename.split('.').pop()
@@ -121,6 +134,7 @@ export default {
 			input.focus()
 		})
 	},
+
 	methods: {
 		t,
 		async close() {
@@ -168,6 +182,7 @@ export default {
 				this.isChecking = false
 			}
 		},
+
 		cancel() {
 			emit('richdocuments:grab-focus')
 			this.$emit('close', null)
@@ -175,6 +190,7 @@ export default {
 	},
 }
 </script>
+
 <style lang="scss" scoped>
 .saveas-dialog {
     display: flex;

@@ -9,6 +9,7 @@ const mimetypes = getCapabilities().mimetypes
 
 /**
  * Determines if the mimetype of the resource is supported by richdocuments
+ *
  * @return {boolean}
  */
 function isDocument() {

@@ -8,7 +8,6 @@ const shareOwner = new User(randHash(), randHash())
 const shareRecipient = new User(randHash(), randHash())
 
 describe.skip('Federated sharing of office documents', function() {
-
 	before(function() {
 		cy.nextcloudEnableApp('testing')
 		cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'notebookbar')

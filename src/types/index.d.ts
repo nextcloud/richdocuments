@@ -8,10 +8,10 @@ export {}
 declare global {
 	interface OC {
 		appswebroots: {
-			richdocumentscode?: string;
-			richdocumentscode_arm64?: string;
-		};
-		isUserAdmin(): boolean;
+			richdocumentscode?: string
+			richdocumentscode_arm64?: string
+		}
+		isUserAdmin(): boolean
 	}
 
 	const OC: OC
