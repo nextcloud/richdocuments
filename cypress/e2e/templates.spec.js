@@ -59,6 +59,62 @@ describe('Global templates', function() {
 		})
 	})
 
+	it('Surfaces the reason the server rejected the upload', function() {
+		cy.intercept('POST', '**/richdocuments/template', {
+			statusCode: 400,
+			body: { data: { message: 'File is too big' } },
+		}).as('templateUploadRequest')
+
+		cy.uploadSystemTemplate({
+			fixturePath: 'templates/presentation.otp',
+			fileName: 'errortemplate.otp',
+			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
+		})
+
+		cy.wait('@templateUploadRequest')
+		cy.contains('[role="alert"]', 'File is too big').should('be.visible')
+		cy.get('.template-btn[data-cy-template-btn-name="errortemplate"]').should('not.exist')
+	})
+
+	it('Reports a failure even when the error response carries no message', function() {
+		cy.intercept('POST', '**/richdocuments/template', {
+			statusCode: 500,
+			body: '',
+		}).as('templateUploadRequest')
+
+		cy.uploadSystemTemplate({
+			fixturePath: 'templates/presentation.otp',
+			fileName: 'errortemplate.otp',
+			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
+		})
+
+		cy.wait('@templateUploadRequest')
+		cy.contains('[role="alert"]', 'Failed to upload the file').should('be.visible')
+		cy.get('.template-btn[data-cy-template-btn-name="errortemplate"]').should('not.exist')
+	})
+
+	it('Can be picked a second time after its upload failed', function() {
+		const template = {
+			fixturePath: 'templates/presentation.otp',
+			fileName: 'errortemplate.otp',
+			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
+		}
+
+		cy.intercept('POST', '**/richdocuments/template', {
+			statusCode: 400,
+			body: { data: { message: 'Failed to upload the file' } },
+		}).as('templateUploadRequest')
+
+		cy.uploadSystemTemplate(template)
+		cy.wait('@templateUploadRequest')
+
+		// Picking the same file only fires a change event if the input was reset
+		cy.selectSystemTemplate(template)
+		cy.wait('@templateUploadRequest')
+
+		cy.get('@templateUploadRequest.all').should('have.length', 2)
+	})
+
 	it('Can be created by a user', () => {
 		cy.uploadSystemTemplate({
 			fixturePath: 'templates/presentation.otp',

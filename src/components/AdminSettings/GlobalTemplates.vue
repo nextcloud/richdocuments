@@ -105,17 +105,32 @@ export default {
 		},
 		async selectFile() {
 			const selectedFile = this.$refs.newTemplateInput?.files[0]
-			const templateAlreadyExists = this.existingTemplates.some((template) => {
-				return template.name === selectedFile.name
-			})
 
-			if (!templateAlreadyExists) {
+			if (!selectedFile) {
+				return
+			}
+
+			try {
+				const templateAlreadyExists = this.existingTemplates.some((template) => {
+					return template.name === selectedFile.name
+				})
+
+				if (templateAlreadyExists) {
+					showError(t('richdocuments', 'Template "{name}" already exists', { name: selectedFile.name }))
+					return
+				}
+
 				const template = await this.uploadTemplate(selectedFile)
+
+				if (template === null) {
+					return
+				}
 
 				this.existingTemplates.push(template)
 				showSuccess(t('richdocuments', 'Uploaded template "{name}"', { name: template.name }))
-			} else {
-				showError(t('richdocuments', 'Template "{name}" already exists', { name: selectedFile.name }))
+			} finally {
+				// Allow selecting the same file again after a failed upload
+				this.$refs.newTemplateInput.value = ''
 			}
 		},
 		async uploadTemplate(file) {
@@ -124,18 +139,20 @@ export default {
 
 			formData.append('files', file)
 
-			let res = null
 			try {
-				res = await axios.post(url, formData, {
+				const res = await axios.post(url, formData, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 					},
 				})
-			} catch (error) {
-				showError(error.response.data.data.message)
-			}
 
-			return res.data.data
+				return res.data.data
+			} catch (error) {
+				showError(error.response?.data?.data?.message
+					?? t('richdocuments', 'Failed to upload the file'))
+
+				return null
+			}
 		},
 		async deleteTemplate(templateId) {
 			const url = generateUrl('/apps/richdocuments/template/' + templateId)
