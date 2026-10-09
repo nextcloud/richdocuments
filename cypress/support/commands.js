@@ -372,6 +372,14 @@ Cypress.Commands.add('verifyOpen', (filename) => {
 	})
 })
 
+Cypress.Commands.add('selectSystemTemplate', ({ fixturePath, fileName, mimeType }) => {
+	cy.get('.settings-section input[type="file"]').selectFile({
+		contents: `cypress/fixtures/${fixturePath}`,
+		fileName,
+		mimeType,
+	}, { force: true })
+})
+
 Cypress.Commands.add('uploadSystemTemplate', ({ fixturePath, fileName, mimeType }) => {
 	cy.login(new User('admin', 'admin'))
 	cy.visit('/settings/admin/richdocuments')
@@ -380,11 +388,7 @@ Cypress.Commands.add('uploadSystemTemplate', ({ fixturePath, fileName, mimeType 
 		.contains('Global Templates')
 		.scrollIntoView()
 
-	cy.get('.settings-section input[type="file"]').selectFile({
-		contents: `cypress/fixtures/${fixturePath}`,
-		fileName,
-		mimeType,
-	}, { force: true })
+	cy.selectSystemTemplate({ fixturePath, fileName, mimeType })
 })
 
 Cypress.Commands.add('submitTemplateFields', (fields) => {
