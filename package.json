@@ -19,7 +19,9 @@
     "lint:fix": "eslint --ext .js,.vue,.ts,.tsx src --fix",
     "lint:cypress": "eslint --ext .js cypress",
     "stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css css/*.scss",
-    "stylelint:fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css css/*.scss --fix"
+    "stylelint:fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css css/*.scss --fix",
+    "dev:server": "node scripts/dev-server.mjs start",
+    "dev:server:stop": "node scripts/dev-server.mjs stop"
   },
   "dependencies": {
     "@nextcloud/auth": "^2.6.0",

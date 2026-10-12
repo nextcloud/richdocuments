@@ -18,4 +18,6 @@ cypress/screenshots/
 .vscode/
 *.code-workspace
 
+## Local dev environment
+.playwright-mcp/
 cypress/downloads/
