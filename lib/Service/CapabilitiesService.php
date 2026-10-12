@@ -143,6 +143,12 @@ class CapabilitiesService extends CachedRequestService {
 	}
 
 	#[\Override]
+	public function fetch(): string {
+		$this->capabilities = null;
+		return parent::fetch();
+	}
+
+	#[\Override]
 	protected function sendRequest(IClient $client): string {
 		$response = $client->get($this->getCapabilitiesEndpoint(), $this->getDefaultRequestOptions());
 		return (string)$response->getBody();

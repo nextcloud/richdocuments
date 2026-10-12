@@ -45,7 +45,7 @@ jobs:
       collabora:
         image: ${{ matrix.code-image == 'release' && 'collabora/code:latest' || 'juliushaertl/nc-code-nightly:latest' }} # zizmor: ignore[unpinned-images]
         env:
-          extra_params: '--o:ssl.enable=false --o:home_mode.enable=true --o:logging.level=debug'
+          extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
           aliasgroup1: 'http://172.17.0.1:8081'
         ports:
           - "9980:9980"

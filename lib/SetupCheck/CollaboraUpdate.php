@@ -11,6 +11,7 @@ namespace OCA\Richdocuments\SetupCheck;
 
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\Http\Client\IClientService;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\SetupCheck\ISetupCheck;
@@ -18,12 +19,14 @@ use OCP\SetupCheck\SetupResult;
 use Psr\Log\LoggerInterface;
 
 class CollaboraUpdate implements ISetupCheck {
+	private const CACHE_TTL = 6 * 3600;
 
 	public function __construct(
 		protected IL10N $l10n,
 		protected CapabilitiesService $capabilitiesService,
 		protected IConfig $config,
 		protected IClientService $clientService,
+		protected ICacheFactory $cacheFactory,
 		protected LoggerInterface $logger,
 	) {
 	}
@@ -54,15 +57,21 @@ class CollaboraUpdate implements ISetupCheck {
 			return SetupResult::success();
 		}
 
-		try {
-			$response = $this->clientService->newClient()->get($url, ['timeout' => 5]);
-			$latestVersion = json_decode((string)$response->getBody(), true)['coolwsd_version'] ?? null;
-		} catch (\Exception $e) {
-			$this->logger->info('Failed to fetch latest Collabora version', ['exception' => $e]);
-			return SetupResult::info($this->l10n->t('Could not check for Collabora server updates'));
+		$cache = $this->cacheFactory->createDistributed('richdocuments');
+		$cacheKey = 'latest_version_' . md5($url);
+		$latestVersion = $cache->get($cacheKey);
+		if ($latestVersion === null) {
+			try {
+				$response = $this->clientService->newClient()->get($url, ['timeout' => 5]);
+				$latestVersion = (string)(json_decode((string)$response->getBody(), true)['coolwsd_version'] ?? '');
+			} catch (\Exception $e) {
+				$this->logger->info('Failed to fetch latest Collabora version', ['exception' => $e]);
+				return SetupResult::info($this->l10n->t('Could not check for Collabora server updates'));
+			}
+			$cache->set($cacheKey, $latestVersion, self::CACHE_TTL);
 		}
 
-		if ($latestVersion !== null && version_compare($latestVersion, $installedVersion, '>')) {
+		if ($latestVersion !== '' && version_compare($latestVersion, $installedVersion, '>')) {
 			return SetupResult::warning($this->l10n->t('Collabora server version is out of date. Currently using %s, new version is available: %s', [$installedVersion, $latestVersion]));
 		}
 
