@@ -89,17 +89,6 @@
       <code><![CDATA[Image]]></code>
     </MissingDependency>
   </file>
-  <file src="lib/Service/ConnectivityService.php">
-    <InvalidCatch>
-      <code><![CDATA[try {
-			$result = $client->post($url, array_merge(RemoteOptionsService::getDefaultOptions(), [
-				'body' => json_encode(['callbackUrl' => $callbackUrl . '/index.php/apps/richdocuments/settings/access-check']), 'headers' => ['Content-Type' => 'application/json']
-			]));
-		} catch (ClientException $e) {
-			$result = $e->getResponse();
-		}]]></code>
-    </InvalidCatch>
-  </file>
   <file src="lib/Service/FederationService.php">
     <TypeDoesNotContainType>
       <code><![CDATA[is_array($trustedList)]]></code>

@@ -9,22 +9,18 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\SetupCheck;
 
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\ConnectivityService;
-use OCP\Http\Client\IClientService;
 use OCP\IL10N;
-use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
-use Psr\Log\LoggerInterface;
 
 class ConnectivityCheck implements ISetupCheck {
 
 	public function __construct(
 		protected IL10N $l10n,
+		protected AppConfig $appConfig,
 		protected ConnectivityService $connectivityService,
-		protected IURLGenerator $urlGenerator,
-		protected IClientService $clientService,
-		protected LoggerInterface $logger,
 	) {
 	}
 
@@ -40,9 +36,13 @@ class ConnectivityCheck implements ISetupCheck {
 
 	#[\Override]
 	public function run(): SetupResult {
+		if ($this->appConfig->getCollaboraUrlInternal() === '') {
+			return SetupResult::success();
+		}
+
 		try {
 			$this->connectivityService->test();
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			return SetupResult::error($this->l10n->t('Collabora is not configured properly:') . ' ' . $e->getMessage());
 		}
 

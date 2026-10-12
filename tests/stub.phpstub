@@ -210,7 +210,7 @@ namespace Symfony\Component\Console\Output {
 }
 
 namespace GuzzleHttp\Exception {
-	class ClientException {
+	class BadResponseException extends \Exception {
 		public function getResponse();
 	}
 }

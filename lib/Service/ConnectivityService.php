@@ -8,7 +8,7 @@
 namespace OCA\Richdocuments\Service;
 
 use Exception;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\BadResponseException;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\WOPI\Parser;
 use OCP\Http\Client\IClientService;
@@ -32,7 +32,6 @@ class ConnectivityService {
 	 * @throws Exception
 	 */
 	public function testDiscovery(?OutputInterface $output = null): void {
-		$this->discoveryService->resetCache();
 		$this->discoveryService->fetch();
 		$output?->writeln('<info>✓ Fetched /hosting/discovery endpoint</info>');
 
@@ -45,7 +44,6 @@ class ConnectivityService {
 	}
 
 	public function testCapabilities(?OutputInterface $output = null): void {
-		$this->capabilitiesService->resetCache();
 		$this->capabilitiesService->fetch();
 		$output?->writeln('<info>✓ Fetched /hosting/capabilities endpoint</info>');
 
@@ -56,11 +54,11 @@ class ConnectivityService {
 	}
 
 	public function testWopiAccess(?OutputInterface $output = null): void {
-		$client = $this->clientService->newClient();
-
 		if (!$this->capabilitiesService->hasWopiAccessCheck()) {
 			return;
 		}
+
+		$client = $this->clientService->newClient();
 
 		$url = str_replace('/hosting/capabilities', '/hosting/wopiAccessCheck', $this->capabilitiesService->getCapabilitiesEndpoint());
 		$callbackUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
@@ -69,12 +67,12 @@ class ConnectivityService {
 			$result = $client->post($url, array_merge(RemoteOptionsService::getDefaultOptions(), [
 				'body' => json_encode(['callbackUrl' => $callbackUrl . '/index.php/apps/richdocuments/settings/access-check']), 'headers' => ['Content-Type' => 'application/json']
 			]));
-		} catch (ClientException $e) {
+		} catch (BadResponseException $e) {
 			$result = $e->getResponse();
 		}
-		$response = json_decode($result->getBody(), true);
+		$status = json_decode((string)$result->getBody(), true)['status'] ?? throw new \Exception('Unexpected response from ' . $url);
 
-		$errorMessage = match ($response['status']) {
+		$errorMessage = match ($status) {
 			'Ok' => null,
 			'NotHttpSuccess' => $this->l10n->t('The connection was successful but the response to the request was not 200'),
 			'HostNotFound' => $this->l10n->t('DNS error, the host is not known by the Collabora Online server'),
@@ -89,7 +87,7 @@ class ConnectivityService {
 			'NoScheme' => $this->l10n->t('A scheme (http:// or https://) for the WOPI host URL must be specified'),
 			'Timeout' => $this->l10n->t('The request didn’t get a response within the time frame allowed'),
 			'UnspecifiedError' => $this->l10n->t('The response could not be read, for example because the connection was closed before the full response was received. Check the server logs of Collabora for more details.'),
-			default => $this->l10n->t('Unknown error "%s". Check the server logs of Collabora for more details.', [$response['status']]),
+			default => $this->l10n->t('Unknown error "%s". Check the server logs of Collabora for more details.', [$status]),
 		};
 
 		if ($errorMessage) {
@@ -98,7 +96,7 @@ class ConnectivityService {
 			);
 		}
 
-		$output?->writeln('WOPI access was verified');
+		$output?->writeln('<info>✓ Verified WOPI access from Collabora to ' . $callbackUrl . '</info>');
 	}
 
 	/**

@@ -11,8 +11,8 @@ namespace OCA\Richdocuments\SetupCheck;
 
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 use Psr\Log\LoggerInterface;
@@ -22,7 +22,7 @@ class CollaboraUpdate implements ISetupCheck {
 	public function __construct(
 		protected IL10N $l10n,
 		protected CapabilitiesService $capabilitiesService,
-		protected IURLGenerator $urlGenerator,
+		protected IConfig $config,
 		protected IClientService $clientService,
 		protected LoggerInterface $logger,
 	) {
@@ -40,28 +40,27 @@ class CollaboraUpdate implements ISetupCheck {
 
 	#[\Override]
 	public function run(): SetupResult {
-		$client = $this->clientService->newClient();
-
-		$url = null;
-		if ($this->capabilitiesService->isCode()) {
-			$url = 'https://rating.collaboraonline.com/UpdateCheck';
+		$installedVersion = $this->capabilitiesService->getProductVersion();
+		if ($installedVersion === null || !$this->config->getSystemValueBool('has_internet_connection', true)) {
+			return SetupResult::success();
 		}
 
-		if ($this->capabilitiesService->isEnterprise()) {
-			$url = 'https://rating.collaboraonline.com/UpdateCheck?product=cool';
-		}
-
+		$url = match (true) {
+			$this->capabilitiesService->isCode() => 'https://rating.collaboraonline.com/UpdateCheck',
+			$this->capabilitiesService->isEnterprise() => 'https://rating.collaboraonline.com/UpdateCheck?product=cool',
+			default => null,
+		};
 		if ($url === null) {
 			return SetupResult::success();
 		}
 
-		// FIXME internet conection check config
-
-		$response = $client->get($url, ['timeout' => 5]);
-		$response = json_decode($response->getBody(), true);
-		$latestVersion = $response['coolwsd_version'] ?? null;
-
-		$installedVersion = $this->capabilitiesService->getProductVersion();
+		try {
+			$response = $this->clientService->newClient()->get($url, ['timeout' => 5]);
+			$latestVersion = json_decode((string)$response->getBody(), true)['coolwsd_version'] ?? null;
+		} catch (\Exception $e) {
+			$this->logger->info('Failed to fetch latest Collabora version', ['exception' => $e]);
+			return SetupResult::info($this->l10n->t('Could not check for Collabora server updates'));
+		}
 
 		if ($latestVersion !== null && version_compare($latestVersion, $installedVersion, '>')) {
 			return SetupResult::warning($this->l10n->t('Collabora server version is out of date. Currently using %s, new version is available: %s', [$installedVersion, $latestVersion]));
