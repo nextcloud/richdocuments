@@ -14,12 +14,20 @@ on:
     - cron: "5 2 * * 0"
 
 permissions:
-  contents: read
+  contents: write
   issues: write
+  pull-requests: write
 
 jobs:
   update-nextcloud-ocp:
     runs-on: ubuntu-latest
+
+    # Only allowed to be run on nextcloud repositories
+    if: ${{ github.repository_owner == 'nextcloud' }}
+
+    env:
+      # env variable for maintainers: 'false' disables auto-merge for these pull requests
+      AUTOMERGE: true
 
     strategy:
       fail-fast: false
@@ -34,7 +42,7 @@ jobs:
 
     steps:
       - id: checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           ref: ${{ matrix.branches }}
@@ -43,7 +51,7 @@ jobs:
 
       - name: Set up php8.3
         if: steps.checkout.outcome == 'success'
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
           php-version: 8.3
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -59,14 +67,34 @@ jobs:
           grep '/appinfo/info.xml' .github/CODEOWNERS | cut -f 2- -d ' ' | xargs | awk '{ print "codeowners="$0 }' >> $GITHUB_OUTPUT
         continue-on-error: true
 
-      - name: Composer install
+      - name: Install composer dependencies
         if: steps.checkout.outcome == 'success'
-        run: composer install
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
 
-      - name: Composer update nextcloud/ocp # zizmor: ignore[template-injection]
+      - name: Check composer bin for nextcloud/ocp exists
+        id: check_composer_bin
+        uses: andstor/file-existence-action@558493d6c74bf472d87c84eab196434afc2fa029 # v3.1.0
+        with:
+          files: vendor-bin/nextcloud-ocp/composer.json
+
+      - name: Composer update nextcloud/ocp
         id: update_branch
-        if: ${{ steps.checkout.outcome == 'success' && matrix.branches != 'main' }}
-        run: composer require --dev 'nextcloud/ocp:dev-${{ matrix.branches }}'
+        env:
+          USE_COMPOSER_BIN: ${{ steps.check_composer_bin.outputs.files_exists }}
+          BRANCH_NAME: ${{ matrix.branches }}
+        run: |
+          COMPOSER_CMD='composer'
+          if [[ "$USE_COMPOSER_BIN" == 'true' ]]; then
+            COMPOSER_CMD='composer bin nextcloud-ocp'
+          fi
+
+          PACKAGE_VERSION="nextcloud/ocp:dev-$BRANCH_NAME"
+          if [[ "$BRANCH_NAME" == 'main' ]]; then
+            PACKAGE_VERSION='nextcloud/ocp:dev-master'
+          fi
+
+          echo $COMPOSER_CMD require --dev $PACKAGE_VERSION
+          $COMPOSER_CMD require --dev $PACKAGE_VERSION
 
       - name: Raise on issue on failure
         uses: dacbd/create-issue-action@cdb57ab6ff8862aa09fee2be6ba77a59581921c2 # v2.0.0
@@ -76,43 +104,10 @@ jobs:
           title: 'Failed to update nextcloud/ocp package on branch ${{ matrix.branches }}'
           body: 'Please check the output of the GitHub action and manually resolve the issues<br>${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}<br>${{ steps.codeowners.outputs.codeowners }}'
 
-      - name: Composer update nextcloud/ocp
-        id: update_main
-        if: ${{ steps.checkout.outcome == 'success' && matrix.branches == 'main' }}
-        run: composer require --dev nextcloud/ocp:dev-master
-
-      - name: Raise on issue on failure
-        uses: dacbd/create-issue-action@cdb57ab6ff8862aa09fee2be6ba77a59581921c2 # v2.0.0
-        if: ${{ steps.checkout.outcome == 'success' && failure() && steps.update_main.conclusion == 'failure' }}
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'Failed to update nextcloud/ocp package on branch ${{ matrix.branches }}'
-          body: 'Please check the output of the GitHub action and manually resolve the issues<br>${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}<br>${{ steps.codeowners.outputs.codeowners }}'
-
-      - name: Reset checkout 3rdparty
-        if: steps.checkout.outcome == 'success'
-        run: |
-          git clean -f 3rdparty
-          git checkout 3rdparty
-        continue-on-error: true
-
-      - name: Reset checkout vendor
-        if: steps.checkout.outcome == 'success'
-        run: |
-          git clean -f vendor
-          git checkout vendor
-        continue-on-error: true
-
-      - name: Reset checkout vendor-bin
-        if: steps.checkout.outcome == 'success'
-        run: |
-          git clean -f vendor-bin
-          git checkout vendor-bin
-        continue-on-error: true
-
       - name: Create Pull Request
+        id: create-pull-request
         if: steps.checkout.outcome == 'success'
-        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: 'chore(dev-deps): Bump nextcloud/ocp package'
@@ -121,8 +116,25 @@ jobs:
           signoff: true
           branch: 'automated/noid/${{ matrix.branches }}-update-nextcloud-ocp'
           title: '[${{ matrix.branches }}] Update nextcloud/ocp dependency'
+          add-paths: ${{ steps.check_composer_bin.outputs.files_exists == 'true' && 'vendor-bin/nextcloud-ocp/composer.json,vendor-bin/nextcloud-ocp/composer.lock' || 'composer.json,composer.lock' }}
           body: |
             Auto-generated update of [nextcloud/ocp](https://github.com/nextcloud-deps/ocp/) dependency
           labels: |
             dependencies
             3. to review
+
+      # Approve using the default GITHUB_TOKEN, as the PR itself was created
+      # using COMMAND_BOT_PAT and GitHub does not allow an account to approve its own PR
+      - name: GitHub actions bot approve
+        if: steps.create-pull-request.outputs.pull-request-operation != 'none'
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ steps.create-pull-request.outputs.pull-request-url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto merge
+        if: steps.create-pull-request.outputs.pull-request-operation != 'none' && fromJSON(env.AUTOMERGE)
+        uses: peter-evans/enable-pull-request-automerge@a660677d5469627102a1c1e11409dd063606628d # v3.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create-pull-request.outputs.pull-request-number }}
