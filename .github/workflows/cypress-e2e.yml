@@ -86,8 +86,7 @@ jobs:
         with:
           persist-credentials: false
           repository: nextcloud/files_pdfviewer
-          # TODO: revert to ${{ matrix.server-versions }} once nextcloud/files_pdfviewer#1586 is merged
-          ref: feature/nextcloud-viewer-package
+          ref: ${{ matrix.server-versions }}
           path: apps/files_pdfviewer
 
       - name: Checkout ${{ env.APP_NAME }}

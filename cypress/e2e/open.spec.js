@@ -117,8 +117,7 @@ describe('Open PDF with richdocuments', () => {
 		cy.get('[data-cy="coolframe"]').should('not.exist')
 
 		// Verify the files PDF viewer is being used
-		cy.get('.viewer__file-wrapper')
-			.get('iframe')
+		cy.get('[data-handler="pdf"] iframe')
 			.its('0.contentDocument')
 			.its('body').should('not.be.empty')
 			.as('pdfViewer')
