@@ -7,7 +7,7 @@ import { randHash } from '../utils/index.js'
 const shareOwner = new User(randHash(), randHash())
 const shareRecipient = new User(randHash(), randHash())
 
-describe.skip('Federated sharing of office documents', function() {
+describe('Federated sharing of office documents', function() {
 
 	before(function() {
 		cy.nextcloudEnableApp('testing')
