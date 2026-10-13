@@ -22,7 +22,7 @@
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master",
-		"psalm/phar": "^6.18",
+		"psalm/phar": "^6.19",
 		"nextcloud/coding-standard": "^1.5",
 		"nextcloud/ocp": "dev-master",
 		"phpunit/phpunit": "^9.6",
