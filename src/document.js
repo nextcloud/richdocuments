@@ -580,13 +580,16 @@ const documentsMain = {
 		const urlsrc = Config.get('urlsrc')
 		if (urlsrc) {
 			try {
+				// Set for a federated file opened from another instance, which embeds this page
+				const parentOrigin = Config.get('parentOrigin') || window.location.origin
 				PostMessages.setAllowedOrigins([
 					new URL(urlsrc).origin,
 					window.location.origin,
+					parentOrigin,
 				])
 				PostMessages.setTargetOrigins({
 					loolframe: new URL(urlsrc).origin,
-					parent: window.location.origin,
+					parent: parentOrigin,
 				})
 			} catch (e) {}
 		}
