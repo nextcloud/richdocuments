@@ -120,8 +120,13 @@ class DiscoveryService extends CachedRequestService {
 	}
 
 	private function getParsed(): SimpleXMLElement {
+		$raw = $this->get();
+		if ($raw === null) {
+			throw new \Exception('No discovery data available');
+		}
+
 		try {
-			return new SimpleXMLElement($this->get());
+			return new SimpleXMLElement($raw);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage());
 			throw new \Exception('Could not parse discovery XML');

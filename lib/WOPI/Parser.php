@@ -36,8 +36,15 @@ class Parser {
 	 */
 	private function getUrlSrc(string $mimetype): array {
 		$discovery = $this->discoveryService->get();
+		if ($discovery === null) {
+			throw new Exception('No discovery data available');
+		}
+
 		$this->logger->debug('WOPI::getUrlSrc discovery: {discovery}', ['discovery' => $discovery]);
 		$discoveryParsed = simplexml_load_string($discovery);
+		if ($discoveryParsed === false) {
+			throw new Exception('Could not parse WOPI discovery response');
+		}
 
 		$result = $discoveryParsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action', $mimetype));
 		if ($result && count($result) > 0) {
