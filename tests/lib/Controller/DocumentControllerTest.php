@@ -17,6 +17,7 @@ use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Http;
+use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -25,6 +26,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\Share\IManager as IShareManager;
+use OCP\Share\IShare;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -38,6 +40,8 @@ class DocumentControllerTest extends TestCase {
 	private FederationService $federationService;
 	private IRootFolder $rootFolder;
 	private ISession $session;
+	private IShareManager $shareManager;
+	private InitialStateService $initialStateService;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -47,13 +51,15 @@ class DocumentControllerTest extends TestCase {
 		$this->federationService = $this->createMock(FederationService::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->session = $this->createMock(ISession::class);
+		$this->shareManager = $this->createMock(IShareManager::class);
+		$this->initialStateService = $this->createMock(InitialStateService::class);
 
 		$this->controller = new DocumentController(
 			'richdocuments',
 			$this->createMock(IRequest::class),
 			$this->createMock(IConfig::class),
 			$this->createMock(AppConfig::class),
-			$this->createMock(IShareManager::class),
+			$this->shareManager,
 			$this->tokenManager,
 			$this->rootFolder,
 			$this->session,
@@ -61,7 +67,7 @@ class DocumentControllerTest extends TestCase {
 			$this->createMock(LoggerInterface::class),
 			$this->templateManager,
 			$this->federationService,
-			$this->createMock(InitialStateService::class),
+			$this->initialStateService,
 			$this->createMock(IURLGenerator::class),
 		);
 	}
@@ -112,5 +118,40 @@ class DocumentControllerTest extends TestCase {
 		$data = $response->getData();
 		$this->assertSame('wopi-token-abc123', $data['token']);
 		$this->assertSame($expiry, $data['token_ttl']);
+	}
+
+	/**
+	 * The remote page is embedded by the initiator instance, so it has to post
+	 * its messages to the initiator's origin, not to its own.
+	 *
+	 * @test
+	 */
+	public function remotePassesInitiatorOriginAsParentOrigin(): void {
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(self::FILE_ID);
+		$file->method('getName')->willReturn('document.odt');
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getPassword')->willReturn(null);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE);
+		$share->method('getNode')->willReturn($file);
+		$this->shareManager->method('getShareByToken')->with('share-token')->willReturn($share);
+
+		$this->tokenManager->method('getUrlSrc')->willReturn('https://collabora.example.com/browser/dist/cool.html');
+		$this->tokenManager->method('generateWopiToken')->willReturn($this->makeWopi('wopi-token-abc123', 1700000000));
+		$this->federationService->method('getRemoteFileDetails')
+			->with('https://initiator.example.com:8443/', 'remote-token')
+			->willReturn(Wopi::fromParams(['editorUid' => 'alice', 'canwrite' => true]));
+
+		$params = null;
+		$this->initialStateService->expects($this->once())
+			->method('provideDocument')
+			->willReturnCallback(function (Wopi $wopi, array $documentParams) use (&$params): void {
+				$params = $documentParams;
+			});
+
+		$this->controller->remote('share-token', 'https://initiator.example.com:8443/', 'remote-token');
+
+		$this->assertSame('https://initiator.example.com:8443', $params['parentOrigin']);
 	}
 }
