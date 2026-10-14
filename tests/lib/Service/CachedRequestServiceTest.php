@@ -11,7 +11,9 @@ namespace Tests\Richdocuments;
 
 use OCA\Richdocuments\Service\CachedRequestService;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClient;
@@ -116,6 +118,55 @@ class CachedRequestServiceTest extends TestCase {
 
 		$result = $this->service->get();
 		$this->assertEquals('from-file', $result);
+	}
+
+	public function testGetReturnsNullIfCachedFileIsUnreadable(): void {
+		$this->cache->expects($this->once())
+			->method('get')
+			->with('unittest-cachekey')
+			->willReturn(null);
+		$this->folder->expects($this->once())
+			->method('fileExists')
+			->with('unittest-cachekey')
+			->willReturn(true);
+		$this->folder->expects($this->once())
+			->method('getFile')
+			->with('unittest-cachekey')
+			->willReturn($this->file);
+		$this->file->expects($this->once())
+			->method('getContent')
+			->willThrowException(new GenericFileException());
+		$this->cache->expects($this->never())->method('set');
+		$this->logger->expects($this->once())->method('warning');
+
+		$this->assertNull($this->service->get());
+	}
+
+	public function testGetReturnsNullIfAppDataFolderIsUnavailable(): void {
+		$appData = $this->createMock(IAppData::class);
+		$appData->method('getFolder')->willThrowException(new NotFoundException());
+		$appData->method('newFolder')->willThrowException(new \RuntimeException('appdata unavailable'));
+
+		$appDataFactory = $this->createMock(IAppDataFactory::class);
+		$appDataFactory->method('get')->willReturn($appData);
+
+		$service = new TestCachedRequestService(
+			$this->clientService,
+			$this->cacheFactory,
+			$appDataFactory,
+			$this->appConfig,
+			$this->logger,
+			'unittest-cachekey'
+		);
+
+		$this->cache->expects($this->once())
+			->method('get')
+			->with('unittest-cachekey')
+			->willReturn(null);
+		$this->cache->expects($this->never())->method('set');
+		$this->logger->expects($this->once())->method('warning');
+
+		$this->assertNull($service->get());
 	}
 
 	public function testResetCacheRemovesCacheAndFile(): void {

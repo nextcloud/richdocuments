@@ -93,6 +93,27 @@ class DiscoveryServiceTest extends TestCase {
 		$this->assertEquals('world', $proofKey->getExponent());
 	}
 
+	public function testHasProofKeyWithoutDiscoveryData(): void {
+		$this->discoveryService->method('get')
+			->willReturn(null);
+
+		$this->assertFalse($this->discoveryService->hasProofKey());
+	}
+
+	public function testGetProofKeyWithoutDiscoveryData(): void {
+		$this->discoveryService->method('get')
+			->willReturn(null);
+
+		$this->assertNull($this->discoveryService->getProofKey());
+	}
+
+	public function testGetProofKeyOldWithoutDiscoveryData(): void {
+		$this->discoveryService->method('get')
+			->willReturn(null);
+
+		$this->assertNull($this->discoveryService->getProofKeyOld());
+	}
+
 	public function testGetProofKeyOld(): void {
 		$discoveryXml = <<<END
         <wopi-discovery>
