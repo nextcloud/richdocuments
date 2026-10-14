@@ -7,7 +7,10 @@ let scrollLock = false
 let intervalHandler
 
 // Workaround for browsers automatically scrolling the body when the hidden input is focussed
-const handleScrollReset = () => {
+/**
+ *
+ */
+function handleScrollReset() {
 	document.documentElement.scrollTop = 0
 	document.scrollingElement.scrollTop = 0
 }
@@ -15,7 +18,10 @@ const handleScrollReset = () => {
 // Workaround for mobile browsers to resize the iframe to the visual viewport height
 // as visual viewport area - which includes OSK, say - is not propagated to iframes
 // see https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport
-const handleResize = () => {
+/**
+ *
+ */
+function handleResize() {
 	const expectedHeight = window.visualViewport.height ?? document.documentElement.clientHeight
 	const frames = document.getElementsByClassName('office-viewer__iframe')
 	for (const frame of frames) {
@@ -27,7 +33,10 @@ const handleResize = () => {
 	}
 }
 
-const fixThemAll = () => {
+/**
+ *
+ */
+function fixThemAll() {
 	if (!scrollLock) {
 		return
 	}
@@ -38,7 +47,10 @@ const fixThemAll = () => {
 
 const preventDefault = (e) => e.preventDefault()
 
-export const enableScrollLock = () => {
+/**
+ *
+ */
+export function enableScrollLock() {
 	if (scrollLock) {
 		return
 	}
@@ -46,7 +58,7 @@ export const enableScrollLock = () => {
 	scrollLock = true
 
 	window?.visualViewport?.addEventListener('resize', fixThemAll)
-		|| window.addEventListener('resize', fixThemAll)
+	|| window.addEventListener('resize', fixThemAll)
 
 	document.addEventListener('touchstart', preventDefault, false)
 	document.addEventListener('touchmove', preventDefault, false)
@@ -54,7 +66,10 @@ export const enableScrollLock = () => {
 	intervalHandler = setInterval(fixThemAll, 200)
 }
 
-export const disableScrollLock = () => {
+/**
+ *
+ */
+export function disableScrollLock() {
 	if (!scrollLock) {
 		return
 	}
@@ -62,7 +77,7 @@ export const disableScrollLock = () => {
 	scrollLock = false
 
 	window?.visualViewport?.removeEventListener('resize', fixThemAll)
-		|| window.removeEventListener('resize', fixThemAll)
+	|| window.removeEventListener('resize', fixThemAll)
 
 	document.removeEventListener('touchstart', preventDefault, false)
 	document.removeEventListener('touchmove', preventDefault, false)

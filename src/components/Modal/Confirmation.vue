@@ -8,11 +8,13 @@
 			<h1>{{ name }}</h1>
 			<p>{{ description }}</p>
 			<div class="confirmation-dialog--buttons">
-				<NcButton variant="secondary"
+				<NcButton
+					variant="secondary"
 					@click="() => close(false)">
 					{{ cancelButtonText }}
 				</NcButton>
-				<NcButton variant="primary"
+				<NcButton
+					variant="primary"
 					@click="() => close(true)">
 					{{ confirmButtonText }}
 				</NcButton>
@@ -20,10 +22,11 @@
 		</div>
 	</NcModal>
 </template>
+
 <script>
+import { translate as t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcModal from '@nextcloud/vue/components/NcModal'
-import { translate as t } from '@nextcloud/l10n'
 
 export default {
 	name: 'Confirmation',
@@ -31,24 +34,29 @@ export default {
 		NcButton,
 		NcModal,
 	},
+
 	props: {
 		name: {
 			type: String,
 			default: '',
 		},
+
 		description: {
 			type: String,
 			default: '',
 		},
+
 		confirmButtonText: {
 			type: String,
 			default: t('richdocuments', 'Confirm'),
 		},
+
 		cancelButtonText: {
 			type: String,
 			default: t('richdocuments', 'Cancel'),
 		},
 	},
+
 	emits: ['close'],
 	methods: {
 		t,
@@ -58,6 +66,7 @@ export default {
 	},
 }
 </script>
+
 <style lang="scss" scoped>
 .confirmation-dialog {
     display: flex;

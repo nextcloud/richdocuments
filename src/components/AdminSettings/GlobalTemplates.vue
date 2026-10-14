@@ -4,10 +4,12 @@
 -->
 
 <template>
-	<NcSettingsSection v-if="templatesAvailable"
+	<NcSettingsSection
+		v-if="templatesAvailable"
 		:name="t('richdocuments', 'Global Templates')"
 		:description="description">
-		<input ref="newTemplateInput"
+		<input
+			ref="newTemplateInput"
 			type="file"
 			class="hidden-visually"
 			:accept="acceptedFileExtensions"
@@ -24,10 +26,12 @@
 			</NcButton>
 
 			<div v-for="template in existingTemplates" :key="template.id">
-				<NcButton variant="tertiary-no-background"
+				<NcButton
+					variant="tertiary-no-background"
 					@click="deleteTemplate(template.id)">
 					<div class="template-btn" :data-cy-template-btn-name="basename(template.name)">
-						<div class="template-icon"
+						<div
+							class="template-icon"
 							:style="`background-image: url(${template.preview})`">
 							<div class="template-delete-overlay">
 								<DeleteIcon :size="38" />
@@ -44,16 +48,17 @@
 </template>
 
 <script lang="js">
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import '@nextcloud/dialogs/style.css'
-import axios from '@nextcloud/axios'
+import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import NewTemplateIcon from 'vue-material-design-icons/FileDocumentPlusOutline.vue'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
+
+import '@nextcloud/dialogs/style.css'
 
 export default {
 	name: 'GlobalTemplates',
@@ -77,6 +82,7 @@ export default {
 		acceptedFileExtensions() {
 			return this.templateExtensions.join(', ')
 		},
+
 		description() {
 			return t(
 				'richdocuments',
@@ -103,6 +109,7 @@ export default {
 		newTemplate() {
 			this.$refs.newTemplateInput?.click()
 		},
+
 		async selectFile() {
 			const selectedFile = this.$refs.newTemplateInput?.files[0]
 			const templateAlreadyExists = this.existingTemplates.some((template) => {
@@ -118,6 +125,7 @@ export default {
 				showError(t('richdocuments', 'Template "{name}" already exists', { name: selectedFile.name }))
 			}
 		},
+
 		async uploadTemplate(file) {
 			const url = generateUrl('/apps/richdocuments/template')
 			const formData = new FormData()
@@ -137,6 +145,7 @@ export default {
 
 			return res.data.data
 		},
+
 		async deleteTemplate(templateId) {
 			const url = generateUrl('/apps/richdocuments/template/' + templateId)
 
@@ -157,6 +166,7 @@ export default {
 
 			showSuccess(t('richdocuments', 'Deleted template'))
 		},
+
 		basename(filename) {
 			return filename.substr(0, filename.lastIndexOf('.'))
 		},

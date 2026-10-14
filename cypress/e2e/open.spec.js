@@ -6,7 +6,7 @@ describe('Open existing office files', function() {
 	let randUser
 
 	before(function() {
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 			cy.login(user)
 			cy.uploadFile(user, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
@@ -22,7 +22,6 @@ describe('Open existing office files', function() {
 
 	const fileTests = ['document.odt', 'presentation.odp', 'spreadsheet.ods', 'drawing.odg']
 	fileTests.forEach((filename) => {
-
 		it('Classic UI: Open ' + filename + ' the viewer on file click', function() {
 			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'compact')
 			cy.login(randUser)
@@ -86,7 +85,6 @@ describe('Open existing office files', function() {
 			// Validate closing
 			cy.closeDocument()
 		})
-
 	})
 })
 
@@ -152,7 +150,7 @@ describe('PostMessage origin security', function() {
 	let randUser
 
 	before(function() {
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 			cy.login(user)
 			cy.uploadFile(user, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
@@ -174,14 +172,11 @@ describe('PostMessage origin security', function() {
 		cy.waitForCollabora()
 		cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
-		cy.window().then(win => {
+		cy.window().then((win) => {
 			cy.spy(win.console, 'warn').as('consoleWarn')
 		})
 		cy.dispatchMessageFromOrigin('https://evil.example.com', { MessageId: 'Action_Save', Values: {} })
-		cy.get('@consoleWarn').should('have.been.calledWith',
-			'PostMessageService: rejected message from unexpected origin',
-			'https://evil.example.com'
-		)
+		cy.get('@consoleWarn').should('have.been.calledWith', 'PostMessageService: rejected message from unexpected origin', 'https://evil.example.com')
 		cy.closeDocument()
 	})
 
@@ -190,7 +185,7 @@ describe('PostMessage origin security', function() {
 		cy.openFile('document.odt')
 		cy.waitForViewer()
 		cy.waitForCollabora()
-		cy.get('[data-cy="coolframe"]').then($iframe => {
+		cy.get('[data-cy="coolframe"]').then(($iframe) => {
 			const collaboraOrigin = $iframe[0].contentWindow.location.origin
 			cy.spy($iframe[0].contentWindow, 'postMessage').as('postMessage')
 			cy.dispatchMessageFromOrigin(collaboraOrigin, { MessageId: 'App_LoadingStatus', Values: { Status: 'Document_Loaded' } })
@@ -205,7 +200,7 @@ describe('Access token refresh', function() {
 	let randUser
 
 	before(function() {
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 			cy.login(user)
 			cy.uploadFile(user, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
@@ -219,10 +214,10 @@ describe('Access token refresh', function() {
 	// waitForPostMessage matches Values by strict equality, which cannot
 	// express "some timestamp in the future", so read the spy directly.
 	const lastResetAccessTokenTtl = () => {
-		return cy.get('@postMessage').then(spy => {
+		return cy.get('@postMessage').then((spy) => {
 			const messages = spy.getCalls()
-				.filter(call => call.args[0].includes('"MessageId":"Reset_Access_Token"'))
-				.map(call => JSON.parse(call.args[0]))
+				.filter((call) => call.args[0].includes('"MessageId":"Reset_Access_Token"'))
+				.map((call) => JSON.parse(call.args[0]))
 
 			expect(messages.length).to.be.greaterThan(0)
 			return cy.wrap(messages[messages.length - 1].Values.ttl)
@@ -240,7 +235,7 @@ describe('Access token refresh', function() {
 		cy.get('input[name="access_token_ttl"]')
 			.invoke('val')
 			.should('not.be.empty')
-			.then(ttl => {
+			.then((ttl) => {
 				expect(Number(ttl), 'access_token_ttl is an epoch in milliseconds')
 					.to.be.greaterThan(Date.now())
 			})
@@ -249,8 +244,7 @@ describe('Access token refresh', function() {
 	})
 
 	const expiryMessages = ['App_TokenExpiring', 'App_TokenExpired']
-	expiryMessages.forEach(messageId => {
-
+	expiryMessages.forEach((messageId) => {
 		it('issues a new token when Collabora sends ' + messageId, function() {
 			cy.intercept('POST', '**/apps/richdocuments/token').as('tokenRequest')
 
@@ -260,7 +254,7 @@ describe('Access token refresh', function() {
 			cy.waitForCollabora()
 			cy.wait('@tokenRequest')
 
-			cy.get('[data-cy="coolframe"]').then($iframe => {
+			cy.get('[data-cy="coolframe"]').then(($iframe) => {
 				const collaboraOrigin = $iframe[0].contentWindow.location.origin
 				cy.spy($iframe[0].contentWindow, 'postMessage').as('postMessage')
 
@@ -271,7 +265,7 @@ describe('Access token refresh', function() {
 
 				// A Reset_Access_Token without a ttl is read as "never expires",
 				// which stops Collabora warning about any later expiry.
-				lastResetAccessTokenTtl().should(ttl => {
+				lastResetAccessTokenTtl().should((ttl) => {
 					expect(ttl).to.be.a('number')
 					expect(ttl).to.be.greaterThan(Date.now())
 				})

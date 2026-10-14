@@ -9,13 +9,12 @@ const collaboraUrl = Cypress.env('collaboraUrl')
 const defaultFonts = ['AmaticSC-Regular.ttf']
 
 describe('Office admin settings', function() {
-
 	beforeEach(function() {
 		cy.login(new User('admin', 'admin'))
 		cy.visit('/settings/admin/richdocuments')
 		cy.intercept({
-		  method: 'POST',
-		  url: '/index.php/apps/richdocuments/ajax/admin.php',
+			method: 'POST',
+			url: '/index.php/apps/richdocuments/ajax/admin.php',
 		}).as('updateSettings')
 	})
 
@@ -64,7 +63,7 @@ describe('Office admin settings', function() {
 		cy.get('#font-settings')
 			.scrollIntoView()
 			.should('be.visible')
-		defaultFonts.forEach(font => {
+		defaultFonts.forEach((font) => {
 			cy.get('.settings-entry.font-list-settings').contains(font)
 		})
 

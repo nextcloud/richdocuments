@@ -16,23 +16,35 @@ const PROXY_POLL_TIMEOUT_MS = 30000
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-export const isCollaboraConfigured = () => {
+/**
+ *
+ */
+export function isCollaboraConfigured() {
 	const collaboraCapabilities = getCapabilities()?.collabora
 	return isBuiltinCodeServerUsed() || collaboraCapabilities.length !== 0
 }
 
-export const isBuiltinCodeServerUsed = () => {
+/**
+ *
+ */
+export function isBuiltinCodeServerUsed() {
 	return getCapabilities()?.config?.wopi_url?.indexOf('proxy.php') !== -1
 }
 
-export const checkCollaboraConfiguration = async () => {
+/**
+ *
+ */
+export async function checkCollaboraConfiguration() {
 	const wopiUrl = getCapabilities()?.config?.wopi_url
 	if (!wopiUrl) {
 		throw Error(LOADING_ERROR.COLLABORA_UNCONFIGURED)
 	}
 }
 
-export const checkProxyStatus = async () => {
+/**
+ *
+ */
+export async function checkProxyStatus() {
 	const wopiUrl = getCapabilities()?.config?.wopi_url
 	if (wopiUrl.indexOf('proxy.php') === -1) {
 		return true
@@ -46,7 +58,7 @@ export const checkProxyStatus = async () => {
 		let result
 		try {
 			result = await axios.get(proxyStatusUrl)
-		} catch (e) {
+		} catch {
 			await sleep(PROXY_POLL_INTERVAL_MS)
 			continue
 		}

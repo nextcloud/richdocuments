@@ -4,35 +4,34 @@
  */
 import { emit } from '@nextcloud/event-bus'
 
-type MessageEventSource = Window | MessagePort | ServiceWorker;
+type MessageEventSource = Window | MessagePort | ServiceWorker
 
 export interface WopiPostValues {
-	Deprecated?: boolean;
+	Deprecated?: boolean
 }
 export interface WopiPost {
-	MessageId: string;
-	Values: WopiPostValues;
+	MessageId: string
+	Values: WopiPostValues
 }
 
-interface WindowCallbackHandler { (): Window}
+interface WindowCallbackHandler { (): Window }
 
 interface PostMessageHandlerParam {
-	data: any;
+	data: any
 	parsed: { msgId: string, args: WopiPostValues, deprecated: boolean }
 }
 
-type PostMessageHandler = (values: PostMessageHandlerParam) => void;
+type PostMessageHandler = (values: PostMessageHandlerParam) => void
 
 export default class PostMessageService {
-
-	private readonly targets: {[name: string]: (Window|WindowCallbackHandler)}
+	private readonly targets: { [name: string]: (Window | WindowCallbackHandler) }
 	private postMessageHandlers: PostMessageHandler[] = []
 	private allowedOrigins: string[] = []
-	private targetOrigins: {[name: string]: string} = {}
+	private targetOrigins: { [name: string]: string } = {}
 
-	constructor(targets: {[name: string]: (Window|WindowCallbackHandler)}) {
+	constructor(targets: { [name: string]: (Window | WindowCallbackHandler) }) {
 		this.targets = targets
-		window.addEventListener('message', (event: {source: MessageEventSource, data: any, origin: string}) => {
+		window.addEventListener('message', (event: { source: MessageEventSource, data: any, origin: string }) => {
 			if (this.allowedOrigins.length > 0 && !this.allowedOrigins.includes(event.origin)) {
 				console.warn('PostMessageService: rejected message from unexpected origin', event.origin)
 				return
@@ -45,7 +44,7 @@ export default class PostMessageService {
 		this.allowedOrigins = origins
 	}
 
-	setTargetOrigins(origins: {[name: string]: string}): void {
+	setTargetOrigins(origins: { [name: string]: string }): void {
 		this.targetOrigins = origins
 	}
 
@@ -81,7 +80,7 @@ export default class PostMessageService {
 			msgId = msg.MessageId
 			args = msg.Values
 			deprecated = !!msg.Values.Deprecated
-		} catch (exc) {
+		} catch {
 			msgId = data
 		}
 		return { msgId, args, deprecated }
@@ -92,7 +91,7 @@ export default class PostMessageService {
 	}
 
 	unregisterPostMessageHandler(callback: PostMessageHandler) {
-		const handlerIndex = this.postMessageHandlers.findIndex(cb => cb === callback)
+		const handlerIndex = this.postMessageHandlers.findIndex((cb) => cb === callback)
 		delete this.postMessageHandlers[handlerIndex]
 	}
 
@@ -107,7 +106,9 @@ export default class PostMessageService {
 			if (typeof wopiPostMessage === 'object' && wopiPostMessage !== null) {
 				emit('richdocuments:wopi-post', wopiPostMessage)
 			}
-		} catch (e) {}
+		} catch {
+			// Not every post message is WOPI JSON, the parsed message is handled below
+		}
 
 		this.postMessageHandlers.forEach((fn: PostMessageHandler): void => {
 			if (parsed.deprecated) {
@@ -122,8 +123,6 @@ export default class PostMessageService {
 			} catch (e) {
 				console.error('Error during post message handler', parsed, e)
 			}
-
 		})
 	}
-
 }

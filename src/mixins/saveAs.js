@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { basename } from 'path'
 import SaveAs from '../components/Modal/SaveAs.vue'
 

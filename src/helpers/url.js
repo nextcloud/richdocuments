@@ -3,11 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getRootUrl, generateUrl } from '@nextcloud/router'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
 import { getSharingToken } from '@nextcloud/sharing/public'
 import Config from './../services/config.tsx'
 
-const getSearchParam = (name) => {
+/**
+ *
+ * @param name
+ */
+function getSearchParam(name) {
 	const results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
 	if (results === null) {
 		return null
@@ -15,12 +19,19 @@ const getSearchParam = (name) => {
 	return decodeURI(results[1]) || ''
 }
 
-const getCallbackBaseUrl = () => {
+/**
+ *
+ */
+function getCallbackBaseUrl() {
 	const callbackUrl = Config.get('wopi_callback_url')
 	return callbackUrl || window.location.protocol + '//' + window.location.host + getRootUrl()
 }
 
-const getWopiSrc = (fileId) => {
+/**
+ *
+ * @param fileId
+ */
+function getWopiSrc(fileId) {
 	// WOPISrc - URL that Collabora will use to access Nextcloud
 	// index.php is forced here to avoid different wopi srcs for the same document
 	const wopiurl = getCallbackBaseUrl() + '/index.php/apps/richdocuments/wopi/files/' + fileId
@@ -28,7 +39,17 @@ const getWopiSrc = (fileId) => {
 	return wopiurl
 }
 
-const getWopiUrl = ({ fileId, readOnly, closeButton, revisionHistory, target = undefined, startPresentation = false }) => {
+/**
+ *
+ * @param root0
+ * @param root0.fileId
+ * @param root0.readOnly
+ * @param root0.closeButton
+ * @param root0.revisionHistory
+ * @param root0.target
+ * @param root0.startPresentation
+ */
+function getWopiUrl({ fileId, readOnly, closeButton, revisionHistory, target = undefined, startPresentation = false }) {
 	// Only set the revision history parameter if the versions app is enabled
 	revisionHistory = revisionHistory && OC.appswebroots?.files_versions
 
@@ -46,7 +67,13 @@ const getWopiUrl = ({ fileId, readOnly, closeButton, revisionHistory, target = u
 		+ (startPresentation ? '&startPresentation=1' : '')
 }
 
-const getDocumentUrlFromTemplate = (templateId, fileName, fileDir, fillWithTemplate) => {
+/**
+ *
+ * @param templateId
+ * @param fileName
+ * @param fileDir
+ */
+function getDocumentUrlFromTemplate(templateId, fileName, fileDir) {
 	return generateUrl(
 		'apps/richdocuments/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
 		{
@@ -58,7 +85,12 @@ const getDocumentUrlFromTemplate = (templateId, fileName, fileDir, fillWithTempl
 	)
 }
 
-const getDocumentUrlForPublicFile = (fileName, fileId) => {
+/**
+ *
+ * @param fileName
+ * @param fileId
+ */
+function getDocumentUrlForPublicFile(fileName, fileId) {
 	return generateUrl(
 		'apps/richdocuments/public?shareToken={shareToken}&fileName={fileName}&requesttoken={requesttoken}&fileId={fileId}',
 		{
@@ -70,31 +102,42 @@ const getDocumentUrlForPublicFile = (fileName, fileId) => {
 	)
 }
 
-const getDocumentUrlForFile = (fileDir, fileId) => {
+/**
+ *
+ * @param fileDir
+ * @param fileId
+ */
+function getDocumentUrlForFile(fileDir, fileId) {
 	return generateUrl(
 		'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
 		{
 			fileId,
 			dir: fileDir,
 			requesttoken: OC.requestToken,
-		})
+		},
+	)
 }
 
-export const getConfigFileUrl = () => {
+/**
+ *
+ */
+export function getConfigFileUrl() {
 	return generateUrl('apps/richdocuments/wopi/settings', null, { baseURL: getCallbackBaseUrl() })
 }
 
-const getNextcloudUrl = () => {
+/**
+ *
+ */
+function getNextcloudUrl() {
 	return window.location.host
 }
 
 export {
+	getCallbackBaseUrl,
+	getDocumentUrlForFile,
+	getDocumentUrlForPublicFile,
+	getDocumentUrlFromTemplate,
+	getNextcloudUrl,
 	getSearchParam,
 	getWopiUrl,
-	getCallbackBaseUrl,
-
-	getDocumentUrlFromTemplate,
-	getDocumentUrlForPublicFile,
-	getDocumentUrlForFile,
-	getNextcloudUrl,
 }

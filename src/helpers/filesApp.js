@@ -6,7 +6,7 @@
 /**
  * @return {string}
  */
-export const getCurrentDirectory = () => {
+export function getCurrentDirectory() {
 	if (OCA.Sharing?.PublicApp) {
 		return OCA.Sharing.PublicApp.fileList.getCurrentDirectory()
 	}

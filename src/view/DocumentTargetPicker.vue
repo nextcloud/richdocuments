@@ -18,7 +18,8 @@
 				<div v-for="section in sections" :key="section.label">
 					<h3>{{ section.label }}</h3>
 					<ul :data-cy-section-label="section.label">
-						<NcListItem v-for="entry in section.entries"
+						<NcListItem
+							v-for="entry in section.entries"
 							:key="entry.id"
 							:name="entry.name"
 							:class="{ 'list-item__wrapper--active': entry.id === target }"
@@ -31,7 +32,8 @@
 				</div>
 			</template>
 			<div v-if="sections.length !== 0" class="office-target-picker__buttons">
-				<NcButton data-cy-link-to-section=""
+				<NcButton
+					data-cy-link-to-section=""
 					variant="primary"
 					:disabled="!target"
 					@click="submit()">
@@ -43,10 +45,10 @@
 </template>
 
 <script>
+import axios from '@nextcloud/axios'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcListItem from '@nextcloud/vue/components/NcListItem'
@@ -63,16 +65,19 @@ export default {
 		NcLoadingIcon,
 		TableOfContentsIcon,
 	},
+
 	props: {
 		providerId: {
 			type: String,
 			required: true,
 		},
+
 		accessible: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	emits: ['submit', 'cancel'],
 	data() {
 		return {
@@ -82,11 +87,13 @@ export default {
 			sections: null,
 		}
 	},
+
 	computed: {
 		validMimetypes() {
 			return getCapabilities().mimetypes
 		},
 	},
+
 	mounted() {
 		getFilePickerBuilder(t('files', 'Select file or folder to link to'))
 			.setContainer('.office-target-picker')
@@ -112,16 +119,19 @@ export default {
 			.pickNodes()
 			.catch(() => this.filePath === null && this.$emit('cancel'))
 	},
+
 	methods: {
 		t,
 		setTarget(entry) {
 			this.target = entry.id
 		},
+
 		submit() {
 			const fileLink = window.location.protocol + '//' + window.location.host
 				+ generateUrl('/apps/richdocuments/editonline/{fileId}/{target}', { fileId: this.fileId, target: this.target })
 			this.$emit('submit', fileLink)
 		},
+
 		async fetchReferences() {
 			const response = await axios.get(generateOcsUrl('/apps/richdocuments/api/v1/targets'), {
 				params: {

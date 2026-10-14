@@ -1,16 +1,16 @@
+import axios from '@nextcloud/axios'
+import { addCommands, User } from '@nextcloud/e2e-test-server/cypress'
 /**
  * SPDX-FileCopyrightText: 2023 Julius Härtl <jus@bitgrid.net>
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { basename } from 'path'
-import axios from '@nextcloud/axios'
-import { User, addCommands } from '@nextcloud/e2e-test-server/cypress'
 
 addCommands()
 
 const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 
-Cypress.Commands.add('logout', (route = '/') => {
+Cypress.Commands.add('logout', () => {
 	Cypress.session.clearAllSavedSessions()
 	cy.clearCookies()
 })
@@ -22,7 +22,7 @@ Cypress.Commands.add('createFolder', (user, target) => {
 
 	return cy.request('/csrftoken')
 		.then(({ body }) => body.token)
-		.then(requesttoken => {
+		.then((requesttoken) => {
 			return cy.request({
 				url: `${rootPath}/${dirPath}`,
 				method: 'MKCOL',
@@ -46,7 +46,7 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 	const fileName = basename(target)
 
 	// get fixture
-	return cy.fixture(fixture, 'base64').then(async file => {
+	return cy.fixture(fixture, 'base64').then(async (file) => {
 		// convert the base64 string to a blob
 		const blob = Cypress.Blob.base64StringToBlob(file, mimeType)
 
@@ -57,27 +57,23 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 			const file = new File([blob], fileName, { type: mimeType })
 			cy.request('/csrftoken')
 				.then(({ body }) => body.token)
-				.then(requesttoken => {
+				.then((requesttoken) => {
 					return axios.put(`${rootPath}/${filePath}`, file, {
 						headers: {
 							requesttoken,
 							'Content-Type': mimeType,
 						},
-					}).then(response => {
-						const fileId = Number( response.headers['oc-fileid']?.split('oc')?.[0])
-						cy.log(`Uploaded ${fileName}`,
-							response.status,
-							{ fileId }
-						)
+					}).then((response) => {
+						const fileId = Number(response.headers['oc-fileid']?.split('oc')?.[0])
+						cy.log(`Uploaded ${fileName}`, response.status, { fileId })
 						cy.wrap(fileId)
 					})
 				})
 		} catch (error) {
 			cy.log(error)
-			throw new Error(`Unable to process fixture ${fixture}`)
+			throw new Error(`Unable to process fixture ${fixture}`, { cause: error })
 		}
 	})
-
 })
 
 Cypress.Commands.add('ocsRequest', (user, options) => {
@@ -103,7 +99,7 @@ Cypress.Commands.add('shareFileToUser', (user, path, targetUser, shareData = {})
 			shareWith: targetUser.userId,
 			...shareData,
 		},
-	}).then(response => {
+	}).then((response) => {
 		cy.log(`${user.userId} shared ${path} with ${targetUser.userId}`, response.status)
 	})
 })
@@ -119,7 +115,7 @@ Cypress.Commands.add('shareFileToTalkRoom', (user, path, roomId, shareData = {})
 			shareWith: roomId,
 			...shareData,
 		},
-	}).then(response => {
+	}).then((response) => {
 		cy.log(`${user.userId} shared ${path} with talk room ${roomId}`, response.status)
 	})
 })
@@ -137,7 +133,7 @@ Cypress.Commands.add('shareFileToRemoteUser', (user, path, targetUser, shareData
 			shareWith: federatedId,
 			...shareData,
 		},
-	}).then(response => {
+	}).then((response) => {
 		cy.log(`${user.userId} shared ${path} with ${federatedId}`, response.status)
 		cy.login(targetUser)
 		return cy.ocsRequest(targetUser, {
@@ -158,7 +154,7 @@ Cypress.Commands.add('shareFileToRemoteUser', (user, path, targetUser, shareData
 			url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/${shareId}?format=json`,
 		}).then((response) => {
 			cy.login(user)
-			return cy.wrap(response.body.ocs.data['file_id'])
+			return cy.wrap(response.body.ocs.data.file_id)
 		})
 	})
 })
@@ -173,14 +169,14 @@ Cypress.Commands.add('shareLink', (user, path, shareData = {}) => {
 			shareType: 3,
 			...shareData,
 		},
-	}).then(response => {
+	}).then((response) => {
 		const token = response.body.ocs.data.token
 		cy.log(`${user.userId} shared ${path} as a link with token ${token}`, response.status)
 		cy.wrap(token)
 	})
 })
 
-Cypress.Commands.add('openFile', fileName => {
+Cypress.Commands.add('openFile', (fileName) => {
 	cy.get(`[data-cy-files-list] tr[data-cy-files-list-row-name="${fileName}"] [data-cy-files-list-row-name-link]`).click()
 })
 
@@ -195,7 +191,7 @@ Cypress.Commands.add('nextcloudEnableApp', (appId) => {
 			'OCS-ApiRequest': 'true',
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-	}).then(response => {
+	}).then((response) => {
 		cy.log(`Enabled app ${appId}`, response.status)
 	})
 })
@@ -206,7 +202,7 @@ Cypress.Commands.add('setPersonalTemplateFolder', (user, templateFolder) => {
 
 	return cy.request('/csrftoken')
 		.then(({ body }) => body.token)
-		.then(requesttoken => {
+		.then((requesttoken) => {
 			return cy.request({
 				url: `${url}/index.php/apps/richdocuments/ajax/personal.php`,
 				method: 'POST',
@@ -232,7 +228,7 @@ Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configVa
 		body: {
 			value: configValue,
 		},
-	}).then(response => {
+	}).then((response) => {
 		cy.log(`Set app value app ${appId} ${configKey} ${configValue}`, response.status)
 	})
 })
@@ -288,7 +284,7 @@ Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefine
 		return true
 	}
 
-	cy.get('@postMessage', { timeout: 20000 }).should(spy => {
+	cy.get('@postMessage', { timeout: 20000 }).should((spy) => {
 		const calls = spy.getCalls()
 		const messagesMatchingId = []
 
@@ -354,7 +350,7 @@ Cypress.Commands.add('deleteFile', (user, target) => {
 
 	return cy.request('/csrftoken')
 		.then(({ body }) => body.token)
-		.then(requesttoken => {
+		.then((requesttoken) => {
 			return cy.request({
 				url: `${rootPath}/${filePath}`,
 				method: 'DELETE',
@@ -394,35 +390,34 @@ Cypress.Commands.add('submitTemplateFields', (fields) => {
 
 	for (const field of fields) {
 		switch (field.type) {
+			case 'rich-text':
+				if (!field.alias) {
+					cy.get('@templateFiller')
+						.find(`label[for="text-field${field.index}"]`)
+						.should('not.exist')
+				} else {
+					cy.get('@templateFiller')
+						.find(`input[placeholder="${field.alias}"]`)
+						.type(field.content)
+				}
 
-		case 'rich-text':
-			if (!field.alias) {
-				cy.get('@templateFiller')
-					.find(`label[for="text-field${field.index}"]`)
-					.should('not.exist')
-			} else {
-				cy.get('@templateFiller')
-					.find(`input[placeholder="${field.alias}"]`)
-					.type(field.content)
-			}
+				break
 
-			break
+			case 'checkbox':
+				if (!field.alias) {
+					cy.get('@templateFiller')
+						.find(`input[id="checkbox-field${field.index}`)
+						.should('not.exist')
+				} else {
+					cy.get('@templateFiller')
+						.find('span.checkbox-radio-switch__text').contains(field.alias)
+						.click()
+				}
 
-		case 'checkbox':
-			if (!field.alias) {
-				cy.get('@templateFiller')
-					.find(`input[id="checkbox-field${field.index}`)
-					.should('not.exist')
-			} else {
-				cy.get('@templateFiller')
-					.find('span.checkbox-radio-switch__text').contains(field.alias)
-					.click()
-			}
+				break
 
-			break
-
-		default:
-			expect.fail('Using a field type not yet supported')
+			default:
+				expect.fail('Using a field type not yet supported')
 		}
 	}
 
@@ -437,7 +432,7 @@ Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
 		.then(({ body }) => body.token)
 		.as('requestToken')
 
-	cy.get('@requestToken').then(requesttoken => {
+	cy.get('@requestToken').then((requesttoken) => {
 		cy.request({
 			method: 'GET',
 			url: url + apiEndpoint + fileId + '?format=json',
@@ -451,18 +446,18 @@ Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
 				// If a field has no name or alias, we don't need
 				// to check it because it is not shown in the template filler
 				if (!field.alias) {
-					continue;
+					continue
 				}
 
 				switch (field.type) {
-				case 'rich-text':
-					expect(field.content).to.equal(fields[index].content)
-					break
-				case 'checkbox':
-					expect(field.checked).to.equal(fields[index].checked)
-					break
-				default:
-					expect.fail('Using a field type not yet supported')
+					case 'rich-text':
+						expect(field.content).to.equal(fields[index].content)
+						break
+					case 'checkbox':
+						expect(field.checked).to.equal(fields[index].checked)
+						break
+					default:
+						expect.fail('Using a field type not yet supported')
 				}
 			}
 		})
@@ -491,8 +486,8 @@ Cypress.Commands.add('createTalkRoom', (user, options = {}) => {
 			objectType: options.objectType || '',
 			objectId: options.objectId || '',
 			password: options.password || '',
-		}
-	}).then(response => {
+		},
+	}).then((response) => {
 		cy.log(`Created talk room "${options.roomName}"`, response.status)
 		return cy.wrap(response.body.ocs.data)
 	})
@@ -504,16 +499,16 @@ Cypress.Commands.add('makeTalkRoomPublic', (user, token, password = '') => {
 		method: 'POST',
 		url: `${url}/ocs/v2.php/apps/spreed/api/v4/room/${token}/public?format=json`,
 		body: {
-			password: password,
-		}
-	}).then(response => {
-		cy.log(`Made talk room public`, response.status)
+			password,
+		},
+	}).then((response) => {
+		cy.log('Made talk room public', response.status)
 		return cy.wrap(response.body.ocs.data)
 	})
 })
 
 Cypress.Commands.add('dispatchMessageFromOrigin', (origin, message) => {
-	cy.window().then(win => {
+	cy.window().then((win) => {
 		win.dispatchEvent(new win.MessageEvent('message', {
 			origin,
 			data: JSON.stringify(message),
