@@ -12,7 +12,9 @@ namespace Tests\Richdocuments;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\App\IAppManager;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -61,5 +63,41 @@ class CapabilitiesServiceTest extends TestCase {
 		$this->assertSame('1.0', $service->getProductVersion());
 		$service->fetch();
 		$this->assertSame('2.0', $service->getProductVersion());
+	}
+
+	public function testGetCapabilitiesWithUnreadableCachedFile(): void {
+		$cache = $this->createStub(ICache::class);
+		$cache->method('get')->willReturn(null);
+		$cacheFactory = $this->createStub(ICacheFactory::class);
+		$cacheFactory->method('createDistributed')->willReturn($cache);
+
+		$file = $this->createStub(ISimpleFile::class);
+		$file->method('getContent')->willThrowException(new GenericFileException());
+		$folder = $this->createStub(ISimpleFolder::class);
+		$folder->method('fileExists')->willReturn(true);
+		$folder->method('getFile')->willReturn($file);
+
+		$appData = $this->createStub(IAppData::class);
+		$appData->method('getFolder')->willReturn($folder);
+		$appDataFactory = $this->createStub(IAppDataFactory::class);
+		$appDataFactory->method('get')->willReturn($appData);
+
+		$config = $this->createStub(IConfig::class);
+		$config->method('getAppValue')->willReturn('https://collabora.example');
+
+		$service = new CapabilitiesService(
+			$this->createStub(IClientService::class),
+			$cacheFactory,
+			$appDataFactory,
+			$this->createStub(IAppConfig::class),
+			$this->createStub(LoggerInterface::class),
+			$config,
+			$this->createStub(IAppManager::class),
+			$this->createStub(IL10N::class),
+		);
+
+		$this->assertSame([], $service->getCapabilities());
+		$this->assertNull($service->getProductVersion());
+		$this->assertFalse($service->hasTemplateSource());
 	}
 }
