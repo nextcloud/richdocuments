@@ -47,12 +47,6 @@
       <code><![CDATA[BadResponseException]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/Controller/SettingsController.php">
-    <UndefinedClass>
-      <code><![CDATA[NullOutput]]></code>
-      <code><![CDATA[NullOutput]]></code>
-    </UndefinedClass>
-  </file>
   <file src="lib/Controller/TemplatesController.php">
     <InvalidReturnStatement>
       <code><![CDATA[$this->fetchPreview($template, $x, $y, $a, $forceIcon, $mode)]]></code>
@@ -94,12 +88,6 @@
     <MissingDependency>
       <code><![CDATA[Image]]></code>
     </MissingDependency>
-  </file>
-  <file src="lib/Service/ConnectivityService.php">
-    <UndefinedClass>
-      <code><![CDATA[OutputInterface]]></code>
-      <code><![CDATA[OutputInterface]]></code>
-    </UndefinedClass>
   </file>
   <file src="lib/Service/FederationService.php">
     <TypeDoesNotContainType>

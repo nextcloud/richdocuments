@@ -66,7 +66,7 @@ abstract class CachedRequestService {
 	 * @return string
 	 * @throws \Exception
 	 */
-	final public function fetch(): string {
+	public function fetch(): string {
 		$cache = $this->cacheFactory->createDistributed('richdocuments');
 		$client = $this->clientService->newClient();
 

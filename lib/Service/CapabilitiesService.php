@@ -110,6 +110,18 @@ class CapabilitiesService extends CachedRequestService {
 		return $this->l10n->t('Nextcloud Office (Collabora)');
 	}
 
+	public function isEnterprise(): bool {
+		return ($this->getCapabilities()['productName'] ?? false) === 'Collabora Online';
+	}
+
+	public function isCode(): bool {
+		return ($this->getCapabilities()['productName'] ?? false) === 'Collabora Online Development Edition';
+	}
+
+	public function hasWopiAccessCheck(): bool {
+		return $this->getCapabilities()['hasWopiAccessCheck'] ?? false;
+	}
+
 	public function hasOtherOOXMLApps(): bool {
 		if ($this->appManager->isEnabledForUser('officeonline')) {
 			return true;
@@ -128,6 +140,12 @@ class CapabilitiesService extends CachedRequestService {
 			return null;
 		}
 		return rtrim($remoteHost, '/') . '/hosting/capabilities';
+	}
+
+	#[\Override]
+	public function fetch(): string {
+		$this->capabilities = null;
+		return parent::fetch();
 	}
 
 	#[\Override]
