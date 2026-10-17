@@ -149,7 +149,7 @@ describe('Global templates', function() {
 		cy.waitForCollabora()
 	})
 
-	it.skip('Create a file from a system template as guest', () => {
+	it('Create a file from a system template as guest', () => {
 		cy.uploadSystemTemplate({
 			fixturePath: 'templates/presentation.otp',
 			fileName: 'myslides.otp',
