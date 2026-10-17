@@ -24,6 +24,7 @@ use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\Service\UserScopeService;
 use OCA\Richdocuments\Service\WopiRateLimitService;
+use OCA\Richdocuments\Stream\HashFilter;
 use OCA\Richdocuments\TaskProcessingManager;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
@@ -42,8 +43,10 @@ use OCP\Constants;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\Defaults;
 use OCP\Encryption\IManager as IEncryptionManager;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
@@ -223,6 +226,17 @@ class WopiController extends Controller {
 			'HasContentRange' => true,
 			'ServerPrivateInfo' => [],
 		];
+
+		// Only reported when we already know it. Never hash here: checkFileInfo
+		// is on the document-open path and files can be large. Not for a version
+		// either: the hash on record describes the current contents, and a version
+		// is served from the versions app.
+		if (!$isVersion) {
+			$sha256 = $this->getStoredSha256($file);
+			if ($sha256 !== null) {
+				$response['SHA256'] = $sha256;
+			}
+		}
 
 		if ($this->capabilitiesService->hasSettingIframeSupport()) {
 			// Bind the settings token to the real editor, which is empty for a public session, so
@@ -664,7 +678,7 @@ class WopiController extends Controller {
 				if ($freespace >= 0 && $contentLength > $freespace) {
 					throw new \Exception('Not enough storage');
 				}
-				$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
+				$this->putContentWithSha256($wopi, $file, $content);
 			} catch (LockedException $e) {
 				$this->logger->error($e->getMessage(), ['exception' => $e]);
 				// The file is locked by another operation and we wrote nothing.
@@ -912,6 +926,87 @@ class WopiController extends Controller {
 	private function getLock(Wopi $wopi, string $lock): JSONResponse {
 		$locks = $this->lockManager->getLocks($wopi->getFileid());
 		return new JSONResponse();
+	}
+
+	/**
+	 * Write the request body to the file and record its SHA-256 while the
+	 * server still holds the lock it took for the write.
+	 *
+	 * The server dispatches NodeWrittenEvent from inside that lock, once the
+	 * cache has been updated: the same point at which the DAV endpoint
+	 * persists the checksum a sync client sends. Recording the hash there,
+	 * rather than after putContent() has returned, leaves no window in which
+	 * another writer could replace the contents and end up with our hash on
+	 * theirs, which is the very confusion the hash is meant to prevent.
+	 *
+	 * @param resource $content
+	 * @throws LockedException
+	 * @throws GenericFileException
+	 */
+	private function putContentWithSha256(Wopi $wopi, File $file, $content): void {
+		// Hash the body as it streams past, so the editor can later tell whether
+		// what is in storage is what it uploaded. This costs no extra read: the
+		// bytes are going through us anyway.
+		$sha256 = null;
+		if (!HashFilter::attach($content, 'sha256', function (string $digest) use (&$sha256): void {
+			$sha256 = $digest;
+		})) {
+			$this->logger->debug('Could not hash the uploaded file; checkFileInfo will not report a SHA256 for it');
+		}
+
+		$fileId = $file->getId();
+		$recordSha256 = function (Event $event) use ($fileId, &$sha256): void {
+			if ($event instanceof NodeWrittenEvent && $event->getNode()->getId() === $fileId) {
+				$this->storeSha256($event->getNode(), $sha256);
+			}
+		};
+
+		$this->eventDispatcher->addListener(NodeWrittenEvent::class, $recordSha256);
+		try {
+			$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
+		} finally {
+			$this->eventDispatcher->removeListener(NodeWrittenEvent::class, $recordSha256);
+		}
+	}
+
+	/**
+	 * Remember the SHA-256 of the contents just written, in the cache field
+	 * that holds the checksums a sync client sends over DAV.
+	 *
+	 * The scanner clears that field whenever it sees the file change, and DAV
+	 * clears it when a client sends no checksum, so a stored value is never
+	 * stale: it either describes the current contents or is absent. That is
+	 * what lets checkFileInfo hand it out without re-reading the file.
+	 */
+	private function storeSha256(Node $node, ?string $sha256): void {
+		if ($sha256 === null) {
+			// The body was not read to its end, so there is nothing to describe.
+			return;
+		}
+
+		try {
+			$node->getStorage()->getCache()->update($node->getId(), [
+				'checksum' => 'SHA256:' . $sha256,
+			]);
+		} catch (\Throwable $e) {
+			// A checksum we fail to record only costs the editor a hint.
+			$this->logger->debug('Could not store the SHA-256 of the uploaded file', ['exception' => $e]);
+		}
+	}
+
+	/**
+	 * The stored SHA-256 of the file, Base64-encoded as the WOPI SHA256 field
+	 * carries it, or null when none is on record.
+	 *
+	 * Checksums are kept as space-separated TYPE:HEX pairs, so a file may well
+	 * carry an MD5 or SHA1 from a sync client and no SHA-256 at all.
+	 */
+	private function getStoredSha256(File $file): ?string {
+		if (!preg_match('/(?:^| )SHA256:([0-9a-f]{64})(?: |$)/i', $file->getChecksum(), $matches)) {
+			return null;
+		}
+
+		return base64_encode(hex2bin($matches[1]));
 	}
 
 	/**
