@@ -42,11 +42,15 @@ abstract class CachedRequestService {
 			return $cached;
 		}
 
-		$folder = $this->getAppDataFolder();
-		if ($folder->fileExists($this->cacheKey)) {
-			$value = $folder->getFile($this->cacheKey)->getContent();
-			$cache->set($this->cacheKey, $value, 3600);
-			return $value;
+		try {
+			$folder = $this->getAppDataFolder();
+			if ($folder->fileExists($this->cacheKey)) {
+				$value = $folder->getFile($this->cacheKey)->getContent();
+				$cache->set($this->cacheKey, $value, 3600);
+				return $value;
+			}
+		} catch (\Throwable $e) {
+			$this->logger->warning('Could not read cached remote data for ' . $this->cacheKey, ['exception' => $e]);
 		}
 
 		return null;
