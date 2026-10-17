@@ -14,13 +14,12 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IAppConfig;
-use OCP\IUserSession;
 
 class SecureViewService {
 	public function __construct(
-		protected IUserSession $userSession,
 		protected PermissionManager $permissionManager,
 		protected IAppConfig $appConfig,
+		protected AppConfig $richdocumentsAppConfig,
 	) {
 	}
 
@@ -51,12 +50,16 @@ class SecureViewService {
 			}
 		}
 
+		// Secure view applies only to office files handled by Collabora
+		if (!in_array($cacheEntry->getMimetype(), $this->richdocumentsAppConfig->getMimeTypes(), true)) {
+			return false;
+		}
+
 		$isSharedStorage = $storage->instanceOfStorage(ISharedStorage::class);
 		/** @noinspection PhpPossiblePolymorphicInvocationInspection */
 		/** @psalm-suppress UndefinedMethod **/
 		$share = $isSharedStorage ? $storage->getShare() : null;
-		$userId = $this->userSession->getUser()?->getUID();
 
-		return $this->permissionManager->shouldWatermark($cacheEntry, $userId, $share, $storage->getOwner($path) ?: null);
+		return $this->permissionManager->isDownloadRestricted($share);
 	}
 }

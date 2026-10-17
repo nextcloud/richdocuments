@@ -16,6 +16,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -226,6 +227,38 @@ class PermissionManagerTest extends TestCase {
 		$node->expects($this->any())->method('getId')->willReturn('testFileId');
 		$node->expects($this->any())->method('isUpdateable')->willReturn(false);
 		return $node;
+	}
+
+	public static function dataIsDownloadRestricted(): array {
+		return [
+			// [hasShare, hideDownload, downloadAttribute, expected]
+			'no share' => [false, false, null, false],
+			'unrestricted share' => [true, false, null, false],
+			'download attribute allows' => [true, false, true, false],
+			'hide download' => [true, true, null, true],
+			'download attribute forbids' => [true, false, false, true],
+		];
+	}
+
+	/** @dataProvider dataIsDownloadRestricted */
+	public function testIsDownloadRestricted(bool $hasShare, bool $hideDownload, ?bool $downloadAttribute, bool $expected): void {
+		$share = null;
+		if ($hasShare) {
+			$share = $this->createMock(IShare::class);
+			$share->expects($this->any())->method('getHideDownload')->willReturn($hideDownload);
+			if ($downloadAttribute === null) {
+				$share->expects($this->any())->method('getAttributes')->willReturn(null);
+			} else {
+				$attributes = $this->createMock(IAttributes::class);
+				$attributes->expects($this->any())
+					->method('getAttribute')
+					->with('permissions', 'download')
+					->willReturn($downloadAttribute);
+				$share->expects($this->any())->method('getAttributes')->willReturn($attributes);
+			}
+		}
+
+		$this->assertSame($expected, $this->permissionManager->isDownloadRestricted($share));
 	}
 
 	private function createShareMock(?int $shareType): ?IShare {

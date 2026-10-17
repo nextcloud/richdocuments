@@ -258,4 +258,11 @@ class PermissionManager {
 
 		return false;
 	}
+
+	public function isDownloadRestricted(?IShare $share): bool {
+		$hasShareAttributes = $share && $share->getAttributes();
+		$isDisabledDownload = $hasShareAttributes && $share->getAttributes()->getAttribute('permissions', 'download') === false;
+		$isHideDownload = $share && $share->getHideDownload();
+		return $isDisabledDownload || $isHideDownload;
+	}
 }
