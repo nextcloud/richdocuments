@@ -72,7 +72,7 @@ describe('Global templates', function() {
 		})
 
 		cy.wait('@templateUploadRequest')
-		cy.contains('[role="alert"]', 'File is too big').should('be.visible')
+		cy.get('.toast-error').contains('File is too big').should('be.visible')
 		cy.get('.template-btn[data-cy-template-btn-name="errortemplate"]').should('not.exist')
 	})
 
@@ -89,7 +89,7 @@ describe('Global templates', function() {
 		})
 
 		cy.wait('@templateUploadRequest')
-		cy.contains('[role="alert"]', 'Failed to upload the file').should('be.visible')
+		cy.get('.toast-error').contains('Failed to upload the file').should('be.visible')
 		cy.get('.template-btn[data-cy-template-btn-name="errortemplate"]').should('not.exist')
 	})
 
