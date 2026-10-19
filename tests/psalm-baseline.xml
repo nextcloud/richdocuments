@@ -41,12 +41,6 @@
       <code><![CDATA[$app !== '']]></code>
     </RedundantCondition>
   </file>
-  <file src="lib/Controller/OCSController.php">
-    <UndefinedClass>
-      <code><![CDATA[$e]]></code>
-      <code><![CDATA[BadResponseException]]></code>
-    </UndefinedClass>
-  </file>
   <file src="lib/Controller/TemplatesController.php">
     <InvalidReturnStatement>
       <code><![CDATA[$this->fetchPreview($template, $x, $y, $a, $forceIcon, $mode)]]></code>
