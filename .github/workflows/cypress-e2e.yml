@@ -70,7 +70,7 @@ jobs:
         with:
           persist-credentials: false
           repository: nextcloud/viewer
-          ref: ${{ matrix.server-versions }}
+          ref: ${{ env.main_app_ref }}
           path: apps/viewer
 
       - name: Checkout spreed
