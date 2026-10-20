@@ -138,7 +138,60 @@ describe('Public sharing of office documents', () => {
 			})
 		})
 	})
+
+	describe('Open in local editor', () => {
+		it('Does not offer the button to a logged in user on a public share', () => {
+			cy.shareLink(shareOwner, '/document.odt', { permissions: 19 }).then((token) => {
+				cy.login(otherUser)
+
+				cy.visit(`/s/${token}`)
+
+				cy.waitForViewer()
+				cy.waitForCollabora()
+
+				assertNoOpenLocalEditorButton()
+			})
+		})
+
+		it('Does not offer the button to a guest on a public share', () => {
+			cy.shareLink(shareOwner, '/document.odt', { permissions: 19 }).then((token) => {
+				cy.logout()
+
+				cy.visit(`/s/${token}`)
+
+				cy.inputCollaboraGuestName(guestName)
+
+				cy.waitForViewer()
+				cy.waitForCollabora()
+
+				assertNoOpenLocalEditorButton()
+			})
+		})
+	})
 })
+
+/**
+ * Assert that richdocuments does not ask Collabora to insert the
+ * "Open in local editor" button.
+ *
+ * Collabora appends integrator buttons in a deferred layouting task, so
+ * asserting on the DOM would pass before the button would have been added.
+ * Re-dispatching Document_Loaded re-runs the decision synchronously, and
+ * Host_PostmessageReady is sent from the same handler immediately before it.
+ */
+function assertNoOpenLocalEditorButton() {
+	cy.get('[data-cy="coolframe"]').then(($iframe) => {
+		const collaboraOrigin = $iframe[0].contentWindow.location.origin
+		cy.spy($iframe[0].contentWindow, 'postMessage').as('postMessage')
+
+		cy.dispatchMessageFromOrigin(collaboraOrigin, {
+			MessageId: 'App_LoadingStatus',
+			Values: { Status: 'Document_Loaded' },
+		})
+		cy.waitForPostMessage('Host_PostmessageReady', undefined, { targetOrigin: collaboraOrigin })
+		cy.shouldNotHavePostMessage('Insert_Button', { id: 'Open_Local_Editor' })
+	})
+}
 
 /**
  *
