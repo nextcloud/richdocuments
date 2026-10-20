@@ -272,40 +272,59 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) =>
 	return cy.get('@loleafletframe')
 })
 
-Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefined, options = {}) => {
-	const { targetOrigin } = options
-	const checkExpectedValues = (message, values) => {
-		for (const [key, value] of Object.entries(values)) {
-			if (!message.Values[key] || message.Values[key] !== value) {
-				return false
-			}
+/**
+ * Check whether a post message matches all of the expected Values.
+ *
+ * @param {object} message - the parsed WOPI post message
+ * @param {object} values - the Values the message must match
+ * @return {boolean} whether every expected value matched
+ */
+function checkExpectedValues(message, values) {
+	for (const [key, value] of Object.entries(values)) {
+		if (!message.Values[key] || message.Values[key] !== value) {
+			return false
 		}
-
-		return true
 	}
 
-	cy.get('@postMessage', { timeout: 20000 }).should((spy) => {
-		const calls = spy.getCalls()
-		const messagesMatchingId = []
+	return true
+}
 
-		// Find all messages matching the given ID
-		// We do it this way to avoid the shallow copy of Array.filter()
-		for (const call of calls) {
-			if (call.args[0].includes(`"MessageId":"${messageId}"`)) {
-				messagesMatchingId.push({ message: JSON.parse(call.args[0]), call })
+/**
+ * Collect the post messages recorded by a spy that match the given message ID,
+ * optionally narrowed to those whose Values match.
+ *
+ * @param {object} spy - a sinon spy wrapping a postMessage function
+ * @param {string} messageId - the WOPI MessageId to look for
+ * @param {object} [expectedValues] - Values the message must also match
+ * @return {Array} the matching { message, call } pairs
+ */
+function findPostMessages(spy, messageId, expectedValues = undefined) {
+	const matching = []
+
+	// Find all messages matching the given ID
+	// We do it this way to avoid the shallow copy of Array.filter()
+	for (const call of spy.getCalls()) {
+		if (call.args[0].includes(`"MessageId":"${messageId}"`)) {
+			const message = JSON.parse(call.args[0])
+			if (!expectedValues || checkExpectedValues(message, expectedValues)) {
+				matching.push({ message, call })
 			}
 		}
+	}
+
+	return matching
+}
+
+Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefined, options = {}) => {
+	const { targetOrigin } = options
+
+	cy.get('@postMessage', { timeout: 20000 }).should((spy) => {
+		const messagesMatchingId = findPostMessages(spy, messageId)
 
 		expect(messagesMatchingId.length).to.be.greaterThan(0)
 
 		if (expectedValues) {
-			const messagesMatchingValues = []
-
-			for (const { message } of messagesMatchingId) {
-				if (checkExpectedValues(message, expectedValues)) {
-					messagesMatchingValues.push(message)
-				}
-			}
+			const messagesMatchingValues = findPostMessages(spy, messageId, expectedValues)
 
 			expect(messagesMatchingValues.length).to.be.greaterThan(0)
 		}
@@ -318,6 +337,24 @@ Cypress.Commands.add('waitForPostMessage', (messageId, expectedValues = undefine
 				)
 			}
 		}
+	})
+})
+
+/**
+ * Assert that a post message was never sent.
+ *
+ * A negative assertion passes on its first evaluation and is never retried, so
+ * it only proves anything once the sending code has had its chance to run.
+ * Wait for a message sent by the same handler before calling this.
+ */
+Cypress.Commands.add('shouldNotHavePostMessage', (messageId, expectedValues = undefined) => {
+	cy.get('@postMessage').should((spy) => {
+		const matching = findPostMessages(spy, messageId, expectedValues)
+
+		expect(
+			matching.length,
+			`Expected no ${messageId} post message to have been sent`,
+		).to.equal(0)
 	})
 })
 

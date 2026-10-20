@@ -111,6 +111,7 @@ import {
 	getCollaboraTheme,
 	getUIDefaults,
 } from '../helpers/coolParameters.js'
+import getLoggedInUser from '../helpers/getLoggedInUser.js'
 import { shouldAskForGuestName } from '../helpers/guestName.js'
 import { getRandomId } from '../helpers/index.js'
 import { disableScrollLock, enableScrollLock } from '../helpers/mobileFixer.js'
@@ -286,6 +287,13 @@ export default {
 
 		isPublic() {
 			return isPublicShare()
+		},
+
+		canOpenLocally() {
+			return loadState('richdocuments', 'open_local_editor', true)
+				&& !this.isEmbedded
+				&& !!getLoggedInUser()
+				&& !this.isPublic
 		},
 
 		shareToken() {
@@ -540,7 +548,7 @@ export default {
 					} else if (args.Status === 'Document_Loaded') {
 						this.documentReady()
 
-						if (loadState('richdocuments', 'open_local_editor', true) && !this.isEmbedded) {
+						if (this.canOpenLocally) {
 							this.sendPostMessage('Insert_Button', {
 								id: 'Open_Local_Editor',
 								imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
