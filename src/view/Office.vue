@@ -129,6 +129,7 @@ import saveAs from '../mixins/saveAs.js'
 import uiMention from '../mixins/uiMention.js'
 import version from '../mixins/version.js'
 import { getCurrentUser, getGuestNickname } from '@nextcloud/auth'
+import getLoggedInUser from '../helpers/getLoggedInUser.js'
 import { shouldAskForGuestName } from '../helpers/guestName.js'
 import { getSidebar } from '@nextcloud/files'
 
@@ -258,6 +259,12 @@ export default {
 		},
 		isPublic() {
 			return isPublicShare()
+		},
+		canOpenLocally() {
+			return loadState('richdocuments', 'open_local_editor', true)
+				&& !this.isEmbedded
+				&& !!getLoggedInUser()
+				&& !this.isPublic
 		},
 		shareToken() {
 			return getSharingToken()
@@ -480,7 +487,7 @@ export default {
 				} else if (args.Status === 'Document_Loaded') {
 					this.documentReady()
 
-					if (loadState('richdocuments', 'open_local_editor', true) && !this.isEmbedded) {
+					if (this.canOpenLocally) {
 						this.sendPostMessage('Insert_Button', {
 							id: 'Open_Local_Editor',
 							imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
