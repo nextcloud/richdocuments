@@ -211,7 +211,7 @@ const documentsMain = {
 			}
 
 			if (!isDirectEditing()) {
-				OC.Util.History.addOnPopStateHandler(_.bind(documentsMain.onClose))
+				OC.Util.History.addOnPopStateHandler(documentsMain.onClose)
 				OC.Util.History.pushState()
 			}
 
