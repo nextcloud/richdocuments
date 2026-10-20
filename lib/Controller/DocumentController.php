@@ -282,6 +282,8 @@ class DocumentController extends Controller {
 					'urlsrc' => $urlSrc,
 					'path' => '/',
 					'userId' => $remoteWopi->getEditorUid() ? ($remoteWopi->getEditorUid() . '@' . $remoteServer) : null,
+					// This page is embedded by the initiator instance, so post messages go to its origin
+					'parentOrigin' => $this->domainOnly($remoteServer),
 				];
 
 				$response = $this->documentTemplateResponse($wopi, $params);
