@@ -24,6 +24,7 @@ export default {
 		return {
 			autoLogoutInterval: null,
 			autoLogoutRegistered: false,
+			lastHeartbeat: Date.now(),
 		}
 	},
 
@@ -41,13 +42,22 @@ export default {
 		if (this.autoLogoutInterval) {
 			clearInterval(this.autoLogoutInterval)
 		}
+		if (this.autoLogoutRegistered) {
+			this.postMessage.unregisterPostMessageHandler(this.handleGetUserStateResponse)
+		}
 	},
 
 	methods: {
 		extendAutoLogout() {
-			const oldValue = localStorage.getItem('lastActive')
 			const newValue = Date.now().toString()
-			localStorage.setItem('lastActive', newValue)
+			let oldValue = null
+			try {
+				oldValue = localStorage.getItem('lastActive')
+				localStorage.setItem('lastActive', newValue)
+			} catch (error) {
+				// Core reads the activity from the event below, so only other tabs miss it
+				console.debug('[richdocuments] Could not store the last activity', error)
+			}
 			const event = new StorageEvent('storage', {
 				key: 'lastActive',
 				oldValue,
@@ -69,18 +79,25 @@ export default {
 				return
 			}
 
-			const elapsed = args.Elapsed
-			const lastActive = Number(localStorage.getItem('lastActive'))
-			const timeSinceLastActive = Date.now() - lastActive
-			const recheckAfter = (getInterval() * 1000)
-
-			if (!config.session_keepalive && timeSinceLastActive > recheckAfter) {
-				axios.get(generateUrl('/apps/richdocuments/heartbeat'))
+			// Seconds since the last user interaction in the document
+			if (args.Elapsed < 30) {
+				console.debug('[richdocuments] Extending auto logout timeout, office idle since ' + args.Elapsed)
+				this.extendAutoLogout()
 			}
 
-			if (elapsed < 30) {
-				console.debug('[richdocuments] Extending auto logout timeout, office idle since ' + elapsed, timeSinceLastActive, recheckAfter, timeSinceLastActive > recheckAfter)
-				this.extendAutoLogout()
+			// Collabora does not extend the user session on interaction
+			const lastInteraction = Date.now() - args.Elapsed * 1000
+			if (!config.session_keepalive && lastInteraction > this.lastHeartbeat && Date.now() - this.lastHeartbeat > getInterval() * 1000) {
+				const previousHeartbeat = this.lastHeartbeat
+				const heartbeat = Date.now()
+				this.lastHeartbeat = heartbeat
+				axios.get(generateUrl('/apps/richdocuments/heartbeat')).catch((error) => {
+					console.debug('[richdocuments] Heartbeat failed, retrying with the next check', error)
+					// A request that hangs past the next interval must not undo the newer attempt
+					if (this.lastHeartbeat === heartbeat) {
+						this.lastHeartbeat = previousHeartbeat
+					}
+				})
 			}
 		},
 	},
