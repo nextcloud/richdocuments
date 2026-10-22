@@ -55,6 +55,7 @@ OC.L10N.register(
     "Error" : "Eroare",
     "An error occurred" : "A apărut o eraore",
     "Nickname" : "Pseudonim",
+    "Set" : "Setează",
     "Saving…" : "Se salvează...",
     "Could not create file" : "Nu s-a putut crea fisierul"
 },
