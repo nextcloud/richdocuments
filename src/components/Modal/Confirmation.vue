@@ -3,18 +3,20 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcModal>
-		<div class="confirmation-dialog">
+	<NcModal @close="() => close(false)">
+		<div class="confirmation-dialog" data-cy="confirmationDialog">
 			<h1>{{ name }}</h1>
 			<p>{{ description }}</p>
 			<div class="confirmation-dialog--buttons">
 				<NcButton
 					variant="secondary"
+					data-cy="confirmationCancel"
 					@click="() => close(false)">
 					{{ cancelButtonText }}
 				</NcButton>
 				<NcButton
 					variant="primary"
+					data-cy="confirmationConfirm"
 					@click="() => close(true)">
 					{{ confirmButtonText }}
 				</NcButton>
