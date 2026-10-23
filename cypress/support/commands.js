@@ -249,6 +249,28 @@ Cypress.Commands.add('waitForViewerClose', () => {
 		.should('not.exist')
 })
 
+// Collabora runs an onboarding tour on the first visit per document type. Its modal
+// overlay covers the editor, so the tour is marked as seen and a running one is closed.
+Cypress.Commands.add('disableOnboardingTour', () => {
+	cy.get('@loleafletframe').then((body) => {
+		// The alias is a raw element unless the page exposes jQuery to Cypress.
+		const win = (body[0] ?? body).ownerDocument.defaultView
+
+		// The document type decides the preference key, and it is only known once
+		// Collabora has loaded the document. #main-document-content is static markup
+		// in cool.html, so waiting for it does not mean the editor is up.
+		cy.wrap(win, { log: false, timeout: 30000 })
+			.should((w) => {
+				expect(w.app?.map?.uiManager && w.app.map.getDocType(), 'document type').to.be.a('string')
+			})
+			.then((w) => {
+				w.app.map.uiManager.setDocTypePref('onboardingTourSeen', true)
+				// The tour only exists on Collabora 26.04.5.2 and later.
+				w.app.onboardingTour?.end()
+			})
+	})
+})
+
 Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) => {
 	const wrappedFrameIdentifier = federated ? 'coolframe' : 'documentframe'
 	if (wrapped) {
@@ -272,6 +294,8 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) =>
 		.within(() => {
 			cy.get('#main-document-content').should('be.visible')
 		})
+
+	cy.disableOnboardingTour()
 
 	return cy.get('@loleafletframe')
 })
