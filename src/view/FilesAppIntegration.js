@@ -503,6 +503,10 @@ export default {
 		}
 	},
 
+	async refreshFileInfo() {
+		this.updatedNode = await this.getFileNode(true)
+	},
+
 	async updateFileInfo(name, mtime) {
 		const node = await this.getFileNode()
 
