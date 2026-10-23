@@ -222,6 +222,8 @@ export default {
 			showLinkPicker: false,
 			showZotero: false,
 			modified: false,
+			// Set once Collabora reports the storage mtime, older versions do not
+			receivesLastModifiedTime: false,
 			hasWidgetEditingEnabled: false,
 
 			// Track the last requested save-as filename for export operations
@@ -489,8 +491,8 @@ export default {
 
 		async close() {
 			FilesAppIntegration.close()
-			if (this.modified) {
-				await FilesAppIntegration.updateFileInfo(undefined, Date.now())
+			if (!this.receivesLastModifiedTime) {
+				await FilesAppIntegration.refreshFileInfo()
 			}
 			disableScrollLock()
 			this.restoreFavicon()
@@ -614,9 +616,6 @@ export default {
 						// A real save-as: Collabora has switched to a new file, so
 						// the editor session has to be re-initialised for it.
 							this.switchToSavedAsFile(newFileName)
-						} else {
-						// When saving the current file, update its modification time
-							FilesAppIntegration.updateFileInfo(undefined, Date.now())
 						}
 					}
 					break
@@ -670,22 +669,15 @@ export default {
 				case 'Action_GetLinkPreview':
 					this.resolveLink(args.url)
 					break
-				case 'Action_Save':
-					if (this.modified) {
-						FilesAppIntegration.updateFileInfo(undefined, Date.now())
-					}
-					break
-				case 'UI_Save':
-					FilesAppIntegration.updateFileInfo(undefined, Date.now())
-					break
 				case 'Clicked_Button':
 					this.buttonClicked(args)
 					break
 				case 'Doc_ModifiedStatus':
-					if (args.Modified !== this.modified && !this.openingLocally) {
-						FilesAppIntegration.updateFileInfo(undefined, Date.now())
-					}
 					this.modified = args.Modified
+					break
+				case 'Doc_LastModifiedTime':
+					this.receivesLastModifiedTime = true
+					FilesAppIntegration.updateFileInfo(undefined, Date.parse(args.LastModifiedTime))
 					break
 			}
 		},

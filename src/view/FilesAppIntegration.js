@@ -140,7 +140,7 @@ export default {
 	},
 
 	rename(newName) {
-		this.updateFileInfo(newName, Date.now())
+		this.updateFileInfo(newName)
 
 		this.fileName = newName
 
@@ -491,6 +491,10 @@ export default {
 			emit('files:node:updated', this.updatedNode)
 			this.updatedNode = null
 		}
+	},
+
+	async refreshFileInfo() {
+		this.updatedNode = await this.getFileNode(true)
 	},
 
 	async updateFileInfo(name, mtime) {
