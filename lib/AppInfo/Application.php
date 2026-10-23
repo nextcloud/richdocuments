@@ -28,6 +28,7 @@ use OCA\Richdocuments\Listener\ReferenceListener;
 use OCA\Richdocuments\Listener\RegisterDirectEditorListener;
 use OCA\Richdocuments\Listener\RegisterTemplateFileCreatorListener;
 use OCA\Richdocuments\Listener\ShareLinkListener;
+use OCA\Richdocuments\Listener\TagDeletedListener;
 use OCA\Richdocuments\Listener\ViewerListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\Notification\Notifier;
@@ -71,6 +72,7 @@ use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
 use OCP\Server;
+use OCP\SystemTag\Events\TagDeletedEvent;
 
 class Application extends App implements IBootstrap {
 	public const APPNAME = 'richdocuments';
@@ -102,6 +104,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(SabrePluginAddEvent::class, AddSabrePluginListener::class);
 		$context->registerEventListener(BeforeSabrePubliclyLoadedEvent::class, AddSabrePluginListener::class);
 		$context->registerEventListener(AddMissingIndicesEvent::class, AddMissingIndicesListener::class);
+		$context->registerEventListener(TagDeletedEvent::class, TagDeletedListener::class);
 		$context->registerReferenceProvider(OfficeTargetReferenceProvider::class);
 		$context->registerSensitiveMethods(WopiMapper::class, [
 			'getPathForToken',
