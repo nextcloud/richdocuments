@@ -34,7 +34,7 @@ class AppConfigTest extends TestCase {
 	public function testGetAppValueArrayWithValues() {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files', 'watermark_allGroupsList', [])
+			->with('files', 'watermark_allGroupsList', '')
 			->willReturn('1,2,3');
 
 		$result = $this->appConfig->getAppValueArray('watermark_allGroupsList');
@@ -45,7 +45,7 @@ class AppConfigTest extends TestCase {
 	public function testGetAppValueArrayWithSingleValue() {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files', 'watermark_allTagsList', [])
+			->with('files', 'watermark_allTagsList', '')
 			->willReturn('1');
 
 		$result = $this->appConfig->getAppValueArray('watermark_allTagsList');
@@ -56,8 +56,18 @@ class AppConfigTest extends TestCase {
 	public function testGetAppValueArrayWithNoneValue() {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files', 'watermark_allTagsList', [])
+			->with('files', 'watermark_allTagsList', '')
 			->willReturn('');
+
+		$result = $this->appConfig->getAppValueArray('watermark_allTagsList');
+
+		$this->assertSame([], $result);
+	}
+
+	public function testGetAppValueArrayWithUnsetKey() {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->willReturnCallback(fn ($app, $key, $default) => $default);
 
 		$result = $this->appConfig->getAppValueArray('watermark_allTagsList');
 
