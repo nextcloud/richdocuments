@@ -17,6 +17,7 @@ use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
+use OCP\SystemTag\ISystemTagManager;
 
 class Admin implements ISettings {
 	public function __construct(
@@ -28,6 +29,7 @@ class Admin implements ISettings {
 		private FontService $fontService,
 		private InitialStateService $initialStateService,
 		private TokenManager $tokenManager,
+		private ISystemTagManager $systemTagManager,
 	) {
 	}
 
@@ -51,7 +53,7 @@ class Admin implements ISettings {
 					'external_apps' => $this->config->getAppValue('richdocuments', 'external_apps'),
 					'canonical_webroot' => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
 					'disable_certificate_verification' => $this->config->getAppValue('richdocuments', 'disable_certificate_verification', '') === 'yes',
-					'settings' => $this->appConfig->getAppSettings(),
+					'settings' => $this->getAppSettingsWithExistingTags(),
 					'demo_servers' => $this->demoService->fetchDemoServers(),
 					'web_server' => strtolower($_SERVER['SERVER_SOFTWARE']),
 					'os_family' => PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS,
@@ -66,6 +68,24 @@ class Admin implements ISettings {
 			],
 			TemplateResponse::RENDER_AS_BLANK
 		);
+	}
+
+	/**
+	 * Tags that no longer exist are dropped from the secure view settings, as
+	 * the tag picker cannot resolve them and fails to render.
+	 */
+	private function getAppSettingsWithExistingTags(): array {
+		$settings = $this->appConfig->getAppSettings();
+		$existingTagIds = array_map('intval', array_keys($this->systemTagManager->getAllTags()));
+
+		foreach (AppConfig::SECURE_VIEW_TAG_KEYS as $key) {
+			if (!isset($settings[$key])) {
+				continue;
+			}
+			$settings[$key] = array_values(array_intersect($settings[$key], $existingTagIds));
+		}
+
+		return $settings;
 	}
 
 	#[\Override]
