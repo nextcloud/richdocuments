@@ -138,7 +138,7 @@ export default {
 	},
 
 	rename(newName) {
-		this.updateFileInfo(newName, Date.now())
+		this.updateFileInfo(newName)
 
 		this.fileName = newName
 
@@ -483,6 +483,14 @@ export default {
 				fileId: this.fileId,
 				filePath: (this.filePath ?? '') + '/' + this.fileName,
 			},
+		}
+	},
+
+	async refreshFileInfo() {
+		const node = await this.getFileNode(true)
+
+		if (node) {
+			emit('files:node:updated', node)
 		}
 	},
 
