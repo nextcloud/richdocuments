@@ -56,9 +56,10 @@ class AppConfig {
 		'watermark_linkTagsList' => 'array'
 	];
 
-	private const INTEGER_LIST_KEYS = [
-		'watermark_allTagsList' => true,
-		'watermark_linkTagsList' => true,
+	/** Config keys holding the system tag ids that enforce secure view */
+	public const SECURE_VIEW_TAG_KEYS = [
+		'watermark_allTagsList',
+		'watermark_linkTagsList',
 	];
 
 	public function __construct(
@@ -94,7 +95,7 @@ class AppConfig {
 	 * @return list<string>|string
 	 */
 	public function getAppValueArray($key) {
-		$value = $this->config->getAppValue($this->getAppNamespace($key), $key, []);
+		$value = $this->config->getAppValue($this->getAppNamespace($key), $key, '');
 		if (array_key_exists($key, self::APP_SETTING_TYPES) && self::APP_SETTING_TYPES[$key] === 'array') {
 			$value = $value !== '' ? explode(',', $value) : [];
 		}
@@ -131,7 +132,7 @@ class AppConfig {
 				$value = $value === 'yes' ? true : $value;
 				$result[$key] = $value === 'no' ? false : $value;
 			}
-			if (!empty(self::INTEGER_LIST_KEYS[$key])) {
+			if (in_array($key, self::SECURE_VIEW_TAG_KEYS, true)) {
 				$result[$key] = array_map('intval', $result[$key] ?? []);
 			}
 		}
