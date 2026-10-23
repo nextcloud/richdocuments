@@ -222,8 +222,7 @@ export default {
 			showLinkPicker: false,
 			showZotero: false,
 			modified: false,
-			// Set once Collabora reports the storage mtime, older versions do not
-			receivesLastModifiedTime: false,
+			collaboraReportsMtime: false,
 			hasWidgetEditingEnabled: false,
 
 			// Track the last requested save-as filename for export operations
@@ -491,7 +490,7 @@ export default {
 
 		async close() {
 			FilesAppIntegration.close()
-			if (!this.receivesLastModifiedTime) {
+			if (!this.collaboraReportsMtime) {
 				await FilesAppIntegration.refreshFileInfo()
 			}
 			disableScrollLock()
@@ -675,10 +674,14 @@ export default {
 				case 'Doc_ModifiedStatus':
 					this.modified = args.Modified
 					break
-				case 'Doc_LastModifiedTime':
-					this.receivesLastModifiedTime = true
-					FilesAppIntegration.updateFileInfo(undefined, Date.parse(args.LastModifiedTime))
+				case 'Doc_LastModifiedTime': {
+					const mtime = Date.parse(args.LastModifiedTime)
+					if (!Number.isNaN(mtime)) {
+						this.collaboraReportsMtime = true
+						FilesAppIntegration.updateFileInfo(undefined, mtime)
+					}
 					break
+				}
 			}
 		},
 
