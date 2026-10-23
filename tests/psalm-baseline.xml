@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
   <file src="lib/AppConfig.php">
-    <InvalidArgument>
-      <code><![CDATA[[]]]></code>
-    </InvalidArgument>
     <RedundantCondition>
       <code><![CDATA[array_key_exists($key, self::APP_SETTING_TYPES) && self::APP_SETTING_TYPES[$key] === 'array']]></code>
     </RedundantCondition>
