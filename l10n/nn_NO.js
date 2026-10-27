@@ -15,6 +15,7 @@ OC.L10N.register(
     "Select groups" : "Vel grupper",
     "Cancel" : "Avbryt",
     "Save" : "Lagra",
+    "File name" : "Filnamn",
     "Create" : "Lag",
     "Description" : "Skildring",
     "Select file" : "Vel fil",

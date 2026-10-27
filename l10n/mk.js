@@ -84,6 +84,7 @@ OC.L10N.register(
     "Add new token" : "Додади нов токен",
     "No results" : "Нема резултати",
     "Select file or folder to link to" : "Изберете датотека или папка за линк до",
+    "Select file" : "Изберете датотека",
     "Edit" : "Уреди",
     "Failed to load {productName} - please try again later" : "Неуспешно вчитување {productName} - обидете се повторно",
     "Open in local editor" : "Отвори во локален уредувач",
