@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saved" : "Sačuvano",
     "The file was uploaded" : "Fajl je otpremljen",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Fajl za otpremljivanje premašuje upload_max_filesize direktivu u php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Fajl za otpremanje premašuje MAX_FILE_SIZE navedenu u HTML obrascu",
@@ -16,9 +17,11 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Save" : "Save",
     "Select template" : "Odaberite šablon",
+    "File name" : "Ime fajla",
     "Create" : "Napravi",
     "Description" : "Opis",
     "No results" : "Nema rezultata",
+    "Select file" : "Izaberite fajl",
     "Edit" : "Izmeni",
     "Close" : "Zatvori",
     "Remove from favorites" : "Remove from favorites",
