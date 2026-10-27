@@ -20,6 +20,7 @@ OC.L10N.register(
     "Confirm" : "Confirm",
     "Cancel" : "Bekor qilish",
     "Save" : "Saqlash",
+    "File name" : "Fayl nomi",
     "Create" : "Yaratish",
     "Submit" : "Submit",
     "Description" : "Tavsif",

@@ -65,6 +65,7 @@ OC.L10N.register(
     "Add new token" : "Дадаць новы токен",
     "No results" : "Няма вынікаў",
     "Select file or folder to link to" : "Выберыце файл або каталог, на які трэба зрабіць спасылку",
+    "Select file" : "Выберыце файл",
     "Preview" : "Перадпрагляд",
     "Edit" : "Рэдагаваць",
     "Close" : "Закрыць",
