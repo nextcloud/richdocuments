@@ -81,6 +81,7 @@ OC.L10N.register(
     "Description" : "Lýsing",
     "No results" : "Engar niðurstöður",
     "Select file or folder to link to" : "Veldu skrá eða möppu til að tengja í",
+    "Select file" : "Velja skrá",
     "Preview" : "Forskoðun",
     "Edit" : "Breyta",
     "Failed to load {productName} - please try again later" : "Mistókst að hlaða inn {productName} - reyndu aftur síðar",
