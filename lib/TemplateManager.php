@@ -113,9 +113,11 @@ class TemplateManager {
 	 * @param int $fileId
 	 * @return File
 	 */
-	public function get(int $fileId) {
+	public function get(int $fileId): File {
 		// is this a global template ?
 		$files = $this->getEmptyTemplateDir()->getDirectoryListing();
+
+		$files = array_filter($files, fn (Node $node): bool => $node instanceof File);
 
 		foreach ($files as $file) {
 			if ($file->getId() === $fileId) {
@@ -130,6 +132,8 @@ class TemplateManager {
 		// is this a global template ?
 		$files = $this->getSystemTemplateDir()->getDirectoryListing();
 
+		$files = array_filter($files, fn (Node $node): bool => $node instanceof File);
+
 		foreach ($files as $file) {
 			if ($file->getId() === $fileId) {
 				return $file;
@@ -139,7 +143,7 @@ class TemplateManager {
 		$templateDir = $this->getUserTemplateDir();
 		// finally get the template file
 		$file = $templateDir->getFirstNodeById($fileId);
-		if ($file !== null) {
+		if ($file instanceof File) {
 			return $file;
 		}
 
