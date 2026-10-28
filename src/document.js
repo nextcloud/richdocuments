@@ -28,6 +28,10 @@ const PostMessages = new PostMessageService({
 	loolframe: () => document.getElementById('loleafletframe').contentWindow,
 })
 
+subscribe('richdocuments:grab-focus', () => {
+	PostMessages.sendWOPIPostMessage('loolframe', 'Grab_Focus')
+})
+
 if (isDirectEditing()) {
 	enableScrollLock()
 }
