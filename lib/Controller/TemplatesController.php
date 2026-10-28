@@ -23,12 +23,10 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class TemplatesController extends Controller {
-	/** @var int Max template size */
-	private $maxSize = 20 * 1024 * 1024;
-
 	/**
 	 * Templates controller
 	 *
@@ -100,13 +98,22 @@ class TemplatesController extends Controller {
 	public function add() {
 		$files = $this->request->getUploadedFile('files');
 
+		// PHP drops the whole body when it exceeds post_max_size
+		$contentLength = (int)$this->request->getHeader('Content-Length');
+		if (is_null($files) && $contentLength > Util::uploadLimit()) {
+			return new JSONResponse(
+				['data' => ['message' => $this->getFileTooBigMessage()]],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
 		if (!is_null($files)) {
 			$error = $files['error'] ?? 0;
 
 			if ($error !== 0) {
 				$this->logger->error('Failed to get the uploaded file. PHP file upload error code: ' . $error);
 				$message = match ($error) {
-					UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => $this->l10n->t('File is too big'),
+					UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => $this->getFileTooBigMessage(),
 					UPLOAD_ERR_NO_FILE => $this->l10n->t('No file was uploaded'),
 					default => $this->l10n->t('Failed to upload the file'),
 				};
@@ -119,9 +126,9 @@ class TemplatesController extends Controller {
 			$mimeType = !empty($files['type'] ?? '') ? $files['type'] : $this->mimeTypeDetector->detect($files['tmp_name']);
 
 			if (is_uploaded_file($files['tmp_name']) && !Filesystem::isFileBlacklisted($files['tmp_name'])) {
-				if ($files['size'] > $this->maxSize) {
+				if ($files['size'] > Util::uploadLimit()) {
 					return new JSONResponse(
-						['data' => ['message' => $this->l10n->t('File is too big')]],
+						['data' => ['message' => $this->getFileTooBigMessage()]],
 						Http::STATUS_BAD_REQUEST
 					);
 				}
@@ -173,6 +180,18 @@ class TemplatesController extends Controller {
 				Http::STATUS_NOT_FOUND
 			);
 		}
+	}
+
+	private function getFileTooBigMessage(): string {
+		$limit = Util::uploadLimit();
+		if (is_float($limit) && is_infinite($limit)) {
+			return $this->l10n->t('File is too big');
+		}
+
+		return $this->l10n->t(
+			'File is too big. The maximum upload size is %s',
+			[Util::humanFileSize($limit)]
+		);
 	}
 
 	/**

@@ -16,6 +16,7 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\Util;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -58,10 +59,20 @@ class TemplatesControllerTest extends TestCase {
 		return $response->getData()['data']['message'] ?? null;
 	}
 
+	/**
+	 * The l10n mock returns the untranslated string, so only the template is checked
+	 */
+	private static function fileTooBigMessage(): string {
+		$limit = Util::uploadLimit();
+		return is_float($limit) && is_infinite($limit)
+			? 'File is too big'
+			: 'File is too big. The maximum upload size is %s';
+	}
+
 	public static function uploadErrorProvider(): array {
 		return [
-			'exceeds upload_max_filesize' => [UPLOAD_ERR_INI_SIZE, 'File is too big'],
-			'exceeds MAX_FILE_SIZE' => [UPLOAD_ERR_FORM_SIZE, 'File is too big'],
+			'exceeds upload_max_filesize' => [UPLOAD_ERR_INI_SIZE, self::fileTooBigMessage()],
+			'exceeds MAX_FILE_SIZE' => [UPLOAD_ERR_FORM_SIZE, self::fileTooBigMessage()],
 			'no file submitted' => [UPLOAD_ERR_NO_FILE, 'No file was uploaded'],
 			'partial upload' => [UPLOAD_ERR_PARTIAL, 'Failed to upload the file'],
 			'missing temp dir' => [UPLOAD_ERR_NO_TMP_DIR, 'Failed to upload the file'],
@@ -117,6 +128,31 @@ class TemplatesControllerTest extends TestCase {
 
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
 		$this->assertSame('Invalid file provided', $this->getMessage($response));
+	}
+
+	/**
+	 * PHP drops the whole request body when it exceeds post_max_size, so no
+	 * uploaded file is available and only the Content-Length shows the cause.
+	 */
+	public function testAddReportsARequestOverThePostLimitAsTooBig(): void {
+		$limit = Util::uploadLimit();
+		if (is_float($limit) && is_infinite($limit)) {
+			$this->markTestSkipped('PHP has no upload limit configured');
+		}
+
+		$this->givenUploadedFile(null);
+		$this->request->method('getHeader')
+			->with('Content-Length')
+			->willReturn((string)($limit + 1));
+		$this->manager->expects($this->never())->method('add');
+
+		$response = $this->makeController()->add();
+
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+		$this->assertSame(
+			'File is too big. The maximum upload size is %s',
+			$this->getMessage($response)
+		);
 	}
 
 	public function testAddRejectsAFileThatWasNotUploaded(): void {
