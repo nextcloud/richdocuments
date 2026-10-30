@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\External\Storage as SharingExternalStorage;
 use OCA\Richdocuments\AppConfig;
@@ -184,16 +185,28 @@ class FederationService {
 
 	/**
 	 * @param File $item
-	 * @return string|null
 	 * @throws NotFoundException
 	 * @throws InvalidPathException
 	 */
-	public function getRemoteRedirectURL(File $item, ?Direct $direct = null, ?IShare $share = null, ?string $userId = null) {
-		if (!$item->getStorage()->instanceOfStorage(SharingExternalStorage::class)) {
+	public function getRemoteRedirectURL(File $item, ?Direct $direct = null, ?IShare $share = null, ?string $userId = null): ?string {
+		$storage = $item->getStorage();
+		if (!$storage->instanceOfStorage(SharingExternalStorage::class)) {
 			return null;
 		}
 
-		$remote = $item->getStorage()->getRemote();
+		// The file may be a local share of a federated share, so look up the
+		// federated storage itself and the file's path within it
+		$internalPath = $item->getInternalPath();
+		if ($storage instanceof Wrapper) {
+			$storage = $storage->getInstanceOfStorage(SharingExternalStorage::class);
+			$internalPath = $storage?->getCache()->getPathById($item->getId());
+			if ($storage === null || $internalPath === null) {
+				$this->logger->debug('Unable to find federated storage for file ' . $item->getId());
+				return null;
+			}
+		}
+
+		$remote = $storage->getRemote();
 		$remoteCollabora = $this->getRemoteCollaboraURL($remote);
 		if ($remoteCollabora !== '') {
 			$shareToken = $share ? $share->getToken() : null;
@@ -213,13 +226,13 @@ class FederationService {
 
 			$url = rtrim($remote, '/') . '/index.php/apps/richdocuments/remote';
 			$params = [
-				'shareToken' => $item->getStorage()->getToken(),
+				'shareToken' => $storage->getToken(),
 				'remoteServer' => $initiatorServer,
 				'remoteServerToken' => $initiatorToken,
 			];
 
-			if ($item->getInternalPath() !== '') {
-				$params['filePath'] = $item->getInternalPath();
+			if ($internalPath !== '') {
+				$params['filePath'] = $internalPath;
 			}
 
 			return $url . '?' . http_build_query($params);
