@@ -60,7 +60,12 @@ namespace OC\Files\Storage\Wrapper {
         public function test(): bool {};
         public function isLocal(): bool {};
         public function instanceOfStorage(string $class): bool {};
-        public function getInstanceOfStorage(string $class): ?IStorage {};
+        /**
+         * @psalm-template T of \OCP\Files\Storage\IStorage
+         * @psalm-param class-string<T> $class
+         * @psalm-return T|null
+         */
+        public function getInstanceOfStorage(string $class): ?\OCP\Files\Storage\IStorage {};
         public function __call(string $method, array $args) {};
         public function getDirectDownload(string $path): array|false {};
 		public function getDirectDownloadById(string $fileId): array|false {};
@@ -142,6 +147,18 @@ namespace OCA\Files_Sharing {
 
 	abstract class SharedStorage implements IStorage {
 		public function getShare(): IShare {
+		}
+	}
+}
+
+namespace OCA\Files_Sharing\External {
+	use OCP\Files\Storage\IStorage;
+
+	abstract class Storage implements IStorage {
+		public function getRemote(): string {
+		}
+
+		public function getToken(): string {
 		}
 	}
 }
