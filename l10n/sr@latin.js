@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saved" : "Sačuvano",
     "The file was uploaded" : "Fajl je otpremljen",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Fajl za otpremljivanje premašuje upload_max_filesize direktivu u php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Fajl za otpremanje premašuje MAX_FILE_SIZE navedenu u HTML obrascu",
@@ -13,19 +14,20 @@ OC.L10N.register(
     "Invalid file provided" : "Dati fajl je neispravan",
     "New document" : "Novi dokument",
     "New" : "Nov",
-    "Save" : "Save",
     "Cancel" : "Cancel",
+    "Save" : "Save",
     "Select template" : "Odaberite šablon",
+    "File name" : "Ime fajla",
     "Create" : "Napravi",
     "Description" : "Opis",
     "No results" : "Nema rezultata",
-    "Close" : "Zatvori",
+    "Select file" : "Izaberite fajl",
     "Edit" : "Izmeni",
+    "Close" : "Zatvori",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detalji",
     "Download" : "Preuzmi",
-    "Guest" : "Gost",
-    "Error" : "Greška"
+    "Guest" : "Gost"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

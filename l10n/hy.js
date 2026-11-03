@@ -13,18 +13,15 @@ OC.L10N.register(
     "File is too big" : "Ֆայլը չափազանց մեծ է",
     "Invalid file provided" : "անվավեր նիշք",
     "New" : "Նոր",
-    "Save" : "Պահել",
     "Cancel" : "ընդհատել",
+    "Save" : "Պահել",
     "Create" : "Ստեղծել",
     "Description" : "Նկարագրություն",
-    "Close" : "Փակել",
     "Edit" : "մշակել",
+    "Close" : "Փակել",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Մանրամասներ",
-    "Download" : "Ներբեռնել",
-    "Error" : "Սխալ",
-    "Nickname" : "Մականուն",
-    "Could not create file" : "Չկարողացա ստեղծել ֆայլը"
+    "Download" : "Ներբեռնել"
 },
 "nplurals=2; plural=(n != 1);");
