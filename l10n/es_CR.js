@@ -29,10 +29,10 @@ OC.L10N.register(
     "Use Canonical webroot" : "Usar el webroot Canonico",
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "webroot canonico, en caso de que haya varios, para que los use Collabora. Proporciona el que tenga menos restricciones. P. ej. Usa un webroot no-shibbolizado si la instancia es accesible por tanto un webroot shibbolizado y un no shibbolizado. Puedes ignorar esta configuracion si solo un webroot se usa para acceder a la instancia. ",
     "Enable access for external apps" : "Habilitar acceso para aplicaciones externas",
-    "Save" : "Guardar",
     "Confirm" : "Confirmar",
     "Cancel" : "Cancelar",
     "Save As" : "Guardar Como",
+    "Save" : "Guardar",
     "Create" : "Crear",
     "Submit" : "Enviar",
     "Description" : "Descripción",
@@ -46,14 +46,6 @@ OC.L10N.register(
     "Add to favorites" : "Agregar a tus favoritos",
     "Details" : "Detalles",
     "Download" : "Descargar",
-    "Guest" : "Invitado",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalación del servidor.",
-    "Error" : "Error",
-    "Nickname" : "Apodo",
-    "Please enter the filename to store the document as." : "Por favor ingresa el nombre del archivo con el cual almacenar el documento",
-    "New filename" : "Nuevo nombredearchivo",
-    "Saving…" : "Guardando...",
-    "Could not create file" : "No fue posible crear el archivo",
-    "Collabora Online" : "Collabora Online"
+    "Guest" : "Invitado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

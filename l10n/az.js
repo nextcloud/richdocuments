@@ -15,9 +15,9 @@ OC.L10N.register(
     "New" : "Yeni",
     "Advanced settings" : "İrəliləmiş quraşdırmalar",
     "Select groups" : "Qrupları seç",
-    "Save" : "Saxla",
     "Confirm" : "Təsdiq edin",
     "Cancel" : "Dayandır",
+    "Save" : "Saxla",
     "Create" : "Yarat",
     "Description" : "Açıqlanma",
     "No results" : "Nəticə yoxdur",
@@ -26,8 +26,6 @@ OC.L10N.register(
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detallar",
-    "Download" : "Yüklə",
-    "Error" : "Səhv",
-    "Could not create file" : "Faylı yaratmaq olmur"
+    "Download" : "Yüklə"
 },
 "nplurals=2; plural=(n != 1);");

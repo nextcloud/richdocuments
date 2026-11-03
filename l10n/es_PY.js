@@ -23,10 +23,10 @@ OC.L10N.register(
     "Select groups" : "Seleccionar grupos",
     "Restrict edit to specific groups" : "Limitar edición a grupos específicos",
     "Enable access for external apps" : "Habilitar acceso para aplicaciones externas",
-    "Save" : "Guardar",
     "Confirm" : "Confirmar",
     "Cancel" : "Cancelar",
     "Save As" : "Guardar Como",
+    "Save" : "Guardar",
     "Create" : "Crear",
     "Submit" : "Enviar",
     "Description" : "Descripción",
@@ -39,15 +39,6 @@ OC.L10N.register(
     "Add to favorites" : "Agregar a tus favoritos",
     "Details" : "Detalles",
     "Download" : "Descargar",
-    "Guest" : "Invitado",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalación del servidor.",
-    "Error" : "Error",
-    "An error occurred" : "Se presentó un error",
-    "Nickname" : "Apodo",
-    "Please enter the filename to store the document as." : "Por favor ingresa el nombre del archivo con el cual almacenar el documento",
-    "New filename" : "Nuevo nombredearchivo",
-    "Saving…" : "Guardando...",
-    "Could not create file" : "No fue posible crear el archivo",
-    "Collabora Online" : "Collabora Online"
+    "Guest" : "Invitado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
