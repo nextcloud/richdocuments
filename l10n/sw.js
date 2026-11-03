@@ -50,11 +50,6 @@ OC.L10N.register(
     "Download" : "Pakua",
     "Guest" : "Mgeni",
     "New file" : "Faili mpya",
-    "Loading {filename} …" : "inapakia {filename}",
-    "Error" : "Hitilafu",
-    "An error occurred" : "Hitilafu imetokea",
-    "Nickname" : "Nickname",
-    "Set" : "Imetumwa",
-    "Saving…" : "Inahifadhi..."
+    "Loading {filename} …" : "inapakia {filename}"
 },
 "nplurals=2; plural=(n != 1);");

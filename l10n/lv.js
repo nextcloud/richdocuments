@@ -63,15 +63,6 @@ OC.L10N.register(
     "Details" : "Informācija",
     "Download" : "Lejupielādēt",
     "Guest" : "Viesis",
-    "New file" : "Jauna datne",
-    "Show watermark on link shares with specific system tags" : "Rādīt ūdenszīmi saišu kopīgojumos, kuriem ir noteiktas sistēmas birkas",
-    "Error" : "Kļūda",
-    "An error occurred" : "Gadījās kļūda",
-    "Nickname" : "Iesauka",
-    "Saving…" : "Saglabā...",
-    "Current version (unsaved changes)" : "Pašreizējā versija (nesaglabātas izmaiņas)",
-    "Could not create file" : "Neizdevās izveidot datni",
-    "Open with {productName}" : "Atvērt ar {productName}",
-    "Collabora Online" : "Collabora Online"
+    "New file" : "Jauna datne"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

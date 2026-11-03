@@ -28,12 +28,6 @@ OC.L10N.register(
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detailer",
-    "Download" : "Eroflueden",
-    "Error" : "Fehler",
-    "Nickname" : "Spëtznumm",
-    "Set" : "Setzen",
-    "Saving…" : "Späichert …",
-    "Could not create file" : "De Fichier konnt net erstallt ginn",
-    "Collabora Online" : "Collabora Online"
+    "Download" : "Eroflueden"
 },
 "nplurals=2; plural=(n != 1);");

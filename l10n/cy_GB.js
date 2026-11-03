@@ -21,9 +21,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Manylion",
     "Download" : "Llwytho i lawr",
-    "New file" : "Ffeil newydd",
-    "Error" : "Gwall",
-    "An error occurred" : "Digwyddodd gwall",
-    "Nickname" : "Llysenw"
+    "New file" : "Ffeil newydd"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

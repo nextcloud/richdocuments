@@ -32,8 +32,6 @@ OC.L10N.register(
     "Remove from favorites" : "Sevimlilardan olib tashlang",
     "Add to favorites" : "Sevimlilarga qo'shing",
     "Details" : "Details",
-    "Download" : "Yuklab olish",
-    "Error" : "Xatolik",
-    "Saving…" : "Saving…"
+    "Download" : "Yuklab olish"
 },
 "nplurals=1; plural=0;");

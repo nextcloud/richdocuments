@@ -17,8 +17,6 @@ OC.L10N.register(
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "বিসতারিত",
-    "Download" : "ডাউনলোড",
-    "Error" : "সমস্যা",
-    "Nickname" : "ছদ্মনাম"
+    "Download" : "ডাউনলোড"
 },
 "nplurals=2; plural=(n != 1);");

@@ -26,8 +26,6 @@ OC.L10N.register(
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detallar",
-    "Download" : "Yüklə",
-    "Error" : "Səhv",
-    "Could not create file" : "Faylı yaratmaq olmur"
+    "Download" : "Yüklə"
 },
 "nplurals=2; plural=(n != 1);");

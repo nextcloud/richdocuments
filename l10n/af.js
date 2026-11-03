@@ -27,11 +27,6 @@ OC.L10N.register(
     "Add to favorites" : "Voeg by gunstelinge",
     "Details" : "Besonderhede",
     "Download" : "Laai af",
-    "Guest" : "Gas",
-    "Error" : "Fout",
-    "An error occurred" : "'n Fout het voorgekom",
-    "Nickname" : "Bynaam",
-    "Set" : "Stel in",
-    "Saving…" : "Bewaar…"
+    "Guest" : "Gas"
 },
 "nplurals=2; plural=(n != 1);");

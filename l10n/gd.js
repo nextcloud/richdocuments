@@ -22,7 +22,6 @@ OC.L10N.register(
     "Add to favorites" : "Cuir ris na h-annsachdan",
     "Details" : "Mion-fhiosrachadh",
     "Download" : "Luchdaich a-nuas",
-    "New file" : "Faidhle ùr",
-    "Error" : "Mearachd"
+    "New file" : "Faidhle ùr"
 },
 "nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;");

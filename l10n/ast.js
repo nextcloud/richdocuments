@@ -73,17 +73,6 @@ OC.L10N.register(
     "Follow current editor" : "Siguir l'editor actual",
     "New file" : "Ficheru nuevu",
     "Nextcloud Office" : "Nextcloud Office",
-    "Loading {filename} …" : "Cargando «{filename}»…",
-    "Error" : "Error",
-    "An error occurred" : "Prodúxose un error",
-    "Nickname" : "Nomatu",
-    "Set" : "Afitar",
-    "Saving…" : "Guardando…",
-    "Could not create file" : "Nun se pudo crear el ficheru",
-    "Global templates" : "Plantíes globales",
-    "No templates defined." : "Nun se definió nenguna plantía.",
-    "New drawing" : "Dibuxu nuevu",
-    "Collabora Online" : "Collabora Online",
-    "Document already exists" : "El documentu yá esiste"
+    "Loading {filename} …" : "Cargando «{filename}»…"
 },
 "nplurals=2; plural=(n != 1);");

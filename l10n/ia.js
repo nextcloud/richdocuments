@@ -30,12 +30,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Detalios",
     "Download" : "Discargar",
-    "Guest" : "Invitato",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salveguardate con error: Collabora Online deberea usar le mesme protocollo que le servitor de installation.",
-    "Error" : "Error",
-    "Nickname" : "Pseudonymo",
-    "Saving…" : "Salveguardante...",
-    "Could not create file" : "Impossibile crear le file",
-    "Collabora Online" : "Collabora Online"
+    "Guest" : "Invitato"
 },
 "nplurals=2; plural=(n != 1);");

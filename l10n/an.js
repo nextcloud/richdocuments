@@ -17,7 +17,6 @@ OC.L10N.register(
     "Create" : "Crear",
     "Close" : "Zarrar",
     "Details" : "Detalles",
-    "Download" : "Escargar",
-    "Error" : "Error"
+    "Download" : "Escargar"
 },
 "nplurals=2; plural=(n != 1);");
