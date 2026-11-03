@@ -13,9 +13,9 @@ OC.L10N.register(
     "New" : "Ny",
     "Advanced settings" : "Avanserte innstillingar",
     "Select groups" : "Vel grupper",
-    "Save" : "Lagra",
-    "Remove" : "Fjern",
     "Cancel" : "Avbryt",
+    "Save" : "Lagra",
+    "File name" : "Filnamn",
     "Create" : "Lag",
     "Description" : "Skildring",
     "Select file" : "Vel fil",
@@ -26,10 +26,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Detaljar",
     "Download" : "Last ned",
-    "Guest" : "Gjest",
-    "Error" : "Feil",
-    "An error occurred" : "Det oppstod ein feil.",
-    "Nickname" : "Kallenamn",
-    "Set" : "Sett"
+    "Guest" : "Gjest"
 },
 "nplurals=2; plural=(n != 1);");

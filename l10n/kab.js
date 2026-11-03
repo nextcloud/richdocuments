@@ -16,10 +16,9 @@ OC.L10N.register(
     "Office" : "Tanarit",
     "Empty" : "Ilem",
     "New" : "Amaynut",
-    "Save" : "Sekles",
-    "Remove" : "Kkes",
     "Confirm" : "Serggeg",
     "Cancel" : "Sefsex",
+    "Save" : "Sekles",
     "Save as" : "Sekles s yisem",
     "Select template" : "Fren tamudemt",
     "File name" : "Isem n ufaylu",
@@ -36,11 +35,6 @@ OC.L10N.register(
     "Details" : "Talqayt",
     "Download" : "Sider",
     "Guest" : "Inebgi",
-    "New file" : "Rnu afaylu",
-    "Error" : "Erreur",
-    "An error occurred" : "Teḍra-d tuccḍa",
-    "Nickname" : "Tasaẓlut",
-    "Set" : "Sbadu",
-    "Saving…" : "Asekles…"
+    "New file" : "Rnu afaylu"
 },
 "nplurals=2; plural=(n != 1);");

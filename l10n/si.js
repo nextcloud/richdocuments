@@ -8,10 +8,9 @@ OC.L10N.register(
     "Images" : "පින්තූර",
     "Empty" : "හිස්",
     "New" : "නව",
-    "Save" : "සුරකින්න",
-    "Remove" : "ඉවත් කරන්න",
     "Confirm" : "තහවුරු කරන්න",
     "Cancel" : "අවලංගු කරන්න",
+    "Save" : "සුරකින්න",
     "File name" : "ගොනුවේ නම",
     "Create" : "සාදන්න",
     "Description" : "විස්තරය",
@@ -21,8 +20,6 @@ OC.L10N.register(
     "Close" : "වසන්න",
     "Details" : "විස්තර",
     "Download" : "බාගන්න",
-    "New file" : "නව ගොනුව",
-    "Error" : "දෝෂය",
-    "Nickname" : "අන්වර්ථ නාමය"
+    "New file" : "නව ගොනුව"
 },
 "nplurals=2; plural=(n != 1);");

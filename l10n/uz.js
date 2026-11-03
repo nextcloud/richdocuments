@@ -17,10 +17,10 @@ OC.L10N.register(
     "Instructions" : "Ko'rsatmalar",
     "New" : "New",
     "Failed to save settings" : "Sozlamalarni saqlab bo'lmadi",
-    "Save" : "Saqlash",
-    "Remove" : "O'chirish",
     "Confirm" : "Confirm",
     "Cancel" : "Bekor qilish",
+    "Save" : "Saqlash",
+    "File name" : "Fayl nomi",
     "Create" : "Yaratish",
     "Submit" : "Submit",
     "Description" : "Tavsif",
@@ -32,8 +32,6 @@ OC.L10N.register(
     "Remove from favorites" : "Sevimlilardan olib tashlang",
     "Add to favorites" : "Sevimlilarga qo'shing",
     "Details" : "Details",
-    "Download" : "Yuklab olish",
-    "Error" : "Xatolik",
-    "Saving…" : "Saving…"
+    "Download" : "Yuklab olish"
 },
 "nplurals=1; plural=0;");
