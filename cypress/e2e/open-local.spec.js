@@ -42,6 +42,19 @@ describe('Open in local editor', function() {
 		cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 	})
 
+	it('shows a progress indicator while the handover runs', function() {
+		clickOpenLocalEditor()
+		cy.get('[data-cy="confirmationConfirm"]').click()
+
+		dispatchSessionClosed()
+
+		cy.get('[data-cy="officeLoadingIndicator"]').should('be.visible')
+		cy.get('[data-cy="coolframe"]').should('not.be.visible')
+
+		cy.wait('@openLocalEditor')
+		cy.get('@windowOpen').should('have.been.calledOnce')
+	})
+
 	it('ignores repeat clicks on the button', function() {
 		clickOpenLocalEditor()
 		clickOpenLocalEditor()
