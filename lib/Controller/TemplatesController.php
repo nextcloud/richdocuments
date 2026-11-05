@@ -126,13 +126,6 @@ class TemplatesController extends Controller {
 			$mimeType = !empty($files['type'] ?? '') ? $files['type'] : $this->mimeTypeDetector->detect($files['tmp_name']);
 
 			if (is_uploaded_file($files['tmp_name']) && !Filesystem::isFileBlacklisted($files['tmp_name'])) {
-				if ($files['size'] > Util::uploadLimit()) {
-					return new JSONResponse(
-						['data' => ['message' => $this->getFileTooBigMessage()]],
-						Http::STATUS_BAD_REQUEST
-					);
-				}
-
 				if (!$this->manager->isValidTemplateMime($mimeType)) {
 					return new JSONResponse(
 						['data' => ['message' => $this->l10n->t('Only template files can be uploaded')]],
