@@ -59,20 +59,12 @@ class TemplatesControllerTest extends TestCase {
 		return $response->getData()['data']['message'] ?? null;
 	}
 
-	/**
-	 * The l10n mock returns the untranslated string, so only the template is checked
-	 */
-	private static function fileTooBigMessage(): string {
-		$limit = Util::uploadLimit();
-		return is_float($limit) && is_infinite($limit)
-			? 'File is too big'
-			: 'File is too big. The maximum upload size is %s';
-	}
-
 	public static function uploadErrorProvider(): array {
+		$tooBig = 'File is too big. The maximum upload size is %s';
+
 		return [
-			'exceeds upload_max_filesize' => [UPLOAD_ERR_INI_SIZE, self::fileTooBigMessage()],
-			'exceeds MAX_FILE_SIZE' => [UPLOAD_ERR_FORM_SIZE, self::fileTooBigMessage()],
+			'exceeds upload_max_filesize' => [UPLOAD_ERR_INI_SIZE, $tooBig],
+			'exceeds MAX_FILE_SIZE' => [UPLOAD_ERR_FORM_SIZE, $tooBig],
 			'no file submitted' => [UPLOAD_ERR_NO_FILE, 'No file was uploaded'],
 			'partial upload' => [UPLOAD_ERR_PARTIAL, 'Failed to upload the file'],
 			'missing temp dir' => [UPLOAD_ERR_NO_TMP_DIR, 'Failed to upload the file'],
