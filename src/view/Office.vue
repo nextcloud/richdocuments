@@ -8,7 +8,8 @@
 		<div
 			v-if="showLoadingIndicator"
 			class="office-viewer__loading-overlay"
-			:class="{ debug: debug }">
+			:class="{ debug: debug }"
+			data-cy="officeLoadingIndicator">
 			<NcEmptyContent v-if="!error" :name="loadingMessage">
 				<template #icon>
 					<NcLoadingIcon />
@@ -251,7 +252,7 @@ export default {
 
 	computed: {
 		showIframe() {
-			return this.loading >= LOADING_STATE.FRAME_READY || this.debug
+			return (this.loading >= LOADING_STATE.FRAME_READY && !this.openingLocally) || this.debug
 		},
 
 		iframeTitle() {
@@ -259,7 +260,7 @@ export default {
 		},
 
 		showLoadingIndicator() {
-			return this.loading < LOADING_STATE.FRAME_READY
+			return this.loading < LOADING_STATE.FRAME_READY || this.openingLocally
 		},
 
 		errorMessage() {
@@ -274,6 +275,10 @@ export default {
 		},
 
 		loadingMessage() {
+			if (this.openingLocally) {
+				return t('richdocuments', 'Opening file locally …')
+			}
+
 			if (this.loadingMsg) {
 				return this.loadingMsg
 			}
