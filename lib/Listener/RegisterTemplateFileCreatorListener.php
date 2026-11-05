@@ -61,6 +61,7 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 			}
 			$odtType->setIconSvgInline(file_get_contents($appPath . '/img/x-office-document.svg'));
 			$odtType->setRatio((float)21 / 29.7);
+			$odtType->setOrder(-30);
 			return $odtType;
 		});
 		$templateManager->registerTemplateFileCreator(function () use ($ooxml, $appPath) {
@@ -74,6 +75,7 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 			}
 			$odsType->setIconSvgInline(file_get_contents($appPath . '/img/x-office-spreadsheet.svg'));
 			$odsType->setRatio(16 / 9);
+			$odsType->setOrder(-20);
 			return $odsType;
 		});
 		$templateManager->registerTemplateFileCreator(function () use ($ooxml, $appPath) {
@@ -87,6 +89,7 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 			}
 			$odpType->setIconSvgInline(file_get_contents($appPath . '/img/x-office-presentation.svg'));
 			$odpType->setRatio(16 / 9);
+			$odpType->setOrder(-10);
 			return $odpType;
 		});
 
