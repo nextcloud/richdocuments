@@ -176,14 +176,9 @@ class TemplatesController extends Controller {
 	}
 
 	private function getFileTooBigMessage(): string {
-		$limit = Util::uploadLimit();
-		if (is_float($limit) && is_infinite($limit)) {
-			return $this->l10n->t('File is too big');
-		}
-
 		return $this->l10n->t(
 			'File is too big. The maximum upload size is %s',
-			[Util::humanFileSize($limit)]
+			[Util::humanFileSize(Util::uploadLimit())]
 		);
 	}
 
