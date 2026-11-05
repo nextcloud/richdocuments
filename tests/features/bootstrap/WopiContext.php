@@ -188,6 +188,15 @@ class WopiContext implements Context {
 	}
 
 	/**
+	 * @Then /^checkFileInfo "([^"]*)" is the SHA-256 of "([^"]*)"$/
+	 */
+	public function checkfileinfoIsTheSha256Of($key, $path) {
+		Assert::assertArrayHasKey($key, $this->checkFileInfoResult);
+		// The WOPI SHA256 field carries the digest Base64-encoded.
+		Assert::assertEquals(base64_encode(hash_file('sha256', $path, true)), $this->checkFileInfoResult[$key]);
+	}
+
+	/**
 	 * @Given /^Collabora downloads the file$/
 	 */
 	public function collaboraDownloadsTheFile() {
