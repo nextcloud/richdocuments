@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Nem lehet a fájlt lemezre írni",
     "A PHP extension stopped the file upload" : "Egy PHP kiterjesztés megállította a fájl feltöltését",
     "No file uploaded or file size exceeds maximum of %s" : "Nincs fájl feltöltve, vagy a fájl meghaladja a maximumot: %s",
-    "File is too big" : "A fájl túl nagy",
     "Failed to upload the file" : "A fájl feltöltése sikertelen",
     "Only template files can be uploaded" : "Csak sablonfájlokat lehet feltölteni",
     "Invalid file provided" : "Érvénytelen fájl lett megadva",

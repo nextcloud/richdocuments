@@ -11,7 +11,6 @@
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "El archivo cargado excede el valor especificado de la directiva MAX_FILE_SIZE en la forma de HTML",
     "No file was uploaded" : "No se cargó el archivo",
     "Missing a temporary folder" : "Falta una carpeta temporal",
-    "File is too big" : "El archivo es demasiado grande.",
     "Invalid file provided" : "Archivo proporcionado inválido",
     "New document" : "Nuevo documento",
     "Images" : "Imágenes",

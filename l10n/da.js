@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Kunne ikke skrive filen til disken",
     "A PHP extension stopped the file upload" : "En PHP-udvidelse stoppede filoverførslen",
     "No file uploaded or file size exceeds maximum of %s" : "Ingen fil blev overført, eller filstørrelsen overskrider maksimum på %s",
-    "File is too big" : "Filen er for stor",
     "Failed to upload the file" : "Filen kunne ikke overføres",
     "Only template files can be uploaded" : "Kun skabelonfiler kan overføres",
     "Invalid file provided" : "Der er angivet en ugyldig fil",

@@ -10,7 +10,6 @@ OC.L10N.register(
     "No file was uploaded" : "Geen lêer is opgelaai",
     "Missing a temporary folder" : "Ontbrekende tydelike gids",
     "A PHP extension stopped the file upload" : "’n PHP-uitbreiding het die oplaai gestaak",
-    "File is too big" : "Lêer is te groot",
     "Invalid file provided" : "Ongeldige lêer verskaf",
     "Headings" : "Koppe",
     "Images" : "Beelde",

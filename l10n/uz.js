@@ -10,7 +10,6 @@ OC.L10N.register(
     "Missing a temporary folder" : "Vaqtinchalik papka etishmayapti",
     "Could not write file to disk" : "Faylni diskka yozib bo'lmadi",
     "A PHP extension stopped the file upload" : "PHP kengaytmasi faylni yuklashni to'xtatdi",
-    "File is too big" : "File is too big",
     "Invalid file provided" : "Invalid file provided",
     "New document" : "Yangi hujjat",
     "Images" : "Images",

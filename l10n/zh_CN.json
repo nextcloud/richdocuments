@@ -21,7 +21,6 @@
     "Could not write file to disk" : "无法向磁盘中写入文件",
     "A PHP extension stopped the file upload" : "一个 PHP 扩展终止了文件上传",
     "No file uploaded or file size exceeds maximum of %s" : "文件未上传，或者文件大小超出了最大 %s 的限制",
-    "File is too big" : "文件太大",
     "Failed to upload the file" : "无法上传文件",
     "Only template files can be uploaded" : "只有模板文件能够上传",
     "Invalid file provided" : "提供的文件无效",

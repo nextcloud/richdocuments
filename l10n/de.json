@@ -21,7 +21,6 @@
     "Could not write file to disk" : "Die Datei konnte nicht auf die Festplatte geschrieben werden",
     "A PHP extension stopped the file upload" : "Eine PHP-Erweiterung hat das Hochladen der Datei gestoppt",
     "No file uploaded or file size exceeds maximum of %s" : "Keine Datei hochgeladen oder die Dateigröße überschreitet %s",
-    "File is too big" : "Datei ist zu groß",
     "Failed to upload the file" : "Datei konnte nicht hochgeladen werden",
     "Only template files can be uploaded" : "Es können nur Vorlage-Dateien hochgeladen werden",
     "Invalid file provided" : "Ungültige Datei bereitgestellt",
@@ -300,12 +299,17 @@
     "New file" : "Neue Datei",
     "Please enter the filename for the new file" : "Bitte gib den Dateinamen für die neue Datei ein",
     "Nextcloud Office" : "Nextcloud Office",
+    "Nextcloud Office text document generator" : "Nextcloud Office-Textdokumentgenerator",
+    "Nextcloud Office spreadsheet generator" : "Nextcloud Office-Tabellenkalkulationsgenerator",
     "Nextcloud Office is a powerful Collabora Online based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Nextcloud Office ist eine leistungsstarke Collabora Online-basierte Online-Office-Suite mit kollaborativer Bearbeitung, die alle wichtigen Dokumenten-, Tabellen- und Präsentationsdateiformate unterstützt und mit allen modernen Browsern zusammenarbeitet.",
     "Nextcloud Office requires a separate server running Collabora Online to provide editing capabilities." : "Nextcloud Office benötigt einen separaten Server, auf dem Collabora Online läuft, um Bearbeitungsfunktionen bereitzustellen.",
     "Loading available demo servers …" : "Verfügbare Demoserver werden geladen …",
     "The settings only apply to compatible office files that are opened in Nextcloud Office" : "Die Einstellungen gelten nur für kompatible Office-Dateien, die in Nextcloud Office geöffnet werden.",
     "The following options within Nextcloud Office will be disabled: Copy, Download, Export, Print" : "Die folgenden Optionen in Nextcloud Office werden deaktiviert: Kopieren, Herunterladen, Exportieren und Drucken.",
+    "Personal Settings for Nextcloud Office" : "Persönliche Einstellungen für Nextcloud Office",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Nextcloud Office hinzugefügt.",
-    "Loading {filename} …" : "Lade {filename} …"
+    "Loading {filename} …" : "Lade {filename} …",
+    "Starting the built-in CODE server …" : "Starten des integrierten CODE-Servers …",
+    "Cluster is scaling …" : "Cluster skaliert …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

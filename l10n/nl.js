@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Kon bestand niet naar schijf schrijven",
     "A PHP extension stopped the file upload" : "Een PHP-extensie blokkeerde de upload.",
     "No file uploaded or file size exceeds maximum of %s" : "Geen bestand geüpload of de grootte is meer dan het maximum van %s",
-    "File is too big" : "Bestand te groot",
     "Failed to upload the file" : "Het bestand kon niet worden geüpload",
     "Only template files can be uploaded" : "Er kunnen alleen sjabloonbestanden worden geüploaded",
     "Invalid file provided" : "Ongeldig bestand aangeleverd",

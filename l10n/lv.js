@@ -18,7 +18,6 @@ OC.L10N.register(
     "Missing a temporary folder" : "Trūkst pagaidu mapes",
     "Could not write file to disk" : "Nevarēja ierakstīt datni diskā",
     "A PHP extension stopped the file upload" : "PHP paplašinājums apturēja datnes augšupielādi",
-    "File is too big" : "Datne ir par lielu",
     "Failed to upload the file" : "Neizdevās augšupielādēt datni",
     "Invalid file provided" : "Norādīta nederīga datne",
     "OpenDocument Text (.odt)" : "OpenDocument teksts (.odt)",

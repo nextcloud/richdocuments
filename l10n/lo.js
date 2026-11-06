@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Could not write file to disk",
     "A PHP extension stopped the file upload" : "A PHP extension stopped the file upload",
     "No file uploaded or file size exceeds maximum of %s" : "No file uploaded or file size exceeds maximum of %s",
-    "File is too big" : "ຟາຍໃຫຍ່ໂພດ",
     "Failed to upload the file" : "Failed to upload the file",
     "Only template files can be uploaded" : "Only template files can be uploaded",
     "Invalid file provided" : "ຟາຍບໍ່ຖືກຕ້ອງ",

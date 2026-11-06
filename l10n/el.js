@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Δεν ήταν δυνατή η εγγραφή του αρχείου στο δίσκο",
     "A PHP extension stopped the file upload" : "Μια επέκταση PHP σταμάτησε τη μεταφόρτωση του αρχείου",
     "No file uploaded or file size exceeds maximum of %s" : "Δεν μεταφορτώθηκε αρχείο ή το μέγεθος αρχείου υπερβαίνει το μέγιστο %s",
-    "File is too big" : "Το αρχείο είναι πολύ μεγάλο",
     "Failed to upload the file" : "Αποτυχία μεταφόρτωσης του αρχείου",
     "Only template files can be uploaded" : "Μόνο αρχεία προτύπων μπορούν να μεταφορτωθούν",
     "Invalid file provided" : "Έχει δοθεί μη έγκυρο αρχείο",

@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Не могу да упишем фајл на диск",
     "A PHP extension stopped the file upload" : "ПХП екстензија је зауставила отпремање фајла",
     "No file uploaded or file size exceeds maximum of %s" : "Ниједан фајл није отпремљен или величина фајла премашује максимум од %s",
-    "File is too big" : "Фајл је превелики",
     "Failed to upload the file" : "Отпремање фајла није успело",
     "Only template files can be uploaded" : "Само шаблонски фајлови могу бити отпремљени",
     "Invalid file provided" : "Дати фајл је неисправан",
