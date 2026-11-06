@@ -4,7 +4,6 @@ OC.L10N.register(
     "Saved" : "Enrollet",
     "The file was uploaded" : "Kaset eo bet ar restr",
     "No file was uploaded" : "N'eus restr ebet a zo bet kaset",
-    "File is too big" : "Re vraz eo an teuliad",
     "Invalid file provided" : "An teuliad roet n'eo ket unan aotreet",
     "New document" : "Teul nevez",
     "New presentation" : "Kinnig nevez",

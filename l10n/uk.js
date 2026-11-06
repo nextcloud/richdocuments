@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Неможливо записати файл на диск",
     "A PHP extension stopped the file upload" : "Розширення PHP призупинило завантаження файлу",
     "No file uploaded or file size exceeds maximum of %s" : "Немає завантажених файлів або розмір файлу перевищує максимум %s",
-    "File is too big" : "Файл занадто великий",
     "Failed to upload the file" : "Не вдалося завантажити файл",
     "Only template files can be uploaded" : "Можна завантажити лише шаблони файлів",
     "Invalid file provided" : "Надано недійсний файл",

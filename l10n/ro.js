@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Nu s-a putut scrie fișierul pe disc",
     "A PHP extension stopped the file upload" : "O extensie PHP a oprit încărcarea fișierului",
     "No file uploaded or file size exceeds maximum of %s" : "Nu a fost încărcat niciun fișier sau dimensiunea depășește maximul de %s",
-    "File is too big" : "Fișierul este prea mare",
     "Failed to upload the file" : "Fișierul nu a putut fi încărcat",
     "Only template files can be uploaded" : "Pot fi încărcate doar fișiere șablon",
     "Invalid file provided" : "A fost furnizat un fișier nevalid",

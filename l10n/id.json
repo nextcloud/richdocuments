@@ -21,7 +21,6 @@
     "Could not write file to disk" : "Tidak dapat menulis berkas ke disk",
     "A PHP extension stopped the file upload" : "Ekstensi PHP menghentikan unggahan berkas",
     "No file uploaded or file size exceeds maximum of %s" : "Tidak ada berkas yang diunggah atau ukuran berkas melebihi maksimum %s",
-    "File is too big" : "Berkas terlalu besar",
     "Failed to upload the file" : "Gagal mengunggah berkas",
     "Only template files can be uploaded" : "Hanya berkas template yang dapat diunggah",
     "Invalid file provided" : "Berkas yang diberikan tidak valid",

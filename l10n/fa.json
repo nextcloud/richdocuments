@@ -21,7 +21,6 @@
     "Could not write file to disk" : "امکان نوشتن فایل روی دیسک وجود نداشت",
     "A PHP extension stopped the file upload" : "یک افزونه PHP آپلود فایل را متوقف کرد",
     "No file uploaded or file size exceeds maximum of %s" : "هیچ فایلی آپلود نشد یا حجم فایل از حداکثر %s تجاوز می‌کند",
-    "File is too big" : "فایل بیش از حد بزرگ است",
     "Failed to upload the file" : "آپلود فایل ناموفق بود",
     "Only template files can be uploaded" : "فقط فایل‌های قالب قابل آپلود هستند",
     "Invalid file provided" : "فایل نامعتبر ارائه شده",
