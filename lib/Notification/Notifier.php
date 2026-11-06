@@ -11,6 +11,7 @@ namespace OCA\Richdocuments\Notification;
 
 use OC\User\NoUserException;
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IURLGenerator;
@@ -20,6 +21,7 @@ use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
+use Psr\Log\LoggerInterface;
 
 class Notifier implements INotifier {
 	public const TYPE_MENTIONED = 'mentioned';
@@ -27,10 +29,12 @@ class Notifier implements INotifier {
 	public const SUBJECT_MENTIONED_TARGET_USER = 'targetUser';
 
 	public function __construct(
+		private CapabilitiesService $capabilitiesService,
 		private IFactory $factory,
 		private IUserManager $userManager,
 		private IURLGenerator $urlGenerator,
 		private IRootFolder $rootFolder,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -41,7 +45,15 @@ class Notifier implements INotifier {
 
 	#[\Override]
 	public function getName(): string {
-		return 'Office';
+		try {
+			return $this->capabilitiesService->getProductName();
+		} catch (\Throwable $e) {
+			// Reading the product name goes through the cached capabilities and
+			// therefore touches app data. This used to be a constant, so keep it
+			// from taking down the notifier list over a display label.
+			$this->logger->debug('Could not resolve the product name for the notifier', ['exception' => $e]);
+			return CapabilitiesService::DEFAULT_PRODUCT_NAME;
+		}
 	}
 
 	#[\Override]
