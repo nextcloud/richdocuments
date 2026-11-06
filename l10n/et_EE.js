@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Faili kirjutamine kettale ebaõnnestus",
     "A PHP extension stopped the file upload" : "PHP laiendus peatas faili üleslaadimise",
     "No file uploaded or file size exceeds maximum of %s" : "Faili ei laaditud üles või selle suurus ületab maksimaalse %s",
-    "File is too big" : "Fail on liiga suur",
     "Failed to upload the file" : "Faili üleslaadimine ebaõnnestus",
     "Only template files can be uploaded" : "Üles saab laadida ainult mallifaile",
     "Invalid file provided" : "Vigane fail",

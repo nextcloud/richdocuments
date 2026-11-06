@@ -21,7 +21,6 @@
     "Could not write file to disk" : "دىسكىغا ھۆججەت يازالمىدى",
     "A PHP extension stopped the file upload" : "PHP كېڭەيتىلمىسى ھۆججەت يوللاشنى توختاتتى",
     "No file uploaded or file size exceeds maximum of %s" : "يۈكلەنگەن ياكى ھۆججەتنىڭ چوڭلۇقى ئەڭ كۆپ بولغاندا %s دىن ئېشىپ كەتمەيدۇ",
-    "File is too big" : "ھۆججەت بەك چوڭ",
     "Failed to upload the file" : "ھۆججەتنى يۈكلىيەلمىدى",
     "Only template files can be uploaded" : "پەقەت قېلىپ ھۆججەتلىرىنىلا يۈكلىگىلى بولىدۇ",
     "Invalid file provided" : "ئىناۋەتسىز ھۆججەت تەمىنلەندى",

@@ -21,7 +21,6 @@
     "Could not write file to disk" : "Nije moguće zapisati datoteku na disk",
     "A PHP extension stopped the file upload" : "Proširenje PHP-a zaustavilo je učitavanje datoteke",
     "No file uploaded or file size exceeds maximum of %s" : "Nijedna datoteka nije učitana ili veličina datoteke premašuje maksimalnu veličinu od %s",
-    "File is too big" : "Datoteka je prevelika",
     "Failed to upload the file" : "Učitavanje datoteke nije uspjelo",
     "Only template files can be uploaded" : "Mogu se otpremati samo datoteke predloška",
     "Invalid file provided" : "Nevažeća datoteka",

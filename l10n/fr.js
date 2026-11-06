@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Impossible d'écrire le fichier sur le disque",
     "A PHP extension stopped the file upload" : "Une extension PHP a arrêté le téléversement du fichier",
     "No file uploaded or file size exceeds maximum of %s" : "Aucun fichier téléversé ou la taille du fichier dépasse le maximum de %s",
-    "File is too big" : "Le fichier est trop volumineux",
     "Failed to upload the file" : "Échec du téléversement du fichier",
     "Only template files can be uploaded" : "Seuls des fichiers modèles peuvent être téléversés",
     "Invalid file provided" : "Fichier fourni invalide",

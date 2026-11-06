@@ -21,7 +21,6 @@
     "Could not write file to disk" : "Nie można zapisać pliku na dysku",
     "A PHP extension stopped the file upload" : "Rozszerzenie PHP zatrzymało wysyłanie pliku",
     "No file uploaded or file size exceeds maximum of %s" : "Brak wysłanego pliku lub rozmiar pliku przekracza maksymalny limit %s",
-    "File is too big" : "Plik jest za duży",
     "Failed to upload the file" : "Nie udało się wysłać pliku",
     "Only template files can be uploaded" : "Można przesyłać tylko pliki szablonów",
     "Invalid file provided" : "Podano nieprawidłowy plik",

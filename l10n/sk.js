@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Nepodarilo sa zapísať súbor na disk",
     "A PHP extension stopped the file upload" : "Rozšírenie PHP zastavilo nahrávanie súboru",
     "No file uploaded or file size exceeds maximum of %s" : "Nenahral sa žiadny súbor alebo jeho veľkosť presiahla %s",
-    "File is too big" : "Súbor je príliš veľký",
     "Failed to upload the file" : "Nepodarilo sa nahrať súbor",
     "Only template files can be uploaded" : "Nahrať je možné iba súbory šablón",
     "Invalid file provided" : "Zadaný neplatný súbor",

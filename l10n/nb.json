@@ -21,7 +21,6 @@
     "Could not write file to disk" : "Skriving til disk mislyktes",
     "A PHP extension stopped the file upload" : "En PHP-utvidelse stoppet filopplastingen.",
     "No file uploaded or file size exceeds maximum of %s" : "Ingen fil lastet opp eller filen er større enn %s",
-    "File is too big" : "Filen er for stor",
     "Failed to upload the file" : "Opplasting av filen feilet",
     "Only template files can be uploaded" : "Kun malfiler kan lastes opp",
     "Invalid file provided" : "Ugyldig fil oppgitt",

@@ -13,7 +13,6 @@ OC.L10N.register(
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Kartela e ngarkuar tejkalon udhëzimin MAX_FILE_SIZE që qe përcaktuar te formulari HTML",
     "No file was uploaded" : "S’u ngarkua kartelë",
     "Missing a temporary folder" : "Mungon një dosje e përkohshme",
-    "File is too big" : "Skedari është shumë i madh",
     "Invalid file provided" : "U dha kartelë e pavlefshme",
     "Document" : "Dokument",
     "Spreadsheet" : "Fletëllogaritje",

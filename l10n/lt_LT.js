@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Nepavyko rašyti į diską",
     "A PHP extension stopped the file upload" : "PHP plėtinys sustabdė failo įkėlimą",
     "No file uploaded or file size exceeds maximum of %s" : "Neįkeltas joks failas arba failo dydis viršija maksimalų %s dydį",
-    "File is too big" : "Failas yra per didelis",
     "Failed to upload the file" : "Nepavyko įkelti failo",
     "Only template files can be uploaded" : "Įkelti galima tik šablonų failus",
     "Invalid file provided" : "Pateiktas neteisingas failas",
