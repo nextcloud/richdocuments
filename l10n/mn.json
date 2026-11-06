@@ -21,7 +21,6 @@
     "Could not write file to disk" : "Файлыг диск рүү бичиж чадсангүй",
     "A PHP extension stopped the file upload" : "PHP өргөтгөл файл байршуулалтыг зогсоосон",
     "No file uploaded or file size exceeds maximum of %s" : "Файл байршуулаагүй эсвэл файлын хэмжээ %s хамгийн ихээс хэтэрсэн",
-    "File is too big" : "Файлын хэмжээ хэт их байна",
     "Failed to upload the file" : "Файл байршуулж чадсангүй",
     "Only template files can be uploaded" : "Зөвхөн загвар файлуудыг байршуулж болно",
     "Invalid file provided" : "Буруу файл байна",

@@ -21,7 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Ne eblis skribi dosieron sur diskon",
     "A PHP extension stopped the file upload" : "PHP-modulo haltigis la dosieralŝuton",
     "No file uploaded or file size exceeds maximum of %s" : "Neniu dosiero alŝutita, aŭ dosiergrando transpasas la maksimumon %s",
-    "File is too big" : "Dosiero tro grandas.",
     "Only template files can be uploaded" : "Nur ŝablondosieroj alŝuteblas",
     "Invalid file provided" : "Nevalida dosiero provizita",
     "Template not found" : "Ŝablono ne trovita",

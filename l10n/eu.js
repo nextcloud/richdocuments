@@ -22,7 +22,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Ezin izan da fitxategia diskoan idatzi",
     "A PHP extension stopped the file upload" : "PHP hedapen batek fitxategiaren igoera gelditu du",
     "No file uploaded or file size exceeds maximum of %s" : "Ez da fitxategirik igo edo fitxategi-tamainak gehienezko %s muga gainditzen du",
-    "File is too big" : "Fitxategia handiegia da",
     "Failed to upload the file" : "Fitxategia igotzeak huts egin du",
     "Only template files can be uploaded" : "Txantiloi fitxategiak soilik igo daitezke",
     "Invalid file provided" : "Baliogabeko fitxategia eman da",

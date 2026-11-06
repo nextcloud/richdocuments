@@ -10,7 +10,6 @@ OC.L10N.register(
     "Missing a temporary folder" : "Nedostaje privremena fascikla",
     "Could not write file to disk" : "Ne mogu da upišem fajl na disk",
     "A PHP extension stopped the file upload" : "PHP ekstenzija je zaustavila otpremanje fajla",
-    "File is too big" : "Fajl je preveliki",
     "Invalid file provided" : "Dati fajl je neispravan",
     "New document" : "Novi dokument",
     "New" : "Nov",

@@ -20,7 +20,6 @@ OC.L10N.register(
     "Missing a temporary folder" : "โฟลเดอร์ชั่วคราวขาดหาย",
     "Could not write file to disk" : "ไม่สามารถเขียนไฟล์ลงดิสก์",
     "A PHP extension stopped the file upload" : "ส่วนขยาย PHP ได้หยุดการอัปโหลดไฟล์",
-    "File is too big" : "ไฟล์ใหญ่เกินไป",
     "Only template files can be uploaded" : "สามารถอัปโหลดได้เฉพาะไฟล์เทมเพลต",
     "Invalid file provided" : "ไฟล์ที่ระบุไม่ถูกต้อง",
     "Template not found" : "ไม่พบเทมเพลต",

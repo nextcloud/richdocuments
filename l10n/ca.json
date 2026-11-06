@@ -21,7 +21,6 @@
     "Could not write file to disk" : "No s’ha pogut escriure el fitxer en el disc",
     "A PHP extension stopped the file upload" : "Una extensió PHP ha aturat la pujada del fitxer",
     "No file uploaded or file size exceeds maximum of %s" : "No s'ha carregat cap fitxer o la mida del fitxer sobrepassa el màxim de %s",
-    "File is too big" : "El fitxer és massa gran",
     "Failed to upload the file" : "No s'ha pogut pujar el fitxer",
     "Only template files can be uploaded" : "Només es poden carregar fitxers de plantilles",
     "Invalid file provided" : "El fitxer proporcionat no és vàlid",

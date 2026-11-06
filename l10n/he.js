@@ -21,7 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : "לא ניתן לכתוב לכונן",
     "A PHP extension stopped the file upload" : "הרחבת PHP עצרה את העלאת הקובץ",
     "No file uploaded or file size exceeds maximum of %s" : "לא הועלה אף קובץ או שגודל הקובץ חרג מהסף המרבי של %s",
-    "File is too big" : "הקובץ גדול מדי",
     "Only template files can be uploaded" : "ניתן להעלות קובצי תבניות בלבד",
     "Invalid file provided" : "הקובץ שסופק שגוי",
     "Template not found" : "התבנית לא נמצאה",

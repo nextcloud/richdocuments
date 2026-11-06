@@ -12,7 +12,6 @@
     "Could not write file to disk" : "Не ўдалося запісаць файл на дыск",
     "A PHP extension stopped the file upload" : "Пашырэнне PHP спыніла запампоўванне файла",
     "No file uploaded or file size exceeds maximum of %s" : "Файл не запампаваны, або памер файла перавышае максімальны %s",
-    "File is too big" : "Файл занадта вялікі",
     "Failed to upload the file" : "Не ўдалося запампаваць файл",
     "Only template files can be uploaded" : "Можна запампоўваць толькі файлы шаблонаў",
     "Invalid file provided" : "Прапанаваны файл некарэктны",

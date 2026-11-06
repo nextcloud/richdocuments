@@ -10,7 +10,6 @@ OC.L10N.register(
     "Missing a temporary folder" : "Բացակայում է ժամանակավոր պանակը",
     "Could not write file to disk" : "Չհաջողվեց գրառել նիշքը սկավառակի վրա",
     "A PHP extension stopped the file upload" : "PHP֊ի ընդլայնումն կանգնեցրեց նիշքի վերբեռնումը",
-    "File is too big" : "Ֆայլը չափազանց մեծ է",
     "Invalid file provided" : "անվավեր նիշք",
     "New" : "Նոր",
     "Cancel" : "ընդհատել",

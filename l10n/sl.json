@@ -20,7 +20,6 @@
     "Could not write file to disk" : "Datoteke ni mogoče zapisati na disk",
     "A PHP extension stopped the file upload" : "Razširitev PHP onemogoča pošiljanje datoteke",
     "No file uploaded or file size exceeds maximum of %s" : "Ali ni poslane datoteke ali pa velikost datoteke presega omejitev %s",
-    "File is too big" : "Datoteka je prevelika",
     "Failed to upload the file" : "Pošiljanje datoteke je spodletelo",
     "Only template files can be uploaded" : "Poslati je mogoče le datoteke predlog",
     "Invalid file provided" : "Predložena je neveljavna datoteka",

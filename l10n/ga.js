@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Níorbh fhéidir an comhad a scríobh ar an diosca",
     "A PHP extension stopped the file upload" : "Chuir síneadh PHP stop le huaslódáil an chomhaid",
     "No file uploaded or file size exceeds maximum of %s" : "Níl aon chomhad uaslódáilte nó méid comhaid níos mó ná uasmhéid%s",
-    "File is too big" : "Tá an comhad ró-mhór.",
     "Failed to upload the file" : "Theip ar uaslódáil an chomhaid",
     "Only template files can be uploaded" : "Ní féidir ach comhaid teimpléid a uaslódáil",
     "Invalid file provided" : "Comhad neamhbhailí curtha ar fáil",

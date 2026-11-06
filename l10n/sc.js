@@ -22,7 +22,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Non faghet a iscrìere s'archìviu in su discu",
     "A PHP extension stopped the file upload" : "Un'estensione PHP at firmadu su carrigamentu de s'archìviu",
     "No file uploaded or file size exceeds maximum of %s" : "Perun'archìviu carrigadu o sa mannària de s'archìviu superat su màssimu de %s",
-    "File is too big" : "S'archìviu est tropu mannu",
     "Only template files can be uploaded" : "Si podent carrigare isceti is archìvios modellu",
     "Invalid file provided" : "S'archìviu frunidu no est vàlidu",
     "Template not found" : "Modellu no agatadu",
