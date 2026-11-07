@@ -18,5 +18,11 @@ Cypress.on('uncaught:exception', (err) => {
 		return false
 	}
 
+	// NcModal activates its focus trap with the mask element as fallback, which
+	// is already gone when a dialog unmounts while the viewer is closing.
+	if (err.message.includes('fallbackFocus')) {
+		return false
+	}
+
 	return true
 })
