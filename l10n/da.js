@@ -27,6 +27,7 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Kun skabelonfiler kan overføres",
     "Invalid file provided" : "Der er angivet en ugyldig fil",
     "Template not found" : "Skabelon ikke fundet",
+    "File is too big. The maximum upload size is %s" : "Filen er for stor. Den maksimale uploadstørrelse er %s",
     "Unable to determine the proper file extension for %1$s" : "Kan ikke bestemme den korrekte filendelse for %1$s",
     "Conversion is unavailable for this file." : "Konvertering er ikke mulig for denne fil.",
     "Conversion is blocked because the file is protected by Secure View." : "Konverteringen er blokeret, fordi filen er beskyttet af Sikker visning.",
