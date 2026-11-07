@@ -25,6 +25,7 @@
     "Only template files can be uploaded" : "Могут быть загружены только файлы шаблонов",
     "Invalid file provided" : "Указан неправильный файл",
     "Template not found" : "Шаблон не найден",
+    "File is too big. The maximum upload size is %s" : "Файл слишком большой. Максимальный размер загрузки — %s.",
     "Unable to determine the proper file extension for %1$s" : "Не удалось определить подходящее расширение файла для %1$s",
     "Conversion is unavailable for this file." : "Преобразование для этого файла недоступно.",
     "Conversion is blocked because the file is protected by Secure View." : "Преобразование заблокировано: файл защищён режимом безопасного просмотра.",
