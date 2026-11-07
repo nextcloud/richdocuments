@@ -25,6 +25,7 @@
     "Only template files can be uploaded" : "Seuls des fichiers modèles peuvent être téléversés",
     "Invalid file provided" : "Fichier fourni invalide",
     "Template not found" : "Modèle non trouvé",
+    "File is too big. The maximum upload size is %s" : "Le fichier est trop volumineux. La taille maximale de téléversement est de %s",
     "Unable to determine the proper file extension for %1$s" : "Impossible de déterminer l'extension de fichier appropriée pour %1$s",
     "Conversion is unavailable for this file." : "La conversion n'est pas disponible pour ce fichier.",
     "Conversion is blocked because the file is protected by Secure View." : "La conversion est bloquée, car ce fichier est protégé par Secure View.",

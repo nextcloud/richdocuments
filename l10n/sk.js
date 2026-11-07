@@ -27,6 +27,7 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Nahrať je možné iba súbory šablón",
     "Invalid file provided" : "Zadaný neplatný súbor",
     "Template not found" : "Šablóna sa nenašla",
+    "File is too big. The maximum upload size is %s" : "Súbor je príliš veľký. Maximálna veľkosť odovzdávaného súboru je %s",
     "Unable to determine the proper file extension for %1$s" : "Nie je možné určiť správnu príponu súboru pre %1$s",
     "Conversion is unavailable for this file." : "Konverzia pre tento súbor nie je k dispozícii.",
     "Conversion is blocked because the file is protected by Secure View." : "Konverzia je zablokovaná, pretože súbor je chránený funkciou Secure View.",

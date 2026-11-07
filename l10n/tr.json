@@ -25,6 +25,7 @@
     "Only template files can be uploaded" : "Yalnızca kalıp dosyaları yüklenebilir",
     "Invalid file provided" : "Belirtilen dosya geçersiz",
     "Template not found" : "Kalıp bulunamadı",
+    "File is too big. The maximum upload size is %s" : "Dosya çok büyük. En büyük yükleme boyutu %s",
     "Unable to determine the proper file extension for %1$s" : "%1$s için doğru dosya uzantısı belirlenemedi",
     "Conversion is unavailable for this file." : "Dönüştürme bu dosya için kullanılamaz.",
     "Conversion is blocked because the file is protected by Secure View." : "Dosya güvenli görüntüleme tarafından korunduğu için dönüştürme engellendi.",
