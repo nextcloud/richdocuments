@@ -255,6 +255,7 @@ OC.L10N.register(
     "Could not find any section in the document" : "Belgede herhangi bir bölüm bulunamadı",
     "{productName} is not configured" : "{productName} yapılandırılmamış",
     "Starting the built-in CODE server failed" : "İç CODE sunucusu başlatılamadı",
+    "Opening file locally …" : "Dosya yerel olarak açılıyor…",
     "Loading {filename} …" : "{filename} yükleniyor…",
     "Preview" : "Ön izleme",
     "Edit" : "Düzenle",

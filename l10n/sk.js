@@ -255,6 +255,7 @@ OC.L10N.register(
     "Could not find any section in the document" : "Nepodarilo sa nájsť žiadnu sekciu v dokumente",
     "{productName} is not configured" : "{productName} nie je nakonfigurované",
     "Starting the built-in CODE server failed" : "Spustenie vstavaného servera CODE zlyhalo",
+    "Opening file locally …" : "Otváranie súboru lokálne …",
     "Loading {filename} …" : "Načítava sa {filename}…",
     "Preview" : "Náhľad",
     "Edit" : "Upraviť",
