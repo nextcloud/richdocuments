@@ -255,6 +255,7 @@ OC.L10N.register(
     "Could not find any section in the document" : "Не удалось найти ни одного раздела в документе",
     "{productName} is not configured" : "Приложение {productName} не настроено",
     "Starting the built-in CODE server failed" : "Не удалось запустить встроенный сервер CODE",
+    "Opening file locally …" : "Открытие файла локально…",
     "Loading {filename} …" : "Открытие файла «{filename}»…",
     "Preview" : "Предварительный просмотр",
     "Edit" : "Редактирование",
