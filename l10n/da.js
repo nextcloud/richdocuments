@@ -255,6 +255,7 @@ OC.L10N.register(
     "Could not find any section in the document" : "Kunne ikke finde nogen sektion i dokumentet",
     "{productName} is not configured" : "{productName} er ikke konfigureret",
     "Starting the built-in CODE server failed" : "Den indbyggede CODE-server kunne ikke starte",
+    "Opening file locally …" : "Åbner filen lokalt …",
     "Loading {filename} …" : "Indlæser {filename} …",
     "Preview" : "Forhåndsvisning",
     "Edit" : "Rediger",
