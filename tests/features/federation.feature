@@ -129,6 +129,36 @@ Background:
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
     And Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
+  Scenario: Share a folder by federation and reshare a file inside it
+    Given on instance "serverA"
+    And as user "user1"
+    And User "user1" creates a folder "/folder-reshare"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/folder-reshare/file-in-folder.odt"
+    And share the file "/folder-reshare" as a federated share to "user2" on "serverB"
+
+    Given on instance "serverB"
+    And as user "user2"
+    And user "user2" accepts last share
+    Then User "user2" opens "/folder-reshare/file-in-folder.odt"
+    And Collabora fetches checkFileInfo
+    And checkFileInfo "BaseFileName" is "file-in-folder.odt"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
+
+    And as "user2" create a share with
+      | path | /folder-reshare/file-in-folder.odt |
+      | shareType | 0 |
+      | shareWith | user3 |
+      | permissions | 31 |
+
+    Given as user "user3"
+    When User "user3" opens "/file-in-folder.odt"
+    And Collabora fetches checkFileInfo
+    Then checkFileInfo "BaseFileName" is "file-in-folder.odt"
+    And checkFileInfo "UserCanWrite" is true
+    And both Collabora files used the same file id
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
+
   @known-failure-ci
   Scenario: Share a file by federation and reshare it as a link
     Given on instance "serverA"
