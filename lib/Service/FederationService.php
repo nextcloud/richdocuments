@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\External\Storage as SharingExternalStorage;
 use OCA\Richdocuments\AppConfig;
@@ -19,6 +20,7 @@ use OCP\AutoloadNotAllowedException;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IStorage;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -183,17 +185,34 @@ class FederationService {
 	}
 
 	/**
-	 * @param File $item
-	 * @return string|null
 	 * @throws NotFoundException
 	 * @throws InvalidPathException
 	 */
-	public function getRemoteRedirectURL(File $item, ?Direct $direct = null, ?IShare $share = null, ?string $userId = null) {
-		if (!$item->getStorage()->instanceOfStorage(SharingExternalStorage::class)) {
+	public function getRemoteRedirectURL(File $item, ?Direct $direct = null, ?IShare $share = null, ?string $userId = null): ?string {
+		$storage = $item->getStorage();
+		if (!$storage->instanceOfStorage(SharingExternalStorage::class)) {
 			return null;
 		}
 
-		$remote = $item->getStorage()->getRemote();
+		$federatedStorage = $this->getFederatedStorage($storage);
+		if ($federatedStorage === null) {
+			$this->logger->warning('COOL-Federation-Source: Unable to resolve the federated storage of file ' . $item->getId());
+			return null;
+		}
+
+		// A federated file that got reshared locally sits on a jail of the federated
+		// storage, so its own internal path is relative to the reshare instead of to
+		// the federated share and has to be looked up again
+		$internalPath = $item->getInternalPath();
+		if ($federatedStorage !== $storage) {
+			$internalPath = $federatedStorage->getCache()->getPathById($item->getId());
+			if ($internalPath === null) {
+				$this->logger->warning('COOL-Federation-Source: File ' . $item->getId() . ' is missing from the cache of its federated storage');
+				return null;
+			}
+		}
+
+		$remote = $federatedStorage->getRemote();
 		$remoteCollabora = $this->getRemoteCollaboraURL($remote);
 		if ($remoteCollabora !== '') {
 			$shareToken = $share ? $share->getToken() : null;
@@ -213,18 +232,32 @@ class FederationService {
 
 			$url = rtrim($remote, '/') . '/index.php/apps/richdocuments/remote';
 			$params = [
-				'shareToken' => $item->getStorage()->getToken(),
+				'shareToken' => $federatedStorage->getToken(),
 				'remoteServer' => $initiatorServer,
 				'remoteServerToken' => $initiatorToken,
 			];
 
-			if ($item->getInternalPath() !== '') {
-				$params['filePath'] = $item->getInternalPath();
+			if ($internalPath !== '') {
+				$params['filePath'] = $internalPath;
 			}
 
 			return $url . '?' . http_build_query($params);
 		}
 
 		throw new NotFoundException('Failed to connect to remote collabora instance for ' . $item->getId());
+	}
+
+	/**
+	 * Unwrap a storage down to the federated storage it wraps.
+	 *
+	 * This is the only place that reaches into the private storage API, as
+	 * getInstanceOfStorage() has no equivalent on OCP\Files\Storage\IStorage.
+	 */
+	private function getFederatedStorage(IStorage $storage): ?SharingExternalStorage {
+		if (!$storage instanceof Wrapper) {
+			return $storage instanceof SharingExternalStorage ? $storage : null;
+		}
+
+		return $storage->getInstanceOfStorage(SharingExternalStorage::class);
 	}
 }
