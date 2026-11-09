@@ -11,14 +11,29 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { getNextcloudUrl } from '../helpers/url.js'
 import Confirmation from '../components/Modal/Confirmation.vue'
 
+const OPEN_LOCAL_STATE = {
+	IDLE: 0,
+	CONFIRMING: 1,
+	OPENING: 2,
+}
+
 export default {
 	data() {
 		return {
-			openingLocally: false,
+			openLocalState: OPEN_LOCAL_STATE.IDLE,
 		}
+	},
+	computed: {
+		openingLocally() {
+			return this.openLocalState === OPEN_LOCAL_STATE.OPENING
+		},
 	},
 	methods: {
 		startOpenLocalProcess() {
+			if (this.openLocalState !== OPEN_LOCAL_STATE.IDLE) {
+				return
+			}
+			this.openLocalState = OPEN_LOCAL_STATE.CONFIRMING
 			this.showOpenLocalConfirmation()
 		},
 
@@ -33,9 +48,10 @@ export default {
 				},
 				(decision) => {
 					if (!decision) {
+						this.openLocalState = OPEN_LOCAL_STATE.IDLE
 						return
 					}
-					this.openingLocally = true
+					this.openLocalState = OPEN_LOCAL_STATE.OPENING
 					this.postMessage.registerPostMessageHandler(this.handleCloseSession)
 					this.sendPostMessage('Action_Save', {
 						DontTerminateEdit: false,
@@ -67,7 +83,7 @@ export default {
 						window.OCA.Viewer.open({ path: fileName })
 						return
 					}
-					this.openingLocally = true
+					this.openLocalState = OPEN_LOCAL_STATE.OPENING
 					this.openLocally()
 				},
 			)
@@ -92,7 +108,7 @@ export default {
 					// Firefox may cancel requests that the files app could send when updating the file meta data
 					// so we need to wait a bit before closing the viewer
 					setTimeout(() => {
-						this.openingLocally = false
+						this.openLocalState = OPEN_LOCAL_STATE.IDLE
 						this.close()
 					}, 1000)
 					window.open(url, '_self')
