@@ -253,6 +253,7 @@
     "Could not find any section in the document" : "Aucune section n'a pu être trouvée dans le document",
     "{productName} is not configured" : "{productName} n'est pas configuré",
     "Starting the built-in CODE server failed" : "Le démarrage du serveur CODE intégré a échoué",
+    "Opening file locally …" : "Ouverture du fichier localement…",
     "Loading {filename} …" : "Chargement de {filename}…",
     "Preview" : "Prévisualiser",
     "Edit" : "Modifier",
