@@ -4,6 +4,30 @@
 -->
 # Changelog
 
+## 10.3.3
+
+### Fixed
+
+- Show progress during handover by @elzody in [#6304](https://github.com/nextcloud/richdocuments/pull/6304)
+- Resolve federated storage for local reshares by @ArtificialOwl in [#6315](https://github.com/nextcloud/richdocuments/pull/6315)
+- Use PHP upload limit for global template size by @s0undy in [#6290](https://github.com/nextcloud/richdocuments/pull/6290)
+- Secure view deleted tags by @elzody in [#6225](https://github.com/nextcloud/richdocuments/pull/6225)
+- Hide "open locally" button on public shares by @elzody in [#6215](https://github.com/nextcloud/richdocuments/pull/6215)
+- Post messages to the initiator origin from the remote page by @Rikdekker in [#6212](https://github.com/nextcloud/richdocuments/pull/6212)
+- Handle upload errors properly by @elzody in [#6207](https://github.com/nextcloud/richdocuments/pull/6207)
+
+### Other
+
+- Update workflow templates from organization template repository by @nextcloud-command in [#6312](https://github.com/nextcloud/richdocuments/pull/6312)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6285](https://github.com/nextcloud/richdocuments/pull/6285)
+- Add release relay job by @AndyScherzinger in [#6271](https://github.com/nextcloud/richdocuments/pull/6271)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6244](https://github.com/nextcloud/richdocuments/pull/6244)
+- Disable collabora onboarding tour by @elzody in [#6228](https://github.com/nextcloud/richdocuments/pull/6228)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6200](https://github.com/nextcloud/richdocuments/pull/6200)
+- Try to make more stable by @elzody in [#5406](https://github.com/nextcloud/richdocuments/pull/5406)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6179](https://github.com/nextcloud/richdocuments/pull/6179)
+- Dependency updates
+
 ## 10.3.2
 
 ### Fixed
