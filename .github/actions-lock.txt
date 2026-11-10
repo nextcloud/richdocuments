@@ -16,6 +16,6 @@ ad9c8d16e90d7b60092d9770ba7646e5 phpunit-sqlite.yml
 2639f2b96989a4fcbb441ca8f1fecb2f pr-feedback.yml
 fa1cab1471a6a7a7a0622744f8d6ab12 psalm.yml
 2dbec18233063b42f4d8e03bbb43671c reuse.yml
-3688c8c5aa6a98dcd3b5019dcecccddd sync-workflow-templates.yml
+ff4dc5f5f73469bf3569b654a68f49bf sync-workflow-templates.yml
 24a8e4ff76d12a99ef6ba91d392b418c update-nextcloud-ocp.yml
 bea8a43904976fa01f1e091046541b37 release-relay.yml
