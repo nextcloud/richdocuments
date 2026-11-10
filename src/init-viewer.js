@@ -29,5 +29,5 @@ registerHandler({
 	tagName,
 	enabled: (nodes) => nodes.every((node) => getCapabilities().mimetypes.includes(node.mime)),
 	theme: 'default',
-	canCompare: true,
+	canCompare: () => true,
 })
