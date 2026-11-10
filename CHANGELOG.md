@@ -4,6 +4,34 @@
 -->
 # Changelog
 
+## 12.0.2
+
+### Fixed
+
+- Show progress during handover by @elzody in [#6306](https://github.com/nextcloud/richdocuments/pull/6306)
+- Resolve federated storage for local reshares by @ArtificialOwl in [#6317](https://github.com/nextcloud/richdocuments/pull/6317)
+- Use PHP upload limit for global template size by @s0undy in [#6292](https://github.com/nextcloud/richdocuments/pull/6292)
+- File creation menu ordering by @elzody in [#6289](https://github.com/nextcloud/richdocuments/pull/6289)
+- Secure view deleted tags by @elzody in [#6223](https://github.com/nextcloud/richdocuments/pull/6223)
+- Hide "open locally" button on public shares by @elzody in [#6217](https://github.com/nextcloud/richdocuments/pull/6217)
+- Do not use the underscore global on the remote page by @Rikdekker in [#6213](https://github.com/nextcloud/richdocuments/pull/6213)
+- Post messages to the initiator origin from the remote page by @Rikdekker in [#6210](https://github.com/nextcloud/richdocuments/pull/6210)
+- Handle upload errors properly by @elzody in [#6205](https://github.com/nextcloud/richdocuments/pull/6205)
+- Add minimum iOS mobile client version by @elzody in [#6166](https://github.com/nextcloud/richdocuments/pull/6166)
+
+### Other
+
+- Update workflow templates from organization template repository by @nextcloud-command in [#6313](https://github.com/nextcloud/richdocuments/pull/6313)
+- Re enable federation tests by @elzody in [#6296](https://github.com/nextcloud/richdocuments/pull/6296)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6282](https://github.com/nextcloud/richdocuments/pull/6282)
+- Add release relay job by @AndyScherzinger in [#6273](https://github.com/nextcloud/richdocuments/pull/6273)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6243](https://github.com/nextcloud/richdocuments/pull/6243)
+- Disable collabora onboarding tour by @elzody in [#6230](https://github.com/nextcloud/richdocuments/pull/6230)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6199](https://github.com/nextcloud/richdocuments/pull/6199)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6177](https://github.com/nextcloud/richdocuments/pull/6177)
+- Remove dead jest configuration by @elzody in [#6169](https://github.com/nextcloud/richdocuments/pull/6169)
+- Dependency updates
+
 ## 12.0.1
 
 ### Fixed
