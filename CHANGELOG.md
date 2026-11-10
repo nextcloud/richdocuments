@@ -4,6 +4,31 @@
 -->
 # Changelog
 
+## 11.1.3
+
+### Fixed
+
+- Show progress during handover by @elzody in [#6305](https://github.com/nextcloud/richdocuments/pull/6305)
+- Resolve federated storage for local reshares by @ArtificialOwl in [#6316](https://github.com/nextcloud/richdocuments/pull/6316)
+- Use PHP upload limit for global template size by @s0undy in [#6291](https://github.com/nextcloud/richdocuments/pull/6291)
+- Secure view deleted tags by @elzody in [#6224](https://github.com/nextcloud/richdocuments/pull/6224)
+- Hide "open locally" button on public shares by @elzody in [#6216](https://github.com/nextcloud/richdocuments/pull/6216)
+- Post messages to the initiator origin from the remote page by @Rikdekker in [#6211](https://github.com/nextcloud/richdocuments/pull/6211)
+- Handle upload errors properly by @elzody in [#6206](https://github.com/nextcloud/richdocuments/pull/6206)
+- Add minimum iOS mobile client version by @elzody in [#6167](https://github.com/nextcloud/richdocuments/pull/6167)
+
+### Other
+
+- Update workflow templates from organization template repository by @nextcloud-command in [#6314](https://github.com/nextcloud/richdocuments/pull/6314)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6284](https://github.com/nextcloud/richdocuments/pull/6284)
+- Add release relay job by @AndyScherzinger in [#6272](https://github.com/nextcloud/richdocuments/pull/6272)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6245](https://github.com/nextcloud/richdocuments/pull/6245)
+- Disable collabora onboarding tour by @elzody in [#6229](https://github.com/nextcloud/richdocuments/pull/6229)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6202](https://github.com/nextcloud/richdocuments/pull/6202)
+- Update workflow templates from organization template repository by @nextcloud-command in [#6178](https://github.com/nextcloud/richdocuments/pull/6178)
+- Remove dead jest configuration by @elzody in [#6170](https://github.com/nextcloud/richdocuments/pull/6170)
+- Dependency updates
+
 ## 11.1.2
 
 ### Fixed
