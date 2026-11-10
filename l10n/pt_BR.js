@@ -255,6 +255,7 @@ OC.L10N.register(
     "Could not find any section in the document" : "Não foi possível encontrar nenhuma seção no documento",
     "{productName} is not configured" : "{productName} não está configurado",
     "Starting the built-in CODE server failed" : "Falha ao iniciar o servidor CODE integrado",
+    "Opening file locally …" : "Abrindo o arquivo localmente …",
     "Loading {filename} …" : "Carregando {filename} …",
     "Preview" : "Visualização",
     "Edit" : "Editar",
