@@ -21,7 +21,10 @@ const webpackPreprocessor = require('@cypress/webpack-batteries-included-preproc
 module.exports = (on, config) => {
 	cypressSplit(on, config)
 
-	on('file:preprocessor', webpackPreprocessor())
+	const webpackOptions = webpackPreprocessor.getFullWebpackOptions()
+	webpackOptions.resolve.conditionNames = ['import', ...(webpackOptions.resolve.conditionNames ?? [])]
+
+	on('file:preprocessor', webpackPreprocessor({ webpackOptions }))
 
 	return config
 }
