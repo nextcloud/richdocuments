@@ -149,13 +149,26 @@ Cypress.Commands.add('shareFileToRemoteUser', (user, path, targetUser, shareData
 			return cy.wrap(body.ocs.data[index].id)
 		}
 	}).then((shareId) => {
-		cy.ocsRequest(targetUser, {
+		return cy.ocsRequest(targetUser, {
 			method: 'GET',
 			url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/${shareId}?format=json`,
-		}).then((response) => {
-			cy.login(user)
-			return cy.wrap(response.body.ocs.data.file_id)
 		})
+	}).then((response) => {
+		// The file id is only usable once the recipient's federated mount is set up,
+		// which a WebDAV request on the mount point triggers
+		const mountpoint = response.body.ocs.data.mountpoint.split('/').map(encodeURIComponent).join('/')
+		// Without a session cookie, basic auth runs the request as the recipient and skips the CSRF check
+		cy.clearCookies()
+		return cy.request({
+			method: 'PROPFIND',
+			url: `${url}/remote.php/dav/files/${encodeURIComponent(targetUser.userId)}${mountpoint}`,
+			auth: { user: targetUser.userId, password: targetUser.password },
+			headers: { Depth: '0' },
+			body: '<?xml version="1.0"?><d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns"><d:prop><oc:fileid/></d:prop></d:propfind>',
+		})
+	}).then(({ body }) => {
+		cy.login(user)
+		return cy.wrap(Number(body.match(/<oc:fileid>(\d+)<\/oc:fileid>/)[1]))
 	})
 })
 
