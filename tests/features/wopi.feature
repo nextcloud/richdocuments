@@ -425,3 +425,27 @@ Feature: WOPI
     When User "user1" opens "/file.odt"
     And Collabora fetches checkFileInfo
     Then checkFileInfo "ServerPrivateInfo" contains "ESignatureSecret"
+
+  Scenario: CheckFileInfo reports the SHA-256 of what Collabora saved
+    Given as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
+    Then User "user1" opens "/file.odt"
+    And Collabora fetches checkFileInfo
+    And checkFileInfo "SHA256" is not set
+    And Collabora saved the file with the content of "./../emptyTemplates/template.ods"
+    And the WOPI HTTP status code should be "200"
+    And Collabora fetches checkFileInfo
+    Then checkFileInfo "SHA256" is the SHA-256 of "./../emptyTemplates/template.ods"
+
+  Scenario: CheckFileInfo drops the SHA-256 once the file is changed outside of Collabora
+    Given as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
+    Then User "user1" opens "/file.odt"
+    And Collabora fetches checkFileInfo
+    And Collabora saved the file with the content of "./../emptyTemplates/template.ods"
+    And the WOPI HTTP status code should be "200"
+    And Collabora fetches checkFileInfo
+    And checkFileInfo "SHA256" is the SHA-256 of "./../emptyTemplates/template.ods"
+    When User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
+    And Collabora fetches checkFileInfo
+    Then checkFileInfo "SHA256" is not set
