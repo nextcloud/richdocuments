@@ -379,19 +379,14 @@ class TemplateManager {
 			throw new NotFoundException('userId not set');
 		}
 
-		// has the user manually set a directory as the default template dir ?
-		$templateDirPath = $this->config->getUserValue($this->userId, Application::APPNAME, 'templateFolder', false);
-		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$templateDirPath = $this->config->getUserValue($this->userId, Application::APPNAME, 'templateFolder', '')
+			?: $this->config->getUserValue($this->userId, 'core', 'templateDirectory', '')
+			?: 'Templates';
 
-		if ($templateDirPath !== false) {
-			$templateDir = $userFolder->get($templateDirPath);
-		} else {
-			// fallback to default template dir
-			try {
-				$templateDir = $userFolder->get('Templates');
-			} catch (NotFoundException) {
-				throw new NotFoundException('Template directory not found');
-			}
+		try {
+			$templateDir = $this->rootFolder->getUserFolder($this->userId)->get($templateDirPath);
+		} catch (NotFoundException) {
+			throw new NotFoundException('Template directory not found');
 		}
 
 		if (!($templateDir instanceof Folder)) {
