@@ -170,7 +170,7 @@ OC.L10N.register(
     "At the first use and after an update, each user will get the warning, explaining all the above." : "При первом использовании и после каждого обновления каждый пользователь увидит предупреждение с описанием всего перечисленного выше.",
     "I agree, and use the demo server" : "Я согласен, использовать демонстрационный сервер",
     "I will setup my own server" : "Я настрою собственный сервер",
-    "Advanced settings" : "Расширенные параметры",
+    "Advanced settings" : "Дополнительные параметры",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Использовать формат Office Open XML (OOXML) вместо OpenDocument (ODF) по умолчанию для новых файлов",
     "Restrict usage to specific groups" : "Ограничить использование заданными группами",
     "{productName} is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Приложение {productName} по умолчанию включено для всех пользователей. Если этот параметр включён, пользоваться им смогут только участники указанных групп.",
