@@ -4,6 +4,7 @@
  */
 
 import './init-shared.js'
+import '@nextcloud/dialogs/style.css'
 
 import { getCapabilities } from './services/capabilities.ts'
 import { registerHandler } from '@nextcloud/viewer'

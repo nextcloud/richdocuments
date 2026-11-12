@@ -5,6 +5,7 @@
 import './init-shared.js'
 import Vue from 'vue'
 import AdminSettings from './components/AdminSettings.vue'
+import '@nextcloud/dialogs/style.css'
 import '../css/admin.scss'
 
 // CSP config for webpack dynamic chunk loading
