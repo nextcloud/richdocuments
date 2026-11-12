@@ -58,8 +58,6 @@ import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import NewTemplateIcon from 'vue-material-design-icons/FileDocumentPlusOutline.vue'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 
-import '@nextcloud/dialogs/style.css'
-
 export default {
 	name: 'GlobalTemplates',
 

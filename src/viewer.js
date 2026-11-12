@@ -6,6 +6,7 @@
 import { autoSetupBuiltInCodeServerIfNeeded } from './services/builtInCode.ts'
 
 import './init-shared.js'
+import '@nextcloud/dialogs/style.css'
 import '../css/filetypes.scss'
 
 autoSetupBuiltInCodeServerIfNeeded()

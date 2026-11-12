@@ -6,6 +6,7 @@ import AdminSettings from './components/AdminSettings.vue'
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import './init-shared.js'
+import '@nextcloud/dialogs/style.css'
 import '../css/admin.scss'
 
 // CSP config for webpack dynamic chunk loading
