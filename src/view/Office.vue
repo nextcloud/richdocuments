@@ -223,6 +223,7 @@ export default {
 			showZotero: false,
 			modified: false,
 			collaboraReportsMtime: false,
+			closed: false,
 			hasWidgetEditingEnabled: false,
 
 			// Track the last requested save-as filename for export operations
@@ -488,10 +489,12 @@ export default {
 			FilesAppIntegration.share()
 		},
 
-		async close() {
+		close() {
+			this.closed = true
 			FilesAppIntegration.close()
 			if (!this.collaboraReportsMtime) {
-				await FilesAppIntegration.refreshFileInfo()
+				// Not awaited: a save-as can swap the editor in the meantime, and the close would be lost
+				FilesAppIntegration.refreshFileInfo()
 			}
 			disableScrollLock()
 			this.restoreFavicon()
@@ -507,6 +510,10 @@ export default {
 		async switchToSavedAsFile(newBasename) {
 			this.loading = LOADING_STATE.LOADING
 			const node = await FilesAppIntegration.createNodeForNewFile(newBasename)
+			if (this.closed) {
+				// Closed while saving: the new file is listed, there is no editor left to switch
+				return
+			}
 			if (!node) {
 				// New file could not be resolved, avoid reloading into a bad state
 				this.loading = LOADING_STATE.DOCUMENT_READY
