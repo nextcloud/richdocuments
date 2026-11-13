@@ -440,7 +440,6 @@ import { getCurrentUser } from '@nextcloud/auth'
 
 import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 
-import '@nextcloud/dialogs/style.css'
 import { getCallbackBaseUrl, getConfigFileUrl } from '../helpers/url.js'
 import { getCapabilities } from '../services/capabilities.ts'
 import CoolFrame from './CoolFrame.vue'
