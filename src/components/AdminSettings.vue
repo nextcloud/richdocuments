@@ -482,8 +482,6 @@ import SettingsSelectGroup from './SettingsSelectGroup.vue'
 import { getCallbackBaseUrl, getConfigFileUrl } from '../helpers/url.js'
 import { getCapabilities } from '../services/capabilities.ts'
 
-import '@nextcloud/dialogs/style.css'
-
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
 const SERVER_STATE_CONNECTION_ERROR = 2

@@ -9,6 +9,7 @@ import { createApp } from 'vue'
 import DocumentTargetPicker from './view/DocumentTargetPicker.vue'
 
 import './init-shared.js'
+import '@nextcloud/dialogs/style.css'
 
 registerCustomPickerElement('office-target', (el, { providerId, accessible }) => {
 	const app = createApp(DocumentTargetPicker, {

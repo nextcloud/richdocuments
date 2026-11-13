@@ -3,16 +3,67 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+// The file picker styles its preview element through CSS modules, so the
+// rendered class name carries a suffix specific to the @nextcloud/dialogs
+// build. Another app shipping the very same build would style the element
+// too, which would make the thumbnail assertions below pass regardless of
+// what richdocuments loads.
+const previewSelector = '[data-testid="row-name"] > div[class*="file-picker__file-icon"]'
+
+const imageRowSelector = '.file-picker tr[data-testid="file-list-row"][data-filename="image.png"]'
+
+/**
+ * Request the insert file picker the way Collabora does for
+ * "Insert > Image > Insert from Nextcloud".
+ *
+ * @return {Cypress.Chainable} the file picker dialog
+ */
+function openInsertImagePicker() {
+	cy.get('[data-cy="coolframe"]').then(($iframe) => {
+		cy.dispatchMessageFromOrigin($iframe[0].contentWindow.location.origin, {
+			MessageId: 'UI_InsertGraphic',
+			Values: {},
+		})
+	})
+
+	cy.get('.file-picker', { timeout: 10_000 })
+		.should('be.visible')
+
+	// The dialog is mounted before the directory listing resolves.
+	return cy.get('.file-picker [data-testid="file-list-row"]', { timeout: 10_000 })
+		.should('exist')
+}
+
 describe('Nextcloud integration', function() {
 	let randUser
+	let imageFileId
 
 	before(function() {
 		cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'notebookbar')
 		cy.createRandomUser().then((user) => {
 			randUser = user
 			cy.login(user)
-			cy.uploadFile(randUser, 'image.png', 'image/png', '/image.png')
+			cy.uploadFile(user, 'image.png', 'image/png', '/image.png')
 			cy.uploadFile(user, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
+			cy.visit('/apps/files')
+
+			cy.get('[data-cy-files-list] tr[data-cy-files-list-row-name="image.png"]')
+				.as('imageListRow')
+
+			cy.get('@imageListRow')
+				.invoke('attr', 'data-cy-files-list-row-fileid')
+				.should('match', /^\d+$/)
+				.then((fileid) => {
+					imageFileId = fileid
+				})
+
+			// The file picker is expected to show the same thumbnail the files
+			// list shows, so a failure here is a preview problem rather than a
+			// file picker one.
+			cy.get('@imageListRow')
+				.find('.files-list__row-icon img')
+				.should('have.attr', 'src')
+				.and('match', /\/core\/preview\?/)
 		})
 	})
 
@@ -154,6 +205,64 @@ describe('Nextcloud integration', function() {
 			cy.get('#insert-insert-graphic-entry-1').click()
 		})
 		cy.get('.modal-container__content').should('be.visible')
+	})
+
+	it('Shows the image thumbnail in the insert file picker', function() {
+		openInsertImagePicker()
+
+		cy.get(imageRowSelector)
+			.should('be.visible')
+			.find(previewSelector)
+			.as('preview')
+
+		// The thumbnail is painted as the background of the preview element.
+		// Generating it server side on first request takes a while.
+		cy.get('@preview')
+			.invoke({ timeout: 15_000 }, 'css', 'background-image')
+			.should('match', new RegExp(`/core/preview\\?fileId=${imageFileId}[&"]`))
+			.then((backgroundImage) => {
+				const previewUrl = backgroundImage.match(/url\("?(.+?)"?\)$/)[1]
+
+				// A preview that cannot be generated falls back to a redirect to
+				// the mimetype icon, which is served as image/svg+xml.
+				cy.request(previewUrl)
+					.its('headers.content-type')
+					.should('match', /^image\//)
+					.and('not.match', /svg/)
+			})
+
+		// Only the file picker stylesheet gives the element a box to paint the
+		// thumbnail in. The assertion is made after the background is set, as
+		// the fallback icon rendered until then has a size of its own.
+		cy.get('@preview')
+			.should('be.visible')
+			.and(($preview) => {
+				expect($preview.width(), 'preview width').to.be.greaterThan(0)
+				expect($preview.height(), 'preview height').to.be.greaterThan(0)
+			})
+	})
+
+	// This covers the insert flow rather than the thumbnails, and passes with or
+	// without the file picker stylesheet.
+	it('Inserts the file picked from the insert file picker', function() {
+		// The beforeEach spy records the messages Collabora posts to the parent
+		// window, this one the messages richdocuments posts to the editor frame.
+		cy.get('[data-cy="coolframe"]').then(($iframe) => {
+			cy.spy($iframe[0].contentWindow, 'postMessage').as('postMessage')
+		})
+
+		openInsertImagePicker()
+
+		cy.get(imageRowSelector)
+			.should('be.visible')
+			.click()
+			.should('have.attr', 'aria-selected', 'true')
+
+		cy.get('.file-picker')
+			.contains('button', 'Insert file')
+			.click()
+
+		cy.waitForPostMessage('Action_InsertGraphic', { filename: 'image.png' })
 	})
 
 	describe('Smart picker', function() {

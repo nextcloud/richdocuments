@@ -23,6 +23,7 @@ import PostMessageService from './services/postMessage.tsx'
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import './init-shared.js'
+import '@nextcloud/dialogs/style.css'
 import '../css/document.scss'
 
 const PostMessages = new PostMessageService({

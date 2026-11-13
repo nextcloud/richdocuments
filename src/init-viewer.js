@@ -10,6 +10,7 @@ import Viewer from './view/Viewer.vue'
 import { getCapabilities } from './services/capabilities.ts'
 
 import './init-shared.js'
+import '@nextcloud/dialogs/style.css'
 
 const tagName = 'richdocuments-viewer'
 
