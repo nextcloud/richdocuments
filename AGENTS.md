@@ -4,7 +4,7 @@
 -->
 # Agent notes for richdocuments
 
-Nextcloud Office: the Nextcloud app that embeds Collabora Online. PHP backend in `lib/`, Vue 3 frontend in `src/` built into `js/` with webpack.
+The Nextcloud app that embeds Collabora Online, shown to users as "Collabora Online". PHP backend in `lib/`, Vue 3 frontend in `src/` built into `js/` with webpack.
 
 ## Checks to run after a change
 

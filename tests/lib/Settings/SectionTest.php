@@ -39,10 +39,10 @@ class SectionTest extends TestCase {
 		$this->assertSame('Collabora Online', $this->section->getName());
 	}
 
-	public function testGetNameReturnsVendorNameOnWhiteLabelInstall(): void {
+	public function testGetNameReturnsServerNameWithNonDefaultTheme(): void {
 		// getName() used to return a hardcoded 'Office' for any Collabora
-		// >= 21.11, which made this path unreachable regardless of the vendor
-		// name the capabilities carried.
+		// >= 21.11, so the section never showed the name the server reports,
+		// even with a non-default theme.
 		$this->capabilitiesService->method('getProductName')
 			->willReturn('Vendor Office');
 

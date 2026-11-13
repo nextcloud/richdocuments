@@ -159,18 +159,36 @@ class CapabilitiesServiceTest extends TestCase {
 		$this->assertSame('Collabora Online', $this->service->getProductName());
 	}
 
-	public function testGetProductNameReturnsVendorNameOnWhiteLabelInstall(): void {
-		// Previously unreachable: the settings section hardcoded 'Office' for any
-		// Collabora >= 21.11, so a white-label vendor name never surfaced.
+	public function testGetProductNameReturnsServerNameWithNonDefaultTheme(): void {
+		// Any theme other than 'nextcloud' (e.g. 'collabora', the classic look)
+		// shows the name the server reports, as the editor already did.
 		$this->withCapabilities(['productName' => 'Vendor Office']);
-		$this->withTheme('vendor');
+		$this->withTheme('collabora');
 
 		$this->assertSame('Vendor Office', $this->service->getProductName());
 	}
 
 	public function testGetProductNameFallsBackWhenCapabilitiesCarryNoProductName(): void {
 		$this->withCapabilities(['productVersion' => '24.04.5.2']);
-		$this->withTheme('vendor');
+		$this->withTheme('collabora');
+
+		$this->assertSame('Collabora Online', $this->service->getProductName());
+	}
+
+	public static function invalidProductNames(): array {
+		return [
+			'array' => [['Vendor Office']],
+			'number' => [42],
+			'empty string' => [''],
+			'whitespace' => ['  '],
+			'null' => [null],
+		];
+	}
+
+	/** @dataProvider invalidProductNames */
+	public function testGetProductNameFallsBackOnInvalidProductName(mixed $productName): void {
+		$this->withCapabilities(['productName' => $productName]);
+		$this->withTheme('collabora');
 
 		$this->assertSame('Collabora Online', $this->service->getProductName());
 	}
