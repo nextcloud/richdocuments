@@ -18,6 +18,7 @@ import {
 	isMobileInterfaceAvailable,
 } from './helpers/mobile.js'
 import { getWopiUrl, getSearchParam, getNextcloudUrl } from './helpers/url.js'
+import '@nextcloud/dialogs/style.css'
 import '../css/document.scss'
 import axios from '@nextcloud/axios'
 import { spawnDialog } from '@nextcloud/dialogs'

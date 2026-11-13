@@ -4,6 +4,7 @@
  */
 
 import './init-shared.js'
+import '@nextcloud/dialogs/style.css'
 
 import Vue from 'vue'
 import { translate as t } from '@nextcloud/l10n'
