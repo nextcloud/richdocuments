@@ -223,6 +223,8 @@ export default {
 			showLinkPicker: false,
 			showZotero: false,
 			modified: false,
+			collaboraReportsMtime: false,
+			closed: false,
 			hasWidgetEditingEnabled: false,
 
 			// Track the last requested save-as filename for export operations
@@ -492,10 +494,12 @@ export default {
 			FilesAppIntegration.share()
 		},
 
-		async close() {
+		close() {
+			this.closed = true
 			FilesAppIntegration.close()
-			if (this.modified) {
-				await FilesAppIntegration.updateFileInfo(undefined, Date.now())
+			if (!this.collaboraReportsMtime) {
+				// Not awaited: a save-as can swap the editor in the meantime, and the close would be lost
+				FilesAppIntegration.refreshFileInfo()
 			}
 			disableScrollLock()
 			this.restoreFavicon()
@@ -511,6 +515,10 @@ export default {
 		async switchToSavedAsFile(newBasename) {
 			this.loading = LOADING_STATE.LOADING
 			const node = await FilesAppIntegration.createNodeForNewFile(newBasename)
+			if (this.closed) {
+				// Closed while saving: the new file is listed, there is no editor left to switch
+				return
+			}
 			if (!node) {
 				// New file could not be resolved, avoid reloading into a bad state
 				this.loading = LOADING_STATE.DOCUMENT_READY
@@ -619,9 +627,6 @@ export default {
 						// A real save-as: Collabora has switched to a new file, so
 						// the editor session has to be re-initialised for it.
 							this.switchToSavedAsFile(newFileName)
-						} else {
-						// When saving the current file, update its modification time
-							FilesAppIntegration.updateFileInfo(undefined, Date.now())
 						}
 					}
 					break
@@ -675,23 +680,20 @@ export default {
 				case 'Action_GetLinkPreview':
 					this.resolveLink(args.url)
 					break
-				case 'Action_Save':
-					if (this.modified) {
-						FilesAppIntegration.updateFileInfo(undefined, Date.now())
-					}
-					break
-				case 'UI_Save':
-					FilesAppIntegration.updateFileInfo(undefined, Date.now())
-					break
 				case 'Clicked_Button':
 					this.buttonClicked(args)
 					break
 				case 'Doc_ModifiedStatus':
-					if (args.Modified !== this.modified && !this.openingLocally) {
-						FilesAppIntegration.updateFileInfo(undefined, Date.now())
-					}
 					this.modified = args.Modified
 					break
+				case 'Doc_LastModifiedTime': {
+					const mtime = Date.parse(args.LastModifiedTime)
+					if (!Number.isNaN(mtime)) {
+						this.collaboraReportsMtime = true
+						FilesAppIntegration.updateFileInfo(undefined, mtime)
+					}
+					break
+				}
 			}
 		},
 

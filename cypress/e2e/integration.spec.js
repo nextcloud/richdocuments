@@ -103,6 +103,64 @@ describe('Nextcloud integration', function() {
 		cy.openFile(exportFilename)
 	})
 
+	it('Save as and close with a Collabora that does not report the mtime', function() {
+		const exportFilename = 'document-close.rtf'
+
+		// Collabora before 26.04.6 does not send Doc_LastModifiedTime, so the editor
+		// falls back to fetching the file on close
+		cy.visit('/apps/files', {
+			onBeforeLoad(win) {
+				cy.spy(win, 'postMessage').as('postMessage')
+				win.addEventListener('message', (event) => {
+					if (String(typeof event.data === 'string' ? event.data : JSON.stringify(event.data)).includes('"Doc_LastModifiedTime"')) {
+						event.stopImmediatePropagation()
+					}
+				}, true)
+			},
+		})
+		cy.openFile(filename)
+		cy.waitForViewer()
+		cy.waitForCollabora()
+
+		cy.get('@loleafletframe').within(() => {
+			cy.get('.notebookbar-tabs-container', { timeout: 30_000 })
+				.should('be.visible')
+
+			cy.get('button[aria-label="File"]').click()
+			cy.get('button[aria-label="Save As"]')
+				.should('be.visible', { timeout: 10_000 })
+				.click()
+
+			cy.get('#saveas-entries > div')
+				.contains('Rich Text (.rtf)')
+				.should('be.visible')
+				.click()
+		})
+
+		// Keep the switch to the new file pending until after the close, and the
+		// file fetch on close pending until after that switch
+		const delay = (ms) => (req) => req.continue((res) => res.setDelay(ms))
+		cy.intercept({ method: 'PROPFIND', url: `**/${exportFilename}` }, delay(4000)).as('newFilePropfind')
+		cy.intercept({ method: 'PROPFIND', url: `**/${filename}` }, delay(8000))
+
+		cy.get('.saveas-dialog input[type=text]')
+			.should('be.visible')
+			.clear()
+			.type(`/${exportFilename}`)
+		cy.get('.saveas-dialog button.button-vue--primary').click()
+
+		cy.waitForPostMessage('Action_Save_Resp', { success: true, fileName: exportFilename })
+
+		// Close while the editor switches to the new file
+		cy.get('@loleafletframe').within(() => {
+			cy.get('#closebutton').click()
+		})
+		cy.wait('@newFilePropfind')
+		cy.waitForViewerClose()
+		cy.url().should('not.include', 'openfile=true')
+		cy.get(`[data-cy-files-list-row-name="${exportFilename}"]`).should('be.visible')
+	})
+
 	it('Open locally', function() {
 		cy.get('@loleafletframe').within(() => {
 			cy.get('.notebookbar-shortcuts-bar', { timeout: 30_000 })

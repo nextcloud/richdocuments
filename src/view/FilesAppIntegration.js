@@ -140,7 +140,7 @@ export default {
 	},
 
 	rename(newName) {
-		this.updateFileInfo(newName, Date.now())
+		this.updateFileInfo(newName)
 
 		this.fileName = newName
 
@@ -493,6 +493,22 @@ export default {
 		}
 	},
 
+	/**
+	 * Announce the file as stored, for when Collabora did not report its mtime.
+	 * Called on close, so it emits itself: the editor is gone by the time the node arrives.
+	 */
+	async refreshFileInfo() {
+		if (isPublicShare()) {
+			return
+		}
+
+		// Not cached in fileNode: the next file may already be open when this resolves
+		const node = await this.fetchNode(this.filePath + '/' + this.fileName)
+		if (node) {
+			emit('files:node:updated', node)
+		}
+	},
+
 	async updateFileInfo(name, mtime) {
 		const node = await this.getFileNode()
 
@@ -534,22 +550,21 @@ export default {
 			return this.fileNode
 		}
 
+		this.fileNode = await this.fetchNode(this.filePath + '/' + this.fileName)
+		return this.fileNode
+	},
+
+	async fetchNode(path) {
 		try {
-			const path = this.filePath + '/' + this.fileName
-			const client = getClient()
-			const results = await client.getDirectoryContents(`${defaultRootPath}${path}`, {
+			const results = await getClient().getDirectoryContents(`${defaultRootPath}${path}`, {
 				details: true,
 				data: getDefaultPropfind(),
 			})
-			const nodes = results.data.map((result) => resultToNode(result))
-
-			this.fileNode = nodes[0] ?? null
+			return results.data.map((result) => resultToNode(result))[0] ?? null
 		} catch (e) {
 			console.error('Failed to fetch file metadata from webdav', e)
-			this.fileNode = null
+			return null
 		}
-
-		return this.fileNode
 	},
 
 	/**
