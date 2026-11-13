@@ -502,8 +502,20 @@ export default {
 		}
 	},
 
+	/**
+	 * Announce the file as stored, for when Collabora did not report its mtime.
+	 * Called on close, so it emits itself: the editor is gone by the time the node arrives.
+	 */
 	async refreshFileInfo() {
-		this.updatedNode = await this.getFileNode(true)
+		if (isPublicShare()) {
+			return
+		}
+
+		// Not cached in fileNode: the next file may already be open when this resolves
+		const node = await this.fetchNode(this.filePath + '/' + this.fileName)
+		if (node) {
+			emit('files:node:updated', node)
+		}
 	},
 
 	async updateFileInfo(name, mtime) {
