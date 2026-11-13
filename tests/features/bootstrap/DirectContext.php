@@ -105,6 +105,16 @@ class DirectContext implements Context {
 	}
 
 	/**
+	 * @When /^A guest opens the last share link through direct editing from server "([^"]*)"$/
+	 */
+	public function aGuestOpensTheLastShareLinkThroughDirectEditingFromServer($host) {
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$this->serverContext->usingWebasGuest();
+		$this->requestPublicDirectEditingLink(null, $shareToken, null, null, $this->serverContext->getServer($host));
+		$this->handleDirectEditingLink();
+	}
+
+	/**
 	 * @When /^User "([^"]*)" cannot open the last share link through direct editing initiator from server "([^"]*)"$/
 	 */
 	public function userCannotOpenTheLastShareLinkThroughDirectEditingInitiatorFromServer($user, $initiatorServer) {

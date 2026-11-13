@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Tests\Richdocuments\Controller;
 
 use OCA\Richdocuments\Controller\FederationController;
+use OCA\Richdocuments\Controller\WopiController;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Service\FederationService;
@@ -31,6 +32,7 @@ class FederationControllerTest extends TestCase {
 	private IUserManager $userManager;
 	private FederationService $federationService;
 	private IClientService $clientService;
+	private IURLGenerator $urlGenerator;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,6 +41,7 @@ class FederationControllerTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->federationService = $this->createMock(FederationService::class);
 		$this->clientService = $this->createMock(IClientService::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->controller = new FederationController(
 			'richdocuments',
@@ -47,7 +50,7 @@ class FederationControllerTest extends TestCase {
 			$this->createMock(LoggerInterface::class),
 			$this->wopiMapper,
 			$this->userManager,
-			$this->createMock(IURLGenerator::class),
+			$this->urlGenerator,
 			$this->clientService,
 			$this->federationService,
 		);
@@ -142,5 +145,81 @@ class FederationControllerTest extends TestCase {
 		$this->assertSame('User One', $data['guestDisplayname']);
 		$this->assertTrue($data['canwrite']);
 		$this->assertFalse($data['hideDownload']);
+	}
+
+	/**
+	 * @test
+	 */
+	public function initiatorUserReturnsTheUserDetailsOfTheInitiator(): void {
+		$wopi = Wopi::fromParams([
+			'tokenType' => Wopi::TOKEN_TYPE_INITIATOR,
+			'editorUid' => 'user1',
+		]);
+		$this->wopiMapper->expects($this->once())
+			->method('getWopiForToken')
+			->with('some-token')
+			->willReturn($wopi);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user1');
+		$user->method('getDisplayName')->willReturn('User One');
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user1')
+			->willReturn($user);
+
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('core.avatar.getAvatar', ['userId' => 'user1', 'size' => WopiController::WOPI_AVATAR_SIZE])
+			->willReturn('http://localhost/avatar/user1/64');
+
+		$response = $this->controller->initiatorUser('some-token');
+		$data = $response->getData();
+
+		$this->assertSame(200, $response->getStatus());
+		$this->assertCount(3, $data);
+		$this->assertSame('user1', $data['userId']);
+		$this->assertSame('User One', $data['displayName']);
+		$this->assertSame('http://localhost/avatar/user1/64', $data['avatar']);
+	}
+
+	/**
+	 * @test
+	 */
+	public function initiatorUserReturnsGuestDetailsForATokenWithoutAUser(): void {
+		$wopi = Wopi::fromParams([
+			'tokenType' => Wopi::TOKEN_TYPE_INITIATOR,
+			'editorUid' => null,
+			'guestDisplayname' => 'Anonymous guest',
+		]);
+		$this->wopiMapper->method('getWopiForToken')->willReturn($wopi);
+
+		$this->userManager->method('get')->willReturn(null);
+		$this->urlGenerator->expects($this->never())->method('linkToRouteAbsolute');
+
+		$response = $this->controller->initiatorUser('some-token');
+		$data = $response->getData();
+
+		$this->assertSame(200, $response->getStatus());
+		$this->assertCount(3, $data);
+		$this->assertNull($data['userId']);
+		$this->assertSame('Anonymous guest', $data['displayName']);
+		$this->assertNull($data['avatar']);
+	}
+
+	/**
+	 * @test
+	 */
+	public function initiatorUserReturnsAnEmptyDisplayNameForAnUnnamedGuest(): void {
+		$wopi = Wopi::fromParams([
+			'tokenType' => Wopi::TOKEN_TYPE_INITIATOR,
+			'editorUid' => null,
+		]);
+		$this->wopiMapper->method('getWopiForToken')->willReturn($wopi);
+		$this->userManager->method('get')->willReturn(null);
+
+		$data = $this->controller->initiatorUser('some-token')->getData();
+
+		$this->assertSame('', $data['displayName']);
 	}
 }

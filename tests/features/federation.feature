@@ -18,6 +18,25 @@ Background:
     And I POST the initiator token to the federation endpoint
     Then the HTTP status code should be "200"
 
+  Scenario: A guest opens a share link that originates on a federated share
+    Given on instance "serverB"
+    And as user "user2"
+    And User "user2" uploads file "./../emptyTemplates/template.odt" to "/fed-guest-initiator.odt"
+    And share the file "/fed-guest-initiator.odt" as a federated share to "user1" on "serverA"
+
+    Given on instance "serverA"
+    And as user "user1"
+    And user "user1" accepts last share
+    And as "user1" create a share with
+      | path      | /fed-guest-initiator.odt |
+      | shareType | 3                        |
+
+    Given on instance "serverB"
+    When A guest opens the last share link through direct editing from server "serverA"
+    And Collabora fetches checkFileInfo
+    Then checkFileInfo "BaseFileName" is "fed-guest-initiator.odt"
+    And checkFileInfo "UserFriendlyName" is "Anonymous guest"
+
   Scenario: Share a file by federation and open it
     Given on instance "serverA"
     And as user "user1"
