@@ -128,9 +128,11 @@ class FederationController extends OCSController {
 			}
 			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . ' returned');
 			return new DataResponse([
-				'userId' => $user->getUID(),
-				'displayName' => $user->getDisplayName(),
-				'avatar' => $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => WopiController::WOPI_AVATAR_SIZE])
+				'userId' => $user?->getUID(),
+				'displayName' => (string)$wopi->getGuestDisplayname(),
+				'avatar' => $user !== null
+					? $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => WopiController::WOPI_AVATAR_SIZE])
+					: null,
 			]);
 		} catch (UnknownTokenException) {
 			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . 'not found');
