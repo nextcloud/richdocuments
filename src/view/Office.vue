@@ -256,7 +256,7 @@ export default {
 		},
 
 		iframeTitle() {
-			return loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)')
+			return loadState('richdocuments', 'productName', 'Collabora Online')
 		},
 
 		showLoadingIndicator() {
@@ -266,7 +266,7 @@ export default {
 		errorMessage() {
 			switch (parseInt(this.error)) {
 				case LOADING_ERROR.COLLABORA_UNCONFIGURED:
-					return t('richdocuments', '{productName} is not configured', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)') })
+					return t('richdocuments', '{productName} is not configured', { productName: loadState('richdocuments', 'productName', 'Collabora Online') })
 				case LOADING_ERROR.PROXY_FAILED:
 					return t('richdocuments', 'Starting the built-in CODE server failed')
 				default:
@@ -404,7 +404,7 @@ export default {
 				({ data } = await axios.post(generateUrl('/apps/richdocuments/token'), tokenParams))
 			} catch (e) {
 				console.error('Failed to generate the WOPI token', e)
-				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)') })
+				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Collabora Online') })
 				this.loading = LOADING_STATE.FAILED
 				return
 			}
@@ -452,7 +452,7 @@ export default {
 			this.loadingTimeout = setTimeout(() => {
 				console.error('Document loading failed due to timeout: Please check for failing network requests')
 				this.loading = LOADING_STATE.FAILED
-				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office (Collabora)') })
+				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Collabora Online') })
 			}, (getCapabilities().config.timeout * 1000 || 15000))
 		},
 

@@ -40,7 +40,6 @@ class InitialStateService {
 
 		$this->initialState->provideInitialState('productName', $this->capabilitiesService->getProductName());
 		$this->initialState->provideInitialState('hasDrawSupport', true);
-		$this->initialState->provideInitialState('hasNextcloudBranding', $this->capabilitiesService->hasNextcloudBranding());
 		$this->initialState->provideInitialState('instanceId', $this->config->getSystemValue('instanceid'));
 		$this->initialState->provideInitialState('wopi_callback_url', $this->appConfig->getNextcloudUrl());
 		$this->initialState->provideInitialState('bcp47Language', $this->languageService->getBCP47LanguageTag());

@@ -11,6 +11,7 @@ namespace OCA\Richdocuments\Notification;
 
 use OC\User\NoUserException;
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IURLGenerator;
@@ -41,7 +42,7 @@ class Notifier implements INotifier {
 
 	#[\Override]
 	public function getName(): string {
-		return 'Office';
+		return CapabilitiesService::DEFAULT_PRODUCT_NAME;
 	}
 
 	#[\Override]
