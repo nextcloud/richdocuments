@@ -8,7 +8,7 @@ e6351c608939c31ae1e32923aa82aa10 dependabot-approve-merge.yml
 6279c9e39a0d2bbc94e7f44db2e8cc6e lint-php-cs.yml
 418deda6469a90f8626a9705ebea4a85 lint-php.yml
 99024d814801405672676fd03f57c2ce lint-stylelint.yml
-f1909c78987565cb19a471c60dc53950 npm-audit-fix.yml
+db73bd92859c4fb9d0489c0378a73d9e npm-audit-fix.yml
 6848ba5ea359d6ca698e209306e18e39 phpunit-mysql.yml
 a7f5f136dfc5bc09d784cb2d1568d251 phpunit-oci.yml
 552ee7ffcb4be38bb5d6ab95b81d05d1 phpunit-pgsql.yml
@@ -16,6 +16,6 @@ ad9c8d16e90d7b60092d9770ba7646e5 phpunit-sqlite.yml
 2639f2b96989a4fcbb441ca8f1fecb2f pr-feedback.yml
 fa1cab1471a6a7a7a0622744f8d6ab12 psalm.yml
 2dbec18233063b42f4d8e03bbb43671c reuse.yml
-ff4dc5f5f73469bf3569b654a68f49bf sync-workflow-templates.yml
-24a8e4ff76d12a99ef6ba91d392b418c update-nextcloud-ocp.yml
+af7ef59cad90fa52cfed30e97921b7a9 sync-workflow-templates.yml
+e0623401266176cde77f5737be375cff update-nextcloud-ocp.yml
 bea8a43904976fa01f1e091046541b37 release-relay.yml
