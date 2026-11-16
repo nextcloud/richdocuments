@@ -13,7 +13,6 @@ use OCA\Richdocuments\TemplateManager;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
-use OCP\Files\IUserFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -38,7 +37,7 @@ class TemplateManagerTest extends TestCase {
 			['alice', 'core', 'templateDirectory', '', $serverPath],
 		]);
 		$templateDir = $this->createMock(Folder::class);
-		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder = $this->createMock(Folder::class);
 		$userFolder->expects(self::once())->method('get')->with($expectedPath)->willReturn($templateDir);
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$rootFolder->method('getUserFolder')->with('alice')->willReturn($userFolder);
