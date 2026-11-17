@@ -11,6 +11,8 @@ use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Exceptions\ExpiredTokenException;
+use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
@@ -536,6 +538,9 @@ class SettingsController extends Controller {
 					'Content-Type' => $systemFile->getMimeType() ?: 'application/octet-stream'
 				]
 			);
+		} catch (UnknownTokenException|ExpiredTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
+			return new DataDisplayResponse('Unauthorized.', Http::STATUS_UNAUTHORIZED);
 		} catch (\InvalidArgumentException $e) {
 			return new DataDisplayResponse('Invalid settings type.', Http::STATUS_BAD_REQUEST);
 		} catch (NotPermittedException $e) {

@@ -13,6 +13,8 @@ use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Controller\SettingsController;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Exceptions\ExpiredTokenException;
+use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
@@ -243,6 +245,26 @@ class SettingsControllerTest extends TestCase {
 		$response = $this->makeController()->getSettingsFile('systemconfig', 'token', 'wordbook', 'missing.dic');
 
 		$this->assertSame(Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	/** @dataProvider dataInvalidSettingsToken */
+	public function testGetSettingsFileRejectsInvalidTokensAtDebug(\Exception $exception): void {
+		$this->wopiMapper->method('getWopiForToken')->willThrowException($exception);
+		$this->logger->expects($this->never())->method('error');
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with($this->anything(), $this->callback(fn (array $context) => ($context['exception'] ?? null) === $exception));
+
+		$response = $this->makeController()->getSettingsFile('systemconfig', 'token', 'wordbook', 'shared.dic');
+
+		$this->assertSame(Http::STATUS_UNAUTHORIZED, $response->getStatus());
+	}
+
+	public static function dataInvalidSettingsToken(): array {
+		return [
+			'expired token' => [new ExpiredTokenException('Token expired')],
+			'unknown token' => [new UnknownTokenException('Could not find token.')],
+		];
 	}
 
 	public function testAccessCheckSendsContentLength(): void {
