@@ -123,7 +123,11 @@ export default {
 		},
 
 		async submit() {
-			setGuestNickname(this.guestName)
+			// An empty name leaves the guest nickname unset, so the default is used.
+			if (this.guestName.trim() !== '') {
+				setGuestNickname(this.guestName)
+			}
+
 			this.show = false
 
 			await this.onSubmit()
