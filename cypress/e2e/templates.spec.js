@@ -39,7 +39,7 @@ describe('Global templates', function() {
 			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
 		})
 
-		cy.contains('[role="alert"]', 'Template "systemtemplate.otp" already exists').should('be.visible')
+		cy.contains('.toastify', 'Template "systemtemplate.otp" already exists').should('be.visible')
 	})
 
 	it('Can be deleted', function() {
@@ -71,7 +71,7 @@ describe('Global templates', function() {
 		})
 
 		cy.wait('@templateUploadRequest')
-		cy.contains('[role="alert"]', 'File is too big').should('be.visible')
+		cy.contains('.toastify', 'File is too big').should('be.visible')
 		cy.get('.template-btn[data-cy-template-btn-name="errortemplate"]').should('not.exist')
 	})
 
@@ -88,7 +88,7 @@ describe('Global templates', function() {
 		})
 
 		cy.wait('@templateUploadRequest')
-		cy.contains('[role="alert"]', 'Failed to upload the file').should('be.visible')
+		cy.contains('.toastify', 'Failed to upload the file').should('be.visible')
 		cy.get('.template-btn[data-cy-template-btn-name="errortemplate"]').should('not.exist')
 	})
 
