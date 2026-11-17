@@ -11,6 +11,8 @@ use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Exceptions\ExpiredTokenException;
+use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
@@ -536,13 +538,18 @@ class SettingsController extends Controller {
 					'Content-Type' => $systemFile->getMimeType() ?: 'application/octet-stream'
 				]
 			);
+		} catch (UnknownTokenException|ExpiredTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
+			return new DataDisplayResponse('Unauthorized.', Http::STATUS_UNAUTHORIZED);
 		} catch (\InvalidArgumentException $e) {
 			return new DataDisplayResponse('Invalid settings type.', Http::STATUS_BAD_REQUEST);
 		} catch (NotPermittedException $e) {
 			return new DataDisplayResponse('Forbidden.', Http::STATUS_FORBIDDEN);
 		} catch (NotFoundException $e) {
+			$this->logger->debug('Settings file not found', ['type' => $type, 'category' => $category, 'name' => $name, 'exception' => $e]);
 			return new DataDisplayResponse('File not found.', 404);
 		} catch (\Exception $e) {
+			$this->logger->error('Error fetching settings file', ['exception' => $e]);
 			return new DataDisplayResponse('Something went wrong', 500);
 		}
 	}

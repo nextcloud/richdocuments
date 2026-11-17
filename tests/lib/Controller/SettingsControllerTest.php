@@ -13,6 +13,8 @@ use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Controller\SettingsController;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Exceptions\ExpiredTokenException;
+use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
@@ -22,6 +24,7 @@ use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http;
+use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -40,6 +43,7 @@ class SettingsControllerTest extends TestCase {
 	private PermissionManager $permissionManager;
 	private SettingsService $settingsService;
 	private ConnectivityService $connectivityService;
+	private LoggerInterface $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -56,6 +60,7 @@ class SettingsControllerTest extends TestCase {
 		);
 		$this->settingsService = $this->createMock(SettingsService::class);
 		$this->connectivityService = $this->createMock(ConnectivityService::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
 	private function makeController(): SettingsController {
@@ -71,7 +76,7 @@ class SettingsControllerTest extends TestCase {
 			$this->createMock(DemoService::class),
 			$this->createMock(FontService::class),
 			$this->settingsService,
-			$this->createMock(LoggerInterface::class),
+			$this->logger,
 			$this->createMock(IURLGenerator::class),
 			$this->wopiMapper,
 			$this->permissionManager,
@@ -213,6 +218,53 @@ class SettingsControllerTest extends TestCase {
 		$response = $this->makeController()->getSettingsFile('userconfig', 'token', 'wordbook', 'x.dic');
 
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+	}
+
+	public function testGetSettingsFileLogsUnexpectedErrors(): void {
+		$this->givenSettingsToken('admin');
+		$exception = new \RuntimeException('storage failure');
+		$this->settingsService->method('getSettingsFile')->willThrowException($exception);
+		$this->logger->expects($this->once())
+			->method('error')
+			->with($this->anything(), $this->callback(fn (array $context) => ($context['exception'] ?? null) === $exception));
+
+		$response = $this->makeController()->getSettingsFile('systemconfig', 'token', 'wordbook', 'shared.dic');
+
+		$this->assertSame(Http::STATUS_INTERNAL_SERVER_ERROR, $response->getStatus());
+	}
+
+	public function testGetSettingsFileLogsMissingFilesAtDebug(): void {
+		$this->givenSettingsToken('admin');
+		$exception = new NotFoundException();
+		$this->settingsService->method('getSettingsFile')->willThrowException($exception);
+		$this->logger->expects($this->never())->method('error');
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with($this->anything(), $this->callback(fn (array $context) => ($context['exception'] ?? null) === $exception));
+
+		$response = $this->makeController()->getSettingsFile('systemconfig', 'token', 'wordbook', 'missing.dic');
+
+		$this->assertSame(Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	/** @dataProvider dataInvalidSettingsToken */
+	public function testGetSettingsFileRejectsInvalidTokensAtDebug(\Exception $exception): void {
+		$this->wopiMapper->method('getWopiForToken')->willThrowException($exception);
+		$this->logger->expects($this->never())->method('error');
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with($this->anything(), $this->callback(fn (array $context) => ($context['exception'] ?? null) === $exception));
+
+		$response = $this->makeController()->getSettingsFile('systemconfig', 'token', 'wordbook', 'shared.dic');
+
+		$this->assertSame(Http::STATUS_UNAUTHORIZED, $response->getStatus());
+	}
+
+	public static function dataInvalidSettingsToken(): array {
+		return [
+			'expired token' => [new ExpiredTokenException('Token expired')],
+			'unknown token' => [new UnknownTokenException('Could not find token.')],
+		];
 	}
 
 	public function testAccessCheckSendsContentLength(): void {
