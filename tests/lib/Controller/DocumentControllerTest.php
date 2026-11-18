@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Tests\Richdocuments\Controller;
 
+use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Controller\DocumentController;
 use OCA\Richdocuments\Db\Wopi;
@@ -17,6 +18,7 @@ use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\PublicShareController;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
@@ -153,5 +155,33 @@ class DocumentControllerTest extends TestCase {
 		$this->controller->remote('share-token', 'https://initiator.example.com:8443/', 'remote-token');
 
 		$this->assertSame('https://initiator.example.com:8443', $params['parentOrigin']);
+	}
+
+	/**
+	 * @test
+	 */
+	public function tokenForPasswordShareRequiresCurrentPasswordHashInSession(): void {
+		if (!is_callable([PublicAuth::class, 'isShareInSession'])) {
+			$this->markTestSkipped('Server does not provide the static PublicAuth::isShareInSession');
+		}
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getId')->willReturn('7');
+		$share->method('getToken')->willReturn('share-token');
+		$share->method('getPassword')->willReturn('hash-current');
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_READ);
+		$share->method('getNode')->willReturn($this->createMock(File::class));
+		$this->shareManager->method('getShareByToken')->with('share-token')->willReturn($share);
+
+		$this->session->method('get')->willReturnMap([
+			['public_link_authenticated', ['7']],
+			[PublicShareController::DAV_AUTHENTICATED_FRONTEND, json_encode(['share-token' => 'hash-other'])],
+		]);
+
+		$this->tokenManager->expects($this->never())->method('generateWopiToken');
+
+		$response = $this->controller->token(self::FILE_ID, 'share-token');
+
+		$this->assertSame(Http::STATUS_INTERNAL_SERVER_ERROR, $response->getStatus());
 	}
 }

@@ -11,6 +11,7 @@ use Exception;
 use OC\User\NoUserException;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Wopi;
+use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
@@ -241,11 +242,7 @@ class DocumentController extends Controller {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			// not authenticated ?
 			if ($share->getPassword()) {
-				$authenticatedLinks = $this->session->get('public_link_authenticated');
-
-				$isAuthenticated = (is_array($authenticatedLinks) && in_array($share->getId(), $authenticatedLinks));
-				$isAuthenticated = $isAuthenticated || ($authenticatedLinks === $share->getId());
-				if (!$isAuthenticated) {
+				if (!Helper::isShareAuthenticated($this->session, $share)) {
 					throw new Exception('Invalid password');
 				}
 			}
@@ -460,12 +457,7 @@ class DocumentController extends Controller {
 	private function getFileForShare(IShare $share, ?int $fileId, ?string $path = null): File {
 		// not authenticated ?
 		if ($share->getPassword()) {
-			$authenticatedLinks = $this->session->get('public_link_authenticated');
-
-			$isAuthenticated = (is_array($authenticatedLinks) && in_array($share->getId(), $authenticatedLinks));
-			$isAuthenticated = $isAuthenticated || ($authenticatedLinks === $share->getId());
-
-			if (!$isAuthenticated) {
+			if (!Helper::isShareAuthenticated($this->session, $share)) {
 				throw new NotPermittedException('Invalid password');
 			}
 		}
