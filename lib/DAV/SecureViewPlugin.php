@@ -13,17 +13,21 @@ use OCA\DAV\Connector\Sabre\Node;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\Service\SecureViewService;
 use OCA\Richdocuments\Storage\SecureViewWrapper;
+use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
 class SecureViewPlugin extends ServerPlugin {
+	private ?Server $server = null;
+
 	public function __construct(
 		protected WOPIMiddleware $wopiMiddleware,
 		protected IAppConfig $appConfig,
@@ -36,7 +40,38 @@ class SecureViewPlugin extends ServerPlugin {
 		if (!$this->secureViewService->isEnabled()) {
 			return;
 		}
+		$this->server = $server;
 		$server->on('propFind', $this->handleGetProperties(...));
+		$server->on('beforeCopy', fn (string $source, string $target) => $this->checkTarget($source, $target, false));
+		$server->on('beforeMove', fn (string $source, string $target) => $this->checkTarget($source, $target, true));
+	}
+
+	/**
+	 * @throws Forbidden
+	 */
+	private function checkTarget(string $source, string $target, bool $isMove): void {
+		[$sourceParentPath] = \Sabre\Uri\split($source);
+		[$targetParentPath] = \Sabre\Uri\split($target);
+		if ($isMove && $sourceParentPath === $targetParentPath) {
+			return;
+		}
+
+		$sourceNode = $this->server->tree->getNodeForPath($source);
+		$targetParent = $this->server->tree->getNodeForPath($targetParentPath ?? '');
+		if (!$sourceNode instanceof Node || !$targetParent instanceof Node || !$targetParent->getNode() instanceof Folder) {
+			return;
+		}
+
+		try {
+			$allowed = $this->secureViewService->staysSecuredIn($sourceNode->getNode(), $targetParent->getNode(), $isMove);
+		} catch (\Throwable $e) {
+			$this->logger->warning('Could not check secure view for the target, denying it', ['exception' => $e]);
+			$allowed = false;
+		}
+
+		if (!$allowed) {
+			throw new Forbidden('The target does not offer the secure view the source requires');
+		}
 	}
 
 	private function handleGetProperties(PropFind $propFind, INode $node): void {

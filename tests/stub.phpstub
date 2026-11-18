@@ -118,6 +118,27 @@ namespace OCA\DAV\Connector\Sabre {
 	}
 }
 
+namespace OC\Files\Cache {
+	class CacheEntry implements \OCP\Files\Cache\ICacheEntry {
+		public function __construct(array $data) {}
+	}
+}
+
+namespace OC\Files\Search {
+	class SearchComparison implements \OCP\Files\Search\ISearchComparison {
+		public function __construct(string $type, string $field, \DateTime|int|string|bool|array $value, string $extra = '') {}
+	}
+
+	class SearchBinaryOperator implements \OCP\Files\Search\ISearchBinaryOperator {
+		/** @param \OCP\Files\Search\ISearchOperator[] $arguments */
+		public function __construct(string $type, array $arguments) {}
+	}
+
+	class SearchQuery implements \OCP\Files\Search\ISearchQuery {
+		public function __construct(\OCP\Files\Search\ISearchOperator $searchOperation, int $limit, int $offset, array $order, ?\OCP\IUser $user = null, bool $limitToHome = false) {}
+	}
+}
+
 namespace OCA\DAV\Events {
 	class SabrePluginAddEvent extends \OCP\EventDispatcher\Event {}
 }
@@ -279,8 +300,23 @@ namespace Sabre\DAV {
 	}
 
 	class Server {
+		public Tree $tree;
+
 		public function on(string $eventName, callable $callable): void {}
 	}
 
+	class Tree {
+		public function getNodeForPath(string $path): INode {}
+	}
+
     class ServerPlugin {}
+}
+
+namespace Sabre\DAV\Exception {
+	class Forbidden extends \Exception {}
+}
+
+namespace Sabre\Uri {
+	/** @return array{0: ?string, 1: ?string} */
+	function split(string $path): array {}
 }
