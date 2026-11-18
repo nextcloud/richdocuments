@@ -384,7 +384,16 @@ Cypress.Commands.add('shouldNotHavePostMessage', (messageId, expectedValues = un
 
 Cypress.Commands.add('inputCollaboraGuestName', (guestName = 'cloud') => {
 	cy.get('[data-cy="guestNameModal"]').should('be.visible')
-	cy.get('[data-cy="guestNameInput"]').type(guestName)
+	// The dialog is visible while it still fades in, and keystrokes sent before
+	// it settles never reach the field. Scope to the dialog's own wrapper, the
+	// viewer renders a modal of its own that is already faded in.
+	cy.get('[data-cy="guestNameModal"]')
+		.closest('.modal-wrapper')
+		.should('have.css', 'opacity', '1')
+
+	cy.get('[data-cy="guestNameInput"]')
+		.type(guestName)
+		.should('have.value', guestName)
 	cy.get('[data-cy="guestNameSubmit"]').click()
 })
 
