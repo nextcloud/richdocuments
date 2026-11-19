@@ -34,6 +34,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
 use OCP\Files\Lock\ILockManager;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
@@ -55,10 +56,12 @@ class WopiControllerTest extends TestCase {
 	private CapabilitiesService $capabilitiesService;
 	private IRootFolder $rootFolder;
 	private PermissionManager $permissionManager;
+	private UserScopeService $userScopeService;
 
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->userScopeService = $this->createMock(UserScopeService::class);
 		$this->wopiMapper = $this->createMock(WopiMapper::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -90,7 +93,7 @@ class WopiControllerTest extends TestCase {
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(TemplateManager::class),
 			$this->createMock(IShareManager::class),
-			$this->createMock(UserScopeService::class),
+			$this->userScopeService,
 			$this->createMock(FederationService::class),
 			$this->createMock(IEncryptionManager::class),
 			$this->groupManager,
@@ -108,7 +111,7 @@ class WopiControllerTest extends TestCase {
 	/**
 	 * Registers the token that {@see WopiMapper::getWopiForToken()} will resolve.
 	 */
-	private function givenToken(int $tokenType, ?string $editorUid, bool $isAdmin = false, bool $userExists = true): void {
+	private function givenToken(int $tokenType, ?string $editorUid, bool $isAdmin = false, bool $userExists = true, bool $canWrite = false, ?string $guestDisplayname = null): void {
 		$wopi = new Wopi();
 		$wopi->setToken('token');
 		$wopi->setTokenType($tokenType);
@@ -116,12 +119,30 @@ class WopiControllerTest extends TestCase {
 		$wopi->setOwnerUid($editorUid ?? '');
 		$wopi->setFileid(1);
 		$wopi->setVersion('0');
-		$wopi->setCanwrite(false);
+		$wopi->setCanwrite($canWrite);
+		$wopi->setGuestDisplayname($guestDisplayname);
 		$wopi->setServerHost('https://localhost/');
 
 		$this->wopiMapper->method('getWopiForToken')->willReturn($wopi);
 		$this->groupManager->method('isAdmin')->willReturn($isAdmin);
 		$this->userManager->method('userExists')->willReturn($userExists);
+	}
+
+	/**
+	 * Registers the file that the WOPI token resolves to for a write.
+	 */
+	private function givenWritableFile(): void {
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('free_space')->willReturn(1024);
+
+		$file = $this->createMock(File::class);
+		$file->method('getStorage')->willReturn($storage);
+		$file->method('getInternalPath')->willReturn('files/document.odt');
+		$file->method('getMTime')->willReturn(0);
+
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getById')->willReturn([$file]);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
 	}
 
 	private function settingsPath(SettingsType $type, string $category = 'wordbook', string $name = 'x.dic'): string {
@@ -423,5 +444,36 @@ class WopiControllerTest extends TestCase {
 
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 		$this->assertArrayNotHasKey('UserSettings', $response->getData());
+	}
+
+	/**
+	 * A guest has no account to record the change under, so without naming the
+	 * actor the activity ends up attributed to nobody.
+	 */
+	public function testPutFileRecordsTheChangeUnderTheGuestName(): void {
+		$this->givenToken(Wopi::TOKEN_TYPE_GUEST, null, canWrite: true, guestDisplayname: 'Alice (Guest)');
+		$this->givenWritableFile();
+
+		$this->userScopeService->expects($this->once())
+			->method('setActivityActor')
+			->with('Alice (Guest)');
+
+		$response = $this->makeController()->putFile('1_instanceid', 'token');
+
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+	}
+
+	/**
+	 * An editor with an account is recorded under that account, not under a name.
+	 */
+	public function testPutFileDoesNotRenameTheActorForAnAccount(): void {
+		$this->givenToken(Wopi::TOKEN_TYPE_USER, 'alice', canWrite: true);
+		$this->givenWritableFile();
+
+		$this->userScopeService->expects($this->never())->method('setActivityActor');
+
+		$response = $this->makeController()->putFile('1_instanceid', 'token');
+
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 }
