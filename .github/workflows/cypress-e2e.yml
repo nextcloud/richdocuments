@@ -88,6 +88,14 @@ jobs:
           ref: ${{ matrix.server-versions }}
           path: apps/files_pdfviewer
 
+      - name: Checkout the activity app
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          repository: nextcloud/activity
+          ref: ${{ env.main_app_ref }}
+          path: apps/activity
+
       - name: Checkout ${{ env.APP_NAME }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -150,6 +158,7 @@ jobs:
           php occ app:enable --force files_pdfviewer
           php occ app:enable --force richdocuments
           php occ app:enable --force spreed
+          php occ app:enable --force activity
           php occ app:list
           php occ config:system:set trusted_domains 1 --value="172.17.0.1"
 

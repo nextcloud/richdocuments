@@ -136,6 +136,59 @@ describe('Public sharing of office documents', () => {
 				})
 			})
 		})
+
+		describe('Activity of a guest edit', () => {
+			const activityFile = 'guest-activity-document.odt'
+
+			// A separate file, so that the two guests editing minutes apart are not
+			// merged into a single grouped activity with the actors side by side
+			const cloudIdFile = 'guest-cloud-id-document.odt'
+
+			// Anything containing an @ is a federated cloud id as far as the files
+			// activity provider is concerned, so such a name must not reach it as is
+			const cloudIdGuestName = `${randHash()}@example.com`
+			const cloudIdActor = `${cloudIdGuestName.replace('@', '')} (Guest)`
+
+			before(() => {
+				cy.uploadFile(shareOwner, 'document.odt', 'application/vnd.oasis.opendocument.text', `/${activityFile}`)
+				cy.uploadFile(shareOwner, 'document.odt', 'application/vnd.oasis.opendocument.text', `/${cloudIdFile}`)
+			})
+
+			it('Attributes the change to the chosen guest name, not to a remote account', () => {
+				editAsGuest(activityFile, guestName)
+
+				cy.getFileChangeActivities(shareOwner, activityFile).then((changes) => {
+					expect(changes, `change activities for ${activityFile}`).to.not.be.empty
+
+					// An actor that could not be resolved is substituted into the subject
+					// itself, so it never shows up among the subject parameters
+					const subjects = changes.map((change) => change.subject_rich[0])
+					expect(subjects.join('\n')).to.not.include('remote account')
+
+					const named = changes.find((change) => change.subject_rich[0].includes('{user}'))
+					expect(named.subject_rich[1].user.name).to.equal(`${guestName} (Guest)`)
+				})
+			})
+
+			it('Does not read a guest name containing an @ as a federated account', () => {
+				editAsGuest(cloudIdFile, cloudIdGuestName)
+
+				cy.getFileChangeActivities(shareOwner, cloudIdFile).then((changes) => {
+					expect(changes, `change activities for ${cloudIdFile}`).to.not.be.empty
+
+					const named = changes.find((change) => change.subject_rich[0].includes('{user}'))
+					expect(named, 'a change activity naming an account').to.not.be.undefined
+
+					// A server turns the parameter into a link to an account on another
+					// instance, and the id is then only what preceded the @
+					expect(named.subject_rich[1].user).to.deep.equal({
+						type: 'user',
+						id: cloudIdActor,
+						name: cloudIdActor,
+					})
+				})
+			})
+		})
 	})
 
 	describe('Open in local editor', () => {
@@ -189,6 +242,38 @@ function assertNoOpenLocalEditorButton() {
 		})
 		cy.waitForPostMessage('Host_PostmessageReady', undefined, { targetOrigin: collaboraOrigin })
 		cy.shouldNotHavePostMessage('Insert_Button', { id: 'Open_Local_Editor' })
+	})
+}
+
+/**
+ * Open a file as a guest on a public share under the given name, change it and
+ * close the editor again.
+ *
+ * @param {string} fileName - the file to share and edit
+ * @param {string} name - the name the guest enters when asked
+ */
+function editAsGuest(fileName, name) {
+	cy.shareLink(shareOwner, `/${fileName}`, { permissions: 19 }).then((token) => {
+		cy.logout()
+
+		cy.visit(`/s/${token}`, {
+			onBeforeLoad(win) {
+				cy.spy(win, 'postMessage').as('postMessage')
+			},
+		})
+
+		cy.inputCollaboraGuestName(name)
+
+		cy.waitForViewer()
+		cy.waitForCollabora()
+		cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+
+		cy.editAndSaveInCollabora()
+
+		cy.get('@loleafletframe').within(() => {
+			cy.get('#closebutton').click()
+			cy.waitForViewerClose()
+		})
 	})
 }
 

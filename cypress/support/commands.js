@@ -392,6 +392,76 @@ Cypress.Commands.add('inputCollaboraGuestName', (guestName = 'cloud') => {
 	cy.get('[data-cy="guestNameSubmit"]').click()
 })
 
+/**
+ * Modify the open document and wait until the change reached the WOPI host.
+ *
+ * Typing into the Collabora canvas is not addressable from the host document,
+ * so the edit is made through the WOPI post message API the same way an
+ * integrator would. Collabora discards Action_* messages until the host has
+ * acknowledged the handshake, which it records in WOPIPostmessageReady, and
+ * it answers Action_Paste with nothing at all, so both the readiness and the
+ * resulting modification are awaited explicitly.
+ *
+ * Action_Save_Resp reports the save inside Collabora, which happens before the
+ * PutFile request it triggers. Doc_LastModifiedTime carries the mtime that
+ * PutFile answers with, so it is the first message that proves the file was
+ * written on the server.
+ *
+ * @param {string} [text] - the text to insert into the document
+ */
+Cypress.Commands.add('editAndSaveInCollabora', (text = 'Guest edit') => {
+	cy.get('[data-cy="coolframe"]')
+		.its('0.contentWindow.WOPIPostmessageReady', { timeout: 20000 })
+		.should('be.true')
+
+	cy.get('[data-cy="coolframe"]').then(($iframe) => {
+		const collaboraWindow = $iframe[0].contentWindow
+		const collaboraOrigin = collaboraWindow.location.origin
+
+		collaboraWindow.postMessage(JSON.stringify({
+			MessageId: 'Action_Paste',
+			Values: { Mimetype: 'text/plain;charset=utf-8', Data: text },
+		}), collaboraOrigin)
+
+		cy.waitForPostMessage('Doc_ModifiedStatus', { Modified: true })
+
+		// Collabora reports the mtime on load too, only a later one reports the save
+		cy.get('@postMessage').invoke('resetHistory')
+
+		collaboraWindow.postMessage(JSON.stringify({
+			MessageId: 'Action_Save',
+			Values: { Notify: true, DontTerminateEdit: false, DontSaveIfUnmodified: false },
+		}), collaboraOrigin)
+	})
+
+	cy.waitForPostMessage('Action_Save_Resp', { success: true })
+	cy.waitForPostMessage('Doc_LastModifiedTime')
+})
+
+/**
+ * Read the change activities recorded for a file from a user's stream.
+ *
+ * The search parameter only narrows the stream server side from activity 35 on,
+ * so the file is matched on the result as well.
+ *
+ * @param {object} user - the user whose stream to read
+ * @param {string} fileName - the file to read the activities of
+ * @return {Cypress.Chainable} the change activities for the file
+ */
+Cypress.Commands.add('getFileChangeActivities', (user, fileName) => {
+	cy.login(user)
+	return cy.ocsRequest(user, {
+		method: 'GET',
+		url: `${url}/ocs/v2.php/apps/activity/api/v2/activity/all?format=json&search=${encodeURIComponent(fileName)}`,
+		// An empty stream is answered with 204 and an unchanged one with 304, both without a body
+		failOnStatusCode: false,
+	}).then(({ status, body }) => {
+		const activities = status === 200 ? body.ocs.data : []
+		return cy.wrap(activities.filter((activity) =>
+			activity.type === 'file_changed' && activity.object_name.endsWith(fileName)))
+	})
+})
+
 Cypress.Commands.add('closeDocument', () => {
 	cy.get('@loleafletframe').within(() => {
 		cy.get('#closebutton').click()
