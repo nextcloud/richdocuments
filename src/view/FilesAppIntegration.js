@@ -174,6 +174,7 @@ export default {
 			return
 		}
 
+		// TRANSLATORS Title of the file picker for inserting a file into a document. {name} is the name of the Nextcloud instance from the theming settings, e.g. "Nextcloud", not an app name
 		getFilePickerBuilder(t('richdocuments', 'Insert file from {name}', { name: OC.theme.name }))
 			.setMimeTypeFilter(mimeTypeFilter)
 			.setFilter((node) => {
