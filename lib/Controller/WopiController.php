@@ -644,6 +644,13 @@ class WopiController extends Controller {
 			\OC_User::setIncognitoMode(true);
 		}
 
+		// A guest has no account the change could be attributed to, so the name they
+		// picked when opening the document is used instead
+		$guestDisplayname = $wopi->getGuestDisplayname();
+		if ($wopi->isGuest() && $guestDisplayname !== null && $guestDisplayname !== '') {
+			$this->userScopeService->setActivityActor($guestDisplayname);
+		}
+
 		try {
 			if ($isPutRelative) {
 				// the new file needs to be installed in the current user dir
