@@ -49,10 +49,10 @@ namespace OC\Files\Storage\Wrapper {
         public function touch(string $path, ?int $mtime = null): bool {};
         public function getLocalFile(string $path): string|false {};
         public function hasUpdated(string $path, int $time): bool {};
-        public function getCache(string $path = , ?IStorage $storage = null): ICache {};
-        public function getScanner(string $path = , ?IStorage $storage = null): IScanner {};
+        public function getCache(string $path = '', ?IStorage $storage = null): ICache {};
+        public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {};
         public function getOwner(string $path): string|false {};
-        public function getWatcher(string $path = , ?IStorage $storage = null): IWatcher {};
+        public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher {};
         public function getPropagator(?IStorage $storage = null): IPropagator {};
         public function getUpdater(?IStorage $storage = null): IUpdater {};
         public function getStorageCache(): OCFilesCacheStorage {};
