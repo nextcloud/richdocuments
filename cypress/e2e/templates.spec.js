@@ -191,6 +191,40 @@ describe('Global templates', function() {
 	})
 })
 
+describe('Template deduplication', function() {
+	const serverUrl = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
+	let randUser
+
+	before(function() {
+		cy.createRandomUser().then((user) => {
+			randUser = user
+			cy.createFolder(randUser, '/Templates')
+			cy.uploadFile(randUser, 'document.odt', 'application/vnd.oasis.opendocument.text', '/Templates/usertemplate.odt')
+
+			// The server stores this trailing-slash shape itself when it initialises
+			// the template directory, while the files personal settings store
+			// '/Templates'. Both point at the folder the server already serves.
+			cy.ocsRequest(randUser, {
+				method: 'POST',
+				url: `${serverUrl}/ocs/v2.php/apps/files/api/v1/templates/path?format=json`,
+				body: { templatePath: 'Templates/' },
+			})
+		})
+	})
+
+	it('Offers a user template only once', function() {
+		cy.login(randUser)
+		cy.visit('/apps/files')
+
+		cy.newFileFromMenu('document', 'FileFromUserTemplate')
+
+		cy.get('form.templates-picker__form').should('be.visible')
+		cy.get('.template-picker__title')
+			.filter(':contains("usertemplate")')
+			.should('have.length', 1)
+	})
+})
+
 describe('User templates', function() {
 	it.skip('Create a new file from a user template', function() {
 		cy.visit('/apps/files')
