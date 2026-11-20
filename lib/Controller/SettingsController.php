@@ -602,7 +602,6 @@ class SettingsController extends Controller {
 			}
 
 			$this->appConfig->setAppValue('wopi_url', $new_wopi_url);
-			$this->appConfig->setAppValue('disable_certificate_verification', 'yes');
 
 			$this->discoveryService->resetCache();
 			$this->capabilitiesService->resetCache();
