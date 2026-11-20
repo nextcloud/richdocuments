@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Tests\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Controller\SettingsController;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
@@ -23,6 +24,7 @@ use OCA\Richdocuments\Service\DiscoveryService;
 use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\TemplateManager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -63,12 +65,12 @@ class SettingsControllerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
-	private function makeController(): SettingsController {
+	private function makeController(?AppConfig $appConfig = null): SettingsController {
 		return new SettingsController(
 			'richdocuments',
 			$this->createMock(IRequest::class),
 			$this->createMock(IL10N::class),
-			$this->createMock(AppConfig::class),
+			$appConfig ?? $this->createMock(AppConfig::class),
 			$this->createMock(IConfig::class),
 			$this->connectivityService,
 			$this->createMock(DiscoveryService::class),
@@ -293,5 +295,27 @@ class SettingsControllerTest extends TestCase {
 			'wopi_url unchanged' => [null, 0],
 			'wopi_url changed' => ['https://collabora.example', 1],
 		];
+	}
+
+	public function testSetupCodeKeepsCertificateVerification(): void {
+		if (PHP_OS_FAMILY !== 'Linux' || !in_array(php_uname('m'), ['x86_64', 'aarch64'], true)) {
+			$this->markTestSkipped('The built-in CODE server is only set up on Linux x86_64 and aarch64');
+		}
+
+		$appConfig = $this->createMock(AppConfig::class);
+		$appConfig->method('getAppValue')->with('wopi_url')->willReturn('');
+		$appConfig->expects($this->once())
+			->method('setAppValue')
+			->with('wopi_url', 'https://cloud.example/apps/richdocumentscode/proxy.php?req=');
+
+		$urlGenerator = $this->createMock(IURLGenerator::class);
+		$urlGenerator->method('linkTo')->willReturn('/apps/richdocumentscode/');
+		$urlGenerator->method('getAbsoluteURL')->willReturnCallback(fn (string $url) => 'https://cloud.example' . $url);
+		$appManager = $this->createMock(IAppManager::class);
+		$appManager->method('isEnabledForUser')->willReturn(true);
+		$capabilities = $this->createMock(Capabilities::class);
+		$capabilities->method('getCapabilities')->willReturn(['richdocuments' => []]);
+
+		$this->makeController($appConfig)->setupCode($urlGenerator, $appManager, $capabilities);
 	}
 }
