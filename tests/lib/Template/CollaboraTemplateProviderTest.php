@@ -14,7 +14,6 @@ use OCA\Richdocuments\TemplateManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\Template;
@@ -108,7 +107,7 @@ class CollaboraTemplateProviderTest extends TestCase {
 		$serverTemplateManager = $this->createMock(ITemplateManager::class);
 		$serverTemplateManager->method('getTemplatePath')->willReturn($serverTemplatePath);
 
-		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder = $this->createMock(Folder::class);
 		if ($serverFolderId === null) {
 			$userFolder->expects(self::never())->method('get');
 		} else {
