@@ -267,18 +267,14 @@ class CachedRequestServiceTest extends TestCase {
 
 	public function testFetchSkipsWriteWhenContentUnchanged(): void {
 		$this->folder->expects($this->once())
-			->method('fileExists')
-			->with('unittest-cachekey')
-			->willReturn(true);
-		$this->folder->expects($this->once())
 			->method('getFile')
 			->with('unittest-cachekey')
 			->willReturn($this->file);
 		$this->file->expects($this->once())
 			->method('getContent')
 			->willReturn('default-response');
-		$this->file->expects($this->never())->method('putContent');
 		$this->folder->expects($this->never())->method('newFile');
+		$this->logger->expects($this->never())->method('warning');
 		// The distributed cache must still be refreshed
 		$this->cache->expects($this->once())
 			->method('set')
@@ -288,7 +284,6 @@ class CachedRequestServiceTest extends TestCase {
 	}
 
 	public function testFetchWritesWhenContentChanged(): void {
-		$this->folder->method('fileExists')->with('unittest-cachekey')->willReturn(true);
 		$this->folder->method('getFile')->with('unittest-cachekey')->willReturn($this->file);
 		$this->file->expects($this->once())
 			->method('getContent')
@@ -305,13 +300,13 @@ class CachedRequestServiceTest extends TestCase {
 
 	public function testFetchWritesWhenFileDoesNotExist(): void {
 		$this->folder->expects($this->once())
-			->method('fileExists')
+			->method('getFile')
 			->with('unittest-cachekey')
-			->willReturn(false);
-		$this->folder->expects($this->never())->method('getFile');
+			->willThrowException(new NotFoundException());
 		$this->folder->expects($this->once())
 			->method('newFile')
 			->with('unittest-cachekey', 'default-response');
+		$this->logger->expects($this->never())->method('warning');
 		$this->cache->expects($this->once())
 			->method('set')
 			->with('unittest-cachekey', 'default-response');
@@ -321,7 +316,7 @@ class CachedRequestServiceTest extends TestCase {
 
 	public function testFetchCreatesFolderAndWritesWhenFolderIsMissing(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
-		$folder->method('fileExists')->with('unittest-cachekey')->willReturn(false);
+		$folder->method('getFile')->willThrowException(new NotFoundException());
 		$folder->expects($this->once())
 			->method('newFile')
 			->with('unittest-cachekey', 'default-response');
@@ -361,7 +356,6 @@ class CachedRequestServiceTest extends TestCase {
 	 * @dataProvider unreadableFileExceptionProvider
 	 */
 	public function testFetchRewritesWhenStoredFileIsUnreadable(\Exception $exception): void {
-		$this->folder->method('fileExists')->with('unittest-cachekey')->willReturn(true);
 		$this->folder->method('getFile')->with('unittest-cachekey')->willReturn($this->file);
 		$this->file->expects($this->once())
 			->method('getContent')
@@ -370,6 +364,59 @@ class CachedRequestServiceTest extends TestCase {
 			->method('newFile')
 			->with('unittest-cachekey', 'default-response');
 		$this->logger->expects($this->once())->method('warning');
+
+		$this->assertEquals('default-response', $this->service->fetch());
+	}
+
+	public function testFetchPropagatesWriteExceptionAndLeavesCacheUntouchedWhenLockPersists(): void {
+		$this->folder->method('getFile')->with('unittest-cachekey')->willReturn($this->file);
+		$this->file->method('getContent')->willThrowException(new LockedException('unittest-cachekey'));
+		$this->folder->expects($this->once())
+			->method('newFile')
+			->with('unittest-cachekey', 'default-response')
+			->willThrowException(new LockedException('unittest-cachekey'));
+		$this->cache->expects($this->never())->method('set');
+		$this->logger->expects($this->once())->method('warning');
+
+		$this->expectException(LockedException::class);
+		$this->service->fetch();
+	}
+
+	public function testFetchSkipsFileReadWhenCacheMatches(): void {
+		$this->cache->method('get')->with('unittest-cachekey')->willReturn('default-response');
+		$this->folder->expects($this->once())
+			->method('getFile')
+			->with('unittest-cachekey')
+			->willReturn($this->file);
+		$this->file->expects($this->never())->method('getContent');
+		$this->folder->expects($this->never())->method('newFile');
+		$this->cache->expects($this->once())
+			->method('set')
+			->with('unittest-cachekey', 'default-response');
+
+		$this->assertEquals('default-response', $this->service->fetch());
+	}
+
+	public function testFetchRecreatesFileWhenCacheMatchesButFileIsMissing(): void {
+		$this->cache->method('get')->with('unittest-cachekey')->willReturn('default-response');
+		// Called by storedFileExists() and then again by writeIfChanged()
+		$this->folder->method('getFile')
+			->with('unittest-cachekey')
+			->willThrowException(new NotFoundException());
+		$this->folder->expects($this->once())
+			->method('newFile')
+			->with('unittest-cachekey', 'default-response');
+
+		$this->assertEquals('default-response', $this->service->fetch());
+	}
+
+	public function testFetchComparesWithFileWhenCacheDiffers(): void {
+		$this->cache->method('get')->with('unittest-cachekey')->willReturn('old-response');
+		$this->folder->method('getFile')->with('unittest-cachekey')->willReturn($this->file);
+		$this->file->expects($this->once())
+			->method('getContent')
+			->willReturn('default-response');
+		$this->folder->expects($this->never())->method('newFile');
 
 		$this->assertEquals('default-response', $this->service->fetch());
 	}
