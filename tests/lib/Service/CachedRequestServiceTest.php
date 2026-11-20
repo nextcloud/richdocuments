@@ -22,6 +22,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\Lock\LockedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -262,5 +263,114 @@ class CachedRequestServiceTest extends TestCase {
 		$this->expectException(\RuntimeException::class);
 		$this->expectExceptionMessage('Remote endpoint unreachable!');
 		$service->fetch();
+	}
+
+	public function testFetchSkipsWriteWhenContentUnchanged(): void {
+		$this->folder->expects($this->once())
+			->method('fileExists')
+			->with('unittest-cachekey')
+			->willReturn(true);
+		$this->folder->expects($this->once())
+			->method('getFile')
+			->with('unittest-cachekey')
+			->willReturn($this->file);
+		$this->file->expects($this->once())
+			->method('getContent')
+			->willReturn('default-response');
+		$this->file->expects($this->never())->method('putContent');
+		$this->folder->expects($this->never())->method('newFile');
+		// The distributed cache must still be refreshed
+		$this->cache->expects($this->once())
+			->method('set')
+			->with('unittest-cachekey', 'default-response');
+
+		$this->assertEquals('default-response', $this->service->fetch());
+	}
+
+	public function testFetchWritesWhenContentChanged(): void {
+		$this->folder->method('fileExists')->with('unittest-cachekey')->willReturn(true);
+		$this->folder->method('getFile')->with('unittest-cachekey')->willReturn($this->file);
+		$this->file->expects($this->once())
+			->method('getContent')
+			->willReturn('old-response');
+		$this->folder->expects($this->once())
+			->method('newFile')
+			->with('unittest-cachekey', 'default-response');
+		$this->cache->expects($this->once())
+			->method('set')
+			->with('unittest-cachekey', 'default-response');
+
+		$this->assertEquals('default-response', $this->service->fetch());
+	}
+
+	public function testFetchWritesWhenFileDoesNotExist(): void {
+		$this->folder->expects($this->once())
+			->method('fileExists')
+			->with('unittest-cachekey')
+			->willReturn(false);
+		$this->folder->expects($this->never())->method('getFile');
+		$this->folder->expects($this->once())
+			->method('newFile')
+			->with('unittest-cachekey', 'default-response');
+		$this->cache->expects($this->once())
+			->method('set')
+			->with('unittest-cachekey', 'default-response');
+
+		$this->assertEquals('default-response', $this->service->fetch());
+	}
+
+	public function testFetchCreatesFolderAndWritesWhenFolderIsMissing(): void {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->method('fileExists')->with('unittest-cachekey')->willReturn(false);
+		$folder->expects($this->once())
+			->method('newFile')
+			->with('unittest-cachekey', 'default-response');
+
+		$appData = $this->createMock(IAppData::class);
+		$appData->method('getFolder')->willThrowException(new NotFoundException());
+		$appData->expects($this->once())
+			->method('newFolder')
+			->with('remoteData')
+			->willReturn($folder);
+
+		$appDataFactory = $this->createMock(IAppDataFactory::class);
+		$appDataFactory->method('get')->willReturn($appData);
+
+		$service = new TestCachedRequestService(
+			$this->clientService,
+			$this->cacheFactory,
+			$appDataFactory,
+			$this->appConfig,
+			$this->logger,
+			'unittest-cachekey'
+		);
+
+		$this->assertEquals('default-response', $service->fetch());
+	}
+
+	public static function unreadableFileExceptionProvider(): array {
+		return [
+			'file vanished' => [new NotFoundException()],
+			'not permitted' => [new NotPermittedException()],
+			'generic file error' => [new GenericFileException()],
+			'locked' => [new LockedException('unittest-cachekey')],
+		];
+	}
+
+	/**
+	 * @dataProvider unreadableFileExceptionProvider
+	 */
+	public function testFetchRewritesWhenStoredFileIsUnreadable(\Exception $exception): void {
+		$this->folder->method('fileExists')->with('unittest-cachekey')->willReturn(true);
+		$this->folder->method('getFile')->with('unittest-cachekey')->willReturn($this->file);
+		$this->file->expects($this->once())
+			->method('getContent')
+			->willThrowException($exception);
+		$this->folder->expects($this->once())
+			->method('newFile')
+			->with('unittest-cachekey', 'default-response');
+		$this->logger->expects($this->once())->method('warning');
+
+		$this->assertEquals('default-response', $this->service->fetch());
 	}
 }
