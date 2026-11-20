@@ -47,6 +47,9 @@ use Psr\Log\LoggerInterface;
 
 class WopiControllerTest extends TestCase {
 	private const UPLOAD_RESULT = ['stamp' => 'etag', 'uri' => 'https://localhost/file'];
+	/** The SHA-256 of the empty string, as stored (hex) and as the WOPI SHA256 field carries it (Base64). */
+	private const SHA256_HEX = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
+	private const SHA256_BASE64 = '47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=';
 
 	private WopiMapper $wopiMapper;
 	private IGroupManager $groupManager;
@@ -407,6 +410,7 @@ class WopiControllerTest extends TestCase {
 		$file->method('getSize')->willReturn(1);
 		$file->method('getMTime')->willReturn(0);
 		$file->method('getId')->willReturn(1);
+		$file->method('getChecksum')->willReturn('');
 
 		$userFolder = $this->createMock(IUserFolder::class);
 		$userFolder->method('getById')->willReturn([$file]);
@@ -423,5 +427,74 @@ class WopiControllerTest extends TestCase {
 
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 		$this->assertArrayNotHasKey('UserSettings', $response->getData());
+	}
+
+	/**
+	 * Registers a file for the token to resolve to, carrying the given stored checksums.
+	 */
+	private function givenFileWithChecksum(string $checksum): void {
+		$file = $this->createMock(File::class);
+		$file->method('getName')->willReturn('document.odt');
+		$file->method('getSize')->willReturn(1);
+		$file->method('getMTime')->willReturn(0);
+		$file->method('getId')->willReturn(1);
+		$file->method('getChecksum')->willReturn($checksum);
+
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getById')->willReturn([$file]);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
+	}
+
+	/**
+	 * The hash is stored as TYPE:HEX next to whatever a sync client left there; WOPI wants the
+	 * raw digest Base64-encoded.
+	 */
+	public function testCheckFileInfoReportsTheStoredSha256AsBase64(): void {
+		$this->givenToken(Wopi::TOKEN_TYPE_USER, 'user');
+		$this->givenFileWithChecksum('MD5:d41d8cd98f00b204e9800998ecf8427e sha256:' . strtoupper(self::SHA256_HEX));
+
+		$response = $this->makeController()->checkFileInfo('1_instanceid', 'token');
+
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+		$this->assertSame(self::SHA256_BASE64, $response->getData()['SHA256']);
+	}
+
+	public static function checksumWithoutSha256Provider(): array {
+		return [
+			'nothing on record' => [''],
+			'only other algorithms' => ['MD5:d41d8cd98f00b204e9800998ecf8427e SHA1:da39a3ee5e6b4b0d3255bfef95601890afd80709'],
+			'truncated digest' => ['SHA256:' . substr(self::SHA256_HEX, 1)],
+			'not hexadecimal' => ['SHA256:' . str_repeat('z', 64)],
+		];
+	}
+
+	/**
+	 * Without a usable hash the field is left out, so that the editor falls back as it does today
+	 * rather than compare against garbage.
+	 *
+	 * @dataProvider checksumWithoutSha256Provider
+	 */
+	public function testCheckFileInfoReportsNoSha256WithoutAUsableOne(string $checksum): void {
+		$this->givenToken(Wopi::TOKEN_TYPE_USER, 'user');
+		$this->givenFileWithChecksum($checksum);
+
+		$response = $this->makeController()->checkFileInfo('1_instanceid', 'token');
+
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+		$this->assertArrayNotHasKey('SHA256', $response->getData());
+	}
+
+	/**
+	 * The hash on record describes the current contents. A version is served from the versions
+	 * app, so it must not be presented as having that hash.
+	 */
+	public function testCheckFileInfoReportsNoSha256ForAVersion(): void {
+		$this->givenToken(Wopi::TOKEN_TYPE_USER, 'user');
+		$this->givenFileWithChecksum('SHA256:' . self::SHA256_HEX);
+
+		$response = $this->makeController()->checkFileInfo('1_instanceid_1234', 'token');
+
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+		$this->assertArrayNotHasKey('SHA256', $response->getData());
 	}
 }
