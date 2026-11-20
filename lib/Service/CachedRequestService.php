@@ -86,7 +86,12 @@ abstract class CachedRequestService {
 		$duration = round(((microtime(true) - $startTime)), 3);
 		$this->logger->info("Fetched remote endpoint from $this->cacheKey in $duration seconds");
 
-		$this->writeIfChanged($response);
+		if ($cache->get($this->cacheKey) === $response && $this->storedFileExists()) {
+			$this->logger->debug("Remote data for {$this->cacheKey} matches cache, skipping appdata write.");
+		} else {
+			$this->writeIfChanged($response);
+		}
+
 		$cache->set($this->cacheKey, $response);
 		return $response;
 	}
@@ -203,20 +208,39 @@ abstract class CachedRequestService {
 	}
 
 	/**
+	 * Checks if the stored file exists in appdata.
+	 *
+	 * @return bool True if the file exists; false otherwise.
+	 */
+	private function storedFileExists(): bool {
+		try {
+			$this->getAppDataFolder()->getFile($this->cacheKey);
+			return true;
+		} catch (NotFoundException) {
+			return false;
+		}
+	}
+
+	/**
 	 * Only write the remote data to appdata if it differs from the stored copy, to avoid unnecessary disk writes.
 	 */
 	private function writeIfChanged(string $content): void {
 		$folder = $this->getAppDataFolder();
 
-		if ($folder->fileExists($this->cacheKey)) {
-			try {
-				if ($folder->getFile($this->cacheKey)->getContent() === $content) {
-					$this->logger->debug("Remote data for {$this->cacheKey} is unchanged, skipping write.");
-					return;
-				}
-			} catch (NotFoundException|GenericFileException|NotPermittedException|LockedException $e) {
-				$this->logger->warning("Could not read existing remote data for {$this->cacheKey} to compare before writing.", ['exception' => $e]);
+		try {
+			$file = $folder->getFile($this->cacheKey);
+		} catch (NotFoundException) {
+			$folder->newFile($this->cacheKey, $content);
+			return;
+		}
+
+		try {
+			if ($file->getContent() === $content) {
+				$this->logger->debug("Remote data for {$this->cacheKey} is unchanged, skipping write.");
+				return;
 			}
+		} catch (NotFoundException|GenericFileException|NotPermittedException|LockedException $e) {
+			$this->logger->warning("Could not read existing remote data for {$this->cacheKey} to compare before writing.", ['exception' => $e]);
 		}
 
 		$folder->newFile($this->cacheKey, $content);
