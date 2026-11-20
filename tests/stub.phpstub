@@ -116,6 +116,10 @@ namespace OCA\DAV\Connector\Sabre {
 	class FilesPlugin {
 		public const SHARE_HIDE_DOWNLOAD_PROPERTYNAME = 'somePropertyName';
 	}
+
+	class PublicAuth {
+		public static function isShareInSession(\OCP\ISession $session, \OCP\Share\IShare $share): bool {}
+	}
 }
 
 namespace OCA\DAV\Events {
