@@ -72,6 +72,7 @@ OC.L10N.register(
     "Save As" : "Зачувај како",
     "Save" : "Зачувај",
     "Save as" : "Зачувај како",
+    "Checking…" : "Проверка...",
     "Select template" : "Избери шаблон",
     "File name" : "Име на датотека",
     "Create" : "Креирај",
