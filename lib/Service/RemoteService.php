@@ -140,13 +140,18 @@ class RemoteService {
 			$options['verify'] = false;
 		}
 
-		$options['query'] = ['filter' => $filter];
+		// The filter is a form field like the file, as the Collabora URL may carry a query string
+		// of its own, like the built-in CODE server's proxy.php?req=
 		$options['multipart'] = [
 			[
 				'name' => 'data',
 				'filename' => $filename,
 				'contents' => $stream,
 				'headers' => [ 'Content-Type' => 'multipart/form-data' ],
+			],
+			[
+				'name' => 'filter',
+				'contents' => $filter,
 			],
 		];
 
