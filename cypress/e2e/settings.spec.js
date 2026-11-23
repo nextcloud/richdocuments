@@ -176,13 +176,18 @@ describe('Secure view tag enforcement', function() {
 	 * Enable secure view and enforce it on the tag created for this test
 	 */
 	function enforceSecureViewOnTag() {
+		// Saving disables every checkbox until the request settles. A disabled
+		// input fires no change event, so forcing the click through would
+		// silently drop it and no save request would follow.
 		cy.contains('.settings-entry', 'Enable secure view')
 			.find('input[type=checkbox]')
+			.should('not.be.disabled')
 			.check({ force: true })
 		cy.wait('@updateWatermark')
 
 		cy.contains('.settings-entry', 'Enforce secure view on tagged files')
 			.find('input[type=checkbox]')
+			.should('not.be.disabled')
 			.check({ force: true })
 		cy.wait('@updateWatermark')
 
