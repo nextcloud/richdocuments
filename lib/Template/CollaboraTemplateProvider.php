@@ -12,6 +12,7 @@ namespace OCA\Richdocuments\Template;
 
 use OCA\Richdocuments\TemplateManager;
 use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
@@ -23,6 +24,8 @@ class CollaboraTemplateProvider implements ICustomTemplateProvider {
 		private TemplateManager $templateManager,
 		private IURLGenerator $urlGenerator,
 		private ITemplateManager $coreTemplateManager,
+		private IRootFolder $rootFolder,
+		private ?string $userId,
 	) {
 	}
 
@@ -53,12 +56,21 @@ class CollaboraTemplateProvider implements ICustomTemplateProvider {
 		}, $collaboraTemplates);
 	}
 
+	/**
+	 * Whether the server already serves templates from the same folder. Its
+	 * template path is stored in varying shapes, so the folders themselves are
+	 * compared rather than their paths.
+	 */
 	private function isSameUserTemplateFolder(): bool {
+		$serverTemplatePath = $this->coreTemplateManager->getTemplatePath();
+		if ($serverTemplatePath === '' || $this->userId === null) {
+			return false;
+		}
+
 		try {
-			$userTemplatesFolder = $this->templateManager->getUserTemplateDir();
-			$internalPath = $userTemplatesFolder->getInternalPath();
-			$userTemplatePath = mb_strpos($internalPath, 'files/') === 0 ? mb_substr($internalPath, 5): $internalPath;
-			return $this->coreTemplateManager->getTemplatePath() === $userTemplatePath;
+			$serverTemplatesFolder = $this->rootFolder->getUserFolder($this->userId)->get($serverTemplatePath);
+
+			return $serverTemplatesFolder->getId() === $this->templateManager->getUserTemplateDir()->getId();
 		} catch (NotFoundException) {
 		}
 		return false;
