@@ -116,11 +116,18 @@ describe('Global templates', function() {
 	})
 
 	it('Can be created by a user', () => {
+		cy.intercept('POST', '**/richdocuments/template').as('templateUploadRequest')
 		cy.uploadSystemTemplate({
 			fixturePath: 'templates/presentation.otp',
 			fileName: 'systemtemplate.otp',
 			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
 		})
+
+		// Logging in navigates away, which aborts an upload that is still in
+		// flight and leaves the template picker without the template.
+		cy.wait('@templateUploadRequest')
+			.its('response.statusCode')
+			.should('equal', 201)
 
 		cy.login(randUser)
 		cy.visit('/apps/files')
