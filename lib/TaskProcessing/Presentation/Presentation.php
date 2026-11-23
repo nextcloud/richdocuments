@@ -8,7 +8,7 @@
 namespace OCA\Richdocuments\TaskProcessing\Presentation;
 
 class Presentation {
-	/** @var ISlide[] $slides */
+	/** @var list<ISlide> $slides */
 	private $slides = [];
 
 	/** @var string $style */
@@ -25,7 +25,7 @@ class Presentation {
 	}
 
 	/**
-	 * @return ISlide[] Array of slides in the presentation
+	 * @return list<ISlide> Array of slides in the presentation
 	 */
 	public function getSlides(): array {
 		return $this->slides;
