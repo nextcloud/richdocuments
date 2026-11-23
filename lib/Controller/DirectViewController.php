@@ -25,7 +25,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -123,34 +122,30 @@ class DirectViewController extends Controller {
 				return $response;
 			}
 
-			if ($node instanceof Node) {
-				$params = [
-					'permissions' => $share->getPermissions(),
-					'title' => $node->getName(),
-					'fileId' => $node->getId() . '_' . $this->config->getSystemValueString('instanceid'),
-					'path' => '/',
-					'userId' => null,
-					'direct' => true,
-					'directGuest' => empty($direct->getUid()),
-				];
+			$params = [
+				'permissions' => $share->getPermissions(),
+				'title' => $node->getName(),
+				'fileId' => $node->getId() . '_' . $this->config->getSystemValueString('instanceid'),
+				'path' => '/',
+				'userId' => null,
+				'direct' => true,
+				'directGuest' => empty($direct->getUid()),
+			];
 
-				$urlSrc = $this->tokenManager->getUrlSrc($node);
-				$wopi = $this->tokenManager->generateWopiToken((string)$node->getId(), $direct->getShare(), $direct->getUid(), true);
-				if (!empty($direct->getInitiatorHost())) {
-					$this->tokenManager->upgradeFromDirectInitiator($direct, $wopi);
-				}
-				$params['token'] = $wopi->getToken();
-				$params['token_ttl'] = $wopi->getExpiry();
-				$params['urlsrc'] = $urlSrc;
-
-				return $this->documentTemplateResponse($wopi, $params);
+			$urlSrc = $this->tokenManager->getUrlSrc($node);
+			$wopi = $this->tokenManager->generateWopiToken((string)$node->getId(), $direct->getShare(), $direct->getUid(), true);
+			if (!empty($direct->getInitiatorHost())) {
+				$this->tokenManager->upgradeFromDirectInitiator($direct, $wopi);
 			}
+			$params['token'] = $wopi->getToken();
+			$params['token_ttl'] = $wopi->getExpiry();
+			$params['urlsrc'] = $urlSrc;
+
+			return $this->documentTemplateResponse($wopi, $params);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
-
-		return new TemplateResponse('core', '403', [], 'guest');
 	}
 
 	private function renderErrorPage($message) {
