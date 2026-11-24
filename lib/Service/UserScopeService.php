@@ -8,6 +8,7 @@ namespace OCA\Richdocuments\Service;
 
 use InvalidArgumentException;
 use OC_Util;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
@@ -15,6 +16,7 @@ class UserScopeService {
 	public function __construct(
 		private IUserSession $userSession,
 		private IUserManager $userManager,
+		private IActivityManager $activityManager,
 	) {
 	}
 
@@ -35,6 +37,22 @@ class UserScopeService {
 		}
 
 		$this->userSession->setVolatileActiveUser($user);
+	}
+
+	/**
+	 * Name the actor that activities are recorded under
+	 *
+	 * Without this the activity app reads the actor from the session, which is
+	 * empty for a guest on a public share, and the activity ends up attributed
+	 * to nobody.
+	 *
+	 * An actor containing an @ is taken for a federated cloud id, which either
+	 * renders the activity as an account on a made up instance or, for a name
+	 * the cloud id parser rejects, drops the activity altogether. The character
+	 * is therefore removed rather than passed on.
+	 */
+	public function setActivityActor(string $actor): void {
+		$this->activityManager->setCurrentUserId(str_replace('@', '', $actor));
 	}
 
 	/**
