@@ -274,10 +274,10 @@ Cypress.Commands.add('disableOnboardingTour', () => {
 Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) => {
 	const wrappedFrameIdentifier = federated ? 'coolframe' : 'documentframe'
 	if (wrapped) {
+		// checkVisibility() reports a frame body as hidden even once it renders.
 		cy.get(`[data-cy="${wrappedFrameIdentifier}"]`, { timeout: 30000 })
 			.its('0.contentDocument')
 			.its('body').should('not.be.empty')
-			.should('be.visible').should('not.be.empty')
 			.as('collaboraframe')
 	}
 
