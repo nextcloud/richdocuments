@@ -356,13 +356,10 @@ export default {
 		}
 
 		if (this.activeFileid) {
-			const fileList = OCA?.Files?.App?.getCurrentFileList?.()
 			FilesAppIntegration.init({
 				fileName: basename(this.activeFilename),
 				fileId: this.activeFileid,
 				filePath: dirname(this.activeFilename),
-				fileList,
-				fileModel: fileList?.getModelForFile(basename(this.activeFilename)),
 				sendPostMessage: (msgId, values) => {
 					this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 				},
@@ -528,13 +525,10 @@ export default {
 			this.activeFileid = node.fileid
 
 			// FilesAppIntegration keeps its own copy of the file identity
-			const fileList = OCA?.Files?.App?.getCurrentFileList?.()
 			FilesAppIntegration.init({
 				fileName: node.basename,
 				fileId: node.fileid,
 				filePath: node.dirname,
-				fileList,
-				fileModel: fileList?.getModelForFile(node.basename),
 				sendPostMessage: (msgId, values) => {
 					this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 				},
