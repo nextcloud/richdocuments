@@ -15,6 +15,7 @@ export default defineConfig({
 	chromeWebSecurity: false,
 	modifyObstructiveCode: false,
 	e2e: {
+		defaultBrowser: 'chromium',
 		setupNodeEvents(on, config) {
 			return setupPlugins(on, config)
 		},
