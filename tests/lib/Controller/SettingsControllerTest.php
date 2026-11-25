@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Tests\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Controller\SettingsController;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
@@ -21,6 +22,7 @@ use OCA\Richdocuments\Service\DiscoveryService;
 use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\TemplateManager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
@@ -56,12 +58,12 @@ class SettingsControllerTest extends TestCase {
 		$this->settingsService = $this->createMock(SettingsService::class);
 	}
 
-	private function makeController(): SettingsController {
+	private function makeController(?AppConfig $appConfig = null): SettingsController {
 		return new SettingsController(
 			'richdocuments',
 			$this->createMock(IRequest::class),
 			$this->createMock(IL10N::class),
-			$this->createMock(AppConfig::class),
+			$appConfig ?? $this->createMock(AppConfig::class),
 			$this->createMock(IConfig::class),
 			$this->createMock(ConnectivityService::class),
 			$this->createMock(DiscoveryService::class),
