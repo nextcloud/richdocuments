@@ -9,10 +9,12 @@ namespace OCA\Richdocuments;
 
 use DateTime;
 use DateTimeZone;
+use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\ISession;
 use OCP\Share\IShare;
 
 class Helper {
@@ -100,5 +102,22 @@ class Helper {
 			return $storage->getShare();
 		}
 		return null;
+	}
+
+	/**
+	 * Check if the password of a public share was verified in the session
+	 *
+	 * Uses the public static PublicAuth::isShareInSession of the server to
+	 * compare the current password hash, falls back to the authenticated
+	 * share ids on server releases without it.
+	 */
+	public static function isShareAuthenticated(ISession $session, IShare $share): bool {
+		if (is_callable([PublicAuth::class, 'isShareInSession'])) {
+			return PublicAuth::isShareInSession($session, $share);
+		}
+
+		$authenticatedLinks = $session->get('public_link_authenticated');
+		return (is_array($authenticatedLinks) && in_array($share->getId(), $authenticatedLinks))
+			|| $authenticatedLinks === $share->getId();
 	}
 }
