@@ -17,6 +17,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
+use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
@@ -86,7 +87,7 @@ abstract class CachedRequestService {
 		$duration = round(((microtime(true) - $startTime)), 3);
 		$this->logger->info("Fetched remote endpoint from $this->cacheKey in $duration seconds");
 
-		if ($cache->get($this->cacheKey) === $response && $this->storedFileExists()) {
+		if ($this->cacheMatches($cache, $response) && $this->storedFileExists()) {
 			$this->logger->debug("Remote data for {$this->cacheKey} matches cache, skipping appdata write.");
 		} else {
 			$this->writeIfChanged($response);
@@ -217,6 +218,21 @@ abstract class CachedRequestService {
 			$this->getAppDataFolder()->getFile($this->cacheKey);
 			return true;
 		} catch (NotFoundException) {
+			return false;
+		}
+	}
+
+	/**
+	 * Checks if the distributed cache already holds the same response.
+	 * A cache read error is treated as a cache miss, so the file is still written.
+	 *
+	 * @return bool True if the cached value matches the response; false otherwise.
+	 */
+	private function cacheMatches(ICache $cache, string $response): bool {
+		try {
+			return $cache->get($this->cacheKey) === $response;
+		} catch (\Throwable $e) {
+			$this->logger->warning("Could not read remote data for {$this->cacheKey} from cache.", ['exception' => $e]);
 			return false;
 		}
 	}

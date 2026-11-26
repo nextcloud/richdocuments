@@ -420,4 +420,15 @@ class CachedRequestServiceTest extends TestCase {
 
 		$this->assertEquals('default-response', $this->service->fetch());
 	}
+
+	public function testFetchStillWritesFileWhenCacheReadFails(): void {
+		$this->cache->method('get')->willThrowException(new \RuntimeException('Distributed cache unavailable'));
+		$this->folder->method('getFile')->with('unittest-cachekey')->willThrowException(new NotFoundException());
+		$this->folder->expects($this->once())
+			->method('newFile')
+			->with('unittest-cachekey', 'default-response');
+		$this->logger->expects($this->once())->method('warning');
+
+		$this->assertEquals('default-response', $this->service->fetch());
+	}
 }
