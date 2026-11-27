@@ -14,10 +14,12 @@ use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\SecureViewService;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class SecureViewWrapper extends Wrapper {
 	private PermissionManager $permissionManager;
@@ -82,6 +84,34 @@ class SecureViewWrapper extends Wrapper {
 		$this->checkSourceAndTarget($source, $target);
 
 		return parent::rename($source, $target);
+	}
+
+	#[\Override]
+	public function getDirectDownload(string $path): array|false {
+		$download = parent::getDirectDownload($path);
+		return $download && $this->isDirectDownloadAllowed($path) ? $download : false;
+	}
+
+	#[\Override]
+	public function getDirectDownloadById(string $fileId): array|false {
+		$download = parent::getDirectDownloadById($fileId);
+		if (!$download) {
+			return false;
+		}
+
+		$path = $this->getCache()->getPathById((int)$fileId);
+		return $path !== null && $this->isDirectDownloadAllowed($path) ? $download : false;
+	}
+
+	private function isDirectDownloadAllowed(string $path): bool {
+		try {
+			return !$this->secureViewService->shouldSecure($path, $this, false);
+		} catch (NotFoundException) {
+			return false;
+		} catch (\Throwable $e) {
+			Server::get(LoggerInterface::class)->warning('Could not check secure view for a direct download, denying it', ['exception' => $e]);
+			return false;
+		}
 	}
 
 	/**
