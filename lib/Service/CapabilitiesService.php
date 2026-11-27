@@ -15,10 +15,11 @@ use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesService extends CachedRequestService {
+
+	public const DEFAULT_PRODUCT_NAME = 'Collabora Online';
 
 	private ?array $capabilities = null;
 
@@ -30,7 +31,6 @@ class CapabilitiesService extends CachedRequestService {
 		private LoggerInterface $logger,
 		private IConfig $config,
 		private IAppManager $appManager,
-		private IL10N $l10n,
 	) {
 		parent::__construct(
 			$this->clientService,
@@ -66,10 +66,6 @@ class CapabilitiesService extends CachedRequestService {
 		return $this->getCapabilities()['productName'] ?? null;
 	}
 
-	public function hasNextcloudBranding(): bool {
-		return $this->isVersionAtLeast('21.11');
-	}
-
 	public function hasTemplateSource(): bool {
 		return $this->getCapabilities()['hasTemplateSource'] ?? false;
 	}
@@ -102,12 +98,13 @@ class CapabilitiesService extends CachedRequestService {
 
 	public function getProductName(): string {
 		$theme = $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud');
+		$name = $this->getCapabilities()['productName'] ?? null;
 
-		if (isset($this->getCapabilities()['productName']) && $theme !== 'nextcloud') {
-			return $this->getCapabilities()['productName'];
+		if ($theme !== 'nextcloud' && is_string($name) && trim($name) !== '') {
+			return $name;
 		}
 
-		return $this->l10n->t('Nextcloud Office (Collabora)');
+		return self::DEFAULT_PRODUCT_NAME;
 	}
 
 	public function isEnterprise(): bool {
