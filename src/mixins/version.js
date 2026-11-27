@@ -37,7 +37,7 @@ export default {
 		},
 		async handlePreRestoreAck() {
 			const restoreUrl = getRootUrl() + '/remote.php/dav/versions/' + getCurrentUser().uid
-				+ '/versions/' + this.fileid + '/' + this.versionToRestore.fileVersion
+				+ '/versions/' + this.tokenRequestParams().fileId + '/' + this.versionToRestore.fileVersion
 			try {
 				await axios({
 					method: 'MOVE',
