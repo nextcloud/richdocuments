@@ -28,9 +28,9 @@ OC.L10N.register(
     "Spreadsheet" : "Izklājlapa",
     "Presentation" : "Prezentācija",
     "Images" : "Attēli",
-    "Office" : "Birojs",
     "Instructions" : "Norādes gatavošanai",
     "Empty" : "Tukšs",
+    "Collabora Online" : "Collabora Online",
     "New" : "Jauns",
     "Failed to save settings" : "Neizdevās saglabāt iestatījumus",
     "Setting up a new server" : "Jauna servera iestatīšana",
@@ -62,6 +62,7 @@ OC.L10N.register(
     "Details" : "Informācija",
     "Download" : "Lejupielādēt",
     "Guest" : "Viesis",
-    "New file" : "Jauna datne"
+    "New file" : "Jauna datne",
+    "Office" : "Birojs"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Empty" : "Vacío",
     "Anonymous guest" : "Invitado anónimo",
     "%s (Guest)" : "%s (Invitado)",
+    "Collabora Online" : "Collabora Online",
     "New" : "Nuevo",
     "Advanced settings" : "Configuraciones avanzados",
     "Restrict usage to specific groups" : "Limitar uso a grupos específicos",

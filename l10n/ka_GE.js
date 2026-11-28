@@ -16,6 +16,7 @@ OC.L10N.register(
     "Invalid file provided" : "არასწორი ფაილი",
     "Images" : "სურათები",
     "Empty" : "ცარიელი",
+    "Collabora Online" : "Collabora Online",
     "New" : "ახალი",
     "Advanced settings" : "დამატებითი პარამეტრები",
     "Restrict usage to specific groups" : "მოხმარების სპეციფიურ ჯგუფებზე შეზღუდვა",

@@ -17,6 +17,7 @@ OC.L10N.register(
     "Presentation" : "Presentacion",
     "Headings" : "Títols",
     "Images" : "Imatges",
+    "Collabora Online" : "Collabora en linha",
     "New" : "Nòu",
     "Failed to save settings" : "Fracàs de l’enregistrament dels paramètres",
     "Advanced settings" : "Paramètres avançats",
