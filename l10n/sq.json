@@ -16,8 +16,8 @@
     "Spreadsheet" : "Fletëllogaritje",
     "Presentation" : "Paraqitje",
     "Images" : "Imazhe ",
-    "Office" : "Zyrë",
     "Empty" : "Bosh",
+    "Collabora Online" : "Collabora Online",
     "New" : "I ri",
     "Advanced settings" : "Rregullime të mëtejshme",
     "Select groups" : "Përzgjidhni grupe",
@@ -40,6 +40,7 @@
     "Details" : "Detajet",
     "Download" : "Shkarko",
     "Guest" : "I ftuar",
-    "New file" : "Skedë e re"
+    "New file" : "Skedë e re",
+    "Office" : "Zyrë"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

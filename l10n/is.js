@@ -43,15 +43,14 @@ OC.L10N.register(
     "Images" : "Myndir",
     "Sheets" : "Blöð",
     "Slides" : "Skyggnur",
-    "Office" : "Skrifstofa",
     "Instructions" : "Leiðbeiningar",
     "Empty" : "Tómt",
     "Anonymous guest" : "Nafnlaus gestur",
     "%s (Guest)" : "%s (gestur)",
+    "Collabora Online" : "Collabora Online",
     "Edit office documents directly in your browser." : "Breyttu skrifstofuskjölum beint í vafranum þínum.",
     "New" : "Nýtt",
     "Failed to save settings" : "Mistókst að vista stillingar",
-    "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online er öflugur vöndull vinnuforrita byggður á LibreOffice og er með hópvinnslueiginleikum sem styðja við skráasnið allra helstu gerða skjala, töflureikna og kynninga, auk þess að virka í öllum nútímalegum vöfrum.",
     "Use your own server" : "Notaðu þinn eigin þjón",
     "URL (and Port) of Collabora Online-server" : "URL-slóð (og gátt) Collabora Online þjónsins",
     "Disable certificate verification (insecure)" : "Gera sannvottun skilríkja óvirka (óöruggt)",
@@ -98,6 +97,8 @@ OC.L10N.register(
     "Guest" : "Gestur",
     "Follow current editor" : "Fylgjast með núverandi skrifara",
     "New file" : "Ný skrá",
-    "Nextcloud Office" : "Nextcloud Office"
+    "Nextcloud Office" : "Nextcloud Office",
+    "Office" : "Skrifstofa",
+    "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online er öflugur vöndull vinnuforrita byggður á LibreOffice og er með hópvinnslueiginleikum sem styðja við skráasnið allra helstu gerða skjala, töflureikna og kynninga, auk þess að virka í öllum nútímalegum vöfrum."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

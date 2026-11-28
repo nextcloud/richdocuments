@@ -33,11 +33,11 @@
     "Diagram" : "Kaavio",
     "Headings" : "Otsikot",
     "Images" : "Kuvat",
-    "Office" : "Toimisto",
     "Instructions" : "Ohjeet",
     "Empty" : "Tyhjä",
     "Anonymous guest" : "Anonyymi vieras",
     "%s (Guest)" : "%s (vieras)",
+    "Collabora Online" : "Collabora Online",
     "Edit office documents directly in your browser." : "Muokkaa asiakirjoja suoraan selaimessasi.",
     "New" : "Uusi",
     "Failed to save settings" : "Asetusten tallentaminen epäonnistui",
@@ -103,6 +103,7 @@
     "Remove user" : "Poista käyttäjä",
     "Guest" : "Vieras",
     "New file" : "Uusi tiedosto",
+    "Office" : "Toimisto",
     "Loading available demo servers …" : "Ladataan saatavilla olevia demopalvelimia…",
     "Loading {filename} …" : "Ladataan {filename}…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

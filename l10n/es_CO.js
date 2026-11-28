@@ -23,6 +23,7 @@ OC.L10N.register(
     "New spreadsheet" : "Nueva hoja de cálculo",
     "Images" : "Imágenes",
     "Empty" : "Vacío",
+    "Collabora Online" : "Collabora Online",
     "New" : "Nuevo",
     "Advanced settings" : "Configuraciones avanzados",
     "Restrict usage to specific groups" : "Limitar uso a grupos específicos",

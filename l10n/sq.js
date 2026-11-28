@@ -18,8 +18,8 @@ OC.L10N.register(
     "Spreadsheet" : "Fletëllogaritje",
     "Presentation" : "Paraqitje",
     "Images" : "Imazhe ",
-    "Office" : "Zyrë",
     "Empty" : "Bosh",
+    "Collabora Online" : "Collabora Online",
     "New" : "I ri",
     "Advanced settings" : "Rregullime të mëtejshme",
     "Select groups" : "Përzgjidhni grupe",
@@ -42,6 +42,7 @@ OC.L10N.register(
     "Details" : "Detajet",
     "Download" : "Shkarko",
     "Guest" : "I ftuar",
-    "New file" : "Skedë e re"
+    "New file" : "Skedë e re",
+    "Office" : "Zyrë"
 },
 "nplurals=2; plural=(n != 1);");
