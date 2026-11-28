@@ -20,6 +20,7 @@ OC.L10N.register(
     "Invalid file provided" : "Archivo proporcionado inválido",
     "Images" : "Imágenes",
     "Empty" : "Vacío",
+    "Collabora Online" : "Collabora Online",
     "New" : "Nuevo",
     "Advanced settings" : "Configuraciones avanzados",
     "Restrict usage to specific groups" : "Limitar uso a grupos específicos",

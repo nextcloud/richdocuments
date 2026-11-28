@@ -35,7 +35,6 @@ OC.L10N.register(
     "Images" : "Відарысы",
     "Sheets" : "Аркушы",
     "Slides" : "Слайды",
-    "Office" : "Офіс",
     "OpenXML (docx)" : "OpenXML (docx)",
     "OpenDocument (odt)" : "OpenDocument (odt)",
     "Instructions" : "Інструкцыі",
@@ -75,6 +74,7 @@ OC.L10N.register(
     "Details" : "Падрабязнасці",
     "Download" : "Спампаваць",
     "Guest" : "Госць",
-    "New file" : "Новы файл"
+    "New file" : "Новы файл",
+    "Office" : "Офіс"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

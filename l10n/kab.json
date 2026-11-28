@@ -10,7 +10,6 @@
     "Document" : "Isemli",
     "Presentation" : "Tasmuli",
     "Images" : "Tugniwin",
-    "Office" : "Tanarit",
     "Empty" : "Ilem",
     "New" : "Amaynut",
     "Confirm" : "Serggeg",
@@ -32,6 +31,7 @@
     "Details" : "Talqayt",
     "Download" : "Sider",
     "Guest" : "Inebgi",
-    "New file" : "Rnu afaylu"
+    "New file" : "Rnu afaylu",
+    "Office" : "Tanarit"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

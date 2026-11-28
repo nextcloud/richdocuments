@@ -10,7 +10,6 @@ OC.L10N.register(
     "Missing a temporary folder" : "Plygell dros dro yn eisiau",
     "Could not write file to disk" : "Methwyd ysgrifennu i'r ddisg",
     "Presentation" : "Cyflwyniad",
-    "Office" : "Swyddfa",
     "New" : "Newydd",
     "Confirm" : "Cadarnhau",
     "Cancel" : "Diddymu",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Manylion",
     "Download" : "Llwytho i lawr",
-    "New file" : "Ffeil newydd"
+    "New file" : "Ffeil newydd",
+    "Office" : "Swyddfa"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");
