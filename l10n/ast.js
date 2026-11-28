@@ -35,7 +35,6 @@ OC.L10N.register(
     "Sections" : "Seiciones",
     "Images" : "Imáxenes",
     "Sheets" : "Fueyes",
-    "Office" : "Oficina",
     "Instructions" : "Instrucciones",
     "Anonymous guest" : "Convidáu anónimu",
     "%s (Guest)" : "%s (convidáut)",
@@ -72,6 +71,7 @@ OC.L10N.register(
     "Follow current editor" : "Siguir l'editor actual",
     "New file" : "Ficheru nuevu",
     "Nextcloud Office" : "Nextcloud Office",
+    "Office" : "Oficina",
     "Loading {filename} …" : "Cargando «{filename}»…"
 },
 "nplurals=2; plural=(n != 1);");

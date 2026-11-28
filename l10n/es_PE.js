@@ -17,6 +17,7 @@ OC.L10N.register(
     "New document" : "Nuevo documento",
     "Images" : "Imágenes",
     "Empty" : "Vacío",
+    "Collabora Online" : "Collabora Online",
     "New" : "Nuevo",
     "Advanced settings" : "Configuraciones avanzados",
     "Restrict usage to specific groups" : "Limitar uso a grupos específicos",

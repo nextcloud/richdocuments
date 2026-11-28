@@ -33,11 +33,11 @@ OC.L10N.register(
     "Presentation" : "מצגת",
     "Headings" : "כותרות",
     "Images" : "תמונות",
-    "Office" : "משרד",
     "Instructions" : "הוראות",
     "Empty" : "ריק",
     "Anonymous guest" : "אורח אלמוני",
     "%s (Guest)" : "%s (אורח)",
+    "Collabora Online" : "Collabora Online",
     "Edit office documents directly in your browser." : "עריכת מסמכי Office ישירות בדפדפן שלך.",
     "New" : "חדש",
     "Failed to save settings" : "שמירת ההגדרות נכשלה",
@@ -98,6 +98,7 @@ OC.L10N.register(
     "Guest" : "אורח/ת",
     "Follow current editor" : "מעקב אחר העורך הנוכחי",
     "New file" : "קובץ חדש",
+    "Office" : "משרד",
     "Loading available demo servers …" : "שרתי ההדגמה הזמינים נטענים…"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

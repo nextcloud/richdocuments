@@ -12,7 +12,6 @@ OC.L10N.register(
     "Document" : "Isemli",
     "Presentation" : "Tasmuli",
     "Images" : "Tugniwin",
-    "Office" : "Tanarit",
     "Empty" : "Ilem",
     "New" : "Amaynut",
     "Confirm" : "Serggeg",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "Details" : "Talqayt",
     "Download" : "Sider",
     "Guest" : "Inebgi",
-    "New file" : "Rnu afaylu"
+    "New file" : "Rnu afaylu",
+    "Office" : "Tanarit"
 },
 "nplurals=2; plural=(n != 1);");

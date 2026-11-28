@@ -11,7 +11,7 @@ OC.L10N.register(
     "No file was uploaded" : "Et ass kee Fichier ropgeluede ginn",
     "Missing a temporary folder" : "Et feelt en temporären Dossier",
     "Images" : "Biller",
-    "Office" : "Office",
+    "Collabora Online" : "Collabora Online",
     "New" : "Nei",
     "Failed to save settings" : "Späichere vun den Astellunge feelgeschloen",
     "Advanced settings" : "Erweidert Astellungen",
@@ -28,6 +28,7 @@ OC.L10N.register(
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detailer",
-    "Download" : "Eroflueden"
+    "Download" : "Eroflueden",
+    "Office" : "Office"
 },
 "nplurals=2; plural=(n != 1);");

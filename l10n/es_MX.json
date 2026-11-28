@@ -29,14 +29,13 @@
     "Diagram" : "Diagrama",
     "Headings" : "Títulos",
     "Images" : "Imágenes",
-    "Office" : "Office",
     "Empty" : "Vacío",
     "Anonymous guest" : "Invitado Anónimo",
     "%s (Guest)" : "%s (Invitado)",
+    "Collabora Online" : "Collabora Online",
     "Edit office documents directly in your browser." : "Edita archivos de office directamente en tu navegador.",
     "New" : "Nuevo",
     "Failed to save settings" : "No se pudo guardar la configuración",
-    "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online es una poderosa suite de ofimática basada en LibreOffice con edición colaborativa, que soporta todos los grandes formatos de archivo de documentos, hojas de cálculo y presentaciones y funciona con todos los navegadores modernos. ",
     "URL (and Port) of Collabora Online-server" : "URL (y puerto) del servidor de Collabora Online",
     "Disable certificate verification (insecure)" : "Deshabilitar la verificación de certificado (inseguro)",
     "Enable if your Collabora Online server uses a self signed certificate" : "Habilitar si tu servidor Collabora Online usa un certificado autofirmado",
@@ -81,6 +80,8 @@
     "Guest" : "Invitado",
     "Follow current editor" : "Seguir al editor actual",
     "New file" : "Archivo nuevo",
+    "Office" : "Office",
+    "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online es una poderosa suite de ofimática basada en LibreOffice con edición colaborativa, que soporta todos los grandes formatos de archivo de documentos, hojas de cálculo y presentaciones y funciona con todos los navegadores modernos. ",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Nextcloud Online."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

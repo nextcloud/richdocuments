@@ -14,6 +14,7 @@ OC.L10N.register(
     "Document" : "Documento",
     "Spreadsheet" : "Folios de labor",
     "Presentation" : "Presentation",
+    "Collabora Online" : "Collabora Online",
     "New" : "Nove",
     "Advanced settings" : "Configurationes avantiate",
     "Confirm" : "Confirmar",
